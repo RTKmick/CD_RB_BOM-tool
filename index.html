@@ -3,82 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mouser BOM 產生器 V2</title>
+    <title>Mouser BOM 轉換器 V3 (Template版)</title>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <style>
         body { font-family: "Microsoft JhengHei", sans-serif; background-color: #f4f6f9; padding: 20px; }
         .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         h2 { color: #0046ad; border-bottom: 2px solid #0046ad; padding-bottom: 10px; }
-        
         .step-box { margin-bottom: 25px; padding: 15px; border: 1px solid #e0e0e0; border-radius: 5px; background-color: #fafafa; }
         .step-title { font-weight: bold; margin-bottom: 10px; display: block; color: #333; }
-        
-        input[type="text"], input[type="number"], select { padding: 8px; width: 100%; box-sizing: border-box; margin-bottom: 5px; border: 1px solid #ccc; border-radius: 4px; }
-        input[type="file"] { margin-top: 5px; }
-        
+        input, select { padding: 8px; width: 100%; box-sizing: border-box; margin-bottom: 5px; border: 1px solid #ccc; border-radius: 4px; }
         .row-inputs { display: flex; gap: 15px; }
         .half-width { flex: 1; }
-
         button { padding: 10px 20px; background-color: #0046ad; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; transition: background 0.3s; }
         button:hover { background-color: #003380; }
-        button:disabled { background-color: #ccc; cursor: not-allowed; }
-
-        #step2, #step3 { display: none; } /* 初始隱藏 */
+        #step2 { display: none; }
         #status { margin-top: 15px; font-weight: bold; color: green; }
-        .file-info { font-size: 0.9em; color: #666; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>🛠️ BOM 轉 Mouser 訂單工具</h2>
+    <h2>🛠️ BOM 轉 Mouser 訂單工具 (V3)</h2>
 
     <div class="step-box" id="step1">
-        <span class="step-title">步驟 1: 上傳與設定</span>
-        
-        <label>1. 選擇原始 BOM (Excel):</label>
+        <span class="step-title">步驟 1: 上傳原始 BOM</span>
         <input type="file" id="upload" accept=".xlsx, .xls" />
-        
-        <div style="margin-top: 15px;">
-            <label>2. 資料標題在第幾列? (例如您的檔案是第 8 列)</label>
-            <input type="number" id="headerRowIndex" value="1" min="1" placeholder="輸入列號" />
+        <div style="margin-top: 10px;">
+            <label>資料標題在第幾列? (您的檔案是第 8 列)</label>
+            <input type="number" id="headerRowIndex" value="1" min="1" />
         </div>
-
-        <button onclick="analyzeFile()">讀取並分析欄位</button>
+        <button onclick="analyzeFile()">讀取檔案</button>
     </div>
 
     <div class="step-box" id="step2">
-        <span class="step-title">步驟 2: 欄位對應與專案設定</span>
-        
-        <div class="file-info">已讀取檔案: <span id="fileNameDisplay" style="color:#0046ad; font-weight:bold;"></span></div>
-
+        <span class="step-title">步驟 2: 設定與輸出</span>
         <div class="row-inputs">
             <div class="half-width">
-                <label>專案名稱 (存檔用):</label>
-                <input type="text" id="projectName" placeholder="例如: Project_A" />
+                <label>專案名稱 (檔名用):</label>
+                <input type="text" id="projectName" placeholder="Project_Name" />
             </div>
             <div class="half-width">
-                <label>預計製作套數 (乘數):</label>
+                <label>製作套數 (乘數):</label>
                 <input type="number" id="batchSize" value="1" min="1" />
-                <small style="color:gray;">* 輸出數量 = 原始數量 x 套數</small>
             </div>
         </div>
         <br>
-
-        <label>請選擇對應的欄位:</label>
+        <label>請對應原始欄位:</label>
         <div class="row-inputs">
             <div class="half-width">
-                <label for="colPart">原廠料號 (Manufacturer PN):</label>
+                <label>原廠料號 (對應到 Mouser B欄):</label>
                 <select id="colPart"></select>
             </div>
             <div class="half-width">
-                <label for="colQty">原始數量 (Quantity):</label>
+                <label>原始數量 (對應到 Mouser F欄):</label>
                 <select id="colQty"></select>
             </div>
         </div>
-
         <br>
-        <button onclick="generateMouserBOM()">產生並下載 Mouser BOM</button>
+        <button onclick="generateMouserBOM()">下載 Mouser 格式 Excel</button>
     </div>
 
     <div id="status"></div>
@@ -91,132 +73,87 @@
     function analyzeFile() {
         const fileInput = document.getElementById('upload');
         const headerRowVal = parseInt(document.getElementById('headerRowIndex').value);
-
-        if (fileInput.files.length === 0) {
-            alert("請先選擇檔案！");
-            return;
-        }
-        if (isNaN(headerRowVal) || headerRowVal < 1) {
-            alert("請輸入正確的列號 (大於 0)");
-            return;
-        }
-
-        const file = fileInput.files[0];
-        // 顯示檔名
-        document.getElementById('fileNameDisplay').innerText = file.name;
-
+        if (fileInput.files.length === 0) { alert("請先選擇檔案！"); return; }
+        
         const reader = new FileReader();
         reader.onload = function(e) {
             const data = new Uint8Array(e.target.result);
             workbook = XLSX.read(data, { type: 'array' });
-            
-            // 讀取第一個 Sheet
-            const firstSheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[firstSheetName];
-            
-            // 轉成 Array of Arrays (包含所有資料)
-            globalData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-            // 呼叫處理函式，傳入使用者指定的「第幾列」 (轉成 index 要 -1)
+            globalData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
             populateSelectOptions(headerRowVal - 1);
         };
-        reader.readAsArrayBuffer(file);
+        reader.readAsArrayBuffer(fileInput.files[0]);
     }
 
     function populateSelectOptions(headerIndex) {
-        if (headerIndex >= globalData.length) {
-            alert("錯誤：您指定的列號超過了檔案的總行數。");
-            return;
-        }
-
+        if (headerIndex >= globalData.length) return alert("列號錯誤");
         const headers = globalData[headerIndex];
         const partSelect = document.getElementById('colPart');
         const qtySelect = document.getElementById('colQty');
+        partSelect.innerHTML = qtySelect.innerHTML = "";
 
-        // 清空選單
-        partSelect.innerHTML = "";
-        qtySelect.innerHTML = "";
-
-        let foundPart = false;
-        let foundQty = false;
-
-        // 填充下拉選單
-        headers.forEach((header, index) => {
-            if(!header) return; // 跳過空欄位
-            
-            const option1 = document.createElement("option");
-            option1.value = index;
-            option1.text = `[欄 ${index+1}] ${header}`;
-            partSelect.appendChild(option1);
-
-            const option2 = document.createElement("option");
-            option2.value = index;
-            option2.text = `[欄 ${index+1}] ${header}`;
-            qtySelect.appendChild(option2);
-
-            // 簡單的自動偵測 (幫助使用者預選)
-            const h = String(header).toLowerCase();
-            if ((h.includes("part") || h.includes("pn") || h.includes("料號")) && !foundPart) {
-                partSelect.selectedIndex = partSelect.options.length - 1;
-                foundPart = true; // 避免重複選
-            }
-            if ((h.includes("qty") || h.includes("quantity") || h.includes("數量")) && !foundQty) {
-                qtySelect.selectedIndex = qtySelect.options.length - 1;
-                foundQty = true;
-            }
+        headers.forEach((h, i) => {
+            if(!h) return;
+            let text = `[欄 ${i+1}] ${h}`;
+            partSelect.add(new Option(text, i));
+            qtySelect.add(new Option(text, i));
         });
 
-        // 顯示步驟 2
-        document.getElementById('step1').style.opacity = "0.5"; // 讓步驟1變淡
-        document.getElementById('step2').style.display = "block";
+        // 智慧預選
+        const partIdx = headers.findIndex(h => /part|pn|料號/i.test(String(h)));
+        const qtyIdx = headers.findIndex(h => /qty|quantity|數量/i.test(String(h)));
+        if(partIdx > -1) partSelect.value = partIdx;
+        if(qtyIdx > -1) qtySelect.value = qtyIdx;
+
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
     }
 
     function generateMouserBOM() {
         const headerRowVal = parseInt(document.getElementById('headerRowIndex').value);
-        const headerIndex = headerRowVal - 1;
-        
-        const partColIndex = parseInt(document.getElementById('colPart').value);
-        const qtyColIndex = parseInt(document.getElementById('colQty').value);
-        
+        const partCol = parseInt(document.getElementById('colPart').value);
+        const qtyCol = parseInt(document.getElementById('colQty').value);
         const batchSize = parseInt(document.getElementById('batchSize').value) || 1;
         const projectName = document.getElementById('projectName').value.trim() || "MyProject";
 
         let outputData = [];
-        // Mouser 標準標題
-        outputData.push(["Mfr Part Number", "Order Quantity", "Customer Reference"]);
+        
+        // --- 設定 Mouser Template 標頭 (模擬您提供的 BomTemplate.xls) ---
+        // A=0, B=1, C=2, D=3, E=4, F=5
+        outputData.push([
+            "Mfr Part Number (Input)", // A
+            "Manufacturer Part Number",// B (重點)
+            "Mouser Part Number",      // C
+            "Manufacturer Name",       // D
+            "Description",             // E
+            "Quantity 1"               // F (重點)
+        ]);
 
-        // 從標題列的下一列開始跑迴圈
-        for (let i = headerIndex + 1; i < globalData.length; i++) {
+        for (let i = headerRowVal; i < globalData.length; i++) {
             const row = globalData[i];
+            const rawPart = row[partCol];
+            let rawQty = parseFloat(row[qtyCol]) || 0;
             
-            // 取得料號與數量
-            const rawPart = row[partColIndex];
-            let rawQty = row[qtyColIndex];
-
-            // 若料號為空，跳過此行
-            if (!rawPart) continue;
-
-            // 處理數量 (轉成數字，若非數字則預設為 0)
-            let baseQty = parseFloat(rawQty);
-            if (isNaN(baseQty)) baseQty = 0;
-
-            // 計算總訂購量
-            const orderQty = baseQty * batchSize;
-
-            if (orderQty > 0) {
-                outputData.push([rawPart, orderQty, projectName]); // 第三欄可放專案名當備註
+            if (rawPart && rawQty > 0) {
+                const finalQty = rawQty * batchSize;
+                // --- 產生資料列 (填入 B 和 F) ---
+                outputData.push([
+                    "",         // A (留白)
+                    rawPart,    // B (填入料號)
+                    "",         // C
+                    "",         // D
+                    "",         // E
+                    finalQty    // F (填入數量)
+                ]);
             }
         }
 
-        // 匯出檔案
         const newWs = XLSX.utils.aoa_to_sheet(outputData);
         const newWb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(newWb, newWs, "Mouser_Upload");
-
-        const fileName = `${projectName}_Mouser_BOM.xlsx`;
-        XLSX.writeFile(newWb, fileName);
-
-        document.getElementById('status').innerText = `✅ 已成功下載: ${fileName} (包含 ${outputData.length - 1} 筆資料)`;
+        XLSX.utils.book_append_sheet(newWb, newWs, "MouserBOM");
+        XLSX.writeFile(newWb, `${projectName}_MouserTemplate.xlsx`);
+        
+        document.getElementById('status').innerText = "✅ 下載完成！請檢查 B 欄與 F 欄。";
     }
 </script>
 
