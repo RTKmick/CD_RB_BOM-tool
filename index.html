@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOM 智能分流採購系統 V6</title>
+    <title>BOM 全能採購轉換器 V8 (統一格式版)</title>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { --primary: #0046ad; --digikey: #cc0000; --element14: #ff6600; --light: #f4f6f9; --border: #e0e0e0; --success: #28a745; }
+        :root { --primary: #0046ad; --digikey: #cc0000; --elem14: #ff6600; --light: #f4f6f9; --border: #e0e0e0; --success: #28a745; --danger: #dc3545; }
         body { font-family: "Segoe UI", "Microsoft JhengHei", sans-serif; background-color: var(--light); margin: 0; padding: 20px; color: #333; }
         
-        .container { max-width: 950px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); overflow: hidden; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); overflow: hidden; }
         
         /* Stepper */
         .stepper { display: flex; justify-content: space-between; padding: 20px 40px; background: #fafafa; border-bottom: 1px solid var(--border); }
@@ -22,54 +22,54 @@
         .step-content.active { display: block; }
 
         /* Upload */
-        .upload-zone { border: 2px dashed #aaa; border-radius: 10px; padding: 40px; text-align: center; cursor: pointer; transition: 0.3s; background: #fff; }
+        .upload-zone { border: 2px dashed #aaa; border-radius: 10px; padding: 50px; text-align: center; cursor: pointer; transition: 0.3s; background: #fff; }
         .upload-zone:hover { border-color: var(--primary); background-color: #f0f7ff; }
 
         /* Toolbar */
-        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: #f8f9fa; padding: 10px; border-radius: 8px; border: 1px solid #eee; }
-        .selection-tools button { font-size: 0.85rem; padding: 5px 10px; cursor: pointer; border: 1px solid #ccc; background: white; border-radius: 4px; }
+        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; background: #f8f9fa; padding: 12px; border-radius: 8px; border: 1px solid #eee; }
+        .selection-tools button { font-size: 0.9rem; padding: 6px 12px; cursor: pointer; border: 1px solid #ccc; background: white; border-radius: 4px; margin-right: 5px; }
         .selection-tools button:hover { background: #eee; }
 
         /* Table */
-        .table-container { max-height: 400px; overflow-y: auto; border: 1px solid #eee; }
+        .table-container { max-height: 450px; overflow-y: auto; border: 1px solid #eee; border-radius: 4px; }
         table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-        th { background: #eee; position: sticky; top: 0; padding: 10px; text-align: left; z-index: 10; }
-        td { padding: 8px 10px; border-bottom: 1px solid #eee; }
-        tr.excluded { background-color: #ffeef0; color: #999; text-decoration: line-through; }
+        th { background: #eaeaea; position: sticky; top: 0; padding: 10px; text-align: left; z-index: 10; border-bottom: 2px solid #ccc; }
+        td { padding: 8px 10px; border-bottom: 1px solid #eee; vertical-align: middle; }
+        tr:hover { background-color: #f9f9f9; }
+        tr.excluded { background-color: #ffeef0; color: #aaa; text-decoration: line-through; }
         tr.selected { background-color: #e3f2fd; }
 
         /* Export Zone */
-        .export-panel { margin-top: 20px; padding: 20px; background: #f1f3f5; border-radius: 8px; border: 1px solid #ddd; }
-        .export-title { font-weight: bold; margin-bottom: 15px; display: block; }
-        .btn-group { display: flex; gap: 10px; }
+        .export-panel { margin-top: 25px; padding: 20px; background: #f1f3f5; border-radius: 8px; border: 1px solid #ddd; }
+        .export-title { font-weight: bold; margin-bottom: 15px; display: block; font-size: 1.1em; }
+        .btn-group { display: flex; gap: 15px; }
         
-        .btn { padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; font-weight: bold; color: white; flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
+        .btn { padding: 15px 15px; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; font-weight: bold; color: white; flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .btn-mouser { background: var(--primary); }
-        .btn-mouser:hover { background: #003380; }
+        .btn-mouser:hover { background: #003380; transform: translateY(-2px); }
         .btn-digikey { background: var(--digikey); }
-        .btn-digikey:hover { background: #990000; }
-        .btn-e14 { background: var(--element14); }
-        .btn-e14:hover { background: #cc5200; }
+        .btn-digikey:hover { background: #990000; transform: translateY(-2px); }
+        .btn-elem14 { background: var(--elem14); }
+        .btn-elem14:hover { background: #cc5200; transform: translateY(-2px); }
         
-        .del-reason { color: #dc3545; font-size: 0.8em; font-style: italic; }
+        .del-reason { color: #dc3545; font-size: 0.85em; font-style: italic; font-weight: bold; }
+        .col-header-info { display: block; font-size: 0.8em; font-weight: normal; color: #666; margin-top: 2px; }
         
-        /* Stats */
-        .stats-bar { margin-top: 10px; font-size: 0.9em; color: #666; display: flex; gap: 15px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="stepper">
-        <div class="step active" id="nav-step1"><i class="fas fa-file-upload"></i> 上傳 BOM</div>
-        <div class="step" id="nav-step2"><i class="fas fa-filter"></i> 篩選與分流</div>
+        <div class="step active" id="nav-step1"><i class="fas fa-file-upload"></i> 1. 上傳原始 BOM</div>
+        <div class="step" id="nav-step2"><i class="fas fa-tasks"></i> 2. 檢查與匯出</div>
     </div>
 
     <div id="step1" class="step-content active">
         <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
-            <i class="fas fa-cloud-upload-alt" style="font-size: 50px; color: #0046ad; margin-bottom: 15px;"></i>
-            <h3>拖曳或點擊上傳 BOM 表</h3>
-            <p style="color: #666;">支援 .xlsx, .xls 格式</p>
+            <i class="fas fa-cloud-upload-alt" style="font-size: 60px; color: #0046ad; margin-bottom: 20px;"></i>
+            <h3>拖曳或點擊上傳原始 BOM (Excel)</h3>
+            <p style="color: #666;">系統將自動轉換為統一採購格式 (Universal BOM)</p>
             <input type="file" id="fileInput" accept=".xlsx, .xls" style="display: none;" onchange="handleFile(this.files[0])" />
         </div>
     </div>
@@ -77,22 +77,21 @@
     <div id="step2" class="step-content">
         <div style="display: flex; gap: 20px; margin-bottom: 15px;">
             <div style="flex: 2;">
-                <label>專案名稱:</label>
-                <input type="text" id="projectName" style="width: 100%; padding: 8px;">
+                <label style="font-weight:bold;">專案名稱 (存檔用):</label>
+                <input type="text" id="projectName" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
             </div>
             <div style="flex: 1;">
-                <label>製作套數:</label>
-                <input type="number" id="batchSize" value="1" min="1" onchange="updateCalculations()" style="width: 100%; padding: 8px;">
+                <label style="font-weight:bold;">製作套數 (乘數):</label>
+                <input type="number" id="batchSize" value="1" min="1" onchange="updateCalculations()" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
             </div>
         </div>
 
         <div class="toolbar">
             <div class="selection-tools">
-                <span>快速選取: </span>
-                <button onclick="selectAll(true)">全選</button>
-                <button onclick="selectAll(false)">全不選</button>
-                <button onclick="invertSelection()" style="background: #ffecb3; border-color: #ffc107;">
-                    <i class="fas fa-exchange-alt"></i> 反向選取 (餘料模式)
+                <button onclick="selectAll(true)"><i class="fas fa-check-square"></i> 全選</button>
+                <button onclick="selectAll(false)"><i class="far fa-square"></i> 全不選</button>
+                <button onclick="invertSelection()" style="background: #fff8e1; border-color: #ffc107; color: #856404;">
+                    <i class="fas fa-exchange-alt"></i> 反向選取 (缺貨補單用)
                 </button>
             </div>
             <div id="selectionStats" style="font-weight: bold; color: var(--primary);">已選: 0</div>
@@ -103,11 +102,12 @@
                 <thead>
                     <tr>
                         <th width="40"><input type="checkbox" id="masterCheck" onchange="selectAll(this.checked)"></th>
-                        <th width="50">No.</th>
-                        <th>原廠料號 (MPN)</th>
-                        <th>單量</th>
-                        <th>總量</th>
-                        <th>狀態</th>
+                        <th width="60">Item<span class="col-header-info">(A欄)</span></th>
+                        <th>Manufacturer Name<span class="col-header-info">(B欄)</span></th>
+                        <th>Manufacturer Part Number<span class="col-header-info">(C欄)</span></th>
+                        <th width="80">單量</th>
+                        <th width="80">Quantity 1<span class="col-header-info">(D欄)</span></th>
+                        <th width="100">狀態</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody"></tbody>
@@ -115,22 +115,25 @@
         </div>
 
         <div class="export-panel">
-            <span class="export-title"><i class="fas fa-file-export"></i> 選擇匯出平台 (僅匯出勾選項目):</span>
+            <span class="export-title"><i class="fas fa-file-export"></i> 匯出統一格式 (僅檔名不同):</span>
             <div class="btn-group">
-                <button class="btn btn-mouser" onclick="exportBOM('Mouser')">
-                    <i class="fas fa-download"></i> Mouser 格式
+                <button class="btn btn-mouser" onclick="exportUniversalBOM('Mouser')">
+                    <i class="fas fa-download"></i> Mouser
                 </button>
-                <button class="btn btn-digikey" onclick="exportBOM('DigiKey')">
-                    <i class="fas fa-download"></i> Digi-Key 格式
+                <button class="btn btn-digikey" onclick="exportUniversalBOM('Digikey')">
+                    <i class="fas fa-download"></i> DigiKey
                 </button>
-                <button class="btn btn-e14" onclick="exportBOM('Element14')">
-                    <i class="fas fa-download"></i> Element14 格式
+                <button class="btn btn-elem14" onclick="exportUniversalBOM('Elem14')">
+                    <i class="fas fa-download"></i> Element14
                 </button>
+            </div>
+            <div style="margin-top: 10px; text-align: center; color: #666; font-size: 0.9em;">
+                * 所有按鈕皆輸出標準 XLSX 格式 (Item, MfrName, MfrPN, Qty)，可直接上傳至對應網站。
             </div>
         </div>
         
         <div style="text-align: center; margin-top: 15px;">
-            <button onclick="location.reload()" style="background:none; border:none; color: #666; cursor:pointer; text-decoration: underline;">重新上傳檔案</button>
+            <button onclick="location.reload()" style="background:none; border:none; color: #666; cursor:pointer; text-decoration: underline;">處理另一個檔案</button>
         </div>
     </div>
 </div>
@@ -138,8 +141,7 @@
 <script>
     let rawData = [];
     let tableRows = []; 
-    let headerRowIndex = 7;
-    let colMap = { part: -1, qty: -1 };
+    let colMap = { item: -1, mfr: -1, part: -1, qty: -1 };
 
     // --- File Handling ---
     const dropZone = document.getElementById('dropZone');
@@ -164,31 +166,48 @@
         reader.readAsArrayBuffer(file);
     }
 
-    // --- Logic ---
+    // --- Logic: Analyze Headers ---
     function analyzeAndPreview() {
+        let headerRowIndex = 7; 
         let foundHeader = false;
-        colMap = { part: -1, qty: -1 };
+        colMap = { item: -1, mfr: -1, part: -1, qty: -1 };
 
-        // 偵測 Header
+        // 1. 智能偵測 (掃描前 20 行)
         for (let i = 0; i < Math.min(rawData.length, 20); i++) {
             const rowStr = rawData[i].map(c => String(c).toLowerCase()).join(" ");
             if ((rowStr.includes("part") || rowStr.includes("pn") || rowStr.includes("料號")) && 
                 (rowStr.includes("qty") || rowStr.includes("quantity"))) {
+                
                 headerRowIndex = i;
                 foundHeader = true;
+                
                 rawData[i].forEach((cell, idx) => {
-                    const c = String(cell).toLowerCase();
-                    if ((c.includes("mfr") || c.includes("manufacturer")) && (c.includes("pn") || c.includes("part"))) colMap.part = idx;
-                    else if (c.includes("qty") || c.includes("quantity")) colMap.qty = idx;
+                    const c = String(cell).toLowerCase().trim();
+                    if (c === "item number" || c === "item" || c === "no.") colMap.item = idx;
+                    else if (c === "quantity" || c === "qty") colMap.qty = idx;
+                    else if (c.includes("manufacturer pn") || c.includes("mfr part") || c.includes("part_number") || c === "part number") colMap.part = idx;
+                    else if ((c === "manufacturer" || c === "mfr" || c === "manufacturer name") && !c.includes("pn") && !c.includes("part")) colMap.mfr = idx;
                 });
                 break;
             }
         }
-        if (!foundHeader) { headerRowIndex = 7; colMap.part = 6; colMap.qty = 2; }
-        if (colMap.part === -1) colMap.part = 6;
-        if (colMap.qty === -1) colMap.qty = 2;
 
-        // 建表
+        // Fallback or Defaults
+        if (!foundHeader) {
+            headerRowIndex = 7; 
+            colMap.item = 0; colMap.qty = 2; colMap.mfr = 5; colMap.part = 6;
+        } else {
+            if (colMap.item === -1) colMap.item = 0; 
+            if (colMap.mfr === -1) colMap.mfr = 5;   
+            if (colMap.part === -1) colMap.part = 6; 
+            if (colMap.qty === -1) colMap.qty = 2;   
+        }
+
+        buildTable(headerRowIndex);
+    }
+
+    // --- Build Preview Table ---
+    function buildTable(headerRowIndex) {
         tableRows = [];
         const tbody = document.getElementById('tableBody');
         tbody.innerHTML = "";
@@ -196,20 +215,23 @@
 
         for (let i = headerRowIndex + 1; i < rawData.length; i++) {
             const row = rawData[i];
-            const part = row[colMap.part] || ""; 
-            const qty = parseFloat(row[colMap.qty]) || 0;
-            if (!part && qty === 0) continue; 
+            
+            const itemVal = colMap.item !== -1 ? (row[colMap.item] || "") : (i - headerRowIndex);
+            const mfrVal = colMap.mfr !== -1 ? (row[colMap.mfr] || "") : "";
+            const partVal = colMap.part !== -1 ? (row[colMap.part] || "") : "";
+            const qtyVal = parseFloat(colMap.qty !== -1 ? row[colMap.qty] : 0) || 0;
 
+            if (!partVal && qtyVal === 0) continue; 
+
+            const rowString = row.join(" ").toUpperCase();
             let isExcluded = false;
             let reason = "";
-            const rowString = row.join(" ").toUpperCase();
-            
             if (excludeKeywords.some(k => rowString.includes(k))) {
                 isExcluded = true;
                 reason = "自動過濾";
             }
 
-            const rowObj = { id: i, part: part, qty: qty, checked: !isExcluded, excluded: isExcluded, reason: reason };
+            const rowObj = { id: i, item: itemVal, mfr: mfrVal, part: partVal, qty: qtyVal, checked: !isExcluded, excluded: isExcluded };
             tableRows.push(rowObj);
 
             const tr = document.createElement('tr');
@@ -217,10 +239,11 @@
             if (isExcluded) tr.className = 'excluded';
             tr.innerHTML = `
                 <td><input type="checkbox" class="row-check" ${!isExcluded ? 'checked' : ''} onchange="updateRow(${i}, this.checked)" ${isExcluded ? 'disabled' : ''}></td>
-                <td>${i + 1}</td>
-                <td style="font-weight:bold;">${part}</td>
-                <td>${qty}</td>
-                <td class="total-qty">-</td>
+                <td>${itemVal}</td>
+                <td>${mfrVal}</td>
+                <td style="font-weight:bold; color:var(--primary);">${partVal}</td>
+                <td>${qtyVal}</td>
+                <td class="total-qty" style="font-weight:bold;">-</td>
                 <td>${reason ? `<span class="del-reason">${reason}</span>` : '<span style="color:#28a745">OK</span>'}</td>
             `;
             tbody.appendChild(tr);
@@ -247,7 +270,6 @@
         checkboxes.forEach(cb => {
             if(!cb.disabled) {
                 cb.checked = checked;
-                // Trigger change event logic manually
                 const index = parseInt(cb.closest('tr').id.split('-')[1]);
                 updateRow(index, checked);
             }
@@ -280,8 +302,8 @@
         document.getElementById('selectionStats').innerText = `已選取: ${count} 筆`;
     }
 
-    // --- Export Logic (Multi-Platform) ---
-    function exportBOM(platform) {
+    // --- Export Logic (Universal Format) ---
+    function exportUniversalBOM(platform) {
         const batchSize = parseInt(document.getElementById('batchSize').value) || 1;
         const projectName = document.getElementById('projectName').value;
         const selectedRows = tableRows.filter(r => r.checked && r.part);
@@ -289,68 +311,42 @@
         if (selectedRows.length === 0) { alert("沒有勾選任何項目！"); return; }
 
         let outputData = [];
-        let fileName = `${projectName}_${platform}.xlsx`; // Default xlsx
+        
+        // ★★★ 統一黃金格式 ★★★
+        outputData.push(["Item Number", "Manufacturer Name", "Manufacturer Part Number", "Quantity 1"]);
 
-        if (platform === 'Mouser') {
-            // Mouser Template
-            outputData.push(["Mfr Part Number (Input)", "Manufacturer Part Number", "Mouser Part Number", "Manufacturer Name", "Description", "Quantity 1"]);
-            selectedRows.forEach(r => {
-                outputData.push(["", r.part, "", "", "", r.qty * batchSize]);
-            });
-            downloadExcel(outputData, fileName);
+        selectedRows.forEach(r => {
+            outputData.push([
+                r.item,              
+                r.mfr,               
+                r.part,              
+                r.qty * batchSize    
+            ]);
+        });
 
-        } else if (platform === 'DigiKey') {
-            // Digi-Key Simple CSV Format
-            // Header: Customer Reference, Quantity, Part Number
-            outputData.push(["Customer Reference", "Quantity", "Part Number"]);
-            selectedRows.forEach(r => {
-                outputData.push([projectName, r.qty * batchSize, r.part]);
-            });
-            fileName = `${projectName}_DigiKey.csv`;
-            downloadCSV(outputData, fileName);
-
-        } else if (platform === 'Element14') {
-            // Element14 Quick Paste Format (Part Number, Qty, Line Note)
-            outputData.push(["Part Number", "Quantity", "Line Note"]);
-            selectedRows.forEach(r => {
-                outputData.push([r.part, r.qty * batchSize, projectName]);
-            });
-            fileName = `${projectName}_Element14.csv`;
-            downloadCSV(outputData, fileName);
-        }
-    }
-
-    function downloadExcel(data, filename) {
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        // Auto width
-        const colWidths = data[0].map((_, i) => {
-             let max = 10;
-             data.forEach(r => { if(r[i] && String(r[i]).length > max) max = String(r[i]).length; });
+        const ws = XLSX.utils.aoa_to_sheet(outputData);
+        
+        // Auto Width
+        const colWidths = outputData[0].map((_, i) => {
+             let max = 15; 
+             outputData.forEach(r => { 
+                 if(r[i] && String(r[i]).length > max) max = String(r[i]).length; 
+             });
              return { wch: max + 2 };
         });
         ws['!cols'] = colWidths;
 
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "BOM");
-        XLSX.writeFile(wb, filename);
-    }
 
-    function downloadCSV(data, filename) {
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        const csv = XLSX.utils.sheet_to_csv(ws);
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' }); // CSV needs simpler blob handling
-        
-        // Build download link
-        const link = document.createElement("a");
-        if (link.download !== undefined) {
-            const url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", filename);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
+        // ★★★ 檔名後綴設定 ★★★
+        let suffix = "";
+        if(platform === 'Mouser') suffix = "_Mouser";
+        else if(platform === 'Digikey') suffix = "_Digikey";
+        else if(platform === 'Elem14') suffix = "_Elem14";
+
+        const fileName = `${projectName}${suffix}.xlsx`;
+        XLSX.writeFile(wb, fileName);
     }
 </script>
 
