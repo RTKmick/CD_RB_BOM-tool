@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mouser BOM 智能轉換器 V4</title>
+    <title>Mouser BOM 智能轉換器 V5 (自動欄寬版)</title>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root { --primary: #0046ad; --light: #f4f6f9; --border: #e0e0e0; --success: #28a745; --danger: #dc3545; }
         body { font-family: "Segoe UI", "Microsoft JhengHei", sans-serif; background-color: var(--light); margin: 0; padding: 20px; color: #333; }
         
-        /* Layout */
         .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); overflow: hidden; }
         
         /* Stepper */
@@ -51,8 +50,6 @@
         .btn-outline { background: transparent; border: 1px solid #999; color: #666; }
         .actions { margin-top: 20px; display: flex; justify-content: space-between; }
         
-        /* Status */
-        .badge-auto { background: #e3f2fd; color: #0d47a1; padding: 2px 6px; border-radius: 4px; font-size: 0.8em; margin-left: 5px; }
         .del-reason { color: var(--danger); font-size: 0.8em; font-style: italic; margin-left: 5px; }
     </style>
 </head>
@@ -69,7 +66,7 @@
         <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
             <i class="fas fa-file-excel upload-icon"></i>
             <h3>點擊或拖曳 Excel 檔案至此</h3>
-            <p style="color: #666;">支援 .xlsx, .xls 格式</p>
+            <p style="color: #666;">支援 .xlsx, .xls</p>
             <input type="file" id="fileInput" accept=".xlsx, .xls" style="display: none;" onchange="handleFile(this.files[0])" />
         </div>
     </div>
@@ -117,7 +114,7 @@
     <div id="step3" class="step-content" style="text-align: center; padding: 50px;">
         <i class="fas fa-check-circle" style="font-size: 60px; color: var(--success); margin-bottom: 20px;"></i>
         <h2>轉換成功！</h2>
-        <p>您的 Mouser BOM 檔案已開始下載。</p>
+        <p>您的 Mouser BOM 檔案已下載，欄寬已自動調整。</p>
         <p id="finalFileName" style="color: var(--primary); font-weight: bold;"></p>
         <br>
         <button class="btn btn-primary" onclick="location.reload()">轉換另一個檔案</button>
@@ -126,60 +123,45 @@
 
 <script>
     let rawData = [];
-    let headerRowIndex = 7; // Default 8 (index 7)
+    let headerRowIndex = 7; 
     let colMap = { part: -1, qty: -1 };
-    let tableRows = []; // Store processing state
+    let tableRows = []; 
 
-    // --- 1. 拖曳與上傳邏輯 ---
+    // --- 1. File Handling ---
     const dropZone = document.getElementById('dropZone');
-
     dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
     dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-    dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('dragover');
-        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
-    });
+    dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); if(e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); });
 
     function handleFile(file) {
         if (!file) return;
-
-        // 1. 自動產生專案名稱
         const date = new Date();
         const mmdd = String(date.getMonth() + 1).padStart(2, '0') + String(date.getDate()).padStart(2, '0');
-        // 移除副檔名
         const baseName = file.name.replace(/\.[^/.]+$/, ""); 
-        const projName = `${baseName}_CD_${mmdd}`;
-        document.getElementById('projectName').value = projName;
+        document.getElementById('projectName').value = `${baseName}_CD_${mmdd}`;
 
-        // 2. 讀取 Excel
         const reader = new FileReader();
         reader.onload = function(e) {
             const data = new Uint8Array(e.target.result);
             const workbook = XLSX.read(data, { type: 'array' });
             rawData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
-            
             analyzeAndPreview();
         };
         reader.readAsArrayBuffer(file);
     }
 
-    // --- 2. 智能分析與預覽 ---
+    // --- 2. Analysis & Preview ---
     function analyzeAndPreview() {
-        // A. 尋找 Header Row (偵測關鍵字)
         let foundHeader = false;
         colMap = { part: -1, qty: -1 };
 
+        // 智能偵測 Header
         for (let i = 0; i < Math.min(rawData.length, 20); i++) {
             const rowStr = rawData[i].map(c => String(c).toLowerCase()).join(" ");
-            // 寬鬆偵測：這行同時包含 "part" 和 "quantity" 相關字眼
             if ((rowStr.includes("part") || rowStr.includes("pn") || rowStr.includes("料號")) && 
                 (rowStr.includes("qty") || rowStr.includes("quantity") || rowStr.includes("數量"))) {
-                
                 headerRowIndex = i;
                 foundHeader = true;
-                
-                // 鎖定該行，尋找確切欄位 Index
                 rawData[i].forEach((cell, idx) => {
                     const c = String(cell).toLowerCase();
                     if ((c.includes("mfr") || c.includes("manufacturer")) && (c.includes("pn") || c.includes("part"))) colMap.part = idx;
@@ -189,63 +171,44 @@
             }
         }
 
-        //  fallback: 若沒抓到明確欄位，但找到了標題列，試著用常見位置 (比如 B欄=1, F欄=5, 或 C欄=2)
         if (foundHeader) {
-            if (colMap.part === -1) colMap.part = 6; // 猜測: 您的檔案 G欄 (index 6) 常常是 Manufacturer PN
-            if (colMap.qty === -1) colMap.qty = 2;   // 猜測: 您的檔案 C欄 (index 2) 常常是 Quantity
+            if (colMap.part === -1) colMap.part = 6; 
+            if (colMap.qty === -1) colMap.qty = 2;   
         } else {
-            // 完全找不到，使用預設值
-            headerRowIndex = 7; // 第8列
-            colMap.part = 6;    // 假設 G 欄
-            colMap.qty = 2;     // 假設 C 欄
+            headerRowIndex = 7; colMap.part = 6; colMap.qty = 2;
         }
 
-        // 更新介面提示
-        const msg = foundHeader 
+        document.getElementById('headerInfo').innerHTML = foundHeader 
             ? `已自動偵測到標題在第 <b>${headerRowIndex + 1}</b> 列` 
-            : `未偵測到明確標題，使用預設值：第 <b>8</b> 列 (若有誤請檢查 Excel)`;
-        document.getElementById('headerInfo').innerHTML = msg;
+            : `未偵測到明確標題，使用預設值：第 <b>8</b> 列`;
 
-        // B. 建立預覽資料 (Preview Data)
+        // 建立預覽資料
         tableRows = [];
         const tbody = document.getElementById('tableBody');
         tbody.innerHTML = "";
-
-        // 關鍵字過濾陣列
         const excludeKeywords = ["PCB FAB", "TDK-INVENSENSE"];
 
         for (let i = headerRowIndex + 1; i < rawData.length; i++) {
             const row = rawData[i];
             const part = row[colMap.part] || ""; 
             const qty = row[colMap.qty];
+            if (!part && !qty) continue; 
 
-            if (!part && !qty) continue; // 跳過空行
-
-            // 判斷是否要自動過濾
             const rowString = row.join(" ").toUpperCase();
             let isExcluded = false;
             let excludeReason = "";
 
             if (excludeKeywords.some(k => rowString.includes(k))) {
                 isExcluded = true;
-                excludeReason = "自動過濾 (PCB/Company Info)";
+                excludeReason = "自動過濾 (PCB/Company)";
             }
 
-            // 存入狀態陣列
-            const rowObj = {
-                id: i,
-                part: part,
-                qty: parseFloat(qty) || 0,
-                active: !isExcluded,
-                reason: excludeReason
-            };
+            const rowObj = { id: i, part: part, qty: parseFloat(qty) || 0, active: !isExcluded, reason: excludeReason };
             tableRows.push(rowObj);
 
-            // 渲染 HTML
             const tr = document.createElement('tr');
             tr.id = `row-${i}`;
             if (isExcluded) tr.className = 'excluded';
-
             tr.innerHTML = `
                 <td><input type="checkbox" ${!isExcluded ? 'checked' : ''} onchange="toggleRow(${i}, this)"></td>
                 <td>${i + 1}</td>
@@ -256,79 +219,62 @@
             `;
             tbody.appendChild(tr);
         }
-
         goToStep(2);
         updateCalculations();
     }
 
-    // --- 3. 介面互動 ---
     function toggleRow(index, checkbox) {
         const rowData = tableRows.find(r => r.id === index);
-        const tr = document.getElementById(`row-${index}`);
-        
         rowData.active = checkbox.checked;
-        if (checkbox.checked) {
-            tr.classList.remove('excluded');
-        } else {
-            tr.classList.add('excluded');
-        }
+        document.getElementById(`row-${index}`).className = checkbox.checked ? '' : 'excluded';
     }
 
     function updateCalculations() {
         const batchSize = parseInt(document.getElementById('batchSize').value) || 1;
         const rows = document.querySelectorAll('#tableBody tr');
-        
         tableRows.forEach((r, idx) => {
-            const total = r.qty * batchSize;
-            // 更新 UI 上的總量
-            if (rows[idx]) {
-                rows[idx].querySelector('.total-qty').innerText = total;
-            }
+            if (rows[idx]) rows[idx].querySelector('.total-qty').innerText = r.qty * batchSize;
         });
     }
 
     function goToStep(step) {
         document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-        
         document.getElementById(`step${step}`).classList.add('active');
         document.getElementById(`nav-step${step}`).classList.add('active');
-        
-        // 如果跳回 step 1，重置
-        if(step === 2) {
-            document.getElementById('nav-step1').classList.add('active'); // 保持 1 亮起
-        }
+        if(step === 2) document.getElementById('nav-step1').classList.add('active');
     }
 
-    // --- 4. 產生並下載 ---
+    // --- 3. Generate BOM with Auto-Width ---
     function generateMouserBOM() {
         const batchSize = parseInt(document.getElementById('batchSize').value) || 1;
         const projectName = document.getElementById('projectName').value;
 
         let outputData = [];
-        // Mouser Template Headers
-        outputData.push([
-            "Mfr Part Number (Input)", "Manufacturer Part Number", "Mouser Part Number", 
-            "Manufacturer Name", "Description", "Quantity 1"
-        ]);
+        outputData.push(["Mfr Part Number (Input)", "Manufacturer Part Number", "Mouser Part Number", "Manufacturer Name", "Description", "Quantity 1"]);
 
-        // 只處理 Active 的列
         tableRows.forEach(row => {
             if (row.active && row.part) {
-                const finalQty = row.qty * batchSize;
-                outputData.push([
-                    "",         // A
-                    row.part,   // B (重點)
-                    "",         // C
-                    "",         // D
-                    "",         // E
-                    finalQty    // F (重點)
-                ]);
+                outputData.push(["", row.part, "", "", "", row.qty * batchSize]);
             }
         });
 
-        // Export
+        // 產生 Worksheet
         const newWs = XLSX.utils.aoa_to_sheet(outputData);
+
+        // ★★★ 重點修改：自動計算並設定欄寬 (Auto Column Width) ★★★
+        const colWidths = outputData[0].map((_, colIndex) => {
+            let maxLen = 10; // 最小寬度
+            outputData.forEach(row => {
+                const cellStr = row[colIndex] ? String(row[colIndex]) : "";
+                // 判斷長度，若比目前紀錄長就更新
+                if (cellStr.length > maxLen) maxLen = cellStr.length;
+            });
+            return { wch: maxLen + 2 }; // 加一點點緩衝空間
+        });
+        newWs['!cols'] = colWidths;
+        // ★★★ 修改結束 ★★★
+
         const newWb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(newWb, newWs, "MouserBOM");
         
