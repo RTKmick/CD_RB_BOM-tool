@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOM 旗艦備料系統 V12 (修復版)</title>
+    <title>BOM 旗艦備料系統 V13 (廠商智慧識別版)</title>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -50,8 +50,8 @@
 
         /* Status Badges */
         .badge { padding: 5px 10px; border-radius: 4px; font-weight: bold; font-size: 0.9em; display: inline-block; white-space: nowrap; }
-        .badge-smt { color: #0056b3; background: #dbeafe; border: 1px solid #b3d7ff; } /* SMT Blue */
-        .badge-gen { color: #5a32a3; background: #e9dffc; border: 1px solid #d1c4e9; } /* General Purple */
+        .badge-smt { color: #0056b3; background: #dbeafe; border: 1px solid #b3d7ff; } 
+        .badge-gen { color: #5a32a3; background: #e9dffc; border: 1px solid #d1c4e9; } 
         .badge-del { color: var(--danger); font-style: italic; }
 
         /* Pagination Controls */
@@ -85,7 +85,7 @@
         <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
             <i class="fas fa-robot" style="font-size: 80px; color: #0046ad; margin-bottom: 25px;"></i>
             <h3>拖曳或點擊上傳 BOM</h3>
-            <p style="color: #666; font-size: 1.1rem;">支援逗號與空格分隔 | SMT拋料(+20) | 一般備品(+1)</p>
+            <p style="color: #666; font-size: 1.1rem;">支援: 廠商識別 | 逗號與空格分隔 | SMT拋料(+20)</p>
             <input type="file" id="fileInput" accept=".xlsx, .xls" style="display: none;" onchange="handleFile(this.files[0])" />
         </div>
     </div>
@@ -106,7 +106,7 @@
             </div>
             
             <div class="setting-item" style="background: #e3f2fd; border-radius: 4px; padding: 5px 10px; border: 1px solid #b3d7ff;">
-                <label style="color:#0046ad;">SMT 拋料 (R/C/D):</label>
+                <label style="color:#0046ad;">SMT 拋料 (Yageo/TDK...):</label>
                 <input type="number" id="smtBuffer" value="20" min="0" onchange="recalcAndRender()" style="color:#0046ad;">
             </div>
             <div class="setting-item" style="background: #f3e5f5; border-radius: 4px; padding: 5px 10px; border: 1px solid #e1bee7;">
@@ -117,10 +117,10 @@
 
         <div class="toolbar">
             <div class="selection-tools">
-                <button onclick="selectAll(true)">全選 (All Pages)</button>
+                <button onclick="selectAll(true)">全選</button>
                 <button onclick="selectAll(false)">全不選</button>
                 <button onclick="invertSelection()" style="background: #fff8e1; border-color: #ffc107; color: #856404;">
-                    <i class="fas fa-exchange-alt"></i> 反向選取 (缺貨用)
+                    <i class="fas fa-exchange-alt"></i> 反向選取
                 </button>
             </div>
             <div id="selectionStats" style="font-weight: bold; color: var(--primary); font-size: 1.1rem;">已選: 0</div>
@@ -132,12 +132,13 @@
                     <tr>
                         <th width="40"><input type="checkbox" id="masterCheck" onchange="selectAll(this.checked)"></th>
                         <th width="50">Item</th>
-                        <th width="100">Part Ref <br><span style="color:#888;font-weight:normal;font-size:0.8em">(縮略)</span></th>
+                        <th width="100">Ref (縮略)</th>
                         <th>Description</th>
-                        <th>MPN (料號)</th>
-                        <th width="70">單量</th>
-                        <th width="90">總量(含備)</th>
-                        <th width="180">狀態</th>
+                        <th width="120">Manufacturer</th>
+                        <th>MPN</th>
+                        <th width="60">單量</th>
+                        <th width="80">備料後</th>
+                        <th width="160">判斷結果</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody"></tbody>
@@ -145,13 +146,13 @@
         </div>
 
         <div class="pagination" id="paginationControls">
-            <button class="page-btn" onclick="changePage(-1)" id="btnPrev">❮ 上一頁</button>
-            <span class="page-info" id="pageInfo">Page 1 of 1</span>
-            <button class="page-btn" onclick="changePage(1)" id="btnNext">下一頁 ❯</button>
+            <button class="page-btn" onclick="changePage(-1)" id="btnPrev">❮ Prev</button>
+            <span class="page-info" id="pageInfo">Page 1</span>
+            <button class="page-btn" onclick="changePage(1)" id="btnNext">Next ❯</button>
         </div>
 
         <div class="export-panel">
-            <span style="font-weight:bold; font-size: 1.1rem;"><i class="fas fa-file-export"></i> 匯出統一格式 (Item, MfrName, MPN, Quantity 1):</span>
+            <span style="font-weight:bold; font-size: 1.1rem;"><i class="fas fa-file-export"></i> 匯出 (Mouser/Digikey/Element14):</span>
             <div class="btn-group">
                 <button class="btn btn-mouser" onclick="exportUniversalBOM('Mouser')">Mouser</button>
                 <button class="btn btn-digikey" onclick="exportUniversalBOM('Digikey')">DigiKey</button>
@@ -169,12 +170,9 @@
     let rawData = [];
     let tableRows = []; 
     let colMap = { item: -1, mfr: -1, part: -1, qty: -1, ref: -1, desc: -1 };
-    
-    // Pagination
     let currentPage = 1;
     const itemsPerPage = 50;
 
-    // --- File Handling ---
     const dropZone = document.getElementById('dropZone');
     dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
     dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
@@ -182,8 +180,6 @@
 
     function handleFile(file) {
         if (!file) return;
-        
-        // Dynamic Year: A{YY}_xxx_Name
         const now = new Date();
         const yearSuffix = String(now.getFullYear()).slice(-2);
         const baseName = file.name.replace(/\.[^/.]+$/, ""); 
@@ -199,35 +195,39 @@
         reader.readAsArrayBuffer(file);
     }
 
-    // --- Analysis ---
     function analyzeData() {
         let headerRowIndex = 7; 
         let foundHeader = false;
         colMap = { item: -1, mfr: -1, part: -1, qty: -1, ref: -1, desc: -1 };
 
-        for (let i = 0; i < Math.min(rawData.length, 20); i++) {
+        // 智慧搜尋表頭
+        for (let i = 0; i < Math.min(rawData.length, 25); i++) {
             const rowStr = rawData[i].map(c => String(c).toLowerCase()).join(" ");
+            // 只要同時出現 Part/PN 和 Qty 相關詞彙就當作表頭
             if ((rowStr.includes("part") || rowStr.includes("pn") || rowStr.includes("料號")) && 
                 (rowStr.includes("qty") || rowStr.includes("quantity"))) {
                 headerRowIndex = i;
                 foundHeader = true;
+                
                 rawData[i].forEach((cell, idx) => {
                     const c = String(cell).toLowerCase().trim();
-                    if (c === "item number" || c === "item" || c === "no.") colMap.item = idx;
+                    if (c.includes("item") || c === "no.") colMap.item = idx;
                     else if (c === "quantity" || c === "qty") colMap.qty = idx;
-                    else if (c.includes("manufacturer pn") || c.includes("mfr part") || c.includes("part_number") || c === "part number") colMap.part = idx;
-                    else if ((c === "manufacturer" || c === "mfr" || c === "manufacturer name") && !c.includes("pn")) colMap.mfr = idx;
-                    else if (c.includes("reference") || c.includes("ref") || c === "part reference") colMap.ref = idx;
+                    else if (c.includes("manufacturer pn") || c.includes("mfr part") || c === "part_number" || c === "part number") colMap.part = idx;
+                    else if ((c.includes("manufacturer") || c.includes("mfr")) && !c.includes("pn")) colMap.mfr = idx;
+                    else if (c.includes("reference") || c.includes("ref")) colMap.ref = idx;
                     else if (c.includes("description") || c.includes("desc")) colMap.desc = idx;
                 });
                 break;
             }
         }
 
+        // 預設映射 (萬一沒找到表頭)
         if (!foundHeader) {
             headerRowIndex = 7; 
             colMap = { item: 0, qty: 2, ref: 3, desc: 4, mfr: 5, part: 6 };
         } else {
+            // 補救漏掉的欄位
             if (colMap.item === -1) colMap.item = 0;
             if (colMap.qty === -1) colMap.qty = 2;
             if (colMap.ref === -1) colMap.ref = 3; 
@@ -239,36 +239,68 @@
         processTableData(headerRowIndex);
     }
 
-    // --- Process Data & Identify Passives ---
+    // ★★★ 核心：智慧判斷 SMT 函數 ★★★
+    function checkIsSmt(ref, desc, mfr) {
+        // 1. 正規化
+        const R = ref ? ref.toUpperCase().trim() : "";
+        const D = desc ? desc.toUpperCase().trim() : "";
+        const M = mfr ? mfr.toUpperCase().trim() : "";
+
+        // 2. 關鍵字清單
+        // 這些廠商通常做被動元件，如果是他們且 Ref 是 C/R/L，就算描述不清楚也當作 SMT
+        const passiveMfrs = ["YAGEO", "TDK", "MURATA", "SAMSUNG", "KEMET", "AVX", "KYOCERA", "WALSIN", "TAIYO", "VISHAY", "PANASONIC"];
+        
+        const capKeys = ["CAP", "CER", "UF", "PF", "X7R", "X5R", "NPO", "C0G"];
+        const resKeys = ["RES", "OHM", "Ω", "THICK FILM"];
+        const indKeys = ["IND", "COIL", "FERRITE", "BEAD"];
+        const ledKeys = ["LED", "DIODE", "GREEN", "RED"];
+
+        // 3. 邏輯判斷
+        
+        // A. 廠商輔助判斷 (您的新需求)
+        // 如果是知名被動廠，且 Ref 開頭正確，直接過關 (解決 Description 資訊不足的問題)
+        const isKnownMfr = passiveMfrs.some(k => M.includes(k));
+        if (isKnownMfr) {
+            // 避免誤判 IC (例如 Samsung 的 Flash 可能是 U 開頭，不能加20)
+            if (R.startsWith("C") || R.startsWith("R") || R.startsWith("L") || R.startsWith("FB") || R.startsWith("RP")) {
+                return true; 
+            }
+        }
+
+        // B. 傳統描述判斷 (Ref + Desc)
+        if (R.startsWith("C") && capKeys.some(k => D.includes(k))) return true;
+        if ((R.startsWith("R") || R.startsWith("RP")) && resKeys.some(k => D.includes(k))) return true;
+        if ((R.startsWith("L") || R.startsWith("FB")) && indKeys.some(k => D.includes(k))) return true;
+        if ((R.startsWith("D") || R.startsWith("LED")) && ledKeys.some(k => D.includes(k))) return true;
+
+        return false;
+    }
+
     function processTableData(headerRowIndex) {
         tableRows = [];
-        const excludeKeywords = ["PCB FAB", "TDK-INVENSENSE"];
+        const excludeKeywords = ["PCB FAB", "TDK-INVENSENSE", "NUT", "SCREW", "STANDOFF"];
 
         for (let i = headerRowIndex + 1; i < rawData.length; i++) {
             const row = rawData[i];
             const itemVal = colMap.item !== -1 ? (row[colMap.item] || (i - headerRowIndex)) : (i - headerRowIndex);
-            const mfrVal = colMap.mfr !== -1 ? (row[colMap.mfr] || "") : "";
+            const mfrVal = colMap.mfr !== -1 ? String(row[colMap.mfr] || "").trim() : ""; // 保留原始大小寫給顯示用
             const partVal = colMap.part !== -1 ? (row[colMap.part] || "") : "";
             const qtyVal = parseFloat(colMap.qty !== -1 ? row[colMap.qty] : 0) || 0;
-            const refVal = colMap.ref !== -1 ? String(row[colMap.ref] || "").trim().toUpperCase() : "";
-            const descVal = colMap.desc !== -1 ? String(row[colMap.desc] || "").trim().toUpperCase() : "";
+            const refVal = colMap.ref !== -1 ? String(row[colMap.ref] || "").trim() : "";
+            const descVal = colMap.desc !== -1 ? String(row[colMap.desc] || "").trim() : "";
 
             if (!partVal && qtyVal === 0) continue; 
 
-            const rowString = row.join(" ").toUpperCase();
+            const checkStr = (refVal + descVal + mfrVal).toUpperCase();
             let isExcluded = false;
             let excludeReason = "";
-            if (excludeKeywords.some(k => rowString.includes(k))) {
+            if (excludeKeywords.some(k => checkStr.includes(k))) {
                 isExcluded = true;
                 excludeReason = "自動過濾";
             }
 
-            // SMT Logic
-            let isSmtPart = false;
-            if (refVal.startsWith("R") && descVal.includes("RES") && !refVal.startsWith("RP")) isSmtPart = true;
-            else if (refVal.startsWith("C") && descVal.includes("CAP")) isSmtPart = true;
-            else if (refVal.startsWith("D") && descVal.includes("LED")) isSmtPart = true;
-            else if (refVal.startsWith("RP") && descVal.includes("RES ARRAY")) isSmtPart = true;
+            // 使用新邏輯
+            let isSmtPart = checkIsSmt(refVal, descVal, mfrVal);
 
             tableRows.push({ 
                 id: i, item: itemVal, mfr: mfrVal, part: partVal, qty: qtyVal, 
@@ -286,7 +318,6 @@
         recalcAndRender();
     }
 
-    // --- Calc & Render ---
     function recalcAndRender() {
         const batchSize = parseInt(document.getElementById('batchSize').value) || 1;
         const smtBuffer = parseInt(document.getElementById('smtBuffer').value) || 0;
@@ -326,27 +357,23 @@
             if (r.excluded) tr.className = 'excluded';
             else if (r.checked) tr.classList.add('selected');
 
-            // --- BUG FIX STARTS HERE ---
-            // 修正：同時使用 Regex 切割 "逗號" 或 "空格"
+            // Ref 縮略顯示 (修復逗號問題)
             let displayRef = r.ref;
-            const splitRef = r.ref.split(/[\s,]+/); // Regex: match space OR comma
-            
-            if (splitRef.length > 1) {
-                // 如果切割出來有多的部分，取第一個並加 ...
-                // 排除可能因開頭是分隔符導致的第一個空字串
-                const validRef = splitRef.filter(s => s.length > 0)[0];
-                if(validRef) displayRef = validRef + "...";
-            }
-            // --- BUG FIX ENDS HERE ---
+            const splitRef = r.ref.split(/[\s,]+/); 
+            const validRef = splitRef.filter(s => s.length > 0)[0];
+            if(validRef && splitRef.length > 1) displayRef = validRef + "...";
 
             let statusHtml = "";
             if (r.excluded) {
                 statusHtml = `<span class="badge badge-del">${r.excludeReason}</span>`;
             } else {
                 if (r.statusType === 'smt') {
-                    statusHtml = `<span class="badge badge-smt"><i class="fas fa-magic"></i> OK (SMT拋料)</span>`;
+                    // 如果是用廠商判斷出來的，給個提示
+                    const isMfrTriggered = ["YAGEO","TDK","MURATA","SAMSUNG"].some(m => r.mfr.toUpperCase().includes(m));
+                    const icon = isMfrTriggered ? "fa-industry" : "fa-magic";
+                    statusHtml = `<span class="badge badge-smt"><i class="fas ${icon}"></i> SMT (${r.mfr ? 'Mfr' : 'Desc'})</span>`;
                 } else {
-                    statusHtml = `<span class="badge badge-gen"><i class="fas fa-box-open"></i> OK (一般備品)</span>`;
+                    statusHtml = `<span class="badge badge-gen"><i class="fas fa-box-open"></i> 一般備品</span>`;
                 }
             }
 
@@ -354,7 +381,8 @@
                 <td><input type="checkbox" onchange="updateRow(${r.id}, this.checked)" ${r.checked ? 'checked' : ''} ${r.excluded ? 'disabled' : ''}></td>
                 <td>${r.item}</td>
                 <td style="color:#666; font-weight:bold;">${displayRef}</td>
-                <td style="color:#444;">${r.desc}</td>
+                <td style="color:#444; font-size:0.9em;">${r.desc}</td>
+                <td style="color:#007bff; font-weight:bold; font-size:0.9em;">${r.mfr}</td>
                 <td style="font-weight:bold; color:var(--primary);">${r.part}</td>
                 <td>${r.qty}</td>
                 <td style="font-weight:bold; font-size:1.1em;">${r.finalQty}</td>
@@ -366,7 +394,6 @@
         updatePaginationControls();
     }
 
-    // --- Controls ---
     function updatePaginationControls() {
         const totalPages = Math.ceil(tableRows.length / itemsPerPage);
         document.getElementById('pageInfo').innerText = `Page ${currentPage} of ${totalPages} (Total ${tableRows.length})`;
@@ -415,34 +442,15 @@
     function exportUniversalBOM(platform) {
         const projectName = document.getElementById('projectName').value;
         const selectedRows = tableRows.filter(r => r.checked && r.part);
-
         if (selectedRows.length === 0) { alert("沒有勾選任何項目！"); return; }
-
-        let outputData = [];
-        outputData.push(["Item Number", "Manufacturer Name", "Manufacturer Part Number", "Quantity 1"]);
-
-        selectedRows.forEach(r => {
-            outputData.push([r.item, r.mfr, r.part, r.finalQty]);
-        });
+        
+        let outputData = [["Item Number", "Manufacturer Name", "Manufacturer Part Number", "Quantity 1"]];
+        selectedRows.forEach(r => outputData.push([r.item, r.mfr, r.part, r.finalQty]));
 
         const ws = XLSX.utils.aoa_to_sheet(outputData);
-        const colWidths = outputData[0].map((_, i) => {
-             let max = 15; 
-             outputData.forEach(r => { if(r[i] && String(r[i]).length > max) max = String(r[i]).length; });
-             return { wch: max + 2 };
-        });
-        ws['!cols'] = colWidths;
-
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "BOM");
-
-        let suffix = "";
-        if(platform === 'Mouser') suffix = "_Mouser";
-        else if(platform === 'Digikey') suffix = "_Digikey";
-        else if(platform === 'Elem14') suffix = "_Elem14";
-
-        const fileName = `${projectName}${suffix}.xlsx`;
-        XLSX.writeFile(wb, fileName);
+        XLSX.writeFile(wb, `${projectName}_${platform}.xlsx`);
     }
 </script>
 
