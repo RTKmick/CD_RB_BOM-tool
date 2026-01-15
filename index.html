@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOM 旗艦備料系統 V11 (雙重備料版)</title>
+    <title>BOM 旗艦備料系統 V11+ (格式修復與智慧增強版)</title>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -50,8 +50,8 @@
 
         /* Status Badges */
         .badge { padding: 5px 10px; border-radius: 4px; font-weight: bold; font-size: 0.9em; display: inline-block; white-space: nowrap; }
-        .badge-smt { color: #0056b3; background: #dbeafe; border: 1px solid #b3d7ff; } /* SMT Blue */
-        .badge-gen { color: #5a32a3; background: #e9dffc; border: 1px solid #d1c4e9; } /* General Purple */
+        .badge-smt { color: #0056b3; background: #dbeafe; border: 1px solid #b3d7ff; }
+        .badge-gen { color: #5a32a3; background: #e9dffc; border: 1px solid #d1c4e9; }
         .badge-del { color: var(--danger); font-style: italic; }
 
         /* Pagination Controls */
@@ -242,7 +242,12 @@
     // --- Process Data & Identify Passives ---
     function processTableData(headerRowIndex) {
         tableRows = [];
-        const excludeKeywords = ["PCB FAB", "TDK-INVENSENSE"];
+        const excludeKeywords = ["PCB FAB", "TDK-INVENSENSE", "SCREW", "NUT", "STANDOFF"];
+        
+        // 增強判斷所需的關鍵字清單
+        const passiveMfrs = ["YAGEO", "TDK", "MURATA", "SAMSUNG", "KEMET", "AVX", "KYOCERA", "WALSIN", "TAIYO", "VISHAY", "PANASONIC"];
+        const capUnits = ["UF", "PF", "NF", "µF"];
+        const resUnits = ["OHM", "Ω", " KOHM", " MOHM", " 1%"];
 
         for (let i = headerRowIndex + 1; i < rawData.length; i++) {
             const row = rawData[i];
@@ -263,14 +268,28 @@
                 excludeReason = "自動過濾";
             }
 
-            // ★★★ 智慧分類：SMT 拋料 vs 一般備品 ★★★
-            // isSmtPart = True (用 +20 邏輯)
-            // isSmtPart = False (用 +1 邏輯)
+            // ★★★ 智慧分類：升級版邏輯 (V13/14 精華) ★★★
+            // 結合 Description 關鍵字、廠商名稱、單位識別
             let isSmtPart = false;
-            if (refVal.startsWith("R") && descVal.includes("RES") && !refVal.startsWith("RP")) isSmtPart = true;
-            else if (refVal.startsWith("C") && descVal.includes("CAP")) isSmtPart = true;
-            else if (refVal.startsWith("D") && descVal.includes("LED")) isSmtPart = true;
-            else if (refVal.startsWith("RP") && descVal.includes("RES ARRAY")) isSmtPart = true;
+            
+            // 1. 電阻
+            if (refVal.startsWith("R") && !refVal.startsWith("RP")) {
+                 if (descVal.includes("RES") || descVal.includes("OHM") || resUnits.some(u => descVal.includes(u))) isSmtPart = true;
+                 else if (passiveMfrs.some(m => mfrVal.toUpperCase().includes(m))) isSmtPart = true;
+            }
+            // 2. 電容
+            else if (refVal.startsWith("C")) {
+                 if (descVal.includes("CAP") || descVal.includes("CER") || capUnits.some(u => descVal.includes(u))) isSmtPart = true;
+                 else if (passiveMfrs.some(m => mfrVal.toUpperCase().includes(m))) isSmtPart = true;
+            }
+            // 3. LED / Diode
+            else if (refVal.startsWith("D") || refVal.startsWith("LED")) {
+                 if (descVal.includes("LED") || descVal.includes("DIODE")) isSmtPart = true;
+            }
+            // 4. 排阻
+            else if (refVal.startsWith("RP")) {
+                 if (descVal.includes("RES") || descVal.includes("ARRAY")) isSmtPart = true;
+            }
 
             tableRows.push({ 
                 id: i, item: itemVal, mfr: mfrVal, part: partVal, qty: qtyVal, 
@@ -300,10 +319,9 @@
             if (r.excluded) {
                 r.finalQty = baseQty;
             } else {
-                // 核心邏輯：區分 SMT 拋料 與 一般備品
                 if (r.isSmtPart) {
                     r.finalQty = baseQty + smtBuffer;
-                    r.statusType = 'smt'; // 用於顯示不同顏色
+                    r.statusType = 'smt';
                 } else {
                     r.finalQty = baseQty + genBuffer;
                     r.statusType = 'gen';
@@ -329,9 +347,13 @@
             if (r.excluded) tr.className = 'excluded';
             else if (r.checked) tr.classList.add('selected');
 
-            // Ref 縮略
+            // ★★★ Fix: 修正 Ref 縮略邏輯，同時處理逗號與空白 ★★★
             let displayRef = r.ref;
-            if (r.ref.includes(" ")) displayRef = r.ref.split(" ")[0] + "...";
+            const splitRef = r.ref.split(/[\s,]+/); // Regex: match space OR comma
+            const validRef = splitRef.filter(s => s.length > 0)[0];
+            if(validRef && splitRef.length > 1) {
+                displayRef = validRef + "...";
+            }
 
             // 狀態 HTML
             let statusHtml = "";
