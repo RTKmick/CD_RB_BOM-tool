@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOM 旗艦備料系統 V11 (雙重備料版)</title>
+    <title>BOM 旗艦備料系統 V12 (修復版)</title>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -85,7 +85,7 @@
         <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
             <i class="fas fa-robot" style="font-size: 80px; color: #0046ad; margin-bottom: 25px;"></i>
             <h3>拖曳或點擊上傳 BOM</h3>
-            <p style="color: #666; font-size: 1.1rem;">分頁顯示 | SMT拋料(+20) | 一般備品(+1)</p>
+            <p style="color: #666; font-size: 1.1rem;">支援逗號與空格分隔 | SMT拋料(+20) | 一般備品(+1)</p>
             <input type="file" id="fileInput" accept=".xlsx, .xls" style="display: none;" onchange="handleFile(this.files[0])" />
         </div>
     </div>
@@ -263,9 +263,7 @@
                 excludeReason = "自動過濾";
             }
 
-            // ★★★ 智慧分類：SMT 拋料 vs 一般備品 ★★★
-            // isSmtPart = True (用 +20 邏輯)
-            // isSmtPart = False (用 +1 邏輯)
+            // SMT Logic
             let isSmtPart = false;
             if (refVal.startsWith("R") && descVal.includes("RES") && !refVal.startsWith("RP")) isSmtPart = true;
             else if (refVal.startsWith("C") && descVal.includes("CAP")) isSmtPart = true;
@@ -300,10 +298,9 @@
             if (r.excluded) {
                 r.finalQty = baseQty;
             } else {
-                // 核心邏輯：區分 SMT 拋料 與 一般備品
                 if (r.isSmtPart) {
                     r.finalQty = baseQty + smtBuffer;
-                    r.statusType = 'smt'; // 用於顯示不同顏色
+                    r.statusType = 'smt'; 
                 } else {
                     r.finalQty = baseQty + genBuffer;
                     r.statusType = 'gen';
@@ -329,11 +326,19 @@
             if (r.excluded) tr.className = 'excluded';
             else if (r.checked) tr.classList.add('selected');
 
-            // Ref 縮略
+            // --- BUG FIX STARTS HERE ---
+            // 修正：同時使用 Regex 切割 "逗號" 或 "空格"
             let displayRef = r.ref;
-            if (r.ref.includes(" ")) displayRef = r.ref.split(" ")[0] + "...";
+            const splitRef = r.ref.split(/[\s,]+/); // Regex: match space OR comma
+            
+            if (splitRef.length > 1) {
+                // 如果切割出來有多的部分，取第一個並加 ...
+                // 排除可能因開頭是分隔符導致的第一個空字串
+                const validRef = splitRef.filter(s => s.length > 0)[0];
+                if(validRef) displayRef = validRef + "...";
+            }
+            // --- BUG FIX ENDS HERE ---
 
-            // 狀態 HTML
             let statusHtml = "";
             if (r.excluded) {
                 statusHtml = `<span class="badge badge-del">${r.excludeReason}</span>`;
