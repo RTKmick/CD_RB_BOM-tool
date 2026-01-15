@@ -3,157 +3,342 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mouser BOM 轉換器 V3 (Template版)</title>
+    <title>Mouser BOM 智能轉換器 V4</title>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { font-family: "Microsoft JhengHei", sans-serif; background-color: #f4f6f9; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h2 { color: #0046ad; border-bottom: 2px solid #0046ad; padding-bottom: 10px; }
-        .step-box { margin-bottom: 25px; padding: 15px; border: 1px solid #e0e0e0; border-radius: 5px; background-color: #fafafa; }
-        .step-title { font-weight: bold; margin-bottom: 10px; display: block; color: #333; }
-        input, select { padding: 8px; width: 100%; box-sizing: border-box; margin-bottom: 5px; border: 1px solid #ccc; border-radius: 4px; }
-        .row-inputs { display: flex; gap: 15px; }
-        .half-width { flex: 1; }
-        button { padding: 10px 20px; background-color: #0046ad; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; transition: background 0.3s; }
-        button:hover { background-color: #003380; }
-        #step2 { display: none; }
-        #status { margin-top: 15px; font-weight: bold; color: green; }
+        :root { --primary: #0046ad; --light: #f4f6f9; --border: #e0e0e0; --success: #28a745; --danger: #dc3545; }
+        body { font-family: "Segoe UI", "Microsoft JhengHei", sans-serif; background-color: var(--light); margin: 0; padding: 20px; color: #333; }
+        
+        /* Layout */
+        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); overflow: hidden; }
+        
+        /* Stepper */
+        .stepper { display: flex; justify-content: space-between; padding: 20px 40px; background: #fafafa; border-bottom: 1px solid var(--border); }
+        .step { text-align: center; flex: 1; position: relative; opacity: 0.5; transition: 0.3s; font-weight: bold; font-size: 0.9em; }
+        .step.active { opacity: 1; color: var(--primary); }
+        .step i { display: block; font-size: 24px; margin-bottom: 5px; }
+        .step::after { content: ''; position: absolute; top: 15px; left: 50%; width: 100%; height: 2px; background: #ddd; z-index: 0; }
+        .step:last-child::after { display: none; }
+        
+        /* Content Areas */
+        .step-content { display: none; padding: 30px; animation: fadeIn 0.4s; }
+        .step-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Upload Zone */
+        .upload-zone { border: 2px dashed #aaa; border-radius: 10px; padding: 50px; text-align: center; cursor: pointer; transition: 0.3s; background: #fff; }
+        .upload-zone:hover, .upload-zone.dragover { border-color: var(--primary); background-color: #f0f7ff; }
+        .upload-icon { font-size: 50px; color: var(--primary); margin-bottom: 15px; }
+        
+        /* Controls */
+        .control-group { margin-bottom: 20px; display: flex; gap: 20px; flex-wrap: wrap; }
+        .control-item { flex: 1; min-width: 200px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        
+        /* Preview Table */
+        .table-container { max-height: 400px; overflow-y: auto; border: 1px solid #eee; margin-top: 15px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        th { background: #eee; position: sticky; top: 0; padding: 10px; text-align: left; z-index: 10; }
+        td { padding: 8px 10px; border-bottom: 1px solid #eee; }
+        tr.excluded { background-color: #ffeef0; color: #999; text-decoration: line-through; }
+        
+        /* Buttons */
+        .btn { padding: 12px 25px; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; font-weight: bold; transition: 0.2s; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: #003380; }
+        .btn-outline { background: transparent; border: 1px solid #999; color: #666; }
+        .actions { margin-top: 20px; display: flex; justify-content: space-between; }
+        
+        /* Status */
+        .badge-auto { background: #e3f2fd; color: #0d47a1; padding: 2px 6px; border-radius: 4px; font-size: 0.8em; margin-left: 5px; }
+        .del-reason { color: var(--danger); font-size: 0.8em; font-style: italic; margin-left: 5px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>🛠️ BOM 轉 Mouser 訂單工具 (V3)</h2>
-
-    <div class="step-box" id="step1">
-        <span class="step-title">步驟 1: 上傳原始 BOM</span>
-        <input type="file" id="upload" accept=".xlsx, .xls" />
-        <div style="margin-top: 10px;">
-            <label>資料標題在第幾列? (您的檔案是第 8 列)</label>
-            <input type="number" id="headerRowIndex" value="1" min="1" />
-        </div>
-        <button onclick="analyzeFile()">讀取檔案</button>
+    <div class="stepper">
+        <div class="step active" id="nav-step1"><i class="fas fa-cloud-upload-alt"></i> 上傳 BOM</div>
+        <div class="step" id="nav-step2"><i class="fas fa-sliders-h"></i> 設定與預覽</div>
+        <div class="step" id="nav-step3"><i class="fas fa-file-export"></i> 下載完成</div>
     </div>
 
-    <div class="step-box" id="step2">
-        <span class="step-title">步驟 2: 設定與輸出</span>
-        <div class="row-inputs">
-            <div class="half-width">
-                <label>專案名稱 (檔名用):</label>
-                <input type="text" id="projectName" placeholder="Project_Name" />
-            </div>
-            <div class="half-width">
-                <label>製作套數 (乘數):</label>
-                <input type="number" id="batchSize" value="1" min="1" />
-            </div>
+    <div id="step1" class="step-content active">
+        <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+            <i class="fas fa-file-excel upload-icon"></i>
+            <h3>點擊或拖曳 Excel 檔案至此</h3>
+            <p style="color: #666;">支援 .xlsx, .xls 格式</p>
+            <input type="file" id="fileInput" accept=".xlsx, .xls" style="display: none;" onchange="handleFile(this.files[0])" />
         </div>
-        <br>
-        <label>請對應原始欄位:</label>
-        <div class="row-inputs">
-            <div class="half-width">
-                <label>原廠料號 (對應到 Mouser B欄):</label>
-                <select id="colPart"></select>
-            </div>
-            <div class="half-width">
-                <label>原始數量 (對應到 Mouser F欄):</label>
-                <select id="colQty"></select>
-            </div>
-        </div>
-        <br>
-        <button onclick="generateMouserBOM()">下載 Mouser 格式 Excel</button>
     </div>
 
-    <div id="status"></div>
+    <div id="step2" class="step-content">
+        <div class="control-group">
+            <div class="control-item">
+                <label>專案名稱 (自動產生):</label>
+                <input type="text" id="projectName" readonly style="background-color: #f0f0f0; color: #555;">
+            </div>
+            <div class="control-item">
+                <label>製作套數 (Batch Size):</label>
+                <input type="number" id="batchSize" value="1" min="1" onchange="updateCalculations()">
+            </div>
+        </div>
+
+        <div style="background: #fff3cd; padding: 10px; border-radius: 5px; font-size: 0.9em; margin-bottom: 10px; display: flex; align-items: center;">
+            <i class="fas fa-info-circle" style="margin-right: 8px; color: #856404;"></i>
+            <span id="headerInfo">正在分析標題...</span>
+        </div>
+
+        <label>資料預覽 (請勾選要匯出的項目):</label>
+        <div class="table-container">
+            <table id="previewTable">
+                <thead>
+                    <tr>
+                        <th width="50"><input type="checkbox" checked disabled></th>
+                        <th>Row</th>
+                        <th>原廠料號 (Manufacturer PN)</th>
+                        <th>單量</th>
+                        <th>訂購總量</th>
+                        <th>狀態</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-outline" onclick="goToStep(1)">重新上傳</button>
+            <button class="btn btn-primary" onclick="generateMouserBOM()">確認並下載 <i class="fas fa-download"></i></button>
+        </div>
+    </div>
+
+    <div id="step3" class="step-content" style="text-align: center; padding: 50px;">
+        <i class="fas fa-check-circle" style="font-size: 60px; color: var(--success); margin-bottom: 20px;"></i>
+        <h2>轉換成功！</h2>
+        <p>您的 Mouser BOM 檔案已開始下載。</p>
+        <p id="finalFileName" style="color: var(--primary); font-weight: bold;"></p>
+        <br>
+        <button class="btn btn-primary" onclick="location.reload()">轉換另一個檔案</button>
+    </div>
 </div>
 
 <script>
-    let globalData = [];
-    let workbook = null;
+    let rawData = [];
+    let headerRowIndex = 7; // Default 8 (index 7)
+    let colMap = { part: -1, qty: -1 };
+    let tableRows = []; // Store processing state
 
-    function analyzeFile() {
-        const fileInput = document.getElementById('upload');
-        const headerRowVal = parseInt(document.getElementById('headerRowIndex').value);
-        if (fileInput.files.length === 0) { alert("請先選擇檔案！"); return; }
-        
+    // --- 1. 拖曳與上傳邏輯 ---
+    const dropZone = document.getElementById('dropZone');
+
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+    });
+
+    function handleFile(file) {
+        if (!file) return;
+
+        // 1. 自動產生專案名稱
+        const date = new Date();
+        const mmdd = String(date.getMonth() + 1).padStart(2, '0') + String(date.getDate()).padStart(2, '0');
+        // 移除副檔名
+        const baseName = file.name.replace(/\.[^/.]+$/, ""); 
+        const projName = `${baseName}_CD_${mmdd}`;
+        document.getElementById('projectName').value = projName;
+
+        // 2. 讀取 Excel
         const reader = new FileReader();
         reader.onload = function(e) {
             const data = new Uint8Array(e.target.result);
-            workbook = XLSX.read(data, { type: 'array' });
-            globalData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
-            populateSelectOptions(headerRowVal - 1);
-        };
-        reader.readAsArrayBuffer(fileInput.files[0]);
-    }
-
-    function populateSelectOptions(headerIndex) {
-        if (headerIndex >= globalData.length) return alert("列號錯誤");
-        const headers = globalData[headerIndex];
-        const partSelect = document.getElementById('colPart');
-        const qtySelect = document.getElementById('colQty');
-        partSelect.innerHTML = qtySelect.innerHTML = "";
-
-        headers.forEach((h, i) => {
-            if(!h) return;
-            let text = `[欄 ${i+1}] ${h}`;
-            partSelect.add(new Option(text, i));
-            qtySelect.add(new Option(text, i));
-        });
-
-        // 智慧預選
-        const partIdx = headers.findIndex(h => /part|pn|料號/i.test(String(h)));
-        const qtyIdx = headers.findIndex(h => /qty|quantity|數量/i.test(String(h)));
-        if(partIdx > -1) partSelect.value = partIdx;
-        if(qtyIdx > -1) qtySelect.value = qtyIdx;
-
-        document.getElementById('step1').style.display = 'none';
-        document.getElementById('step2').style.display = 'block';
-    }
-
-    function generateMouserBOM() {
-        const headerRowVal = parseInt(document.getElementById('headerRowIndex').value);
-        const partCol = parseInt(document.getElementById('colPart').value);
-        const qtyCol = parseInt(document.getElementById('colQty').value);
-        const batchSize = parseInt(document.getElementById('batchSize').value) || 1;
-        const projectName = document.getElementById('projectName').value.trim() || "MyProject";
-
-        let outputData = [];
-        
-        // --- 設定 Mouser Template 標頭 (模擬您提供的 BomTemplate.xls) ---
-        // A=0, B=1, C=2, D=3, E=4, F=5
-        outputData.push([
-            "Mfr Part Number (Input)", // A
-            "Manufacturer Part Number",// B (重點)
-            "Mouser Part Number",      // C
-            "Manufacturer Name",       // D
-            "Description",             // E
-            "Quantity 1"               // F (重點)
-        ]);
-
-        for (let i = headerRowVal; i < globalData.length; i++) {
-            const row = globalData[i];
-            const rawPart = row[partCol];
-            let rawQty = parseFloat(row[qtyCol]) || 0;
+            const workbook = XLSX.read(data, { type: 'array' });
+            rawData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
             
-            if (rawPart && rawQty > 0) {
-                const finalQty = rawQty * batchSize;
-                // --- 產生資料列 (填入 B 和 F) ---
-                outputData.push([
-                    "",         // A (留白)
-                    rawPart,    // B (填入料號)
-                    "",         // C
-                    "",         // D
-                    "",         // E
-                    finalQty    // F (填入數量)
-                ]);
+            analyzeAndPreview();
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    // --- 2. 智能分析與預覽 ---
+    function analyzeAndPreview() {
+        // A. 尋找 Header Row (偵測關鍵字)
+        let foundHeader = false;
+        colMap = { part: -1, qty: -1 };
+
+        for (let i = 0; i < Math.min(rawData.length, 20); i++) {
+            const rowStr = rawData[i].map(c => String(c).toLowerCase()).join(" ");
+            // 寬鬆偵測：這行同時包含 "part" 和 "quantity" 相關字眼
+            if ((rowStr.includes("part") || rowStr.includes("pn") || rowStr.includes("料號")) && 
+                (rowStr.includes("qty") || rowStr.includes("quantity") || rowStr.includes("數量"))) {
+                
+                headerRowIndex = i;
+                foundHeader = true;
+                
+                // 鎖定該行，尋找確切欄位 Index
+                rawData[i].forEach((cell, idx) => {
+                    const c = String(cell).toLowerCase();
+                    if ((c.includes("mfr") || c.includes("manufacturer")) && (c.includes("pn") || c.includes("part"))) colMap.part = idx;
+                    else if (c.includes("qty") || c.includes("quantity")) colMap.qty = idx;
+                });
+                break;
             }
         }
 
+        //  fallback: 若沒抓到明確欄位，但找到了標題列，試著用常見位置 (比如 B欄=1, F欄=5, 或 C欄=2)
+        if (foundHeader) {
+            if (colMap.part === -1) colMap.part = 6; // 猜測: 您的檔案 G欄 (index 6) 常常是 Manufacturer PN
+            if (colMap.qty === -1) colMap.qty = 2;   // 猜測: 您的檔案 C欄 (index 2) 常常是 Quantity
+        } else {
+            // 完全找不到，使用預設值
+            headerRowIndex = 7; // 第8列
+            colMap.part = 6;    // 假設 G 欄
+            colMap.qty = 2;     // 假設 C 欄
+        }
+
+        // 更新介面提示
+        const msg = foundHeader 
+            ? `已自動偵測到標題在第 <b>${headerRowIndex + 1}</b> 列` 
+            : `未偵測到明確標題，使用預設值：第 <b>8</b> 列 (若有誤請檢查 Excel)`;
+        document.getElementById('headerInfo').innerHTML = msg;
+
+        // B. 建立預覽資料 (Preview Data)
+        tableRows = [];
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = "";
+
+        // 關鍵字過濾陣列
+        const excludeKeywords = ["PCB FAB", "TDK-INVENSENSE"];
+
+        for (let i = headerRowIndex + 1; i < rawData.length; i++) {
+            const row = rawData[i];
+            const part = row[colMap.part] || ""; 
+            const qty = row[colMap.qty];
+
+            if (!part && !qty) continue; // 跳過空行
+
+            // 判斷是否要自動過濾
+            const rowString = row.join(" ").toUpperCase();
+            let isExcluded = false;
+            let excludeReason = "";
+
+            if (excludeKeywords.some(k => rowString.includes(k))) {
+                isExcluded = true;
+                excludeReason = "自動過濾 (PCB/Company Info)";
+            }
+
+            // 存入狀態陣列
+            const rowObj = {
+                id: i,
+                part: part,
+                qty: parseFloat(qty) || 0,
+                active: !isExcluded,
+                reason: excludeReason
+            };
+            tableRows.push(rowObj);
+
+            // 渲染 HTML
+            const tr = document.createElement('tr');
+            tr.id = `row-${i}`;
+            if (isExcluded) tr.className = 'excluded';
+
+            tr.innerHTML = `
+                <td><input type="checkbox" ${!isExcluded ? 'checked' : ''} onchange="toggleRow(${i}, this)"></td>
+                <td>${i + 1}</td>
+                <td style="font-weight:bold; color:#0046ad;">${part}</td>
+                <td>${rowObj.qty}</td>
+                <td class="total-qty">-</td>
+                <td>${excludeReason ? `<span class="del-reason">${excludeReason}</span>` : '<span style="color:green;">OK</span>'}</td>
+            `;
+            tbody.appendChild(tr);
+        }
+
+        goToStep(2);
+        updateCalculations();
+    }
+
+    // --- 3. 介面互動 ---
+    function toggleRow(index, checkbox) {
+        const rowData = tableRows.find(r => r.id === index);
+        const tr = document.getElementById(`row-${index}`);
+        
+        rowData.active = checkbox.checked;
+        if (checkbox.checked) {
+            tr.classList.remove('excluded');
+        } else {
+            tr.classList.add('excluded');
+        }
+    }
+
+    function updateCalculations() {
+        const batchSize = parseInt(document.getElementById('batchSize').value) || 1;
+        const rows = document.querySelectorAll('#tableBody tr');
+        
+        tableRows.forEach((r, idx) => {
+            const total = r.qty * batchSize;
+            // 更新 UI 上的總量
+            if (rows[idx]) {
+                rows[idx].querySelector('.total-qty').innerText = total;
+            }
+        });
+    }
+
+    function goToStep(step) {
+        document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+        
+        document.getElementById(`step${step}`).classList.add('active');
+        document.getElementById(`nav-step${step}`).classList.add('active');
+        
+        // 如果跳回 step 1，重置
+        if(step === 2) {
+            document.getElementById('nav-step1').classList.add('active'); // 保持 1 亮起
+        }
+    }
+
+    // --- 4. 產生並下載 ---
+    function generateMouserBOM() {
+        const batchSize = parseInt(document.getElementById('batchSize').value) || 1;
+        const projectName = document.getElementById('projectName').value;
+
+        let outputData = [];
+        // Mouser Template Headers
+        outputData.push([
+            "Mfr Part Number (Input)", "Manufacturer Part Number", "Mouser Part Number", 
+            "Manufacturer Name", "Description", "Quantity 1"
+        ]);
+
+        // 只處理 Active 的列
+        tableRows.forEach(row => {
+            if (row.active && row.part) {
+                const finalQty = row.qty * batchSize;
+                outputData.push([
+                    "",         // A
+                    row.part,   // B (重點)
+                    "",         // C
+                    "",         // D
+                    "",         // E
+                    finalQty    // F (重點)
+                ]);
+            }
+        });
+
+        // Export
         const newWs = XLSX.utils.aoa_to_sheet(outputData);
         const newWb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(newWb, newWs, "MouserBOM");
-        XLSX.writeFile(newWb, `${projectName}_MouserTemplate.xlsx`);
         
-        document.getElementById('status').innerText = "✅ 下載完成！請檢查 B 欄與 F 欄。";
+        const fileName = `${projectName}.xlsx`;
+        XLSX.writeFile(newWb, fileName);
+
+        document.getElementById('finalFileName').innerText = fileName;
+        goToStep(3);
+        document.getElementById('nav-step2').classList.add('active'); 
+        document.getElementById('nav-step3').classList.add('active');
     }
 </script>
 
