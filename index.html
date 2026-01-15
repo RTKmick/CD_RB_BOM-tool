@@ -3,101 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mouser BOM 智能轉換器 V5 (自動欄寬版)</title>
+    <title>BOM 智能分流採購系統 V6</title>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { --primary: #0046ad; --light: #f4f6f9; --border: #e0e0e0; --success: #28a745; --danger: #dc3545; }
+        :root { --primary: #0046ad; --digikey: #cc0000; --element14: #ff6600; --light: #f4f6f9; --border: #e0e0e0; --success: #28a745; }
         body { font-family: "Segoe UI", "Microsoft JhengHei", sans-serif; background-color: var(--light); margin: 0; padding: 20px; color: #333; }
         
-        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); overflow: hidden; }
+        .container { max-width: 950px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); overflow: hidden; }
         
         /* Stepper */
         .stepper { display: flex; justify-content: space-between; padding: 20px 40px; background: #fafafa; border-bottom: 1px solid var(--border); }
-        .step { text-align: center; flex: 1; position: relative; opacity: 0.5; transition: 0.3s; font-weight: bold; font-size: 0.9em; }
+        .step { text-align: center; flex: 1; opacity: 0.5; font-weight: bold; font-size: 0.9em; }
         .step.active { opacity: 1; color: var(--primary); }
         .step i { display: block; font-size: 24px; margin-bottom: 5px; }
-        .step::after { content: ''; position: absolute; top: 15px; left: 50%; width: 100%; height: 2px; background: #ddd; z-index: 0; }
-        .step:last-child::after { display: none; }
-        
-        /* Content Areas */
-        .step-content { display: none; padding: 30px; animation: fadeIn 0.4s; }
-        .step-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Upload Zone */
-        .upload-zone { border: 2px dashed #aaa; border-radius: 10px; padding: 50px; text-align: center; cursor: pointer; transition: 0.3s; background: #fff; }
-        .upload-zone:hover, .upload-zone.dragover { border-color: var(--primary); background-color: #f0f7ff; }
-        .upload-icon { font-size: 50px; color: var(--primary); margin-bottom: 15px; }
-        
-        /* Controls */
-        .control-group { margin-bottom: 20px; display: flex; gap: 20px; flex-wrap: wrap; }
-        .control-item { flex: 1; min-width: 200px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
-        
-        /* Preview Table */
-        .table-container { max-height: 400px; overflow-y: auto; border: 1px solid #eee; margin-top: 15px; }
+        .step-content { display: none; padding: 30px; }
+        .step-content.active { display: block; }
+
+        /* Upload */
+        .upload-zone { border: 2px dashed #aaa; border-radius: 10px; padding: 40px; text-align: center; cursor: pointer; transition: 0.3s; background: #fff; }
+        .upload-zone:hover { border-color: var(--primary); background-color: #f0f7ff; }
+
+        /* Toolbar */
+        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: #f8f9fa; padding: 10px; border-radius: 8px; border: 1px solid #eee; }
+        .selection-tools button { font-size: 0.85rem; padding: 5px 10px; cursor: pointer; border: 1px solid #ccc; background: white; border-radius: 4px; }
+        .selection-tools button:hover { background: #eee; }
+
+        /* Table */
+        .table-container { max-height: 400px; overflow-y: auto; border: 1px solid #eee; }
         table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
         th { background: #eee; position: sticky; top: 0; padding: 10px; text-align: left; z-index: 10; }
         td { padding: 8px 10px; border-bottom: 1px solid #eee; }
         tr.excluded { background-color: #ffeef0; color: #999; text-decoration: line-through; }
+        tr.selected { background-color: #e3f2fd; }
+
+        /* Export Zone */
+        .export-panel { margin-top: 20px; padding: 20px; background: #f1f3f5; border-radius: 8px; border: 1px solid #ddd; }
+        .export-title { font-weight: bold; margin-bottom: 15px; display: block; }
+        .btn-group { display: flex; gap: 10px; }
         
-        /* Buttons */
-        .btn { padding: 12px 25px; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; font-weight: bold; transition: 0.2s; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: #003380; }
-        .btn-outline { background: transparent; border: 1px solid #999; color: #666; }
-        .actions { margin-top: 20px; display: flex; justify-content: space-between; }
+        .btn { padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; font-weight: bold; color: white; flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
+        .btn-mouser { background: var(--primary); }
+        .btn-mouser:hover { background: #003380; }
+        .btn-digikey { background: var(--digikey); }
+        .btn-digikey:hover { background: #990000; }
+        .btn-e14 { background: var(--element14); }
+        .btn-e14:hover { background: #cc5200; }
         
-        .del-reason { color: var(--danger); font-size: 0.8em; font-style: italic; margin-left: 5px; }
+        .del-reason { color: #dc3545; font-size: 0.8em; font-style: italic; }
+        
+        /* Stats */
+        .stats-bar { margin-top: 10px; font-size: 0.9em; color: #666; display: flex; gap: 15px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="stepper">
-        <div class="step active" id="nav-step1"><i class="fas fa-cloud-upload-alt"></i> 上傳 BOM</div>
-        <div class="step" id="nav-step2"><i class="fas fa-sliders-h"></i> 設定與預覽</div>
-        <div class="step" id="nav-step3"><i class="fas fa-file-export"></i> 下載完成</div>
+        <div class="step active" id="nav-step1"><i class="fas fa-file-upload"></i> 上傳 BOM</div>
+        <div class="step" id="nav-step2"><i class="fas fa-filter"></i> 篩選與分流</div>
     </div>
 
     <div id="step1" class="step-content active">
         <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
-            <i class="fas fa-file-excel upload-icon"></i>
-            <h3>點擊或拖曳 Excel 檔案至此</h3>
-            <p style="color: #666;">支援 .xlsx, .xls</p>
+            <i class="fas fa-cloud-upload-alt" style="font-size: 50px; color: #0046ad; margin-bottom: 15px;"></i>
+            <h3>拖曳或點擊上傳 BOM 表</h3>
+            <p style="color: #666;">支援 .xlsx, .xls 格式</p>
             <input type="file" id="fileInput" accept=".xlsx, .xls" style="display: none;" onchange="handleFile(this.files[0])" />
         </div>
     </div>
 
     <div id="step2" class="step-content">
-        <div class="control-group">
-            <div class="control-item">
-                <label>專案名稱 (自動產生):</label>
-                <input type="text" id="projectName" readonly style="background-color: #f0f0f0; color: #555;">
+        <div style="display: flex; gap: 20px; margin-bottom: 15px;">
+            <div style="flex: 2;">
+                <label>專案名稱:</label>
+                <input type="text" id="projectName" style="width: 100%; padding: 8px;">
             </div>
-            <div class="control-item">
-                <label>製作套數 (Batch Size):</label>
-                <input type="number" id="batchSize" value="1" min="1" onchange="updateCalculations()">
+            <div style="flex: 1;">
+                <label>製作套數:</label>
+                <input type="number" id="batchSize" value="1" min="1" onchange="updateCalculations()" style="width: 100%; padding: 8px;">
             </div>
         </div>
 
-        <div style="background: #fff3cd; padding: 10px; border-radius: 5px; font-size: 0.9em; margin-bottom: 10px; display: flex; align-items: center;">
-            <i class="fas fa-info-circle" style="margin-right: 8px; color: #856404;"></i>
-            <span id="headerInfo">正在分析標題...</span>
+        <div class="toolbar">
+            <div class="selection-tools">
+                <span>快速選取: </span>
+                <button onclick="selectAll(true)">全選</button>
+                <button onclick="selectAll(false)">全不選</button>
+                <button onclick="invertSelection()" style="background: #ffecb3; border-color: #ffc107;">
+                    <i class="fas fa-exchange-alt"></i> 反向選取 (餘料模式)
+                </button>
+            </div>
+            <div id="selectionStats" style="font-weight: bold; color: var(--primary);">已選: 0</div>
         </div>
 
-        <label>資料預覽 (請勾選要匯出的項目):</label>
         <div class="table-container">
             <table id="previewTable">
                 <thead>
                     <tr>
-                        <th width="50"><input type="checkbox" checked disabled></th>
-                        <th>Row</th>
-                        <th>原廠料號 (Manufacturer PN)</th>
+                        <th width="40"><input type="checkbox" id="masterCheck" onchange="selectAll(this.checked)"></th>
+                        <th width="50">No.</th>
+                        <th>原廠料號 (MPN)</th>
                         <th>單量</th>
-                        <th>訂購總量</th>
+                        <th>總量</th>
                         <th>狀態</th>
                     </tr>
                 </thead>
@@ -105,33 +114,38 @@
             </table>
         </div>
 
-        <div class="actions">
-            <button class="btn btn-outline" onclick="goToStep(1)">重新上傳</button>
-            <button class="btn btn-primary" onclick="generateMouserBOM()">確認並下載 <i class="fas fa-download"></i></button>
+        <div class="export-panel">
+            <span class="export-title"><i class="fas fa-file-export"></i> 選擇匯出平台 (僅匯出勾選項目):</span>
+            <div class="btn-group">
+                <button class="btn btn-mouser" onclick="exportBOM('Mouser')">
+                    <i class="fas fa-download"></i> Mouser 格式
+                </button>
+                <button class="btn btn-digikey" onclick="exportBOM('DigiKey')">
+                    <i class="fas fa-download"></i> Digi-Key 格式
+                </button>
+                <button class="btn btn-e14" onclick="exportBOM('Element14')">
+                    <i class="fas fa-download"></i> Element14 格式
+                </button>
+            </div>
         </div>
-    </div>
-
-    <div id="step3" class="step-content" style="text-align: center; padding: 50px;">
-        <i class="fas fa-check-circle" style="font-size: 60px; color: var(--success); margin-bottom: 20px;"></i>
-        <h2>轉換成功！</h2>
-        <p>您的 Mouser BOM 檔案已下載，欄寬已自動調整。</p>
-        <p id="finalFileName" style="color: var(--primary); font-weight: bold;"></p>
-        <br>
-        <button class="btn btn-primary" onclick="location.reload()">轉換另一個檔案</button>
+        
+        <div style="text-align: center; margin-top: 15px;">
+            <button onclick="location.reload()" style="background:none; border:none; color: #666; cursor:pointer; text-decoration: underline;">重新上傳檔案</button>
+        </div>
     </div>
 </div>
 
 <script>
     let rawData = [];
-    let headerRowIndex = 7; 
-    let colMap = { part: -1, qty: -1 };
     let tableRows = []; 
+    let headerRowIndex = 7;
+    let colMap = { part: -1, qty: -1 };
 
-    // --- 1. File Handling ---
+    // --- File Handling ---
     const dropZone = document.getElementById('dropZone');
     dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
     dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-    dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); if(e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); });
+    dropZone.addEventListener('drop', (e) => { e.preventDefault(); if(e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]); });
 
     function handleFile(file) {
         if (!file) return;
@@ -150,16 +164,16 @@
         reader.readAsArrayBuffer(file);
     }
 
-    // --- 2. Analysis & Preview ---
+    // --- Logic ---
     function analyzeAndPreview() {
         let foundHeader = false;
         colMap = { part: -1, qty: -1 };
 
-        // 智能偵測 Header
+        // 偵測 Header
         for (let i = 0; i < Math.min(rawData.length, 20); i++) {
             const rowStr = rawData[i].map(c => String(c).toLowerCase()).join(" ");
             if ((rowStr.includes("part") || rowStr.includes("pn") || rowStr.includes("料號")) && 
-                (rowStr.includes("qty") || rowStr.includes("quantity") || rowStr.includes("數量"))) {
+                (rowStr.includes("qty") || rowStr.includes("quantity"))) {
                 headerRowIndex = i;
                 foundHeader = true;
                 rawData[i].forEach((cell, idx) => {
@@ -170,19 +184,11 @@
                 break;
             }
         }
+        if (!foundHeader) { headerRowIndex = 7; colMap.part = 6; colMap.qty = 2; }
+        if (colMap.part === -1) colMap.part = 6;
+        if (colMap.qty === -1) colMap.qty = 2;
 
-        if (foundHeader) {
-            if (colMap.part === -1) colMap.part = 6; 
-            if (colMap.qty === -1) colMap.qty = 2;   
-        } else {
-            headerRowIndex = 7; colMap.part = 6; colMap.qty = 2;
-        }
-
-        document.getElementById('headerInfo').innerHTML = foundHeader 
-            ? `已自動偵測到標題在第 <b>${headerRowIndex + 1}</b> 列` 
-            : `未偵測到明確標題，使用預設值：第 <b>8</b> 列`;
-
-        // 建立預覽資料
+        // 建表
         tableRows = [];
         const tbody = document.getElementById('tableBody');
         tbody.innerHTML = "";
@@ -191,42 +197,73 @@
         for (let i = headerRowIndex + 1; i < rawData.length; i++) {
             const row = rawData[i];
             const part = row[colMap.part] || ""; 
-            const qty = row[colMap.qty];
-            if (!part && !qty) continue; 
+            const qty = parseFloat(row[colMap.qty]) || 0;
+            if (!part && qty === 0) continue; 
 
-            const rowString = row.join(" ").toUpperCase();
             let isExcluded = false;
-            let excludeReason = "";
-
+            let reason = "";
+            const rowString = row.join(" ").toUpperCase();
+            
             if (excludeKeywords.some(k => rowString.includes(k))) {
                 isExcluded = true;
-                excludeReason = "自動過濾 (PCB/Company)";
+                reason = "自動過濾";
             }
 
-            const rowObj = { id: i, part: part, qty: parseFloat(qty) || 0, active: !isExcluded, reason: excludeReason };
+            const rowObj = { id: i, part: part, qty: qty, checked: !isExcluded, excluded: isExcluded, reason: reason };
             tableRows.push(rowObj);
 
             const tr = document.createElement('tr');
             tr.id = `row-${i}`;
             if (isExcluded) tr.className = 'excluded';
             tr.innerHTML = `
-                <td><input type="checkbox" ${!isExcluded ? 'checked' : ''} onchange="toggleRow(${i}, this)"></td>
+                <td><input type="checkbox" class="row-check" ${!isExcluded ? 'checked' : ''} onchange="updateRow(${i}, this.checked)" ${isExcluded ? 'disabled' : ''}></td>
                 <td>${i + 1}</td>
-                <td style="font-weight:bold; color:#0046ad;">${part}</td>
-                <td>${rowObj.qty}</td>
+                <td style="font-weight:bold;">${part}</td>
+                <td>${qty}</td>
                 <td class="total-qty">-</td>
-                <td>${excludeReason ? `<span class="del-reason">${excludeReason}</span>` : '<span style="color:green;">OK</span>'}</td>
+                <td>${reason ? `<span class="del-reason">${reason}</span>` : '<span style="color:#28a745">OK</span>'}</td>
             `;
             tbody.appendChild(tr);
         }
-        goToStep(2);
+
+        document.getElementById('step1').classList.remove('active');
+        document.getElementById('step2').classList.add('active');
+        document.getElementById('nav-step2').classList.add('active');
         updateCalculations();
     }
 
-    function toggleRow(index, checkbox) {
-        const rowData = tableRows.find(r => r.id === index);
-        rowData.active = checkbox.checked;
-        document.getElementById(`row-${index}`).className = checkbox.checked ? '' : 'excluded';
+    // --- Selection Tools ---
+    function updateRow(id, checked) {
+        const row = tableRows.find(r => r.id === id);
+        row.checked = checked;
+        const tr = document.getElementById(`row-${id}`);
+        if(checked) tr.classList.add('selected'); else tr.classList.remove('selected');
+        updateStats();
+    }
+
+    function selectAll(checked) {
+        document.getElementById('masterCheck').checked = checked;
+        const checkboxes = document.querySelectorAll('.row-check');
+        checkboxes.forEach(cb => {
+            if(!cb.disabled) {
+                cb.checked = checked;
+                // Trigger change event logic manually
+                const index = parseInt(cb.closest('tr').id.split('-')[1]);
+                updateRow(index, checked);
+            }
+        });
+    }
+
+    function invertSelection() {
+        const checkboxes = document.querySelectorAll('.row-check');
+        checkboxes.forEach(cb => {
+            if(!cb.disabled) {
+                cb.checked = !cb.checked;
+                const index = parseInt(cb.closest('tr').id.split('-')[1]);
+                updateRow(index, cb.checked);
+            }
+        });
+        updateStats();
     }
 
     function updateCalculations() {
@@ -235,56 +272,85 @@
         tableRows.forEach((r, idx) => {
             if (rows[idx]) rows[idx].querySelector('.total-qty').innerText = r.qty * batchSize;
         });
+        updateStats();
     }
 
-    function goToStep(step) {
-        document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-        document.getElementById(`step${step}`).classList.add('active');
-        document.getElementById(`nav-step${step}`).classList.add('active');
-        if(step === 2) document.getElementById('nav-step1').classList.add('active');
+    function updateStats() {
+        const count = tableRows.filter(r => r.checked).length;
+        document.getElementById('selectionStats').innerText = `已選取: ${count} 筆`;
     }
 
-    // --- 3. Generate BOM with Auto-Width ---
-    function generateMouserBOM() {
+    // --- Export Logic (Multi-Platform) ---
+    function exportBOM(platform) {
         const batchSize = parseInt(document.getElementById('batchSize').value) || 1;
         const projectName = document.getElementById('projectName').value;
+        const selectedRows = tableRows.filter(r => r.checked && r.part);
+
+        if (selectedRows.length === 0) { alert("沒有勾選任何項目！"); return; }
 
         let outputData = [];
-        outputData.push(["Mfr Part Number (Input)", "Manufacturer Part Number", "Mouser Part Number", "Manufacturer Name", "Description", "Quantity 1"]);
+        let fileName = `${projectName}_${platform}.xlsx`; // Default xlsx
 
-        tableRows.forEach(row => {
-            if (row.active && row.part) {
-                outputData.push(["", row.part, "", "", "", row.qty * batchSize]);
-            }
-        });
-
-        // 產生 Worksheet
-        const newWs = XLSX.utils.aoa_to_sheet(outputData);
-
-        // ★★★ 重點修改：自動計算並設定欄寬 (Auto Column Width) ★★★
-        const colWidths = outputData[0].map((_, colIndex) => {
-            let maxLen = 10; // 最小寬度
-            outputData.forEach(row => {
-                const cellStr = row[colIndex] ? String(row[colIndex]) : "";
-                // 判斷長度，若比目前紀錄長就更新
-                if (cellStr.length > maxLen) maxLen = cellStr.length;
+        if (platform === 'Mouser') {
+            // Mouser Template
+            outputData.push(["Mfr Part Number (Input)", "Manufacturer Part Number", "Mouser Part Number", "Manufacturer Name", "Description", "Quantity 1"]);
+            selectedRows.forEach(r => {
+                outputData.push(["", r.part, "", "", "", r.qty * batchSize]);
             });
-            return { wch: maxLen + 2 }; // 加一點點緩衝空間
+            downloadExcel(outputData, fileName);
+
+        } else if (platform === 'DigiKey') {
+            // Digi-Key Simple CSV Format
+            // Header: Customer Reference, Quantity, Part Number
+            outputData.push(["Customer Reference", "Quantity", "Part Number"]);
+            selectedRows.forEach(r => {
+                outputData.push([projectName, r.qty * batchSize, r.part]);
+            });
+            fileName = `${projectName}_DigiKey.csv`;
+            downloadCSV(outputData, fileName);
+
+        } else if (platform === 'Element14') {
+            // Element14 Quick Paste Format (Part Number, Qty, Line Note)
+            outputData.push(["Part Number", "Quantity", "Line Note"]);
+            selectedRows.forEach(r => {
+                outputData.push([r.part, r.qty * batchSize, projectName]);
+            });
+            fileName = `${projectName}_Element14.csv`;
+            downloadCSV(outputData, fileName);
+        }
+    }
+
+    function downloadExcel(data, filename) {
+        const ws = XLSX.utils.aoa_to_sheet(data);
+        // Auto width
+        const colWidths = data[0].map((_, i) => {
+             let max = 10;
+             data.forEach(r => { if(r[i] && String(r[i]).length > max) max = String(r[i]).length; });
+             return { wch: max + 2 };
         });
-        newWs['!cols'] = colWidths;
-        // ★★★ 修改結束 ★★★
+        ws['!cols'] = colWidths;
 
-        const newWb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(newWb, newWs, "MouserBOM");
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "BOM");
+        XLSX.writeFile(wb, filename);
+    }
+
+    function downloadCSV(data, filename) {
+        const ws = XLSX.utils.aoa_to_sheet(data);
+        const csv = XLSX.utils.sheet_to_csv(ws);
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' }); // CSV needs simpler blob handling
         
-        const fileName = `${projectName}.xlsx`;
-        XLSX.writeFile(newWb, fileName);
-
-        document.getElementById('finalFileName').innerText = fileName;
-        goToStep(3);
-        document.getElementById('nav-step2').classList.add('active'); 
-        document.getElementById('nav-step3').classList.add('active');
+        // Build download link
+        const link = document.createElement("a");
+        if (link.download !== undefined) {
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
     }
 </script>
 
