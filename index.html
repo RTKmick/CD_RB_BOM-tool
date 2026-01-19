@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOM 旗艦備料系統 V16 (工程師習慣相容版)</title>
-    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    <title>BOM 旗艦備料系統 V17 (專業報表版)</title>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* 介面維持 V11/V15 的簡潔風格 */
+        /* 介面維持不變 */
         :root { --primary: #0046ad; --digikey: #cc0000; --elem14: #ff6600; --light: #f4f6f9; --border: #e0e0e0; --success: #28a745; --info: #17a2b8; --purple: #6f42c1; --danger: #dc3545; }
         
         body { font-family: "Segoe UI", "Microsoft JhengHei", sans-serif; background-color: var(--light); margin: 0; padding: 20px; color: #333; font-size: 16px; }
@@ -78,7 +78,7 @@
         <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
             <i class="fas fa-robot" style="font-size: 80px; color: #0046ad; margin-bottom: 25px;"></i>
             <h3>拖曳或點擊上傳 BOM</h3>
-            <p style="color: #666; font-size: 1.1rem;">完美相容: Part=Desc 習慣 | 縮寫識別 | SMT拋料</p>
+            <p style="color: #666; font-size: 1.1rem;">支援: 美化匯出 | Part/Desc識別 | SMT拋料</p>
             <input type="file" id="fileInput" accept=".xlsx, .xls" style="display: none;" onchange="handleFile(this.files[0])" />
         </div>
     </div>
@@ -142,7 +142,7 @@
         </div>
 
         <div class="export-panel">
-            <span style="font-weight:bold; font-size: 1.1rem;"><i class="fas fa-file-export"></i> 匯出 (符合 Demo.xlsx 格式):</span>
+            <span style="font-weight:bold; font-size: 1.1rem;"><i class="fas fa-file-export"></i> 匯出 (14pt粗體表頭 + 置中):</span>
             <div class="btn-group">
                 <button class="btn btn-mouser" onclick="exportUniversalBOM('Mouser')">Mouser</button>
                 <button class="btn btn-digikey" onclick="exportUniversalBOM('Digikey')">DigiKey</button>
@@ -186,12 +186,11 @@
         reader.readAsArrayBuffer(file);
     }
 
-    // ★★★ V16 重點更新：欄位判斷邏輯重構 ★★★
+    // --- V16 邏輯保持不變 ---
     function analyzeData() {
         let bestHeaderRow = -1;
         let maxScore = 0;
         
-        // 1. 搜尋最佳表頭
         for (let i = 0; i < Math.min(rawData.length, 25); i++) {
             let score = 0;
             const rowStr = rawData[i].map(c => String(c).toLowerCase().trim()).join(" ");
@@ -199,82 +198,52 @@
             if (rowStr.includes("item") || rowStr.includes("no.")) score += 2;
             if (rowStr.includes("qty") || rowStr.includes("quantity")) score += 3;
             if (rowStr.includes("description") || rowStr.includes("desc")) score += 2;
-            
-            // 只要有任何一種料號或廠商的跡象，都加分
             if (rowStr.includes("part") || rowStr.includes("pn") || rowStr.includes("mpn") || rowStr.includes("料號")) score += 3;
             if (rowStr.includes("manufacturer") || rowStr.includes("mfr")) score += 2;
             if (rowStr.includes("reference") || rowStr.includes("ref")) score += 2;
 
-            if (score > maxScore) {
-                maxScore = score;
-                bestHeaderRow = i;
-            }
+            if (score > maxScore) { maxScore = score; bestHeaderRow = i; }
         }
 
         if (bestHeaderRow === -1 || maxScore < 4) {
             bestHeaderRow = 7; 
             colMap = { item: 0, qty: 2, ref: 3, desc: 4, mfr: 5, part: 6 };
         } else {
-            // ★★★ 2. 優先權對應邏輯 (解決 Part = Description 的問題) ★★★
             colMap = { item: -1, mfr: -1, part: -1, qty: -1, ref: -1, desc: -1 };
-            
-            let possiblePartIdx = -1; // 用來暫存 "Part" 這個模糊欄位
-            let definitiveMpnFound = false; // 是否找到 "Manufacturer Part Number" 這種鐵證
+            let possiblePartIdx = -1; 
+            let definitiveMpnFound = false;
 
             rawData[bestHeaderRow].forEach((cell, idx) => {
                 const c = String(cell).toLowerCase().trim();
-
-                // Item & Qty & Ref (標準)
                 if (c === "item" || c === "item number" || c === "no.") colMap.item = idx;
                 else if (c === "quantity" || c === "qty") colMap.qty = idx;
                 else if (c.includes("reference") || c.includes("ref") || c.includes("designator")) colMap.ref = idx;
-                
-                // Mfr (標準)
                 else if ((c.includes("manufacturer") || c.includes("mfr")) && !c.includes("pn") && !c.includes("part") && !c.includes("number")) {
                     colMap.mfr = idx;
                 }
-
-                // Description (標準)
                 else if (c.includes("description") || c === "desc") {
                     colMap.desc = idx;
                 }
-
-                // ★ 重點：MPN 判定 ★
-                // 情況 A: 明確的 MPN (權重最高)
                 else if (c === "mpn" || c.includes("mfr p/n") || c.includes("manufacturer's part") || c.includes("manufacturer part number") || c.includes("manufacturer pn")) {
                     colMap.part = idx;
                     definitiveMpnFound = true;
                 }
-                // 情況 B: 模糊的 Part (先暫存)
                 else if (c === "part" || c === "part number" || c === "part_number" || c === "p/n") {
                     possiblePartIdx = idx;
                 }
             });
 
-            // ★★★ 3. 最終裁決 ★★★
             if (definitiveMpnFound) {
-                // 如果已經找到了明確的 MPN (如 Newport 檔)，
-                // 那個模糊的 "Part" 欄位，極有可能是 Description (工程師習慣)
-                if (colMap.desc === -1 && possiblePartIdx !== -1) {
-                    colMap.desc = possiblePartIdx; // 把 "Part" 變成 "Description"
-                }
+                if (colMap.desc === -1 && possiblePartIdx !== -1) colMap.desc = possiblePartIdx;
             } else {
-                // 如果沒找到明確 MPN，那這個模糊的 "Part" 就是料號了 (一般 BOM)
-                if (colMap.part === -1 && possiblePartIdx !== -1) {
-                    colMap.part = possiblePartIdx;
-                }
+                if (colMap.part === -1 && possiblePartIdx !== -1) colMap.part = possiblePartIdx;
             }
-            
-            // 補救：如果真的什麼料號都沒抓到，但有 Mfr，猜測 Mfr 右邊是料號
-            if (colMap.part === -1 && colMap.mfr !== -1) {
-                colMap.part = colMap.mfr + 1;
-            }
+            if (colMap.part === -1 && colMap.mfr !== -1) colMap.part = colMap.mfr + 1;
         }
 
         processTableData(bestHeaderRow);
     }
 
-    // --- Process Data ---
     function processTableData(headerRowIndex) {
         tableRows = [];
         const excludeKeywords = ["PCB FAB", "TDK-INVENSENSE", "SCREW", "NUT", "STANDOFF", "PCB "];
@@ -302,24 +271,18 @@
                 excludeReason = "自動過濾";
             }
 
-            // SMT 邏輯
             let isSmtPart = false;
-            
-            // 1. 電阻
             if (refVal.startsWith("R") && !refVal.startsWith("RP") && !refVal.startsWith("REG")) {
                  if (descVal.includes("RES") || descVal.includes("OHM") || resUnits.some(u => descVal.includes(u))) isSmtPart = true;
                  else if (passiveMfrs.some(m => String(mfrVal).toUpperCase().includes(m))) isSmtPart = true;
             }
-            // 2. 電容 (避免 C 開頭的 Connector 或 Crystal)
             else if (refVal.startsWith("C") && !refVal.startsWith("CN") && !refVal.startsWith("CON")) {
                  if (descVal.includes("CAP") || descVal.includes("CER") || capUnits.some(u => descVal.includes(u))) isSmtPart = true;
                  else if (passiveMfrs.some(m => String(mfrVal).toUpperCase().includes(m))) isSmtPart = true;
             }
-            // 3. LED / Diode
             else if (refVal.startsWith("D") || refVal.startsWith("LED")) {
                  if (descVal.includes("LED") || descVal.includes("DIODE")) isSmtPart = true;
             }
-            // 4. 排阻
             else if (refVal.startsWith("RP")) {
                  if (descVal.includes("RES") || descVal.includes("ARRAY")) isSmtPart = true;
             }
@@ -331,33 +294,23 @@
                 isSmtPart: isSmtPart
             });
         }
-
         document.getElementById('step1').classList.remove('active');
         document.getElementById('step2').classList.add('active');
         document.getElementById('nav-step2').classList.add('active');
-        
         currentPage = 1;
         recalcAndRender();
     }
 
-    // --- Calc & Render ---
     function recalcAndRender() {
         const batchSize = parseInt(document.getElementById('batchSize').value) || 1;
         const smtBuffer = parseInt(document.getElementById('smtBuffer').value) || 0;
         const genBuffer = parseInt(document.getElementById('genBuffer').value) || 0;
-
         tableRows.forEach(r => {
             let baseQty = r.qty * batchSize;
-            if (r.excluded) {
-                r.finalQty = baseQty;
-            } else {
-                if (r.isSmtPart) {
-                    r.finalQty = baseQty + smtBuffer;
-                    r.statusType = 'smt';
-                } else {
-                    r.finalQty = baseQty + genBuffer;
-                    r.statusType = 'gen';
-                }
+            if (r.excluded) r.finalQty = baseQty;
+            else {
+                if (r.isSmtPart) { r.finalQty = baseQty + smtBuffer; r.statusType = 'smt'; }
+                else { r.finalQty = baseQty + genBuffer; r.statusType = 'gen'; }
             }
         });
         updateStats();
@@ -383,14 +336,10 @@
             if(validRef && splitRef.length > 1) displayRef = validRef + "...";
 
             let statusHtml = "";
-            if (r.excluded) {
-                statusHtml = `<span class="badge badge-del">${r.excludeReason}</span>`;
-            } else {
-                if (r.statusType === 'smt') {
-                    statusHtml = `<span class="badge badge-smt"><i class="fas fa-magic"></i> OK (SMT拋料)</span>`;
-                } else {
-                    statusHtml = `<span class="badge badge-gen"><i class="fas fa-box-open"></i> OK (一般備品)</span>`;
-                }
+            if (r.excluded) statusHtml = `<span class="badge badge-del">${r.excludeReason}</span>`;
+            else {
+                if (r.statusType === 'smt') statusHtml = `<span class="badge badge-smt"><i class="fas fa-magic"></i> OK (SMT拋料)</span>`;
+                else statusHtml = `<span class="badge badge-gen"><i class="fas fa-box-open"></i> OK (一般備品)</span>`;
             }
 
             tr.innerHTML = `
@@ -442,27 +391,69 @@
         document.getElementById('selectionStats').innerText = `已選: ${count} 筆`;
     }
 
+    // ★★★ V17 重點修改：匯出含樣式的 Excel ★★★
     function exportUniversalBOM(platform) {
         const projectName = document.getElementById('projectName').value;
         const selectedRows = tableRows.filter(r => r.checked && r.part);
+
         if (selectedRows.length === 0) { alert("沒有勾選任何項目！"); return; }
+
         let outputData = [];
         outputData.push(["Item Number", "Manufacturer Name", "Manufacturer Part Number", "Quantity 1"]);
+
         selectedRows.forEach(r => {
             outputData.push([r.item, r.mfr, r.part, r.finalQty]);
         });
+
+        // 1. 建立 WorkSheet
         const ws = XLSX.utils.aoa_to_sheet(outputData);
+
+        // 2. 設定欄寬 (自動調整)
         const colWidths = outputData[0].map((_, i) => {
              let max = 15; 
              outputData.forEach(r => { if(r[i] && String(r[i]).length > max) max = String(r[i]).length; });
              return { wch: max + 2 };
         });
         ws['!cols'] = colWidths;
+
+        // 3. ★★★ 樣式設定 (Header 14pt粗體 + 全置中) ★★★
+        const range = XLSX.utils.decode_range(ws['!ref']);
+        
+        // 定義樣式物件
+        const headerStyle = {
+            font: { bold: true, sz: 14 },
+            alignment: { horizontal: "center", vertical: "center" }
+        };
+        const cellStyle = {
+            alignment: { horizontal: "center", vertical: "center" }
+        };
+
+        // 遍歷所有儲存格套用樣式
+        for (let R = range.s.r; R <= range.e.r; ++R) {
+            for (let C = range.s.c; C <= range.e.c; ++C) {
+                const cell_address = XLSX.utils.encode_cell({r: R, c: C});
+                if (!ws[cell_address]) continue;
+
+                if (R === 0) {
+                    // 第一列 (表頭)
+                    ws[cell_address].s = headerStyle;
+                } else {
+                    // 內容
+                    ws[cell_address].s = cellStyle;
+                }
+            }
+        }
+
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "BOM");
+
         let suffix = "";
-        if(platform === 'Mouser') suffix = "_Mouser"; else if(platform === 'Digikey') suffix = "_Digikey"; else if(platform === 'Elem14') suffix = "_Elem14";
-        XLSX.writeFile(wb, `${projectName}${suffix}.xlsx`);
+        if(platform === 'Mouser') suffix = "_Mouser";
+        else if(platform === 'Digikey') suffix = "_Digikey";
+        else if(platform === 'Elem14') suffix = "_Elem14";
+
+        const fileName = `${projectName}${suffix}.xlsx`;
+        XLSX.writeFile(wb, fileName);
     }
 </script>
 
