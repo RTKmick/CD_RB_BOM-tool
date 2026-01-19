@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOM 旗艦備料系統 V19 (No-Load 支援版)</title>
+    <title>BOM 旗艦備料系統 V20 (Samtec客戶提供版)</title>
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -48,8 +48,10 @@
         .badge-smt { color: #0056b3; background: #dbeafe; border: 1px solid #b3d7ff; }
         .badge-gen { color: #5a32a3; background: #e9dffc; border: 1px solid #d1c4e9; }
         .badge-del { color: var(--danger); font-style: italic; }
-        /* Not Mount / No-Load 樣式 */
+        /* Not Mount 樣式 */
         .badge-nm { color: #856404; background-color: #fff3cd; border: 1px solid #ffeeba; }
+        /* V20 新增：客戶提供樣式 (紅色警示) */
+        .badge-consigned { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; }
 
         .pagination { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 20px; padding: 10px; background: #fafafa; border-radius: 8px; }
         .page-btn { padding: 8px 16px; border: 1px solid #ccc; background: white; cursor: pointer; border-radius: 4px; font-weight: bold; }
@@ -80,7 +82,7 @@
         <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
             <i class="fas fa-robot" style="font-size: 80px; color: #0046ad; margin-bottom: 25px;"></i>
             <h3>拖曳或點擊上傳 BOM</h3>
-            <p style="color: #666; font-size: 1.1rem;">支援: No-Load/DNP過濾 | 雙料號備援 | 美化匯出</p>
+            <p style="color: #666; font-size: 1.1rem;">支援: Samtec客供 | No-Load | 雙料號備援</p>
             <input type="file" id="fileInput" accept=".xlsx, .xls" style="display: none;" onchange="handleFile(this.files[0])" />
         </div>
     </div>
@@ -161,7 +163,6 @@
 <script>
     let rawData = [];
     let tableRows = []; 
-    // V19 新增 part_backup 用於存儲第二順位的料號
     let colMap = { item: -1, mfr: -1, part: -1, part_backup: -1, qty: -1, ref: -1, desc: -1 };
     
     let currentPage = 1;
@@ -189,7 +190,6 @@
         reader.readAsArrayBuffer(file);
     }
 
-    // --- V19 強化版分析 (含備援料號) ---
     function analyzeData() {
         let bestHeaderRow = -1;
         let maxScore = 0;
@@ -213,8 +213,7 @@
             colMap = { item: 0, qty: 2, ref: 3, desc: 4, mfr: 5, part: 6, part_backup: -1 };
         } else {
             colMap = { item: -1, mfr: -1, part: -1, part_backup: -1, qty: -1, ref: -1, desc: -1 };
-            
-            let possiblePartIdx = -1; // 用來存 Part / Part Number
+            let possiblePartIdx = -1; 
             let definitiveMpnFound = false;
 
             rawData[bestHeaderRow].forEach((cell, idx) => {
@@ -228,25 +227,19 @@
                 else if (c.includes("description") || c === "desc") {
                     colMap.desc = idx;
                 }
-                // MPN (強定義)
                 else if (c === "mpn" || c.includes("mfr p/n") || c.includes("manufacturer's part") || c.includes("manufacturer part number") || c.includes("manufacturer pn")) {
                     colMap.part = idx;
                     definitiveMpnFound = true;
                 }
-                // 模糊的 Part
                 else if (c === "part" || c === "part number" || c === "part_number" || c === "p/n") {
                     possiblePartIdx = idx;
                 }
             });
 
             if (definitiveMpnFound) {
-                // 如果找到了強定義的 Mfr PN
-                // 1. 嘗試把模糊的 Part 用作 Description (工程師習慣 A)
                 if (colMap.desc === -1 && possiblePartIdx !== -1) colMap.desc = possiblePartIdx;
-                // 2. ★★★ V19 核心：同時把它當作備援料號 (工程師習慣 B: 一個是內部料號，一個是廠商料號)
                 if (possiblePartIdx !== -1) colMap.part_backup = possiblePartIdx;
             } else {
-                // 沒找到強定義，就用模糊的當作主要料號
                 if (colMap.part === -1 && possiblePartIdx !== -1) colMap.part = possiblePartIdx;
             }
             if (colMap.part === -1 && colMap.mfr !== -1) colMap.part = colMap.mfr + 1;
@@ -255,21 +248,25 @@
         processTableData(bestHeaderRow);
     }
 
-    // ★★★ V19 重點：Process Data 含 No-Load 偵測 & 料號備援 ★★★
     function processTableData(headerRowIndex) {
         tableRows = [];
-        // 增加 No-Load, DNP, Unused 關鍵字
         const excludeKeywords = ["PCB FAB", "TDK-INVENSENSE", "SCREW", "NUT", "STANDOFF", "PCB ", "NO-LOAD", "DNP", "UNUSED"];
         const passiveMfrs = ["YAGEO", "TDK", "MURATA", "SAMSUNG", "KEMET", "AVX", "KYOCERA", "WALSIN", "TAIYO", "VISHAY", "PANASONIC", "ROHM", "BOURNS"];
         const capUnits = ["UF", "PF", "NF", "µF"];
         const resUnits = ["OHM", "Ω", " KOHM", " MOHM", " 1%"];
 
+        // ★★★ V20 新增：Samtec 專屬過濾清單 ★★★
+        const consignedMpns = [
+            "QSS-100-01-F-D-A",
+            "QTS-100-01-F-D-A",
+            "QTH-120-01-F-D-A",
+            "QSH-120-01-F-D-A"
+        ];
+
         let notMountMode = false;
 
         for (let i = headerRowIndex + 1; i < rawData.length; i++) {
             const row = rawData[i];
-            
-            // 全行掃描 (檢查 "Not Mount:" 區段)
             const rowStrAll = row.map(c => String(c)).join(" ").toUpperCase();
             if (rowStrAll.includes("NOT MOUNT:") || rowStrAll.includes("DO NOT STUFF")) {
                 notMountMode = true;
@@ -279,9 +276,7 @@
             const itemVal = colMap.item !== -1 ? (row[colMap.item] || (i - headerRowIndex)) : (i - headerRowIndex);
             const mfrVal = colMap.mfr !== -1 ? (row[colMap.mfr] || "") : "";
             
-            // ★★★ V19 核心：料號備援機制 ★★★
             let partVal = colMap.part !== -1 ? (row[colMap.part] || "") : "";
-            // 如果主要料號是空的，嘗試抓備援料號 (解決 PN100 檔案的問題)
             if (!partVal && colMap.part_backup !== -1) {
                 partVal = row[colMap.part_backup] || "";
             }
@@ -296,11 +291,12 @@
             let isExcluded = false;
             let excludeReason = "";
 
+            // 1. Not Mount 區塊檢查
             if (notMountMode) {
                 isExcluded = true;
                 excludeReason = "Not Mount (不上件區)";
             } 
-            // V19 強化：檢查 rowStrAll 確保能抓到 "No-Load"
+            // 2. 關鍵字 (No-Load) 檢查
             else if (excludeKeywords.some(k => rowStrAll.includes(k))) {
                 isExcluded = true;
                 if (rowStrAll.includes("NO-LOAD") || rowStrAll.includes("DNP") || rowStrAll.includes("UNUSED")) {
@@ -309,8 +305,18 @@
                     excludeReason = "自動過濾";
                 }
             }
+            // ★★★ V20 新增：Samtec 專屬檢查 ★★★
+            else {
+                const mfrCheck = String(mfrVal).toUpperCase().trim();
+                const partCheck = String(partVal).toUpperCase().trim();
+                if (mfrCheck.includes("SAMTEC") && consignedMpns.includes(partCheck)) {
+                    isExcluded = true;
+                    excludeReason = "客戶提供";
+                }
+            }
 
             let isSmtPart = false;
+            // SMT Logic
             if (refVal.startsWith("R") && !refVal.startsWith("RP") && !refVal.startsWith("REG")) {
                  if (descVal.includes("RES") || descVal.includes("OHM") || resUnits.some(u => descVal.includes(u))) isSmtPart = true;
                  else if (passiveMfrs.some(m => String(mfrVal).toUpperCase().includes(m))) isSmtPart = true;
@@ -378,6 +384,9 @@
             if (r.excluded) {
                 if (r.excludeReason.includes("Not Mount") || r.excludeReason.includes("No-Load")) {
                      statusHtml = `<span class="badge badge-nm"><i class="fas fa-ban"></i> ⛔ ${r.excludeReason}</span>`;
+                } else if (r.excludeReason === "客戶提供") {
+                     // ★★★ V20 新增：客戶提供 紅色樣式 ★★★
+                     statusHtml = `<span class="badge badge-consigned"><i class="fas fa-hand-holding"></i> ⛔ 客戶提供</span>`;
                 } else {
                      statusHtml = `<span class="badge badge-del">${r.excludeReason}</span>`;
                 }
@@ -401,7 +410,7 @@
         updatePaginationControls();
     }
 
-    // --- Controls and Exports (V17 Style) ---
+    // --- Controls and Exports ---
     function updatePaginationControls() {
         const totalPages = Math.ceil(tableRows.length / itemsPerPage);
         document.getElementById('pageInfo').innerText = `Page ${currentPage} of ${totalPages} (Total ${tableRows.length})`;
