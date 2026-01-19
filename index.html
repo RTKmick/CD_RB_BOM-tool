@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOM 旗艦備料系統 V15 (全能解析版)</title>
+    <title>BOM 旗艦備料系統 V16 (工程師習慣相容版)</title>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* 完全沿用 V11 的簡潔風格 */
+        /* 介面維持 V11/V15 的簡潔風格 */
         :root { --primary: #0046ad; --digikey: #cc0000; --elem14: #ff6600; --light: #f4f6f9; --border: #e0e0e0; --success: #28a745; --info: #17a2b8; --purple: #6f42c1; --danger: #dc3545; }
         
         body { font-family: "Segoe UI", "Microsoft JhengHei", sans-serif; background-color: var(--light); margin: 0; padding: 20px; color: #333; font-size: 16px; }
@@ -78,7 +78,7 @@
         <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
             <i class="fas fa-robot" style="font-size: 80px; color: #0046ad; margin-bottom: 25px;"></i>
             <h3>拖曳或點擊上傳 BOM</h3>
-            <p style="color: #666; font-size: 1.1rem;">支援: Newport格式 | 縮寫識別(MPN/Ref) | SMT拋料</p>
+            <p style="color: #666; font-size: 1.1rem;">完美相容: Part=Desc 習慣 | 縮寫識別 | SMT拋料</p>
             <input type="file" id="fileInput" accept=".xlsx, .xls" style="display: none;" onchange="handleFile(this.files[0])" />
         </div>
     </div>
@@ -161,11 +161,9 @@
     let tableRows = []; 
     let colMap = { item: -1, mfr: -1, part: -1, qty: -1, ref: -1, desc: -1 };
     
-    // Pagination
     let currentPage = 1;
     const itemsPerPage = 50;
 
-    // --- File Handling ---
     const dropZone = document.getElementById('dropZone');
     dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
     dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
@@ -188,25 +186,24 @@
         reader.readAsArrayBuffer(file);
     }
 
-    // --- Analysis (V15 強化版：支援 MPN, P/N, Mfr P/N) ---
+    // ★★★ V16 重點更新：欄位判斷邏輯重構 ★★★
     function analyzeData() {
         let bestHeaderRow = -1;
         let maxScore = 0;
         
-        // 1. 搜尋最佳表頭 (計分制)
+        // 1. 搜尋最佳表頭
         for (let i = 0; i < Math.min(rawData.length, 25); i++) {
             let score = 0;
             const rowStr = rawData[i].map(c => String(c).toLowerCase().trim()).join(" ");
             
-            // 關鍵字計分
             if (rowStr.includes("item") || rowStr.includes("no.")) score += 2;
-            if (rowStr.includes("qty") || rowStr.includes("quantity")) score += 3; // Qty 很重要
-            
-            // ★★★ 關鍵修正：增加 MPN 和 P/N 的識別權重 ★★★
-            if (rowStr.includes("part") || rowStr.includes("pn") || rowStr.includes("mpn") || rowStr.includes("料號")) score += 3;
+            if (rowStr.includes("qty") || rowStr.includes("quantity")) score += 3;
             if (rowStr.includes("description") || rowStr.includes("desc")) score += 2;
+            
+            // 只要有任何一種料號或廠商的跡象，都加分
+            if (rowStr.includes("part") || rowStr.includes("pn") || rowStr.includes("mpn") || rowStr.includes("料號")) score += 3;
             if (rowStr.includes("manufacturer") || rowStr.includes("mfr")) score += 2;
-            if (rowStr.includes("reference") || rowStr.includes("ref") || rowStr.includes("designator")) score += 2;
+            if (rowStr.includes("reference") || rowStr.includes("ref")) score += 2;
 
             if (score > maxScore) {
                 maxScore = score;
@@ -215,33 +212,61 @@
         }
 
         if (bestHeaderRow === -1 || maxScore < 4) {
-            // 找不到就用預設 (針對簡單檔案)
             bestHeaderRow = 7; 
             colMap = { item: 0, qty: 2, ref: 3, desc: 4, mfr: 5, part: 6 };
         } else {
-            // 2. 精確欄位映射 (V15)
+            // ★★★ 2. 優先權對應邏輯 (解決 Part = Description 的問題) ★★★
             colMap = { item: -1, mfr: -1, part: -1, qty: -1, ref: -1, desc: -1 };
+            
+            let possiblePartIdx = -1; // 用來暫存 "Part" 這個模糊欄位
+            let definitiveMpnFound = false; // 是否找到 "Manufacturer Part Number" 這種鐵證
+
             rawData[bestHeaderRow].forEach((cell, idx) => {
                 const c = String(cell).toLowerCase().trim();
-                
+
+                // Item & Qty & Ref (標準)
                 if (c === "item" || c === "item number" || c === "no.") colMap.item = idx;
                 else if (c === "quantity" || c === "qty") colMap.qty = idx;
-                
-                // ★★★ 關鍵修正：支援多種料號寫法 (MPN, Mfr P/N, P/N) ★★★
-                // 優先順序：完整寫法 > 縮寫 > 模糊匹配
-                else if (c === "mpn" || c === "mfr p/n" || c === "mfr pn") colMap.part = idx;
-                else if (c.includes("manufacturer pn") || c.includes("mfr part") || c === "part number" || c === "part_number") {
-                    if (colMap.part === -1) colMap.part = idx; // 只有還沒找到時才填入，保留優先權
-                }
-                
-                else if ((c.includes("manufacturer") || c.includes("mfr")) && !c.includes("pn") && !c.includes("p/n")) colMap.mfr = idx;
                 else if (c.includes("reference") || c.includes("ref") || c.includes("designator")) colMap.ref = idx;
-                else if (c.includes("description") || c.includes("desc")) colMap.desc = idx;
+                
+                // Mfr (標準)
+                else if ((c.includes("manufacturer") || c.includes("mfr")) && !c.includes("pn") && !c.includes("part") && !c.includes("number")) {
+                    colMap.mfr = idx;
+                }
+
+                // Description (標準)
+                else if (c.includes("description") || c === "desc") {
+                    colMap.desc = idx;
+                }
+
+                // ★ 重點：MPN 判定 ★
+                // 情況 A: 明確的 MPN (權重最高)
+                else if (c === "mpn" || c.includes("mfr p/n") || c.includes("manufacturer's part") || c.includes("manufacturer part number") || c.includes("manufacturer pn")) {
+                    colMap.part = idx;
+                    definitiveMpnFound = true;
+                }
+                // 情況 B: 模糊的 Part (先暫存)
+                else if (c === "part" || c === "part number" || c === "part_number" || c === "p/n") {
+                    possiblePartIdx = idx;
+                }
             });
 
-            // 補救：如果沒找到 Part，但找到了 Mfr，通常 Part 就在 Mfr 右邊
+            // ★★★ 3. 最終裁決 ★★★
+            if (definitiveMpnFound) {
+                // 如果已經找到了明確的 MPN (如 Newport 檔)，
+                // 那個模糊的 "Part" 欄位，極有可能是 Description (工程師習慣)
+                if (colMap.desc === -1 && possiblePartIdx !== -1) {
+                    colMap.desc = possiblePartIdx; // 把 "Part" 變成 "Description"
+                }
+            } else {
+                // 如果沒找到明確 MPN，那這個模糊的 "Part" 就是料號了 (一般 BOM)
+                if (colMap.part === -1 && possiblePartIdx !== -1) {
+                    colMap.part = possiblePartIdx;
+                }
+            }
+            
+            // 補救：如果真的什麼料號都沒抓到，但有 Mfr，猜測 Mfr 右邊是料號
             if (colMap.part === -1 && colMap.mfr !== -1) {
-                // 檢查 Mfr 右邊那格是否有資料
                 colMap.part = colMap.mfr + 1;
             }
         }
@@ -253,9 +278,7 @@
     function processTableData(headerRowIndex) {
         tableRows = [];
         const excludeKeywords = ["PCB FAB", "TDK-INVENSENSE", "SCREW", "NUT", "STANDOFF", "PCB "];
-        
-        // 智慧判斷清單
-        const passiveMfrs = ["YAGEO", "TDK", "MURATA", "SAMSUNG", "KEMET", "AVX", "KYOCERA", "WALSIN", "TAIYO", "VISHAY", "PANASONIC", "ROHM"];
+        const passiveMfrs = ["YAGEO", "TDK", "MURATA", "SAMSUNG", "KEMET", "AVX", "KYOCERA", "WALSIN", "TAIYO", "VISHAY", "PANASONIC", "ROHM", "BOURNS"];
         const capUnits = ["UF", "PF", "NF", "µF"];
         const resUnits = ["OHM", "Ω", " KOHM", " MOHM", " 1%"];
 
@@ -279,16 +302,16 @@
                 excludeReason = "自動過濾";
             }
 
-            // ★★★ 智慧 SMT 判斷邏輯 ★★★
+            // SMT 邏輯
             let isSmtPart = false;
             
             // 1. 電阻
-            if (refVal.startsWith("R") && !refVal.startsWith("RP")) {
+            if (refVal.startsWith("R") && !refVal.startsWith("RP") && !refVal.startsWith("REG")) {
                  if (descVal.includes("RES") || descVal.includes("OHM") || resUnits.some(u => descVal.includes(u))) isSmtPart = true;
                  else if (passiveMfrs.some(m => String(mfrVal).toUpperCase().includes(m))) isSmtPart = true;
             }
-            // 2. 電容
-            else if (refVal.startsWith("C")) {
+            // 2. 電容 (避免 C 開頭的 Connector 或 Crystal)
+            else if (refVal.startsWith("C") && !refVal.startsWith("CN") && !refVal.startsWith("CON")) {
                  if (descVal.includes("CAP") || descVal.includes("CER") || capUnits.some(u => descVal.includes(u))) isSmtPart = true;
                  else if (passiveMfrs.some(m => String(mfrVal).toUpperCase().includes(m))) isSmtPart = true;
             }
@@ -325,7 +348,6 @@
 
         tableRows.forEach(r => {
             let baseQty = r.qty * batchSize;
-            
             if (r.excluded) {
                 r.finalQty = baseQty;
             } else {
@@ -338,7 +360,6 @@
                 }
             }
         });
-
         updateStats();
         renderPage(); 
     }
@@ -346,7 +367,6 @@
     function renderPage() {
         const tbody = document.getElementById('tableBody');
         tbody.innerHTML = "";
-
         const start = (currentPage - 1) * itemsPerPage;
         const end = start + itemsPerPage;
         const pageData = tableRows.slice(start, end);
@@ -360,9 +380,7 @@
             let displayRef = r.ref;
             const splitRef = r.ref.split(/[\s,]+/); 
             const validRef = splitRef.filter(s => s.length > 0)[0];
-            if(validRef && splitRef.length > 1) {
-                displayRef = validRef + "...";
-            }
+            if(validRef && splitRef.length > 1) displayRef = validRef + "...";
 
             let statusHtml = "";
             if (r.excluded) {
@@ -387,71 +405,52 @@
             `;
             tbody.appendChild(tr);
         });
-
         updatePaginationControls();
     }
 
-    // --- Controls ---
     function updatePaginationControls() {
         const totalPages = Math.ceil(tableRows.length / itemsPerPage);
         document.getElementById('pageInfo').innerText = `Page ${currentPage} of ${totalPages} (Total ${tableRows.length})`;
         document.getElementById('btnPrev').disabled = (currentPage === 1);
         document.getElementById('btnNext').disabled = (currentPage === totalPages || totalPages === 0);
     }
-
     function changePage(delta) {
         const totalPages = Math.ceil(tableRows.length / itemsPerPage);
         const newPage = currentPage + delta;
-        if (newPage >= 1 && newPage <= totalPages) {
-            currentPage = newPage;
-            renderPage();
-            document.querySelector('.table-container').scrollTop = 0;
-        }
+        if (newPage >= 1 && newPage <= totalPages) { currentPage = newPage; renderPage(); document.querySelector('.table-container').scrollTop = 0; }
     }
-
     function updateRow(id, checked) {
         const row = tableRows.find(r => r.id === id);
         if (row) {
             row.checked = checked;
             const tr = document.getElementById(`row-${id}`);
-            if (tr) {
-                if (checked) tr.classList.add('selected'); else tr.classList.remove('selected');
-            }
+            if (tr) { if (checked) tr.classList.add('selected'); else tr.classList.remove('selected'); }
             updateStats();
         }
     }
-
     function selectAll(checked) {
         document.getElementById('masterCheck').checked = checked;
         tableRows.forEach(r => { if (!r.excluded) r.checked = checked; });
         recalcAndRender();
     }
-
     function invertSelection() {
         tableRows.forEach(r => { if (!r.excluded) r.checked = !r.checked; });
         recalcAndRender();
     }
-
     function updateStats() {
         const count = tableRows.filter(r => r.checked).length;
         document.getElementById('selectionStats').innerText = `已選: ${count} 筆`;
     }
 
-    // ★★★ 修正匯出格式以符合 Demo.xlsx ★★★
     function exportUniversalBOM(platform) {
         const projectName = document.getElementById('projectName').value;
         const selectedRows = tableRows.filter(r => r.checked && r.part);
-
         if (selectedRows.length === 0) { alert("沒有勾選任何項目！"); return; }
-
         let outputData = [];
-        // Header 與 Demo.xlsx 一致
         outputData.push(["Item Number", "Manufacturer Name", "Manufacturer Part Number", "Quantity 1"]);
-
         selectedRows.forEach(r => {
             outputData.push([r.item, r.mfr, r.part, r.finalQty]);
         });
-
         const ws = XLSX.utils.aoa_to_sheet(outputData);
         const colWidths = outputData[0].map((_, i) => {
              let max = 15; 
@@ -459,17 +458,11 @@
              return { wch: max + 2 };
         });
         ws['!cols'] = colWidths;
-
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "BOM");
-
         let suffix = "";
-        if(platform === 'Mouser') suffix = "_Mouser";
-        else if(platform === 'Digikey') suffix = "_Digikey";
-        else if(platform === 'Elem14') suffix = "_Elem14";
-
-        const fileName = `${projectName}${suffix}.xlsx`;
-        XLSX.writeFile(wb, fileName);
+        if(platform === 'Mouser') suffix = "_Mouser"; else if(platform === 'Digikey') suffix = "_Digikey"; else if(platform === 'Elem14') suffix = "_Elem14";
+        XLSX.writeFile(wb, `${projectName}${suffix}.xlsx`);
     }
 </script>
 
