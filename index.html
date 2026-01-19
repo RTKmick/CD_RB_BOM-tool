@@ -3,68 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOM 旗艦備料系統 V11+ (格式修復與智慧增強版)</title>
+    <title>BOM 智慧備料系統 V9 (拋料計算版)</title>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { --primary: #0046ad; --digikey: #cc0000; --elem14: #ff6600; --light: #f4f6f9; --border: #e0e0e0; --success: #28a745; --info: #17a2b8; --purple: #6f42c1; --danger: #dc3545; }
+        :root { --primary: #0046ad; --digikey: #cc0000; --elem14: #ff6600; --light: #f4f6f9; --border: #e0e0e0; --success: #28a745; --info: #17a2b8; --danger: #dc3545; }
+        body { font-family: "Segoe UI", "Microsoft JhengHei", sans-serif; background-color: var(--light); margin: 0; padding: 20px; color: #333; }
         
-        body { font-family: "Segoe UI", "Microsoft JhengHei", sans-serif; background-color: var(--light); margin: 0; padding: 20px; color: #333; font-size: 16px; }
-        
-        .container { max-width: 95%; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); overflow: hidden; min-width: 1000px; }
+        .container { max-width: 1100px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); overflow: hidden; }
         
         /* Stepper */
-        .stepper { display: flex; justify-content: space-between; padding: 25px 50px; background: #fafafa; border-bottom: 1px solid var(--border); }
-        .step { text-align: center; flex: 1; opacity: 0.5; font-weight: bold; font-size: 1.1em; }
+        .stepper { display: flex; justify-content: space-between; padding: 20px 40px; background: #fafafa; border-bottom: 1px solid var(--border); }
+        .step { text-align: center; flex: 1; opacity: 0.5; font-weight: bold; font-size: 0.9em; }
         .step.active { opacity: 1; color: var(--primary); }
-        .step i { display: block; font-size: 28px; margin-bottom: 8px; }
+        .step i { display: block; font-size: 24px; margin-bottom: 5px; }
 
-        .step-content { display: none; padding: 40px; }
+        .step-content { display: none; padding: 30px; }
         .step-content.active { display: block; }
 
         /* Upload */
-        .upload-zone { border: 3px dashed #aaa; border-radius: 10px; padding: 80px; text-align: center; cursor: pointer; transition: 0.3s; background: #fff; }
+        .upload-zone { border: 2px dashed #aaa; border-radius: 10px; padding: 50px; text-align: center; cursor: pointer; transition: 0.3s; background: #fff; }
         .upload-zone:hover { border-color: var(--primary); background-color: #f0f7ff; }
 
         /* Settings Panel */
-        .settings-panel { display: flex; gap: 20px; margin-bottom: 25px; background: #f8f9fa; padding: 20px; border-radius: 8px; border: 1px solid #eee; }
+        .settings-panel { display: flex; gap: 20px; margin-bottom: 20px; background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #eee; }
         .setting-item { flex: 1; }
-        .setting-item label { font-weight: bold; display: block; margin-bottom: 8px; font-size: 1rem; color: #555; }
-        .setting-item input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 1rem; font-weight: bold; }
-        .input-group { position: relative; }
-        .input-group i { position: absolute; right: 10px; top: 12px; color: #aaa; }
+        .setting-item label { font-weight: bold; display: block; margin-bottom: 5px; font-size: 0.9em; }
+        .setting-item input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
 
         /* Toolbar */
-        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .selection-tools button { font-size: 1rem; padding: 8px 15px; cursor: pointer; border: 1px solid #ccc; background: white; border-radius: 4px; margin-right: 8px; }
+        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .selection-tools button { font-size: 0.85rem; padding: 5px 10px; cursor: pointer; border: 1px solid #ccc; background: white; border-radius: 4px; margin-right: 5px; }
         .selection-tools button:hover { background: #eee; }
 
         /* Table */
-        .table-container { min-height: 400px; border: 1px solid #eee; border-radius: 4px; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; font-size: 1rem; }
-        th { background: #eaeaea; padding: 15px; text-align: left; border-bottom: 2px solid #ccc; font-size: 1.05rem; white-space: nowrap; }
-        td { padding: 12px 15px; border-bottom: 1px solid #eee; vertical-align: middle; }
+        .table-container { max-height: 450px; overflow-y: auto; border: 1px solid #eee; border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th { background: #eaeaea; position: sticky; top: 0; padding: 10px; text-align: left; z-index: 10; border-bottom: 2px solid #ccc; }
+        td { padding: 8px 10px; border-bottom: 1px solid #eee; vertical-align: middle; }
         tr:hover { background-color: #f9f9f9; }
         tr.excluded { background-color: #ffeef0; color: #aaa; text-decoration: line-through; }
         tr.selected { background-color: #e3f2fd; }
 
         /* Status Badges */
-        .badge { padding: 5px 10px; border-radius: 4px; font-weight: bold; font-size: 0.9em; display: inline-block; white-space: nowrap; }
-        .badge-smt { color: #0056b3; background: #dbeafe; border: 1px solid #b3d7ff; }
-        .badge-gen { color: #5a32a3; background: #e9dffc; border: 1px solid #d1c4e9; }
+        .badge { padding: 3px 6px; border-radius: 4px; font-weight: bold; font-size: 0.8em; display: inline-block; }
+        .badge-ok { color: var(--success); background: #e6f9e9; }
+        .badge-buffer { color: var(--info); background: #d1ecf1; }
         .badge-del { color: var(--danger); font-style: italic; }
 
-        /* Pagination Controls */
-        .pagination { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 20px; padding: 10px; background: #fafafa; border-radius: 8px; }
-        .page-btn { padding: 8px 16px; border: 1px solid #ccc; background: white; cursor: pointer; border-radius: 4px; font-weight: bold; }
-        .page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .page-btn:hover:not(:disabled) { background: #e0e0e0; }
-        .page-info { font-weight: bold; color: #555; }
-
         /* Export */
-        .export-panel { margin-top: 30px; padding: 25px; background: #f1f3f5; border-radius: 8px; border: 1px solid #ddd; }
-        .btn-group { display: flex; gap: 20px; margin-top: 15px; }
-        .btn { padding: 15px; border: none; border-radius: 6px; cursor: pointer; font-size: 1.1rem; font-weight: bold; color: white; flex: 1; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .export-panel { margin-top: 25px; padding: 20px; background: #f1f3f5; border-radius: 8px; border: 1px solid #ddd; }
+        .btn-group { display: flex; gap: 15px; margin-top: 10px; }
+        .btn { padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; font-weight: bold; color: white; flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .btn-mouser { background: var(--primary); }
         .btn-mouser:hover { background: #003380; transform: translateY(-2px); }
         .btn-digikey { background: var(--digikey); }
@@ -78,14 +68,14 @@
 <div class="container">
     <div class="stepper">
         <div class="step active" id="nav-step1"><i class="fas fa-file-upload"></i> 1. 上傳原始 BOM</div>
-        <div class="step" id="nav-step2"><i class="fas fa-microchip"></i> 2. 智慧雙重備料</div>
+        <div class="step" id="nav-step2"><i class="fas fa-microchip"></i> 2. 智慧拋料分析</div>
     </div>
 
     <div id="step1" class="step-content active">
         <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
-            <i class="fas fa-robot" style="font-size: 80px; color: #0046ad; margin-bottom: 25px;"></i>
+            <i class="fas fa-robot" style="font-size: 60px; color: #0046ad; margin-bottom: 20px;"></i>
             <h3>拖曳或點擊上傳 BOM</h3>
-            <p style="color: #666; font-size: 1.1rem;">分頁顯示 | SMT拋料(+20) | 一般備品(+1)</p>
+            <p style="color: #666;">系統將自動識別 R/C/D/排阻 並計算拋料</p>
             <input type="file" id="fileInput" accept=".xlsx, .xls" style="display: none;" onchange="handleFile(this.files[0])" />
         </div>
     </div>
@@ -94,64 +84,50 @@
         
         <div class="settings-panel">
             <div class="setting-item" style="flex: 2;">
-                <label>專案名稱 (自動年份):</label>
-                <div class="input-group">
-                    <input type="text" id="projectName">
-                    <i class="fas fa-pen"></i>
-                </div>
+                <label>專案名稱 (A26_xxx_原始檔名):</label>
+                <input type="text" id="projectName">
             </div>
             <div class="setting-item">
-                <label>製作套數 (Batch):</label>
-                <input type="number" id="batchSize" value="1" min="1" onchange="recalcAndRender()">
+                <label>製作套數 (Batch Size):</label>
+                <input type="number" id="batchSize" value="1" min="1" onchange="updateCalculations()">
             </div>
-            
-            <div class="setting-item" style="background: #e3f2fd; border-radius: 4px; padding: 5px 10px; border: 1px solid #b3d7ff;">
-                <label style="color:#0046ad;">SMT 拋料 (R/C/D):</label>
-                <input type="number" id="smtBuffer" value="20" min="0" onchange="recalcAndRender()" style="color:#0046ad;">
-            </div>
-            <div class="setting-item" style="background: #f3e5f5; border-radius: 4px; padding: 5px 10px; border: 1px solid #e1bee7;">
-                <label style="color:#4a148c;">其他備用 (IC/Conn):</label>
-                <input type="number" id="genBuffer" value="1" min="0" onchange="recalcAndRender()" style="color:#4a148c;">
+            <div class="setting-item">
+                <label>SMT 拋料數量 (Buffer):</label>
+                <input type="number" id="bufferSize" value="20" min="0" onchange="updateCalculations()">
             </div>
         </div>
 
         <div class="toolbar">
             <div class="selection-tools">
-                <button onclick="selectAll(true)">全選 (All Pages)</button>
+                <button onclick="selectAll(true)">全選</button>
                 <button onclick="selectAll(false)">全不選</button>
                 <button onclick="invertSelection()" style="background: #fff8e1; border-color: #ffc107; color: #856404;">
                     <i class="fas fa-exchange-alt"></i> 反向選取 (缺貨用)
                 </button>
             </div>
-            <div id="selectionStats" style="font-weight: bold; color: var(--primary); font-size: 1.1rem;">已選: 0</div>
+            <div id="selectionStats" style="font-weight: bold; color: var(--primary);">已選: 0</div>
         </div>
 
         <div class="table-container">
             <table id="previewTable">
                 <thead>
                     <tr>
-                        <th width="40"><input type="checkbox" id="masterCheck" onchange="selectAll(this.checked)"></th>
+                        <th width="30"><input type="checkbox" id="masterCheck" onchange="selectAll(this.checked)"></th>
                         <th width="50">Item</th>
-                        <th width="100">Part Ref <br><span style="color:#888;font-weight:normal;font-size:0.8em">(縮略)</span></th>
-                        <th>Description</th>
+                        <th>Part Reference <br><span style="color:#888;font-weight:normal">(識別用)</span></th>
+                        <th>Description <br><span style="color:#888;font-weight:normal">(識別用)</span></th>
                         <th>MPN (料號)</th>
-                        <th width="70">單量</th>
-                        <th width="90">總量(含備)</th>
-                        <th width="180">狀態</th>
+                        <th width="60">單量</th>
+                        <th width="80">採購總量</th>
+                        <th width="120">狀態</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody"></tbody>
             </table>
         </div>
 
-        <div class="pagination" id="paginationControls">
-            <button class="page-btn" onclick="changePage(-1)" id="btnPrev">❮ 上一頁</button>
-            <span class="page-info" id="pageInfo">Page 1 of 1</span>
-            <button class="page-btn" onclick="changePage(1)" id="btnNext">下一頁 ❯</button>
-        </div>
-
         <div class="export-panel">
-            <span style="font-weight:bold; font-size: 1.1rem;"><i class="fas fa-file-export"></i> 匯出統一格式 (Item, MfrName, MPN, Quantity 1):</span>
+            <span style="font-weight:bold;"><i class="fas fa-file-export"></i> 匯出統一格式 (Item, MfrName, MPN, Quantity 1):</span>
             <div class="btn-group">
                 <button class="btn btn-mouser" onclick="exportUniversalBOM('Mouser')">Mouser</button>
                 <button class="btn btn-digikey" onclick="exportUniversalBOM('Digikey')">DigiKey</button>
@@ -159,8 +135,8 @@
             </div>
         </div>
         
-        <div style="text-align: center; margin-top: 20px;">
-            <button onclick="location.reload()" style="background:none; border:none; color: #666; cursor:pointer; text-decoration: underline; font-size: 1rem;">處理新檔案</button>
+        <div style="text-align: center; margin-top: 15px;">
+            <button onclick="location.reload()" style="background:none; border:none; color: #666; cursor:pointer; text-decoration: underline;">處理新檔案</button>
         </div>
     </div>
 </div>
@@ -168,11 +144,8 @@
 <script>
     let rawData = [];
     let tableRows = []; 
+    // 定義欄位 Mapping: Item, Manufacturer, Part, Qty, Ref, Desc
     let colMap = { item: -1, mfr: -1, part: -1, qty: -1, ref: -1, desc: -1 };
-    
-    // Pagination
-    let currentPage = 1;
-    const itemsPerPage = 50;
 
     // --- File Handling ---
     const dropZone = document.getElementById('dropZone');
@@ -183,40 +156,42 @@
     function handleFile(file) {
         if (!file) return;
         
-        // Dynamic Year: A{YY}_xxx_Name
-        const now = new Date();
-        const yearSuffix = String(now.getFullYear()).slice(-2);
+        // 1. 智慧檔名規則: A26_xxx_原始檔名
         const baseName = file.name.replace(/\.[^/.]+$/, ""); 
-        document.getElementById('projectName').value = `A${yearSuffix}_xxx_${baseName}`;
+        document.getElementById('projectName').value = `A26_xxx_${baseName}`;
 
         const reader = new FileReader();
         reader.onload = function(e) {
             const data = new Uint8Array(e.target.result);
             const workbook = XLSX.read(data, { type: 'array' });
             rawData = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], { header: 1 });
-            analyzeData();
+            analyzeAndPreview();
         };
         reader.readAsArrayBuffer(file);
     }
 
-    // --- Analysis ---
-    function analyzeData() {
+    // --- Analysis Logic ---
+    function analyzeAndPreview() {
         let headerRowIndex = 7; 
         let foundHeader = false;
         colMap = { item: -1, mfr: -1, part: -1, qty: -1, ref: -1, desc: -1 };
 
+        // 1. 偵測標題 (包含 ref 和 desc)
         for (let i = 0; i < Math.min(rawData.length, 20); i++) {
             const rowStr = rawData[i].map(c => String(c).toLowerCase()).join(" ");
             if ((rowStr.includes("part") || rowStr.includes("pn") || rowStr.includes("料號")) && 
                 (rowStr.includes("qty") || rowStr.includes("quantity"))) {
+                
                 headerRowIndex = i;
                 foundHeader = true;
+                
                 rawData[i].forEach((cell, idx) => {
                     const c = String(cell).toLowerCase().trim();
                     if (c === "item number" || c === "item" || c === "no.") colMap.item = idx;
                     else if (c === "quantity" || c === "qty") colMap.qty = idx;
                     else if (c.includes("manufacturer pn") || c.includes("mfr part") || c.includes("part_number") || c === "part number") colMap.part = idx;
                     else if ((c === "manufacturer" || c === "mfr" || c === "manufacturer name") && !c.includes("pn")) colMap.mfr = idx;
+                    // 新增 Ref 和 Desc 偵測
                     else if (c.includes("reference") || c.includes("ref") || c === "part reference") colMap.ref = idx;
                     else if (c.includes("description") || c.includes("desc")) colMap.desc = idx;
                 });
@@ -224,33 +199,33 @@
             }
         }
 
+        // Fallback for 800-05848 specific structure
         if (!foundHeader) {
             headerRowIndex = 7; 
             colMap = { item: 0, qty: 2, ref: 3, desc: 4, mfr: 5, part: 6 };
         } else {
+            // 補強
             if (colMap.item === -1) colMap.item = 0;
             if (colMap.qty === -1) colMap.qty = 2;
-            if (colMap.ref === -1) colMap.ref = 3; 
-            if (colMap.desc === -1) colMap.desc = 4; 
+            if (colMap.ref === -1) colMap.ref = 3; // Default Ref Col
+            if (colMap.desc === -1) colMap.desc = 4; // Default Desc Col
             if (colMap.mfr === -1) colMap.mfr = 5;
             if (colMap.part === -1) colMap.part = 6;
         }
 
-        processTableData(headerRowIndex);
+        buildTable(headerRowIndex);
     }
 
-    // --- Process Data & Identify Passives ---
-    function processTableData(headerRowIndex) {
+    // --- Build Table & Smart Detection ---
+    function buildTable(headerRowIndex) {
         tableRows = [];
-        const excludeKeywords = ["PCB FAB", "TDK-INVENSENSE", "SCREW", "NUT", "STANDOFF"];
-        
-        // 增強判斷所需的關鍵字清單
-        const passiveMfrs = ["YAGEO", "TDK", "MURATA", "SAMSUNG", "KEMET", "AVX", "KYOCERA", "WALSIN", "TAIYO", "VISHAY", "PANASONIC"];
-        const capUnits = ["UF", "PF", "NF", "µF"];
-        const resUnits = ["OHM", "Ω", " KOHM", " MOHM", " 1%"];
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = "";
+        const excludeKeywords = ["PCB FAB", "TDK-INVENSENSE"];
 
         for (let i = headerRowIndex + 1; i < rawData.length; i++) {
             const row = rawData[i];
+            
             const itemVal = colMap.item !== -1 ? (row[colMap.item] || (i - headerRowIndex)) : (i - headerRowIndex);
             const mfrVal = colMap.mfr !== -1 ? (row[colMap.mfr] || "") : "";
             const partVal = colMap.part !== -1 ? (row[colMap.part] || "") : "";
@@ -260,6 +235,7 @@
 
             if (!partVal && qtyVal === 0) continue; 
 
+            // 自動過濾
             const rowString = row.join(" ").toUpperCase();
             let isExcluded = false;
             let excludeReason = "";
@@ -268,167 +244,131 @@
                 excludeReason = "自動過濾";
             }
 
-            // ★★★ 智慧分類：升級版邏輯 (V13/14 精華) ★★★
-            // 結合 Description 關鍵字、廠商名稱、單位識別
-            let isSmtPart = false;
-            
-            // 1. 電阻
-            if (refVal.startsWith("R") && !refVal.startsWith("RP")) {
-                 if (descVal.includes("RES") || descVal.includes("OHM") || resUnits.some(u => descVal.includes(u))) isSmtPart = true;
-                 else if (passiveMfrs.some(m => mfrVal.toUpperCase().includes(m))) isSmtPart = true;
+            // ★★★ AI 判斷是否需要拋料 (Buffer) ★★★
+            // 規則：Ref 開頭 + Desc 關鍵字
+            let needBuffer = false;
+            let bufferReason = "";
+
+            // 1. Resistor (R開頭 + RES)
+            if (refVal.startsWith("R") && descVal.includes("RES") && !refVal.startsWith("RP")) {
+                needBuffer = true;
             }
-            // 2. 電容
-            else if (refVal.startsWith("C")) {
-                 if (descVal.includes("CAP") || descVal.includes("CER") || capUnits.some(u => descVal.includes(u))) isSmtPart = true;
-                 else if (passiveMfrs.some(m => mfrVal.toUpperCase().includes(m))) isSmtPart = true;
+            // 2. Capacitor (C開頭 + CAP)
+            else if (refVal.startsWith("C") && descVal.includes("CAP")) {
+                needBuffer = true;
             }
-            // 3. LED / Diode
-            else if (refVal.startsWith("D") || refVal.startsWith("LED")) {
-                 if (descVal.includes("LED") || descVal.includes("DIODE")) isSmtPart = true;
+            // 3. LED (D開頭 + LED)
+            else if (refVal.startsWith("D") && descVal.includes("LED")) {
+                needBuffer = true;
             }
-            // 4. 排阻
-            else if (refVal.startsWith("RP")) {
-                 if (descVal.includes("RES") || descVal.includes("ARRAY")) isSmtPart = true;
+            // 4. Resistor Array (RP開頭 + RES ARRAY)
+            else if (refVal.startsWith("RP") && descVal.includes("RES ARRAY")) {
+                needBuffer = true;
             }
 
-            tableRows.push({ 
+            const rowObj = { 
                 id: i, item: itemVal, mfr: mfrVal, part: partVal, qty: qtyVal, 
                 ref: refVal, desc: descVal, 
                 checked: !isExcluded, excluded: isExcluded, excludeReason: excludeReason,
-                isSmtPart: isSmtPart
-            });
+                needBuffer: needBuffer
+            };
+            tableRows.push(rowObj);
+
+            // Render
+            const tr = document.createElement('tr');
+            tr.id = `row-${i}`;
+            if (isExcluded) tr.className = 'excluded';
+            
+            tr.innerHTML = `
+                <td><input type="checkbox" class="row-check" ${!isExcluded ? 'checked' : ''} onchange="updateRow(${i}, this.checked)" ${isExcluded ? 'disabled' : ''}></td>
+                <td>${itemVal}</td>
+                <td style="color:#666;">${refVal}</td>
+                <td style="color:#666; font-size:0.8em;">${descVal}</td>
+                <td style="font-weight:bold; color:var(--primary);">${partVal}</td>
+                <td>${qtyVal}</td>
+                <td class="total-qty" style="font-weight:bold;">-</td>
+                <td class="status-cell">-</td>
+            `;
+            tbody.appendChild(tr);
         }
 
         document.getElementById('step1').classList.remove('active');
         document.getElementById('step2').classList.add('active');
         document.getElementById('nav-step2').classList.add('active');
-        
-        currentPage = 1;
-        recalcAndRender();
+        updateCalculations();
     }
 
-    // --- Calc & Render ---
-    function recalcAndRender() {
+    // --- Calculation Logic ---
+    function updateCalculations() {
         const batchSize = parseInt(document.getElementById('batchSize').value) || 1;
-        const smtBuffer = parseInt(document.getElementById('smtBuffer').value) || 0;
-        const genBuffer = parseInt(document.getElementById('genBuffer').value) || 0;
-
+        const bufferSize = parseInt(document.getElementById('bufferSize').value) || 0;
+        
         tableRows.forEach(r => {
-            let baseQty = r.qty * batchSize;
-            
-            if (r.excluded) {
-                r.finalQty = baseQty;
-            } else {
-                if (r.isSmtPart) {
-                    r.finalQty = baseQty + smtBuffer;
-                    r.statusType = 'smt';
-                } else {
-                    r.finalQty = baseQty + genBuffer;
-                    r.statusType = 'gen';
-                }
-            }
-        });
+            const tr = document.getElementById(`row-${r.id}`);
+            if (!tr) return;
 
-        updateStats();
-        renderPage(); 
-    }
-
-    function renderPage() {
-        const tbody = document.getElementById('tableBody');
-        tbody.innerHTML = "";
-
-        const start = (currentPage - 1) * itemsPerPage;
-        const end = start + itemsPerPage;
-        const pageData = tableRows.slice(start, end);
-
-        pageData.forEach(r => {
-            const tr = document.createElement('tr');
-            tr.id = `row-${r.id}`;
-            if (r.excluded) tr.className = 'excluded';
-            else if (r.checked) tr.classList.add('selected');
-
-            // ★★★ Fix: 修正 Ref 縮略邏輯，同時處理逗號與空白 ★★★
-            let displayRef = r.ref;
-            const splitRef = r.ref.split(/[\s,]+/); // Regex: match space OR comma
-            const validRef = splitRef.filter(s => s.length > 0)[0];
-            if(validRef && splitRef.length > 1) {
-                displayRef = validRef + "...";
-            }
-
-            // 狀態 HTML
+            let finalQty = r.qty * batchSize;
             let statusHtml = "";
+
             if (r.excluded) {
                 statusHtml = `<span class="badge badge-del">${r.excludeReason}</span>`;
             } else {
-                if (r.statusType === 'smt') {
-                    statusHtml = `<span class="badge badge-smt"><i class="fas fa-magic"></i> OK (SMT拋料)</span>`;
+                if (r.needBuffer) {
+                    finalQty += bufferSize; // 加拋料
+                    statusHtml = `<span class="badge badge-buffer"><i class="fas fa-magic"></i> OK (已加拋料)</span>`;
                 } else {
-                    statusHtml = `<span class="badge badge-gen"><i class="fas fa-box-open"></i> OK (一般備品)</span>`;
+                    statusHtml = `<span class="badge badge-ok">OK</span>`;
                 }
             }
+            
+            // 存回 rowObj 方便匯出時使用
+            r.finalQty = finalQty; 
 
-            tr.innerHTML = `
-                <td><input type="checkbox" onchange="updateRow(${r.id}, this.checked)" ${r.checked ? 'checked' : ''} ${r.excluded ? 'disabled' : ''}></td>
-                <td>${r.item}</td>
-                <td style="color:#666; font-weight:bold;">${displayRef}</td>
-                <td style="color:#444;">${r.desc}</td>
-                <td style="font-weight:bold; color:var(--primary);">${r.part}</td>
-                <td>${r.qty}</td>
-                <td style="font-weight:bold; font-size:1.1em;">${r.finalQty}</td>
-                <td>${statusHtml}</td>
-            `;
-            tbody.appendChild(tr);
+            tr.querySelector('.total-qty').innerText = finalQty;
+            tr.querySelector('.status-cell').innerHTML = statusHtml;
         });
-
-        updatePaginationControls();
+        updateStats();
     }
 
-    // --- Controls ---
-    function updatePaginationControls() {
-        const totalPages = Math.ceil(tableRows.length / itemsPerPage);
-        document.getElementById('pageInfo').innerText = `Page ${currentPage} of ${totalPages} (Total ${tableRows.length})`;
-        document.getElementById('btnPrev').disabled = (currentPage === 1);
-        document.getElementById('btnNext').disabled = (currentPage === totalPages || totalPages === 0);
-    }
-
-    function changePage(delta) {
-        const totalPages = Math.ceil(tableRows.length / itemsPerPage);
-        const newPage = currentPage + delta;
-        if (newPage >= 1 && newPage <= totalPages) {
-            currentPage = newPage;
-            renderPage();
-            document.querySelector('.table-container').scrollTop = 0;
-        }
-    }
-
+    // --- Selection Tools ---
     function updateRow(id, checked) {
         const row = tableRows.find(r => r.id === id);
-        if (row) {
-            row.checked = checked;
-            const tr = document.getElementById(`row-${id}`);
-            if (tr) {
-                if (checked) tr.classList.add('selected'); else tr.classList.remove('selected');
-            }
-            updateStats();
-        }
+        row.checked = checked;
+        const tr = document.getElementById(`row-${id}`);
+        if(checked) tr.classList.add('selected'); else tr.classList.remove('selected');
+        updateStats();
     }
 
     function selectAll(checked) {
         document.getElementById('masterCheck').checked = checked;
-        tableRows.forEach(r => { if (!r.excluded) r.checked = checked; });
-        recalcAndRender();
+        const checkboxes = document.querySelectorAll('.row-check');
+        checkboxes.forEach(cb => {
+            if(!cb.disabled) {
+                cb.checked = checked;
+                const index = parseInt(cb.closest('tr').id.split('-')[1]);
+                updateRow(index, checked);
+            }
+        });
     }
 
     function invertSelection() {
-        tableRows.forEach(r => { if (!r.excluded) r.checked = !r.checked; });
-        recalcAndRender();
+        const checkboxes = document.querySelectorAll('.row-check');
+        checkboxes.forEach(cb => {
+            if(!cb.disabled) {
+                cb.checked = !cb.checked;
+                const index = parseInt(cb.closest('tr').id.split('-')[1]);
+                updateRow(index, cb.checked);
+            }
+        });
+        updateStats();
     }
 
     function updateStats() {
         const count = tableRows.filter(r => r.checked).length;
-        document.getElementById('selectionStats').innerText = `已選: ${count} 筆`;
+        document.getElementById('selectionStats').innerText = `已選取: ${count} 筆`;
     }
 
+    // --- Export Logic ---
     function exportUniversalBOM(platform) {
         const projectName = document.getElementById('projectName').value;
         const selectedRows = tableRows.filter(r => r.checked && r.part);
@@ -436,16 +376,26 @@
         if (selectedRows.length === 0) { alert("沒有勾選任何項目！"); return; }
 
         let outputData = [];
+        // Header
         outputData.push(["Item Number", "Manufacturer Name", "Manufacturer Part Number", "Quantity 1"]);
 
         selectedRows.forEach(r => {
-            outputData.push([r.item, r.mfr, r.part, r.finalQty]);
+            outputData.push([
+                r.item,              
+                r.mfr,               
+                r.part,              
+                r.finalQty // 使用計算過(含拋料)的數量
+            ]);
         });
 
         const ws = XLSX.utils.aoa_to_sheet(outputData);
+        
+        // Auto Width
         const colWidths = outputData[0].map((_, i) => {
              let max = 15; 
-             outputData.forEach(r => { if(r[i] && String(r[i]).length > max) max = String(r[i]).length; });
+             outputData.forEach(r => { 
+                 if(r[i] && String(r[i]).length > max) max = String(r[i]).length; 
+             });
              return { wch: max + 2 };
         });
         ws['!cols'] = colWidths;
