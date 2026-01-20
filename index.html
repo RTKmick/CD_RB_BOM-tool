@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOM 旗艦備料系統 V1.1 (PCB精準優化版)</title>
+    <title>BOM 旗艦備料系統 V1.2 (格式鎖定版)</title>
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -49,7 +49,6 @@
         .badge-del { color: var(--danger); font-style: italic; }
         .badge-nm { color: #856404; background-color: #fff3cd; border: 1px solid #ffeeba; }
         .badge-consigned { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; }
-        /* V1.1 新增：PCB過濾專用樣式 (深灰色) */
         .badge-pcb { color: #343a40; background-color: #e2e3e5; border: 1px solid #d6d8db; }
 
         .pagination { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 20px; padding: 10px; background: #fafafa; border-radius: 8px; }
@@ -81,8 +80,8 @@
         <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
             <i class="fas fa-robot" style="font-size: 80px; color: #0046ad; margin-bottom: 25px;"></i>
             <h3>拖曳或點擊上傳 BOM</h3>
-            <p style="color: #666; font-size: 1.1rem;">V1.1 版本 | PCB精準過濾 | J28 救援成功</p>
-            <input type="file" id="fileInput" accept=".xlsx, .xls" style="display: none;" onchange="handleFile(this.files[0])" />
+            <p style="color: #666; font-size: 1.1rem;">僅支援 .xlsx / .xls / .csv 格式<br>Google Sheet 請先下載為 Excel</p>
+            <input type="file" id="fileInput" accept=".xlsx, .xls, .csv" style="display: none;" onchange="handleFile(this.files[0])" />
         </div>
     </div>
 
@@ -163,7 +162,6 @@
     let rawData = [];
     let tableRows = []; 
     let colMap = { item: -1, mfr: -1, part: -1, part_backup: -1, qty: -1, ref: -1, desc: -1 };
-    
     let currentPage = 1;
     const itemsPerPage = 50;
 
@@ -174,6 +172,19 @@
 
     function handleFile(file) {
         if (!file) return;
+
+        // ★★★ V1.2 新增：嚴格格式檢查 ★★★
+        const fileName = file.name.toLowerCase();
+        const validExtensions = ['.xlsx', '.xls', '.csv'];
+        // 檢查副檔名是否在允許清單中
+        const isValid = validExtensions.some(ext => fileName.endsWith(ext));
+
+        if (!isValid) {
+            alert("❌ 檔案格式錯誤！\n\n系統僅支援下列格式：\n• Excel (.xlsx, .xls)\n• CSV (.csv)\n\n(若是 Google Sheet，請先下載為 Excel 檔案)");
+            return; // 強制中斷，不進行後續處理
+        }
+        
+        // 格式正確，繼續執行
         const now = new Date();
         const yearSuffix = String(now.getFullYear()).slice(-2);
         const baseName = file.name.replace(/\.[^/.]+$/, ""); 
@@ -189,6 +200,7 @@
         reader.readAsArrayBuffer(file);
     }
 
+    // --- V1.1 邏輯 (表頭分析) ---
     function analyzeData() {
         let bestHeaderRow = -1;
         let maxScore = 0;
@@ -247,11 +259,10 @@
         processTableData(bestHeaderRow);
     }
 
+    // --- V1.1 邏輯 (資料處理) ---
     function processTableData(headerRowIndex) {
         tableRows = [];
-        // ★★★ V1.1 修正：從通用排除清單中移除 "PCB" 相關字眼，避免誤殺 J28 ★★★
         const excludeKeywords = ["TDK-INVENSENSE", "SCREW", "NUT", "STANDOFF", "NO-LOAD", "DNP", "UNUSED"];
-        // 專門抓空板的關鍵字
         const pcbKeywords = ["PCB FAB", "BARE BOARD", "PRINTED CIRCUIT BOARD"];
         
         const passiveMfrs = ["YAGEO", "TDK", "MURATA", "SAMSUNG", "KEMET", "AVX", "KYOCERA", "WALSIN", "TAIYO", "VISHAY", "PANASONIC", "ROHM", "BOURNS"];
@@ -265,7 +276,6 @@
             const row = rawData[i];
             const rowStrAll = row.map(c => String(c)).join(" ").toUpperCase();
             
-            // 1. Not Mount 區段偵測
             if (rowStrAll.includes("NOT MOUNT:") || rowStrAll.includes("DO NOT STUFF")) {
                 notMountMode = true;
                 continue; 
@@ -289,25 +299,18 @@
             let isExcluded = false;
             let excludeReason = "";
 
-            // --- 過濾邏輯順序 ---
-            
-            // A. Not Mount 區塊
             if (notMountMode) {
                 isExcluded = true;
                 excludeReason = "Not Mount (不上件區)";
             }
-            // B. ★★★ V1.1 精準 PCB 偵測 ★★★
-            // 條件：整行有 "PCB FAB", "BARE BOARD" 或 描述完全等於 "PCB" 或 描述以 "PCB " 開頭
             else if (pcbKeywords.some(k => rowStrAll.includes(k)) || descVal === "PCB" || descVal.startsWith("PCB ")) {
                  isExcluded = true;
                  excludeReason = "PCB過濾";
             }
-            // C. Samtec 客戶提供
             else if (String(mfrVal).toUpperCase().includes("SAMTEC") && consignedMpns.includes(String(partVal).toUpperCase().trim())) {
                 isExcluded = true;
                 excludeReason = "客戶提供";
             }
-            // D. 通用關鍵字 (螺絲、No-Load等)
             else if (excludeKeywords.some(k => rowStrAll.includes(k))) {
                 isExcluded = true;
                 if (rowStrAll.includes("NO-LOAD") || rowStrAll.includes("DNP") || rowStrAll.includes("UNUSED")) {
@@ -317,7 +320,6 @@
                 }
             }
             
-            // --- SMT 判斷 ---
             let isSmtPart = false;
             if (!isExcluded) {
                 if (refVal.startsWith("R") && !refVal.startsWith("RP") && !refVal.startsWith("REG")) {
@@ -391,7 +393,6 @@
                 } else if (r.excludeReason === "客戶提供") {
                      statusHtml = `<span class="badge badge-consigned"><i class="fas fa-hand-holding"></i> ⛔ 客戶提供</span>`;
                 } else if (r.excludeReason === "PCB過濾") {
-                     // ★★★ V1.1 新增：PCB過濾 專屬樣式 ★★★
                      statusHtml = `<span class="badge badge-pcb"><i class="fas fa-layer-group"></i> ⛔ PCB過濾</span>`;
                 } else {
                      statusHtml = `<span class="badge badge-del">${r.excludeReason}</span>`;
@@ -416,7 +417,6 @@
         updatePaginationControls();
     }
 
-    // --- Controls and Exports ---
     function updatePaginationControls() {
         const totalPages = Math.ceil(tableRows.length / itemsPerPage);
         document.getElementById('pageInfo').innerText = `Page ${currentPage} of ${totalPages} (Total ${tableRows.length})`;
