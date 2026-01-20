@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOM 旗艦備料系統 V21 (PCB精準過濾版)</title>
+    <title>BOM 旗艦備料系統 V1.1 (PCB精準優化版)</title>
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* 介面維持 V11/V17 的簡潔風格 */
         :root { --primary: #0046ad; --digikey: #cc0000; --elem14: #ff6600; --light: #f4f6f9; --border: #e0e0e0; --success: #28a745; --info: #17a2b8; --purple: #6f42c1; --danger: #dc3545; }
         
         body { font-family: "Segoe UI", "Microsoft JhengHei", sans-serif; background-color: var(--light); margin: 0; padding: 20px; color: #333; font-size: 16px; }
@@ -48,10 +47,10 @@
         .badge-smt { color: #0056b3; background: #dbeafe; border: 1px solid #b3d7ff; }
         .badge-gen { color: #5a32a3; background: #e9dffc; border: 1px solid #d1c4e9; }
         .badge-del { color: var(--danger); font-style: italic; }
-        /* Not Mount 樣式 */
         .badge-nm { color: #856404; background-color: #fff3cd; border: 1px solid #ffeeba; }
-        /* V20 新增：客戶提供樣式 */
         .badge-consigned { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; }
+        /* V1.1 新增：PCB過濾專用樣式 (深灰色) */
+        .badge-pcb { color: #343a40; background-color: #e2e3e5; border: 1px solid #d6d8db; }
 
         .pagination { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 20px; padding: 10px; background: #fafafa; border-radius: 8px; }
         .page-btn { padding: 8px 16px; border: 1px solid #ccc; background: white; cursor: pointer; border-radius: 4px; font-weight: bold; }
@@ -82,7 +81,7 @@
         <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
             <i class="fas fa-robot" style="font-size: 80px; color: #0046ad; margin-bottom: 25px;"></i>
             <h3>拖曳或點擊上傳 BOM</h3>
-            <p style="color: #666; font-size: 1.1rem;">支援: PCB過濾修正 | Samtec客供 | No-Load</p>
+            <p style="color: #666; font-size: 1.1rem;">V1.1 版本 | PCB精準過濾 | J28 救援成功</p>
             <input type="file" id="fileInput" accept=".xlsx, .xls" style="display: none;" onchange="handleFile(this.files[0])" />
         </div>
     </div>
@@ -250,8 +249,11 @@
 
     function processTableData(headerRowIndex) {
         tableRows = [];
-        // ★★★ V21: 移除 "PCB FAB", "PCB " (因為這會誤殺 Connector, 且顯示為"自動過濾")
+        // ★★★ V1.1 修正：從通用排除清單中移除 "PCB" 相關字眼，避免誤殺 J28 ★★★
         const excludeKeywords = ["TDK-INVENSENSE", "SCREW", "NUT", "STANDOFF", "NO-LOAD", "DNP", "UNUSED"];
+        // 專門抓空板的關鍵字
+        const pcbKeywords = ["PCB FAB", "BARE BOARD", "PRINTED CIRCUIT BOARD"];
+        
         const passiveMfrs = ["YAGEO", "TDK", "MURATA", "SAMSUNG", "KEMET", "AVX", "KYOCERA", "WALSIN", "TAIYO", "VISHAY", "PANASONIC", "ROHM", "BOURNS"];
         const capUnits = ["UF", "PF", "NF", "µF"];
         const resUnits = ["OHM", "Ω", " KOHM", " MOHM", " 1%"];
@@ -262,6 +264,8 @@
         for (let i = headerRowIndex + 1; i < rawData.length; i++) {
             const row = rawData[i];
             const rowStrAll = row.map(c => String(c)).join(" ").toUpperCase();
+            
+            // 1. Not Mount 區段偵測
             if (rowStrAll.includes("NOT MOUNT:") || rowStrAll.includes("DO NOT STUFF")) {
                 notMountMode = true;
                 continue; 
@@ -285,12 +289,25 @@
             let isExcluded = false;
             let excludeReason = "";
 
-            // 1. Not Mount 區塊檢查
+            // --- 過濾邏輯順序 ---
+            
+            // A. Not Mount 區塊
             if (notMountMode) {
                 isExcluded = true;
                 excludeReason = "Not Mount (不上件區)";
-            } 
-            // 2. 關鍵字過濾
+            }
+            // B. ★★★ V1.1 精準 PCB 偵測 ★★★
+            // 條件：整行有 "PCB FAB", "BARE BOARD" 或 描述完全等於 "PCB" 或 描述以 "PCB " 開頭
+            else if (pcbKeywords.some(k => rowStrAll.includes(k)) || descVal === "PCB" || descVal.startsWith("PCB ")) {
+                 isExcluded = true;
+                 excludeReason = "PCB過濾";
+            }
+            // C. Samtec 客戶提供
+            else if (String(mfrVal).toUpperCase().includes("SAMTEC") && consignedMpns.includes(String(partVal).toUpperCase().trim())) {
+                isExcluded = true;
+                excludeReason = "客戶提供";
+            }
+            // D. 通用關鍵字 (螺絲、No-Load等)
             else if (excludeKeywords.some(k => rowStrAll.includes(k))) {
                 isExcluded = true;
                 if (rowStrAll.includes("NO-LOAD") || rowStrAll.includes("DNP") || rowStrAll.includes("UNUSED")) {
@@ -299,37 +316,24 @@
                     excludeReason = "自動過濾";
                 }
             }
-            // ★★★ V21 新增：精準 PCB 偵測 (避免誤殺 J28) ★★★
-            // 只有當描述裡真的有 "PCB FAB" 或 "BARE BOARD"，或者描述「以 PCB 開頭」時才抓
-            else if (rowStrAll.includes("PCB FAB") || rowStrAll.includes("BARE BOARD") || rowStrAll.includes("PRINTED CIRCUIT BOARD") || descVal === "PCB" || descVal.startsWith("PCB ")) {
-                 isExcluded = true;
-                 excludeReason = "PCB過濾";
-            }
-            // 4. Samtec 專屬檢查
-            else {
-                const mfrCheck = String(mfrVal).toUpperCase().trim();
-                const partCheck = String(partVal).toUpperCase().trim();
-                if (mfrCheck.includes("SAMTEC") && consignedMpns.includes(partCheck)) {
-                    isExcluded = true;
-                    excludeReason = "客戶提供";
-                }
-            }
-
+            
+            // --- SMT 判斷 ---
             let isSmtPart = false;
-            // SMT Logic
-            if (refVal.startsWith("R") && !refVal.startsWith("RP") && !refVal.startsWith("REG")) {
-                 if (descVal.includes("RES") || descVal.includes("OHM") || resUnits.some(u => descVal.includes(u))) isSmtPart = true;
-                 else if (passiveMfrs.some(m => String(mfrVal).toUpperCase().includes(m))) isSmtPart = true;
-            }
-            else if (refVal.startsWith("C") && !refVal.startsWith("CN") && !refVal.startsWith("CON")) {
-                 if (descVal.includes("CAP") || descVal.includes("CER") || capUnits.some(u => descVal.includes(u))) isSmtPart = true;
-                 else if (passiveMfrs.some(m => String(mfrVal).toUpperCase().includes(m))) isSmtPart = true;
-            }
-            else if (refVal.startsWith("D") || refVal.startsWith("LED")) {
-                 if (descVal.includes("LED") || descVal.includes("DIODE")) isSmtPart = true;
-            }
-            else if (refVal.startsWith("RP")) {
-                 if (descVal.includes("RES") || descVal.includes("ARRAY")) isSmtPart = true;
+            if (!isExcluded) {
+                if (refVal.startsWith("R") && !refVal.startsWith("RP") && !refVal.startsWith("REG")) {
+                     if (descVal.includes("RES") || descVal.includes("OHM") || resUnits.some(u => descVal.includes(u))) isSmtPart = true;
+                     else if (passiveMfrs.some(m => String(mfrVal).toUpperCase().includes(m))) isSmtPart = true;
+                }
+                else if (refVal.startsWith("C") && !refVal.startsWith("CN") && !refVal.startsWith("CON")) {
+                     if (descVal.includes("CAP") || descVal.includes("CER") || capUnits.some(u => descVal.includes(u))) isSmtPart = true;
+                     else if (passiveMfrs.some(m => String(mfrVal).toUpperCase().includes(m))) isSmtPart = true;
+                }
+                else if (refVal.startsWith("D") || refVal.startsWith("LED")) {
+                     if (descVal.includes("LED") || descVal.includes("DIODE")) isSmtPart = true;
+                }
+                else if (refVal.startsWith("RP")) {
+                     if (descVal.includes("RES") || descVal.includes("ARRAY")) isSmtPart = true;
+                }
             }
 
             tableRows.push({ 
@@ -387,8 +391,8 @@
                 } else if (r.excludeReason === "客戶提供") {
                      statusHtml = `<span class="badge badge-consigned"><i class="fas fa-hand-holding"></i> ⛔ 客戶提供</span>`;
                 } else if (r.excludeReason === "PCB過濾") {
-                     // ★★★ V21 新增：PCB過濾 專屬樣式 ★★★
-                     statusHtml = `<span class="badge badge-del"><i class="fas fa-layer-group"></i> ⛔ PCB過濾</span>`;
+                     // ★★★ V1.1 新增：PCB過濾 專屬樣式 ★★★
+                     statusHtml = `<span class="badge badge-pcb"><i class="fas fa-layer-group"></i> ⛔ PCB過濾</span>`;
                 } else {
                      statusHtml = `<span class="badge badge-del">${r.excludeReason}</span>`;
                 }
