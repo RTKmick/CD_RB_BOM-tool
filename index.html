@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOM 旗艦備料系統 V1.2 (格式鎖定版)</title>
+    <title>BOM 旗艦備料系統 V1.3 (過濾邏輯修正版)</title>
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -80,7 +80,7 @@
         <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
             <i class="fas fa-robot" style="font-size: 80px; color: #0046ad; margin-bottom: 25px;"></i>
             <h3>拖曳或點擊上傳 BOM</h3>
-            <p style="color: #666; font-size: 1.1rem;">僅支援 .xlsx / .xls / .csv 格式<br>Google Sheet 請先下載為 Excel</p>
+            <p style="color: #666; font-size: 1.1rem;">僅支援 .xlsx / .xls / .csv 格式<br>修正過濾邏輯</p>
             <input type="file" id="fileInput" accept=".xlsx, .xls, .csv" style="display: none;" onchange="handleFile(this.files[0])" />
         </div>
     </div>
@@ -173,18 +173,15 @@
     function handleFile(file) {
         if (!file) return;
 
-        // ★★★ V1.2 新增：嚴格格式檢查 ★★★
         const fileName = file.name.toLowerCase();
         const validExtensions = ['.xlsx', '.xls', '.csv'];
-        // 檢查副檔名是否在允許清單中
         const isValid = validExtensions.some(ext => fileName.endsWith(ext));
 
         if (!isValid) {
             alert("❌ 檔案格式錯誤！\n\n系統僅支援下列格式：\n• Excel (.xlsx, .xls)\n• CSV (.csv)\n\n(若是 Google Sheet，請先下載為 Excel 檔案)");
-            return; // 強制中斷，不進行後續處理
+            return;
         }
         
-        // 格式正確，繼續執行
         const now = new Date();
         const yearSuffix = String(now.getFullYear()).slice(-2);
         const baseName = file.name.replace(/\.[^/.]+$/, ""); 
@@ -200,7 +197,6 @@
         reader.readAsArrayBuffer(file);
     }
 
-    // --- V1.1 邏輯 (表頭分析) ---
     function analyzeData() {
         let bestHeaderRow = -1;
         let maxScore = 0;
@@ -259,10 +255,11 @@
         processTableData(bestHeaderRow);
     }
 
-    // --- V1.1 邏輯 (資料處理) ---
+    // ★★★ V1.3 修正：區分「區塊過濾」與「單行過濾」 ★★★
     function processTableData(headerRowIndex) {
         tableRows = [];
-        const excludeKeywords = ["TDK-INVENSENSE", "SCREW", "NUT", "STANDOFF", "NO-LOAD", "DNP", "UNUSED"];
+        // ★ 注意： "DO NOT STUFF" 從區塊偵測移除了，現在它只會觸發單行過濾
+        const excludeKeywords = ["TDK-INVENSENSE", "SCREW", "NUT", "STANDOFF", "NO-LOAD", "DNP", "UNUSED", "DO NOT STUFF"];
         const pcbKeywords = ["PCB FAB", "BARE BOARD", "PRINTED CIRCUIT BOARD"];
         
         const passiveMfrs = ["YAGEO", "TDK", "MURATA", "SAMSUNG", "KEMET", "AVX", "KYOCERA", "WALSIN", "TAIYO", "VISHAY", "PANASONIC", "ROHM", "BOURNS"];
@@ -276,11 +273,17 @@
             const row = rawData[i];
             const rowStrAll = row.map(c => String(c)).join(" ").toUpperCase();
             
-            if (rowStrAll.includes("NOT MOUNT:") || rowStrAll.includes("DO NOT STUFF")) {
+            // 先取得 Qty 來輔助判斷
+            const qtyVal = parseFloat(colMap.qty !== -1 ? row[colMap.qty] : 0) || 0;
+
+            // 1. Not Mount 區段偵測 (嚴格模式)
+            // 條件：必須有 "NOT MOUNT:" (含冒號) 
+            // 或者：有 "DO NOT STUFF" 但這行看起來不像零件 (沒有 Qty)
+            if (rowStrAll.includes("NOT MOUNT:")) {
                 notMountMode = true;
                 continue; 
             }
-
+            
             const itemVal = colMap.item !== -1 ? (row[colMap.item] || (i - headerRowIndex)) : (i - headerRowIndex);
             const mfrVal = colMap.mfr !== -1 ? (row[colMap.mfr] || "") : "";
             
@@ -289,7 +292,6 @@
                 partVal = row[colMap.part_backup] || "";
             }
 
-            const qtyVal = parseFloat(colMap.qty !== -1 ? row[colMap.qty] : 0) || 0;
             const refVal = colMap.ref !== -1 ? String(row[colMap.ref] || "").trim().toUpperCase() : "";
             const descVal = colMap.desc !== -1 ? String(row[colMap.desc] || "").trim().toUpperCase() : "";
 
@@ -299,21 +301,26 @@
             let isExcluded = false;
             let excludeReason = "";
 
+            // A. Not Mount 區塊 (一旦啟動，後面全殺)
             if (notMountMode) {
                 isExcluded = true;
                 excludeReason = "Not Mount (不上件區)";
             }
+            // B. PCB過濾
             else if (pcbKeywords.some(k => rowStrAll.includes(k)) || descVal === "PCB" || descVal.startsWith("PCB ")) {
                  isExcluded = true;
                  excludeReason = "PCB過濾";
             }
+            // C. Samtec 客戶提供
             else if (String(mfrVal).toUpperCase().includes("SAMTEC") && consignedMpns.includes(String(partVal).toUpperCase().trim())) {
                 isExcluded = true;
                 excludeReason = "客戶提供";
             }
+            // D. 單行關鍵字過濾 (含 No-Load, Do Not Stuff)
             else if (excludeKeywords.some(k => rowStrAll.includes(k))) {
                 isExcluded = true;
-                if (rowStrAll.includes("NO-LOAD") || rowStrAll.includes("DNP") || rowStrAll.includes("UNUSED")) {
+                // 這裡會抓到 Item 58 的 "DO NOT STUFF"，但因為沒啟動 notMountMode，所以不會殺到後面
+                if (rowStrAll.includes("NO-LOAD") || rowStrAll.includes("DNP") || rowStrAll.includes("UNUSED") || rowStrAll.includes("DO NOT STUFF")) {
                     excludeReason = "No-Load (不上件)";
                 } else {
                     excludeReason = "自動過濾";
