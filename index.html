@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOM 旗艦備料系統 V1.3 (過濾邏輯修正版)</title>
+    <title>BOM 旗艦備料系統 V1.4 (關鍵字鬆綁版)</title>
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -80,7 +80,7 @@
         <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
             <i class="fas fa-robot" style="font-size: 80px; color: #0046ad; margin-bottom: 25px;"></i>
             <h3>拖曳或點擊上傳 BOM</h3>
-            <p style="color: #666; font-size: 1.1rem;">僅支援 .xlsx / .xls / .csv 格式<br>修正過濾邏輯</p>
+            <p style="color: #666; font-size: 1.1rem;">僅支援 .xlsx / .xls / .csv 格式<br>機構件(Screw/Standoff)不在此限</p>
             <input type="file" id="fileInput" accept=".xlsx, .xls, .csv" style="display: none;" onchange="handleFile(this.files[0])" />
         </div>
     </div>
@@ -255,11 +255,12 @@
         processTableData(bestHeaderRow);
     }
 
-    // ★★★ V1.3 修正：區分「區塊過濾」與「單行過濾」 ★★★
+    // ★★★ V1.4 修正：關鍵字鬆綁 (移除 SCREW, NUT, STANDOFF) ★★★
     function processTableData(headerRowIndex) {
         tableRows = [];
-        // ★ 注意： "DO NOT STUFF" 從區塊偵測移除了，現在它只會觸發單行過濾
-        const excludeKeywords = ["TDK-INVENSENSE", "SCREW", "NUT", "STANDOFF", "NO-LOAD", "DNP", "UNUSED", "DO NOT STUFF"];
+        
+        // 修正後的關鍵字清單：移除了機構件，保留真正的 DNP 關鍵字
+        const excludeKeywords = ["TDK-INVENSENSE", "NO-LOAD", "DNP", "UNUSED", "DO NOT STUFF"];
         const pcbKeywords = ["PCB FAB", "BARE BOARD", "PRINTED CIRCUIT BOARD"];
         
         const passiveMfrs = ["YAGEO", "TDK", "MURATA", "SAMSUNG", "KEMET", "AVX", "KYOCERA", "WALSIN", "TAIYO", "VISHAY", "PANASONIC", "ROHM", "BOURNS"];
@@ -273,12 +274,9 @@
             const row = rawData[i];
             const rowStrAll = row.map(c => String(c)).join(" ").toUpperCase();
             
-            // 先取得 Qty 來輔助判斷
             const qtyVal = parseFloat(colMap.qty !== -1 ? row[colMap.qty] : 0) || 0;
 
-            // 1. Not Mount 區段偵測 (嚴格模式)
-            // 條件：必須有 "NOT MOUNT:" (含冒號) 
-            // 或者：有 "DO NOT STUFF" 但這行看起來不像零件 (沒有 Qty)
+            // 1. Not Mount 區段偵測 (嚴格模式：必須有 NOT MOUNT:)
             if (rowStrAll.includes("NOT MOUNT:")) {
                 notMountMode = true;
                 continue; 
@@ -301,7 +299,7 @@
             let isExcluded = false;
             let excludeReason = "";
 
-            // A. Not Mount 區塊 (一旦啟動，後面全殺)
+            // A. Not Mount 區塊
             if (notMountMode) {
                 isExcluded = true;
                 excludeReason = "Not Mount (不上件區)";
@@ -316,10 +314,9 @@
                 isExcluded = true;
                 excludeReason = "客戶提供";
             }
-            // D. 單行關鍵字過濾 (含 No-Load, Do Not Stuff)
+            // D. 單行關鍵字過濾 (這裡現在只會抓到 DNP/No-Load, 不會抓 SCREW 了)
             else if (excludeKeywords.some(k => rowStrAll.includes(k))) {
                 isExcluded = true;
-                // 這裡會抓到 Item 58 的 "DO NOT STUFF"，但因為沒啟動 notMountMode，所以不會殺到後面
                 if (rowStrAll.includes("NO-LOAD") || rowStrAll.includes("DNP") || rowStrAll.includes("UNUSED") || rowStrAll.includes("DO NOT STUFF")) {
                     excludeReason = "No-Load (不上件)";
                 } else {
