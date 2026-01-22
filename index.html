@@ -260,7 +260,8 @@
         tableRows = [];
         
         // 修正後的關鍵字清單：移除了機構件，保留真正的 DNP 關鍵字
-        const excludeKeywords = ["TDK-INVENSENSE", "NO-LOAD", "DNP", "UNUSED", "DO NOT STUFF"];
+        // ★★★ 修改點 1：在陣列中加入 "DNS" ★★★
+        const excludeKeywords = ["TDK-INVENSENSE", "NO-LOAD", "DNP", "DNS", "UNUSED", "DO NOT STUFF"];
         const pcbKeywords = ["PCB FAB", "BARE BOARD", "PRINTED CIRCUIT BOARD"];
         
         const passiveMfrs = ["YAGEO", "TDK", "MURATA", "SAMSUNG", "KEMET", "AVX", "KYOCERA", "WALSIN", "TAIYO", "VISHAY", "PANASONIC", "ROHM", "BOURNS"];
@@ -317,7 +318,8 @@
             // D. 單行關鍵字過濾 (這裡現在只會抓到 DNP/No-Load, 不會抓 SCREW 了)
             else if (excludeKeywords.some(k => rowStrAll.includes(k))) {
                 isExcluded = true;
-                if (rowStrAll.includes("NO-LOAD") || rowStrAll.includes("DNP") || rowStrAll.includes("UNUSED") || rowStrAll.includes("DO NOT STUFF")) {
+                // ★★★ 修改點 2：在判斷式中也加入 || rowStrAll.includes("DNS") ★★★
+                if (rowStrAll.includes("NO-LOAD") || rowStrAll.includes("DNP") || rowStrAll.includes("DNS") || rowStrAll.includes("UNUSED") || rowStrAll.includes("DO NOT STUFF")) {
                     excludeReason = "No-Load (不上件)";
                 } else {
                     excludeReason = "自動過濾";
