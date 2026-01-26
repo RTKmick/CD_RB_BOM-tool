@@ -2,32 +2,36 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <title>潤鉑 PCB 整合查詢系統 V1.0.4</title>
+    <title>潤鉑 PCB 整合查詢系統 V1.0.5</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #f4f7f6; }
-        .container { max-width: 98%; margin: auto; background: white; padding: 20px; border-radius: 8px; }
-        .section { border: 1px solid #ddd; padding: 15px; margin-bottom: 30px; border-radius: 5px; }
-        h3 { border-left: 5px solid #333; padding-left: 10px; margin-bottom: 15px; }
-        input { padding: 10px; width: 300px; font-size: 16px; border: 1px solid #ccc; }
-        button { padding: 10px 20px; font-size: 16px; cursor: pointer; margin-left: 5px; }
+        body { font-family: "Microsoft JhengHei", sans-serif; padding: 20px; background: #f4f7f6; color: #333; }
+        .container { max-width: 98%; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .section { border: 1px solid #ddd; padding: 15px; margin-bottom: 30px; border-radius: 5px; position: relative; }
+        h3 { border-left: 5px solid #007bff; padding-left: 10px; margin-bottom: 15px; color: #0056b3; }
+        input, select { padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px; transition: 0.3s; }
+        button:hover { background: #0056b3; }
         
         .table-res { width: 100%; overflow-x: auto; margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
         th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; white-space: nowrap; }
         th { background: #eee; position: sticky; top: 0; }
         
-        /* 廠商顏色底 (F欄) */
-        .v-yusong { background-color: #ffcccc !important; color: black; } /* 紅底 */
-        .v-speedy { background-color: #ffffcc !important; color: black; } /* 黃底 */
-        .v-ching { background-color: #ccffcc !important; color: black; }  /* 綠底 */
+        /* EV/DK 區分標示 (區塊一) */
+        .ev-row { border-left: 5px solid #28a745 !important; background-color: #f0fff0; }
+        .dk-row { border-left: 5px solid #007bff !important; background-color: #f0f7ff; }
 
-        /* 類型顏色底 (E欄) */
-        .t-pcb { background-color: #ccffcc !important; }   /* 綠底 */
-        .t-assy { background-color: #ffcccc !important; }  /* 紅底 */
-        .t-parts { background-color: #ffffcc !important; } /* 黃底 */
-        .t-pcbassy { background-color: #cce5ff !important; } /* 藍底 */
+        /* 區塊二 顏色邏輯 (E欄/F欄) */
+        .v-yusong { background-color: #ffcccc !important; } 
+        .v-speedy { background-color: #ffffcc !important; } 
+        .v-ching { background-color: #ccffcc !important; }  
 
-        .loading { font-size: 14px; color: blue; margin-top: 5px; }
+        .t-pcb { background-color: #ccffcc !important; }   
+        .t-assy { background-color: #ffcccc !important; }  
+        .t-parts { background-color: #ffffcc !important; } 
+        .t-pcbassy { background-color: #cce5ff !important; } 
+
+        .loading { font-size: 14px; color: #666; margin-top: 5px; display: none; }
     </style>
 </head>
 <body>
@@ -35,8 +39,9 @@
 <div class="container">
     <div class="section">
         <h3>區塊一：EVB_List 查詢</h3>
-        <input type="text" id="inputEvb" placeholder="搜尋 C 欄 PCB Number">
+        <input type="text" id="inputEvb" placeholder="輸入 PCB Number (如: 20602)">
         <button onclick="fetchData('evb', 'inputEvb', 'body1')">搜尋專案</button>
+        <div id="load1" class="loading">搜尋中...</div>
         <div class="table-res">
             <table><thead><tr id="head1"></tr></thead><tbody id="body1"></tbody></table>
         </div>
@@ -44,10 +49,17 @@
 
     <div class="section">
         <h3>區塊二：DUT+PROBE_B 查詢</h3>
-        <input type="text" id="inputDut" placeholder="關鍵字搜尋">
-        <button onclick="fetchData('dut_project', 'inputDut', 'body2')">搜尋專案 (C欄)</button>
-        <button onclick="fetchData('dut_vendor', 'inputDut', 'body2')">搜尋廠商 (F欄)</button>
-        <div id="status2" class="loading"></div>
+        <select id="vendorSelect">
+            <option value="">-- 載入廠商中 --</option>
+        </select>
+        <button onclick="fetchData('dut_vendor', 'vendorSelect', 'body2')">搜尋廠商</button>
+        
+        <span style="margin: 0 15px; color: #ccc;">|</span>
+        
+        <input type="text" id="inputDut" placeholder="搜尋 Part Number (C欄)">
+        <button onclick="fetchData('dut_project', 'inputDut', 'body2')">搜尋專案</button>
+        
+        <div id="load2" class="loading">搜尋中...</div>
         <div class="table-res">
             <table><thead><tr id="head2"></tr></thead><tbody id="body2"></tbody></table>
         </div>
@@ -55,21 +67,39 @@
 </div>
 
 <script>
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbyn_JmQayzBYuM6leOHekuauIiSmXfP_fEvS7Auk-IGFxe2yULtzlf7ch3SysU-OuWbUQ/exec";
+    const GAS_URL = "您的_GAS_網址"; 
+
+    // 網頁開啟後自動抓取廠商清單
+    window.onload = async () => {
+        try {
+            const res = await fetch(`${GAS_URL}?action=get_vendors`);
+            const vendors = await res.json();
+            const select = document.getElementById('vendorSelect');
+            select.innerHTML = '<option value="">請選擇廠商 (F欄)</option>';
+            vendors.forEach(v => {
+                if(v) select.innerHTML += `<option value="${v}">${v}</option>`;
+            });
+        } catch (e) {
+            console.error("無法載入廠商清單");
+        }
+    };
 
     async function fetchData(action, inputId, bodyId) {
-        const key = document.getElementById(inputId).value;
-        const head = document.getElementById(bodyId === 'body1' ? 'head1' : 'head2');
+        const val = document.getElementById(inputId).value;
         const body = document.getElementById(bodyId);
+        const head = document.getElementById(bodyId === 'body1' ? 'head1' : 'head2');
+        const load = document.getElementById(bodyId === 'body1' ? 'load1' : 'load2');
         
-        if(!key) return;
-        body.innerHTML = "<tr><td colspan='20'>搜尋中...</td></tr>";
+        if(!val && action !== 'get_vendors') return alert("請輸入關鍵字或選擇廠商");
+
+        load.style.display = "block";
+        body.innerHTML = "";
 
         try {
-            const res = await fetch(`${GAS_URL}?key=${encodeURIComponent(key)}&action=${action}`);
+            const res = await fetch(`${GAS_URL}?key=${encodeURIComponent(val)}&action=${action}`);
             const data = await res.json();
             
-            body.innerHTML = "";
+            load.style.display = "none";
             if (data.length === 0) {
                 body.innerHTML = "<tr><td colspan='20'>無符合資料</td></tr>";
                 return;
@@ -80,40 +110,46 @@
 
             data.forEach(item => {
                 const tr = document.createElement('tr');
-                headers.forEach((h, index) => {
-                    const td = document.createElement('td');
-                    let val = item[h];
+                
+                // 區塊一：EV/DK 排序後的視覺區分
+                if(bodyId === 'body1') {
+                    const pcbNum = String(item[headers[2]] || "").toUpperCase();
+                    if(pcbNum.startsWith("EV")) tr.className = "ev-row";
+                    else if(pcbNum.startsWith("DK")) tr.className = "dk-row";
+                }
 
-                    // 金額格式化 (假設 G 欄在資料中名稱為 "Amount" 或第七個欄位)
-                    // 這裡改用通用判斷：如果標題包含"金額"或"Cost"或"Price"且是數字
-                    if (h.includes("金額") || h.includes("Cost") || h.includes("G") || index === 6) {
-                        if(!isNaN(val) && val !== "") {
-                            val = Number(val).toLocaleString();
-                        }
+                headers.forEach((h, idx) => {
+                    const td = document.createElement('td');
+                    let text = item[h];
+
+                    // G 欄金額格式化 (千分位)
+                    if (idx === 6 && !isNaN(text) && text !== "") {
+                        text = Number(text).toLocaleString();
                     }
 
-                    td.innerText = val || "";
+                    td.innerText = text || "";
 
-                    // 區塊二的顏色邏輯 (F欄與E欄索引需根據您工作表標題名稱)
-                    // F欄：搜尋廠商 (假設標題為 Vendor 或欄位索引5)
-                    const vendorStr = String(item[headers[5]] || "").toUpperCase();
-                    if (vendorStr.includes("YUSONG")) td.classList.add('v-yusong');
-                    if (vendorStr.includes("SPEEDY")) td.classList.add('v-speedy');
-                    if (vendorStr.includes("CHING DENG")) td.classList.add('v-ching');
+                    // 區塊二 顏色邏輯
+                    if(bodyId === 'body2') {
+                        // F欄 廠商顏色 (idx 5)
+                        const v = String(item[headers[5]] || "").toUpperCase();
+                        if (v.includes("YUSONG")) td.classList.add('v-yusong');
+                        else if (v.includes("SPEEDY")) td.classList.add('v-speedy');
+                        else if (v.includes("CHING DENG")) td.classList.add('v-ching');
 
-                    // E欄：類型 (假設標題為 Type 或欄位索引4)
-                    const typeStr = String(item[headers[4]] || "").toUpperCase();
-                    if (typeStr === "PCB") td.classList.add('t-pcb');
-                    if (typeStr === "ASSY") td.classList.add('t-assy');
-                    if (typeStr === "PARTS") td.classList.add('t-parts');
-                    if (typeStr === "PCB+ASSY") td.classList.add('t-pcbassy');
-
+                        // E欄 類型顏色 (idx 4)
+                        const t = String(item[headers[4]] || "").toUpperCase();
+                        if (t === "PCB") td.classList.add('t-pcb');
+                        else if (t === "ASSY") td.classList.add('t-assy');
+                        else if (t === "PARTS") td.classList.add('t-parts');
+                        else if (t === "PCB+ASSY") td.classList.add('t-pcbassy');
+                    }
                     tr.appendChild(td);
                 });
                 body.appendChild(tr);
             });
         } catch (e) {
-            body.innerHTML = "<tr><td colspan='20'>搜尋失敗</td></tr>";
+            load.innerText = "搜尋失敗";
         }
     }
 </script>
