@@ -3,83 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PCB 查表系統 V1.0.0</title>
+    <title>潤鉑 PCB 整合查詢系統 V1.0.2</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #f4f7f6; }
-        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        input { width: 70%; padding: 10px; font-size: 16px; }
-        button { padding: 10px 20px; font-size: 16px; cursor: pointer; background: #007bff; color: white; border: none; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        body { font-family: sans-serif; padding: 10px; background: #f4f7f6; color: #333; }
+        .container { max-width: 98%; margin: auto; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .search-box { position: sticky; top: 0; background: white; padding: 10px 0; z-index: 100; border-bottom: 2px solid #eee; margin-bottom: 20px; }
+        input { width: 60%; padding: 12px; font-size: 16px; border: 1px solid #ddd; border-radius: 4px; }
+        button { padding: 12px 25px; font-size: 16px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px; }
+        
+        h3 { background: #e9ecef; padding: 10px; border-left: 5px solid #6c757d; margin-top: 30px; }
+        .table-responsive { width: 100%; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; white-space: nowrap; } /* 防止折行 */
         th { background: #f8f9fa; }
-        tr:nth-child(even) { background: #f2f2f2; }
-        .ev-row { border-left: 5px solid #28a745; } /* EV 開頭標示綠色 */
-        .dk-row { border-left: 5px solid #007bff; } /* DK 開頭標示藍色 */
+        tr:nth-child(even) { background: #fafafa; }
+        
+        /* 側邊顏色條 */
+        .ev-row { border-left: 5px solid #28a745; }
+        .dk-row { border-left: 5px solid #007bff; }
+        .loading { color: #666; font-style: italic; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>潤鉑 PCB 零件查詢系統</h2>
-        <input type="text" id="pcbInput" placeholder="輸入 PCB Number (例如: 20602)">
-        <button onclick="searchData()">搜尋</button>
 
-        <div id="status"></div>
-        <table id="resultTable">
-            <thead>
-                <tr>
-                    <th>Year</th><th>Item</th><th>PCB Number</th><th>Qty</th><th>Month</th><th>PCB</th><th>Unit Cost</th>
-                </tr>
-            </thead>
-            <tbody id="resultBody"></tbody>
+<div class="container">
+    <div class="search-box">
+        <h2>PCB 整合查詢系統</h2>
+        <input type="text" id="pcbInput" placeholder="輸入關鍵字 (如: 20602)" onkeypress="if(event.keyCode==13) searchData()">
+        <button onclick="searchData()">搜尋</button>
+        <div id="status" class="loading"></div>
+    </div>
+
+    <h3>區塊一：EVB List 資料庫</h3>
+    <div class="table-responsive">
+        <table>
+            <thead><tr id="head1"></tr></thead>
+            <tbody id="body1"></tbody>
         </table>
     </div>
 
-    <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbyn_JmQayzBYuM6leOHekuauIiSmXfP_fEvS7Auk-IGFxe2yULtzlf7ch3SysU-OuWbUQ/exec"; // 這裡換成你的 GAS 網址
+    <h3>區塊二：其他分頁資料庫</h3>
+    <div class="table-responsive">
+        <table>
+            <thead><tr id="head2"></tr></thead>
+            <tbody id="body2"></tbody>
+        </table>
+    </div>
+</div>
 
-        async function searchData() {
-            const key = document.getElementById('pcbInput').value;
-            const body = document.getElementById('resultBody');
-            const status = document.getElementById('status');
-            
-            if(!key) return alert("請輸入關鍵字");
+<script>
+    const GAS_URL = "您的_GAS_部署網址"; 
 
-            status.innerText = "查詢中...";
-            body.innerHTML = "";
+    async function searchData() {
+        const key = document.getElementById('pcbInput').value;
+        if(!key) return;
 
-            try {
-                const response = await fetch(`${GAS_URL}?key=${encodeURIComponent(key)}`);
-                const data = await response.json();
+        document.getElementById('status').innerText = "搜尋中...";
+        
+        try {
+            const resp = await fetch(`${GAS_URL}?key=${encodeURIComponent(key)}`);
+            const data = await resp.json();
 
-                if (data.length === 0) {
-                    status.innerText = "找不到相關資料";
-                    return;
-                }
+            // 渲染兩個區塊
+            renderTable(data.section1, "head1", "body1", true);
+            renderTable(data.section2, "head2", "body2", false);
 
-                status.innerText = `找到 ${data.length} 筆結果`;
-                data.forEach(item => {
-                    const row = document.createElement('tr');
-                    // 根據開頭增加樣式類別
-                    const pcbNum = item["PCB Number"] || "";
-                    if(pcbNum.startsWith("EV")) row.className = "ev-row";
-                    if(pcbNum.startsWith("DK")) row.className = "dk-row";
-
-                    row.innerHTML = `
-                        <td>${item.Year || ''}</td>
-                        <td>${item.Item || ''}</td>
-                        <td>${item["PCB Number"] || ''}</td>
-                        <td>${item.Qty || ''}</td>
-                        <td>${item.Month || ''}</td>
-                        <td>${item.PCB || ''}</td>
-                        <td>${item["Unit Cost"] || ''}</td>
-                    `;
-                    body.appendChild(row);
-                });
-            } catch (error) {
-                status.innerText = "系統錯誤，請確認部署設定";
-                console.error(error);
-            }
+            document.getElementById('status').innerText = `搜尋完成`;
+        } catch (e) {
+            document.getElementById('status').innerText = "搜尋失敗，請檢查網路或 GAS 設定";
         }
-    </script>
+    }
+
+    function renderTable(items, headId, bodyId, isSection1) {
+        const head = document.getElementById(headId);
+        const body = document.getElementById(bodyId);
+        head.innerHTML = "";
+        body.innerHTML = "";
+
+        if (items.length === 0) {
+            body.innerHTML = "<tr><td colspan='100%'>無符合資料</td></tr>";
+            return;
+        }
+
+        // 動態生成標題
+        const headers = Object.keys(items[0]);
+        headers.forEach(h => head.innerHTML += `<th>${h}</th>`);
+
+        // 生成內容
+        items.forEach(item => {
+            const tr = document.createElement('tr');
+            
+            // 區塊一專用的顏色標示
+            if(isSection1) {
+                const pcbNum = String(item["PCB Number"] || "");
+                if(pcbNum.startsWith("EV")) tr.className = "ev-row";
+                else if(pcbNum.startsWith("DK")) tr.className = "dk-row";
+            }
+
+            headers.forEach(h => {
+                tr.innerHTML += `<td>${item[h] || ''}</td>`;
+            });
+            body.appendChild(tr);
+        });
+    }
+</script>
+
 </body>
 </html>
