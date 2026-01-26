@@ -1,1 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCB 查表系統</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f4f7f6; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        input { width: 70%; padding: 10px; font-size: 16px; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; background: #007bff; color: white; border: none; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #f8f9fa; }
+        tr:nth-child(even) { background: #f2f2f2; }
+        .ev-row { border-left: 5px solid #28a745; } /* EV 開頭標示綠色 */
+        .dk-row { border-left: 5px solid #007bff; } /* DK 開頭標示藍色 */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>潤鉑 PCB 零件查詢系統</h2>
+        <input type="text" id="pcbInput" placeholder="輸入 PCB Number (例如: 20602)">
+        <button onclick="searchData()">搜尋</button>
 
+        <div id="status"></div>
+        <table id="resultTable">
+            <thead>
+                <tr>
+                    <th>Year</th><th>Item</th><th>PCB Number</th><th>Qty</th><th>Month</th><th>PCB</th><th>Unit Cost</th>
+                </tr>
+            </thead>
+            <tbody id="resultBody"></tbody>
+        </table>
+    </div>
+
+    <script>
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbyn_JmQayzBYuM6leOHekuauIiSmXfP_fEvS7Auk-IGFxe2yULtzlf7ch3SysU-OuWbUQ/exec"; // 這裡換成你的 GAS 網址
+
+        async function searchData() {
+            const key = document.getElementById('pcbInput').value;
+            const body = document.getElementById('resultBody');
+            const status = document.getElementById('status');
+            
+            if(!key) return alert("請輸入關鍵字");
+
+            status.innerText = "查詢中...";
+            body.innerHTML = "";
+
+            try {
+                const response = await fetch(`${GAS_URL}?key=${encodeURIComponent(key)}`);
+                const data = await response.json();
+
+                if (data.length === 0) {
+                    status.innerText = "找不到相關資料";
+                    return;
+                }
+
+                status.innerText = `找到 ${data.length} 筆結果`;
+                data.forEach(item => {
+                    const row = document.createElement('tr');
+                    // 根據開頭增加樣式類別
+                    const pcbNum = item["PCB Number"] || "";
+                    if(pcbNum.startsWith("EV")) row.className = "ev-row";
+                    if(pcbNum.startsWith("DK")) row.className = "dk-row";
+
+                    row.innerHTML = `
+                        <td>${item.Year || ''}</td>
+                        <td>${item.Item || ''}</td>
+                        <td>${item["PCB Number"] || ''}</td>
+                        <td>${item.Qty || ''}</td>
+                        <td>${item.Month || ''}</td>
+                        <td>${item.PCB || ''}</td>
+                        <td>${item["Unit Cost"] || ''}</td>
+                    `;
+                    body.appendChild(row);
+                });
+            } catch (error) {
+                status.innerText = "系統錯誤，請確認部署設定";
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>
