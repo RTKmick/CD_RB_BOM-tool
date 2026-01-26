@@ -2,94 +2,166 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <title>潤鉑 PCB 整合查詢系統 V1.0.6</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>潤鉑 PCB 整合管理系統 V1.0.7</title>
+    <script src="config.js"></script>
     <style>
-        body { font-family: "Microsoft JhengHei", sans-serif; padding: 20px; background: #f4f7f6; color: #333; }
-        .container { max-width: 98%; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .section { border: 1px solid #ddd; padding: 15px; margin-bottom: 30px; border-radius: 5px; position: relative; }
-        h3 { border-left: 5px solid #007bff; padding-left: 10px; margin-bottom: 15px; color: #0056b3; }
-        /* 修改後：將寬度增加約 1.5 倍 */
-        input[type="text"] { 
-            padding: 10px; 
-            width: 450px; /* 從原來的 300px 增加到 450px */
-            font-size: 16px; 
-            border: 1px solid #ccc; 
-            border-radius: 4px;
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --border-color: #e2e8f0;
+            /* 狀態色調：優雅版 */
+            --status-green: #dcfce7; --text-green: #166534;
+            --status-red: #fee2e2;   --text-red: #991b1b;
+            --status-yellow: #fef9c3;--text-yellow: #854d0e;
+            --status-blue: #dbeafe;  --text-blue: #1e40af;
         }
-        button { padding: 10px 20px; font-size: 16px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px; transition: 0.3s; }
-        button:hover { background: #0056b3; }
+
+        body { 
+            font-family: 'Inter', "Microsoft JhengHei", sans-serif; 
+            background: var(--bg-color); color: var(--text-main);
+            margin: 0; padding: 20px; line-height: 1.6;
+        }
+
+        .container { max-width: 1400px; margin: auto; }
+
+        /* 頂部導航欄 */
+        .header {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--card-bg); padding: 15px 30px;
+            border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            margin-bottom: 25px;
+        }
+
+        h2 { margin: 0; font-size: 24px; color: var(--primary-color); letter-spacing: 1px; }
+
+        /* 區塊卡片設計 */
+        .section {
+            background: var(--card-bg); padding: 25px;
+            border-radius: 16px; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            margin-bottom: 30px; border: 1px solid var(--border-color);
+            transition: transform 0.2s;
+        }
+
+        h3 { 
+            margin-top: 0; padding-bottom: 15px; border-bottom: 2px solid #f1f5f9;
+            color: #334155; font-size: 18px; display: flex; align-items: center;
+        }
+
+        /* 輸入與按鍵美化 */
+        .controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+        input[type="text"], select {
+            padding: 12px 16px; font-size: 15px; border: 1px solid #cbd5e1;
+            border-radius: 8px; outline: none; transition: all 0.2s; background: #fff;
+        }
         
-        .table-res { width: 100%; overflow-x: auto; margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; font-size: 14px; }
-        th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; white-space: nowrap; }
-        th { background: #eee; position: sticky; top: 0; }
+        /* 指定搜尋框寬度 (15格感) */
+        .search-input { width: 450px; }
+
+        input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+
+        button {
+            padding: 12px 24px; font-size: 15px; font-weight: 600; cursor: pointer;
+            border-radius: 8px; border: none; transition: all 0.2s;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+
+        .btn-primary { background: var(--primary-color); color: white; }
+        .btn-primary:hover { background: #1d4ed8; transform: translateY(-1px); }
         
-        /* EV/DK 區分標示 (區塊一) */
-        .ev-row { border-left: 5px solid #28a745 !important; background-color: #f0fff0; }
-        .dk-row { border-left: 5px solid #007bff !important; background-color: #f0f7ff; }
+        .btn-refresh { background: #64748b; color: white; }
+        .btn-refresh:hover { background: #475569; }
 
-        /* 區塊二 顏色邏輯 (E欄/F欄) */
-        .v-yusong { background-color: #ffcccc !important; } 
-        .v-speedy { background-color: #ffffcc !important; } 
-        .v-ching { background-color: #ccffcc !important; }  
+        /* 表格設計：簡約大氣 */
+        .table-res { width: 100%; overflow-x: auto; margin-top: 20px; border-radius: 8px; border: 1px solid var(--border-color); }
+        table { width: 100%; border-collapse: collapse; white-space: nowrap; }
+        th { background: #f8fafc; padding: 14px; font-weight: 600; color: #475569; text-align: left; border-bottom: 2px solid var(--border-color); }
+        td { padding: 14px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+        tr:hover { background: #f1f5f9; }
 
-        .t-pcb { background-color: #ccffcc !important; }   
-        .t-assy { background-color: #ffcccc !important; }  
-        .t-parts { background-color: #ffffcc !important; } 
-        .t-pcbassy { background-color: #cce5ff !important; } 
+        /* 特殊狀態標籤化 (取代整列變色，視覺更乾淨) */
+        .tag { padding: 4px 10px; border-radius: 6px; font-weight: 600; font-size: 12px; }
+        .tag-ev { background: var(--status-green); color: var(--text-green); border: 1px solid #bbf7d0; }
+        .tag-dk { background: var(--status-blue); color: var(--text-blue); border: 1px solid #bfdbfe; }
 
-        .loading { font-size: 14px; color: #666; margin-top: 5px; display: none; }
+        /* 區塊二標籤 */
+        .v-yusong { color: var(--text-red); font-weight: bold; }
+        .v-speedy { color: var(--text-yellow); font-weight: bold; }
+        .v-ching { color: var(--text-green); font-weight: bold; }
+
+        .type-badge { padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+        .t-pcb { background: var(--status-green); color: var(--text-green); }
+        .t-assy { background: var(--status-red); color: var(--text-red); }
+        .t-parts { background: var(--status-yellow); color: var(--text-yellow); }
+        .t-pcbassy { background: var(--status-blue); color: var(--text-blue); }
+
+        .loading-spinner { display: none; margin-left: 10px; color: var(--primary-color); font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <div class="header">
+        <h2>潤鉑 PCB 整合管理系統</h2>
+        <button class="btn-refresh" onclick="refreshPage()">🔄 重新整理</button>
+    </div>
+
     <div class="section">
-        <h3>區塊一：EVB_List 查詢</h3>
-        <input type="text" id="inputEvb" placeholder="輸入 PCB Number (如: 20602)">
-        <button onclick="fetchData('evb', 'inputEvb', 'body1')">搜尋專案</button>
-        <div id="load1" class="loading">搜尋中...</div>
+        <h3>📦 區塊一：EVB_List 查詢</h3>
+        <div class="controls">
+            <input type="text" id="inputEvb" class="search-input" placeholder="輸入 PCB Number (如: 20602)">
+            <button class="btn-primary" onclick="fetchData('evb', 'inputEvb', 'body1')">搜尋專案</button>
+            <span id="load1" class="loading-spinner">搜尋中...</span>
+        </div>
         <div class="table-res">
             <table><thead><tr id="head1"></tr></thead><tbody id="body1"></tbody></table>
         </div>
     </div>
 
     <div class="section">
-        <h3>區塊二：DUT+PROBE_B 查詢</h3>
-        <select id="vendorSelect">
-            <option value="">-- 載入廠商中 --</option>
-        </select>
-        <button onclick="fetchData('dut_vendor', 'vendorSelect', 'body2')">搜尋廠商</button>
-        
-        <span style="margin: 0 15px; color: #ccc;">|</span>
-        
-        <input type="text" id="inputDut" placeholder="搜尋 Part Number (如: 05848)">
-        <button onclick="fetchData('dut_project', 'inputDut', 'body2')">搜尋專案</button>
-        
-        <div id="load2" class="loading">搜尋中...</div>
+        <h3>📋 區塊二：DUT+PROBE_B 查詢</h3>
+        <div class="controls">
+            <select id="vendorSelect"><option value="">-- 載入廠商中 --</option></select>
+            <button class="btn-primary" onclick="fetchData('dut_vendor', 'vendorSelect', 'body2')">搜尋廠商</button>
+            
+            <span style="color: #cbd5e1; margin: 0 10px;">|</span>
+            
+            <input type="text" id="inputDut" class="search-input" placeholder="搜尋 Part Number (如: 05848)">
+            <button class="btn-primary" onclick="fetchData('dut_project', 'inputDut', 'body2')">搜尋專案</button>
+            <span id="load2" class="loading-spinner">搜尋中...</span>
+        </div>
         <div class="table-res">
             <table><thead><tr id="head2"></tr></thead><tbody id="body2"></tbody></table>
         </div>
     </div>
 </div>
 
-<script src="config.js"></script>
 <script>
-    const GAS_URL = CONFIG.GAS_URL; 
+    const GAS_URL = CONFIG.GAS_URL;
 
-    // 網頁開啟後自動抓取廠商清單
+    // 重新整理頁面
+    function refreshPage() {
+        window.location.reload();
+    }
+
+    // 清除特定區塊內容
+    function clearSection(sectionNum) {
+        document.getElementById(`head${sectionNum}`).innerHTML = "";
+        document.getElementById(`body${sectionNum}`).innerHTML = "";
+        document.getElementById(`load${sectionNum}`).style.display = "none";
+    }
+
     window.onload = async () => {
         try {
             const res = await fetch(`${GAS_URL}?action=get_vendors`);
             const vendors = await res.json();
             const select = document.getElementById('vendorSelect');
             select.innerHTML = '<option value="">請選擇廠商 (F欄)</option>';
-            vendors.forEach(v => {
-                if(v) select.innerHTML += `<option value="${v}">${v}</option>`;
-            });
-        } catch (e) {
-            console.error("無法載入廠商清單");
-        }
+            vendors.forEach(v => { if(v) select.innerHTML += `<option value="${v}">${v}</option>`; });
+        } catch (e) { console.error("無法載入廠商"); }
     };
 
     async function fetchData(action, inputId, bodyId) {
@@ -98,16 +170,20 @@
         const head = document.getElementById(bodyId === 'body1' ? 'head1' : 'head2');
         const load = document.getElementById(bodyId === 'body1' ? 'load1' : 'load2');
         
-        if(!val && action !== 'get_vendors') return alert("請輸入關鍵字或選擇廠商");
+        // 核心邏輯：搜尋一邊時，清除另一邊
+        if (bodyId === 'body1') clearSection(2);
+        else clearSection(1);
 
-        load.style.display = "block";
+        if(!val) return;
+
+        load.style.display = "inline";
         body.innerHTML = "";
 
         try {
             const res = await fetch(`${GAS_URL}?key=${encodeURIComponent(val)}&action=${action}`);
             const data = await res.json();
-            
             load.style.display = "none";
+
             if (data.length === 0) {
                 body.innerHTML = "<tr><td colspan='20'>無符合資料</td></tr>";
                 return;
@@ -118,47 +194,39 @@
 
             data.forEach(item => {
                 const tr = document.createElement('tr');
-                
-                // 區塊一：EV/DK 排序後的視覺區分
-                if(bodyId === 'body1') {
-                    const pcbNum = String(item[headers[2]] || "").toUpperCase();
-                    if(pcbNum.startsWith("EV")) tr.className = "ev-row";
-                    else if(pcbNum.startsWith("DK")) tr.className = "dk-row";
-                }
-
                 headers.forEach((h, idx) => {
                     const td = document.createElement('td');
                     let text = item[h];
 
-                    // G 欄金額格式化 (千分位)
-                    if (idx === 6 && !isNaN(text) && text !== "") {
-                        text = Number(text).toLocaleString();
-                    }
+                    // 金額格式化
+                    if (idx === 6 && !isNaN(text) && text !== "") text = Number(text).toLocaleString();
 
-                    td.innerText = text || "";
-
-                    // 區塊二 顏色邏輯
-                    if(bodyId === 'body2') {
-                        // F欄 廠商顏色 (idx 5)
+                    // 視覺優化：將特定文字轉為標籤
+                    if (bodyId === 'body1' && idx === 2) {
+                        const type = String(text).toUpperCase().startsWith("EV") ? "EV" : "DK";
+                        td.innerHTML = `<span class="tag tag-${type.toLowerCase()}">${text}</span>`;
+                    } else if (bodyId === 'body2') {
+                        // F欄 廠商顏色文字 (idx 5)
                         const v = String(item[headers[5]] || "").toUpperCase();
                         if (v.includes("YUSONG")) td.classList.add('v-yusong');
                         else if (v.includes("SPEEDY")) td.classList.add('v-speedy');
                         else if (v.includes("CHING DENG")) td.classList.add('v-ching');
 
-                        // E欄 類型顏色 (idx 4)
-                        const t = String(item[headers[4]] || "").toUpperCase();
-                        if (t === "PCB") td.classList.add('t-pcb');
-                        else if (t === "ASSY") td.classList.add('t-assy');
-                        else if (t === "PARTS") td.classList.add('t-parts');
-                        else if (t === "PCB+ASSY") td.classList.add('t-pcbassy');
+                        // E欄 類型轉 Badge (idx 4)
+                        if (idx === 4) {
+                            const t = String(text).toUpperCase().replace("+", "");
+                            td.innerHTML = `<span class="type-badge t-${t.toLowerCase()}">${text}</span>`;
+                        } else {
+                            td.innerText = text || "";
+                        }
+                    } else {
+                        td.innerText = text || "";
                     }
                     tr.appendChild(td);
                 });
                 body.appendChild(tr);
             });
-        } catch (e) {
-            load.innerText = "搜尋失敗";
-        }
+        } catch (e) { load.innerText = "搜尋失敗"; }
     }
 </script>
 </body>
