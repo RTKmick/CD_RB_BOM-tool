@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>潤鉑 PCB 整合管理系統 V1.0.8</title>
+    <title>潤鉑 PCB 整合管理系統 V1.0.9</title>
     <script src="config.js"></script>
     <style>
         /* G欄 USD 特殊顏色 */
@@ -221,9 +221,11 @@
                         }     
                         // --- 新增：G欄 USD 紅字邏輯 (idx 6) ---
                         else if (idx === 6) {
-                            if (String(text).startsWith("USD")) {
-                                td.classList.add('v-price-usd');
-                            }
+                        // --- 強化版：G欄 USD 紅字邏輯 ---
+                        const cleanText = String(text || "").trim().toUpperCase(); // 去空格並轉大寫
+                        if (cleanText.startsWith("USD")) {
+                            td.classList.add('v-price-usd');
+                        }
                             td.innerText = text || "";
                         }
                         else {
