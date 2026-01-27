@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>潤鉑 PCB 整合管理系統 V1.0.9</title>
+    <title>潤鉑 PCB 整合管理系統 V1.1.1</title>
     <script src="config.js"></script>
     <style>
         /* G欄 USD 特殊顏色 */
@@ -207,33 +207,29 @@
                     if (bodyId === 'body1' && idx === 2) {
                         const type = String(text).toUpperCase().startsWith("EV") ? "EV" : "DK";
                         td.innerHTML = `<span class="tag tag-${type.toLowerCase()}">${text}</span>`;
+                    // ... 找到處理 body2 的邏輯
                     } else if (bodyId === 'body2') {
-                        // F欄 廠商顏色文字 (idx 5)
-                        const v = String(item[headers[5]] || "").toUpperCase();
-                        if (v.includes("YUSONG")) td.classList.add('v-yusong');
-                        else if (v.includes("SPEEDY")) td.classList.add('v-speedy');
-                        else if (v.includes("CHING DENG")) td.classList.add('v-ching');
-
-                        // E欄 類型轉 Badge (idx 4)
+                        // 1. 處理 E 欄 (idx 4): 類型 Badge
                         if (idx === 4) {
                             const t = String(text).toUpperCase().replace("+", "");
                             td.innerHTML = `<span class="type-badge t-${t.toLowerCase()}">${text}</span>`;
-                        }     
-                        // --- 新增：G欄 USD 紅字邏輯 (idx 6) ---
+                        } 
+                        // 2. 處理 F 欄 (idx 5): 廠商顏色 (精確化：只套用到 F 欄本身)
+                        else if (idx === 5) {
+                            const v = String(text || "").toUpperCase();
+                            if (v.includes("YUSONG")) td.classList.add('v-yusong');
+                            else if (v.includes("SPEEDY")) td.classList.add('v-speedy');
+                            else if (v.includes("CHING DENG")) td.classList.add('v-ching');
+                            td.innerText = text || "";
+                        }
+                        // 3. 處理 G 欄 (idx 6): 價格紅字 (精確化：只套用到 G 欄本身)
                         else if (idx === 6) {
-                        // --- 強化版：G欄 USD 紅字邏輯 ---
-                        const cleanText = String(text || "").trim().toUpperCase(); // 去空格並轉大寫
-                        if (cleanText.startsWith("USD")) {
-                            td.classList.add('v-price-usd');
-                        }
+                            const cleanText = String(text || "").trim().toUpperCase();
+                            if (cleanText.startsWith("USD")) {td.classList.add('v-price-usd');}
                             td.innerText = text || "";
                         }
-                        else {
-                            td.innerText = text || "";
-                        }
-                    } else {
-                        td.innerText = text || "";
-                    }
+                        else {td.innerText = text || "";}
+                    } else {td.innerText = text || "";}
                     tr.appendChild(td);
                 });
                 body.appendChild(tr);
