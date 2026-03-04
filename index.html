@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOM 旗艦備料系統 V1.5.1 (關鍵字鬆綁版)</title>
+    <title>BOM 旗艦備料系統 V1.5.2 (關鍵字鬆綁版)</title>
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -212,7 +212,7 @@
             if (rowStr.includes("manufacturer") || rowStr.includes("mfr")) score += 2;
             if (rowStr.includes("reference") || rowStr.includes("ref")) score += 2;
 
-            // ★ Element14 常見欄位：Line Note（通常放 Manufacturer）
+            // Element14 常見欄位：Line Note（有些 BOM 會拿來放 Manufacturer）
             if (rowStr.includes("line note") || rowStr.includes("linenote")) score += 2;
 
             if (score > maxScore) { maxScore = score; bestHeaderRow = i; }
@@ -233,7 +233,7 @@
                 else if (c === "quantity" || c === "qty") colMap.qty = idx;
                 else if (c.includes("reference") || c.includes("ref") || c.includes("designator")) colMap.ref = idx;
 
-                // ★ Element14：Line Note -> 當作 Manufacturer 欄
+                // Element14：Line Note -> 當作 Manufacturer 欄（若 BOM 採此欄位）
                 else if (c === "line note" || c === "linenote" || c.includes("line note")) colMap.mfr = idx;
 
                 else if ((c.includes("manufacturer") || c.includes("mfr")) && !c.includes("pn") && !c.includes("part") && !c.includes("number")) {
@@ -263,12 +263,11 @@
         processTableData(bestHeaderRow);
     }
 
-    // ★★★ V1.4 修正：關鍵字鬆綁 (移除 SCREW, NUT, STANDOFF) ★★★
+    // ★★★ V1.4 修正：關鍵字鬆綁 (移除 SCREW, NUT, STANDOFF) + 新增 DO NOT INSTALL 區段模式 ★★★
     function processTableData(headerRowIndex) {
         tableRows = [];
 
-        // ★ 新增：DO NOT INSTALL 判斷（與 DNP 同級，判定不上件）
-        // ★★★ 修改點：在陣列中加入 "DO NOT INSTALL" ★★★
+        // DNP 關鍵字（同一列內的 DNP/DNS/No-Load 等）
         const excludeKeywords = ["TDK-INVENSENSE", "NO-LOAD", "DNP", "DNS", "UNUSED", "DO NOT STUFF", "DO NOT INSTALL"];
         const pcbKeywords = ["PCB FAB", "BARE BOARD", "PRINTED CIRCUIT BOARD"];
 
@@ -278,16 +277,28 @@
         const consignedMpns = ["QSS-100-01-F-D-A", "QTS-100-01-F-D-A", "QTH-120-01-F-D-A", "QSH-120-01-F-D-A"];
 
         let notMountMode = false;
+        let doNotInstallMode = false; // ★新增：DO NOT INSTALL 區段（與 NOT MOUNT 同等）
 
         for (let i = headerRowIndex + 1; i < rawData.length; i++) {
             const row = rawData[i];
+
+            // 原始整列字串
             const rowStrAll = row.map(c => String(c)).join(" ").toUpperCase();
+            // 正規化（壓縮換行/多空白）
+            const rowStrNorm = rowStrAll.replace(/\s+/g, " ").trim();
 
             const qtyVal = parseFloat(colMap.qty !== -1 ? row[colMap.qty] : 0) || 0;
 
-            // 1. Not Mount 區段偵測 (嚴格模式：必須有 NOT MOUNT:)
-            if (rowStrAll.includes("NOT MOUNT:")) {
+            // 1. Not Mount 區段偵測（必須有 NOT MOUNT:）
+            if (rowStrNorm.includes("NOT MOUNT:")) {
                 notMountMode = true;
+                continue;
+            }
+
+            // 1b. DO NOT INSTALL 區段偵測（整列標題模式）
+            // 你的檔案就是「上一列寫 DO NOT INSTALL，下一列開始不上件」
+            if (rowStrNorm === "DO NOT INSTALL") {
+                doNotInstallMode = true;
                 continue;
             }
 
@@ -313,8 +324,13 @@
                 isExcluded = true;
                 excludeReason = "Not Mount (不上件區)";
             }
+            // A2. DO NOT INSTALL 區塊（同 Not Mount 用意：下方全部不上件）
+            else if (doNotInstallMode) {
+                isExcluded = true;
+                excludeReason = "No-Load (不上件)";
+            }
             // B. PCB過濾
-            else if (pcbKeywords.some(k => rowStrAll.includes(k)) || descVal === "PCB" || descVal.startsWith("PCB ")) {
+            else if (pcbKeywords.some(k => rowStrNorm.includes(k)) || descVal === "PCB" || descVal.startsWith("PCB ")) {
                 isExcluded = true;
                 excludeReason = "PCB過濾";
             }
@@ -323,18 +339,16 @@
                 isExcluded = true;
                 excludeReason = "客戶提供";
             }
-            // D. 單行關鍵字過濾
-            else if (excludeKeywords.some(k => rowStrAll.includes(k))) {
+            // D. 單行關鍵字過濾（同一列內包含 DNP/DNS/No-Load/Do Not Stuff/Do Not Install）
+            else if (excludeKeywords.some(k => rowStrNorm.includes(k)) || /DO\s*NOT\s*INSTALL/.test(rowStrAll)) {
                 isExcluded = true;
-
-                // ★★★ 修改點：加入 DO NOT INSTALL 判斷 ★★★
                 if (
-                    rowStrAll.includes("NO-LOAD") ||
-                    rowStrAll.includes("DNP") ||
-                    rowStrAll.includes("DNS") ||
-                    rowStrAll.includes("UNUSED") ||
-                    rowStrAll.includes("DO NOT STUFF") ||
-                    rowStrAll.includes("DO NOT INSTALL")
+                    rowStrNorm.includes("NO-LOAD") ||
+                    rowStrNorm.includes("DNP") ||
+                    rowStrNorm.includes("DNS") ||
+                    rowStrNorm.includes("UNUSED") ||
+                    rowStrNorm.includes("DO NOT STUFF") ||
+                    /DO\s*NOT\s*INSTALL/.test(rowStrAll)
                 ) {
                     excludeReason = "No-Load (不上件)";
                 } else {
@@ -367,6 +381,7 @@
                 isSmtPart: isSmtPart
             });
         }
+
         document.getElementById('step1').classList.remove('active');
         document.getElementById('step2').classList.add('active');
         document.getElementById('nav-step2').classList.add('active');
@@ -481,7 +496,7 @@
 
         let outputData = [];
 
-        // ★ Element14 匯出格式（依附件）：Part Number | Quantity | Line Note
+        // Element14 匯出格式：Part Number | Quantity | Line Note
         if (platform === 'Elem14') {
             outputData.push(["Part Number", "Quantity", "Line Note"]);
             selectedRows.forEach(r => {
