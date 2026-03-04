@@ -261,7 +261,7 @@
         
         // 修正後的關鍵字清單：移除了機構件，保留真正的 DNP 關鍵字
         // ★★★ 修改點 1：在陣列中加入 "DNS" ★★★
-        const excludeKeywords = ["TDK-INVENSENSE", "NO-LOAD", "DNP", "DNS", "UNUSED", "DO NOT STUFF"];
+        const excludeKeywords = ["TDK-INVENSENSE", "NO-LOAD", "DNP", "DNS", "UNUSED", "DO NOT STUFF", "DO NOT INSTALL"];
         const pcbKeywords = ["PCB FAB", "BARE BOARD", "PRINTED CIRCUIT BOARD"];
         
         const passiveMfrs = ["YAGEO", "TDK", "MURATA", "SAMSUNG", "KEMET", "AVX", "KYOCERA", "WALSIN", "TAIYO", "VISHAY", "PANASONIC", "ROHM", "BOURNS"];
@@ -319,7 +319,7 @@
             else if (excludeKeywords.some(k => rowStrAll.includes(k))) {
                 isExcluded = true;
                 // ★★★ 修改點 2：在判斷式中也加入 || rowStrAll.includes("DNS") ★★★
-                if (rowStrAll.includes("NO-LOAD") || rowStrAll.includes("DNP") || rowStrAll.includes("DNS") || rowStrAll.includes("UNUSED") || rowStrAll.includes("DO NOT STUFF")) {
+                if (rowStrAll.includes("NO-LOAD") || rowStrAll.includes("DNP") || rowStrAll.includes("DNS") || rowStrAll.includes("UNUSED") || rowStrAll.includes("DO NOT STUFF") || rowStrAll.includes("DO NOT INSTALL")) {
                     excludeReason = "No-Load (不上件)";
                 } else {
                     excludeReason = "自動過濾";
@@ -452,61 +452,76 @@
         tableRows.forEach(r => { if (!r.excluded) r.checked = !r.checked; });
         recalcAndRender();
     }
-    function updateStats() {
-        const count = tableRows.filter(r => r.checked).length;
-        document.getElementById('selectionStats').innerText = `已選: ${count} 筆`;
-    }
-
     function exportUniversalBOM(platform) {
-        const projectName = document.getElementById('projectName').value;
-        const selectedRows = tableRows.filter(r => r.checked && r.part);
-
-        if (selectedRows.length === 0) { alert("沒有勾選任何項目！"); return; }
-
-        let outputData = [];
-        outputData.push(["Item Number", "Manufacturer Name", "Manufacturer Part Number", "Quantity 1"]);
-
-        selectedRows.forEach(r => {
-            outputData.push([r.item, r.mfr, r.part, r.finalQty]);
-        });
-
-        const ws = XLSX.utils.aoa_to_sheet(outputData);
-        const colWidths = outputData[0].map((_, i) => {
-             let max = 15; 
-             outputData.forEach(r => { if(r[i] && String(r[i]).length > max) max = String(r[i]).length; });
-             return { wch: max + 2 };
-        });
-        ws['!cols'] = colWidths;
-
-        const range = XLSX.utils.decode_range(ws['!ref']);
-        const headerStyle = {
-            font: { bold: true, sz: 14 },
-            alignment: { horizontal: "center", vertical: "center" }
-        };
-        const cellStyle = {
-            alignment: { horizontal: "center", vertical: "center" }
-        };
-
-        for (let R = range.s.r; R <= range.e.r; ++R) {
-            for (let C = range.s.c; C <= range.e.c; ++C) {
-                const cell_address = XLSX.utils.encode_cell({r: R, c: C});
-                if (!ws[cell_address]) continue;
-                if (R === 0) ws[cell_address].s = headerStyle;
-                else ws[cell_address].s = cellStyle;
+            const projectName = document.getElementById('projectName').value;
+            const selectedRows = tableRows.filter(r => r.checked && r.part);
+    
+            if (selectedRows.length === 0) {
+                alert("沒有勾選任何項目！");
+                return;
             }
+    
+            let outputData = [];
+    
+            // BUG2 修正：根據平台決定匯出格式
+            if (platform === 'Elem14') {
+                // Element14 專用格式 (參考 ESample.xlsx)
+                outputData.push(["Part Number", "Quantity", "Line Note"]);
+                selectedRows.forEach(r => {
+                    outputData.push([r.part, r.finalQty, r.mfr]); 
+                });
+            } else {
+                // Mouser & DigiKey 通用格式
+                outputData.push(["Item Number", "Manufacturer Name", "Manufacturer Part Number", "Quantity 1"]);
+                selectedRows.forEach(r => {
+                    outputData.push([r.item, r.mfr, r.part, r.finalQty]);
+                });
+            }
+    
+            // 建立 Worksheet
+            const ws = XLSX.utils.aoa_to_sheet(outputData);
+    
+            // 自動計算欄寬
+            const colWidths = outputData[0].map((_, i) => {
+                let max = 15;
+                outputData.forEach(r => {
+                    if (r[i] && String(r[i]).length > max) max = String(r[i]).length;
+                });
+                return { wch: max + 2 };
+            });
+            ws['!cols'] = colWidths;
+    
+            // 設定樣式 (14pt 粗體表頭 + 所有格位置中)
+            const range = XLSX.utils.decode_range(ws['!ref']);
+            const headerStyle = {
+                font: { bold: true, sz: 14 },
+                alignment: { horizontal: "center", vertical: "center" }
+            };
+            const cellStyle = {
+                alignment: { horizontal: "center", vertical: "center" }
+            };
+    
+            for (let R = range.s.r; R <= range.e.r; ++R) {
+                for (let C = range.s.c; C <= range.e.c; ++C) {
+                    const cell_address = XLSX.utils.encode_cell({ r: R, c: C });
+                    if (!ws[cell_address]) continue;
+                    if (R === 0) ws[cell_address].s = headerStyle;
+                    else ws[cell_address].s = cellStyle;
+                }
+            }
+    
+            // 產生檔案並下載
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "BOM");
+    
+            let suffix = "";
+            if (platform === 'Mouser') suffix = "_Mouser";
+            else if (platform === 'Digikey') suffix = "_Digikey";
+            else if (platform === 'Elem14') suffix = "_Elem14";
+    
+            const fileName = `${projectName}${suffix}.xlsx`;
+            XLSX.writeFile(wb, fileName);
         }
-
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "BOM");
-
-        let suffix = "";
-        if(platform === 'Mouser') suffix = "_Mouser";
-        else if(platform === 'Digikey') suffix = "_Digikey";
-        else if(platform === 'Elem14') suffix = "_Elem14";
-
-        const fileName = `${projectName}${suffix}.xlsx`;
-        XLSX.writeFile(wb, fileName);
-    }
 </script>
 
 </body>
