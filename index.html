@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOM 旗艦備料系統 V1.5 (關鍵字鬆綁版)</title>
+    <title>BOM 旗艦備料系統 V1.6</title>
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -172,13 +172,12 @@
 
     function handleFile(file) {
         if (!file) return;
-
         const fileName = file.name.toLowerCase();
         const validExtensions = ['.xlsx', '.xls', '.csv'];
         const isValid = validExtensions.some(ext => fileName.endsWith(ext));
 
         if (!isValid) {
-            alert("❌ 檔案格式錯誤！\n\n系統僅支援下列格式：\n• Excel (.xlsx, .xls)\n• CSV (.csv)\n\n(若是 Google Sheet，請先下載為 Excel 檔案)");
+            alert("❌ 檔案格式錯誤！\n\n系統僅支援下列格式：\n• Excel (.xlsx, .xls)\n• CSV (.csv)");
             return;
         }
         
@@ -200,21 +199,17 @@
     function analyzeData() {
         let bestHeaderRow = -1;
         let maxScore = 0;
-        
         for (let i = 0; i < Math.min(rawData.length, 25); i++) {
             let score = 0;
             const rowStr = rawData[i].map(c => String(c).toLowerCase().trim()).join(" ");
-            
             if (rowStr.includes("item") || rowStr.includes("no.")) score += 2;
             if (rowStr.includes("qty") || rowStr.includes("quantity")) score += 3;
             if (rowStr.includes("description") || rowStr.includes("desc")) score += 2;
             if (rowStr.includes("part") || rowStr.includes("pn") || rowStr.includes("mpn") || rowStr.includes("料號")) score += 3;
             if (rowStr.includes("manufacturer") || rowStr.includes("mfr")) score += 2;
             if (rowStr.includes("reference") || rowStr.includes("ref")) score += 2;
-
             if (score > maxScore) { maxScore = score; bestHeaderRow = i; }
         }
-
         if (bestHeaderRow === -1 || maxScore < 4) {
             bestHeaderRow = 7; 
             colMap = { item: 0, qty: 2, ref: 3, desc: 4, mfr: 5, part: 6, part_backup: -1 };
@@ -222,126 +217,56 @@
             colMap = { item: -1, mfr: -1, part: -1, part_backup: -1, qty: -1, ref: -1, desc: -1 };
             let possiblePartIdx = -1; 
             let definitiveMpnFound = false;
-
             rawData[bestHeaderRow].forEach((cell, idx) => {
                 const c = String(cell).toLowerCase().trim();
                 if (c === "item" || c === "item number" || c === "no.") colMap.item = idx;
                 else if (c === "quantity" || c === "qty") colMap.qty = idx;
                 else if (c.includes("reference") || c.includes("ref") || c.includes("designator")) colMap.ref = idx;
-                else if ((c.includes("manufacturer") || c.includes("mfr")) && !c.includes("pn") && !c.includes("part") && !c.includes("number")) {
-                    colMap.mfr = idx;
-                }
-                else if (c.includes("description") || c === "desc") {
-                    colMap.desc = idx;
-                }
-                else if (c === "mpn" || c.includes("mfr p/n") || c.includes("manufacturer's part") || c.includes("manufacturer part number") || c.includes("manufacturer pn")) {
-                    colMap.part = idx;
-                    definitiveMpnFound = true;
-                }
-                else if (c === "part" || c === "part number" || c === "part_number" || c === "p/n") {
-                    possiblePartIdx = idx;
-                }
+                else if ((c.includes("manufacturer") || c.includes("mfr")) && !c.includes("pn")) colMap.mfr = idx;
+                else if (c.includes("description") || c === "desc") colMap.desc = idx;
+                else if (c === "mpn" || c.includes("mfr p/n") || c.includes("manufacturer pn")) { colMap.part = idx; definitiveMpnFound = true; }
+                else if (c === "part" || c === "part number" || c === "p/n") possiblePartIdx = idx;
             });
-
             if (definitiveMpnFound) {
                 if (colMap.desc === -1 && possiblePartIdx !== -1) colMap.desc = possiblePartIdx;
-                if (possiblePartIdx !== -1) colMap.part_backup = possiblePartIdx;
             } else {
                 if (colMap.part === -1 && possiblePartIdx !== -1) colMap.part = possiblePartIdx;
             }
-            if (colMap.part === -1 && colMap.mfr !== -1) colMap.part = colMap.mfr + 1;
         }
-
         processTableData(bestHeaderRow);
     }
 
-    // ★★★ V1.4 修正：關鍵字鬆綁 (移除 SCREW, NUT, STANDOFF) ★★★
     function processTableData(headerRowIndex) {
         tableRows = [];
-        
-        // 修正後的關鍵字清單：移除了機構件，保留真正的 DNP 關鍵字
-        // ★★★ 修改點 1：在陣列中加入 "DNS" ★★★
         const excludeKeywords = ["TDK-INVENSENSE", "NO-LOAD", "DNP", "DNS", "UNUSED", "DO NOT STUFF", "DO NOT INSTALL"];
         const pcbKeywords = ["PCB FAB", "BARE BOARD", "PRINTED CIRCUIT BOARD"];
-        
         const passiveMfrs = ["YAGEO", "TDK", "MURATA", "SAMSUNG", "KEMET", "AVX", "KYOCERA", "WALSIN", "TAIYO", "VISHAY", "PANASONIC", "ROHM", "BOURNS"];
-        const capUnits = ["UF", "PF", "NF", "µF"];
-        const resUnits = ["OHM", "Ω", " KOHM", " MOHM", " 1%"];
         const consignedMpns = ["QSS-100-01-F-D-A", "QTS-100-01-F-D-A", "QTH-120-01-F-D-A", "QSH-120-01-F-D-A"];
-
         let notMountMode = false;
 
         for (let i = headerRowIndex + 1; i < rawData.length; i++) {
             const row = rawData[i];
             const rowStrAll = row.map(c => String(c)).join(" ").toUpperCase();
-            
             const qtyVal = parseFloat(colMap.qty !== -1 ? row[colMap.qty] : 0) || 0;
-
-            // 1. Not Mount 區段偵測 (嚴格模式：必須有 NOT MOUNT:)
-            if (rowStrAll.includes("NOT MOUNT:")) {
-                notMountMode = true;
-                continue; 
-            }
-            
+            if (rowStrAll.includes("NOT MOUNT:")) { notMountMode = true; continue; }
             const itemVal = colMap.item !== -1 ? (row[colMap.item] || (i - headerRowIndex)) : (i - headerRowIndex);
             const mfrVal = colMap.mfr !== -1 ? (row[colMap.mfr] || "") : "";
-            
             let partVal = colMap.part !== -1 ? (row[colMap.part] || "") : "";
-            if (!partVal && colMap.part_backup !== -1) {
-                partVal = row[colMap.part_backup] || "";
-            }
-
             const refVal = colMap.ref !== -1 ? String(row[colMap.ref] || "").trim().toUpperCase() : "";
             const descVal = colMap.desc !== -1 ? String(row[colMap.desc] || "").trim().toUpperCase() : "";
 
             if (!partVal && qtyVal === 0) continue; 
-            if (String(partVal).toUpperCase().includes("NOTE")) continue;
-
             let isExcluded = false;
             let excludeReason = "";
 
-            // A. Not Mount 區塊
-            if (notMountMode) {
-                isExcluded = true;
-                excludeReason = "Not Mount (不上件區)";
-            }
-            // B. PCB過濾
-            else if (pcbKeywords.some(k => rowStrAll.includes(k)) || descVal === "PCB" || descVal.startsWith("PCB ")) {
-                 isExcluded = true;
-                 excludeReason = "PCB過濾";
-            }
-            // C. Samtec 客戶提供
-            else if (String(mfrVal).toUpperCase().includes("SAMTEC") && consignedMpns.includes(String(partVal).toUpperCase().trim())) {
-                isExcluded = true;
-                excludeReason = "客戶提供";
-            }
-            // D. 單行關鍵字過濾 (這裡現在只會抓到 DNP/No-Load, 不會抓 SCREW 了)
-            else if (excludeKeywords.some(k => rowStrAll.includes(k))) {
-                isExcluded = true;
-                // ★★★ 修改點 2：在判斷式中也加入 || rowStrAll.includes("DNS") ★★★
-                if (rowStrAll.includes("NO-LOAD") || rowStrAll.includes("DNP") || rowStrAll.includes("DNS") || rowStrAll.includes("UNUSED") || rowStrAll.includes("DO NOT STUFF") || rowStrAll.includes("DO NOT INSTALL")) {
-                    excludeReason = "No-Load (不上件)";
-                } else {
-                    excludeReason = "自動過濾";
-                }
-            }
-            
+            if (notMountMode) { isExcluded = true; excludeReason = "Not Mount (不上件區)"; }
+            else if (pcbKeywords.some(k => rowStrAll.includes(k)) || descVal === "PCB") { isExcluded = true; excludeReason = "PCB過濾"; }
+            else if (excludeKeywords.some(k => rowStrAll.includes(k))) { isExcluded = true; excludeReason = "No-Load (不上件)"; }
+            else if (String(mfrVal).toUpperCase().includes("SAMTEC") && consignedMpns.includes(String(partVal).toUpperCase().trim())) { isExcluded = true; excludeReason = "客戶提供"; }
+
             let isSmtPart = false;
             if (!isExcluded) {
-                if (refVal.startsWith("R") && !refVal.startsWith("RP") && !refVal.startsWith("REG")) {
-                     if (descVal.includes("RES") || descVal.includes("OHM") || resUnits.some(u => descVal.includes(u))) isSmtPart = true;
-                     else if (passiveMfrs.some(m => String(mfrVal).toUpperCase().includes(m))) isSmtPart = true;
-                }
-                else if (refVal.startsWith("C") && !refVal.startsWith("CN") && !refVal.startsWith("CON")) {
-                     if (descVal.includes("CAP") || descVal.includes("CER") || capUnits.some(u => descVal.includes(u))) isSmtPart = true;
-                     else if (passiveMfrs.some(m => String(mfrVal).toUpperCase().includes(m))) isSmtPart = true;
-                }
-                else if (refVal.startsWith("D") || refVal.startsWith("LED")) {
-                     if (descVal.includes("LED") || descVal.includes("DIODE")) isSmtPart = true;
-                }
-                else if (refVal.startsWith("RP")) {
-                     if (descVal.includes("RES") || descVal.includes("ARRAY")) isSmtPart = true;
-                }
+                if (refVal.startsWith("R") || refVal.startsWith("C") || refVal.startsWith("L") || refVal.startsWith("D")) isSmtPart = true;
             }
 
             tableRows.push({ 
@@ -389,33 +314,19 @@
 
             let displayRef = r.ref;
             const splitRef = r.ref.split(/[\s,]+/); 
-            const validRef = splitRef.filter(s => s.length > 0)[0];
-            if(validRef && splitRef.length > 1) displayRef = validRef + "...";
+            if(splitRef.length > 1) displayRef = splitRef[0] + "...";
 
-            let statusHtml = "";
-            if (r.excluded) {
-                if (r.excludeReason.includes("Not Mount") || r.excludeReason.includes("No-Load")) {
-                     statusHtml = `<span class="badge badge-nm"><i class="fas fa-ban"></i> ⛔ ${r.excludeReason}</span>`;
-                } else if (r.excludeReason === "客戶提供") {
-                     statusHtml = `<span class="badge badge-consigned"><i class="fas fa-hand-holding"></i> ⛔ 客戶提供</span>`;
-                } else if (r.excludeReason === "PCB過濾") {
-                     statusHtml = `<span class="badge badge-pcb"><i class="fas fa-layer-group"></i> ⛔ PCB過濾</span>`;
-                } else {
-                     statusHtml = `<span class="badge badge-del">${r.excludeReason}</span>`;
-                }
-            } else {
-                if (r.statusType === 'smt') statusHtml = `<span class="badge badge-smt"><i class="fas fa-magic"></i> OK (SMT拋料)</span>`;
-                else statusHtml = `<span class="badge badge-gen"><i class="fas fa-box-open"></i> OK (一般備品)</span>`;
-            }
+            let statusHtml = r.excluded ? `<span class="badge badge-del">${r.excludeReason}</span>` : 
+                (r.statusType === 'smt' ? `<span class="badge badge-smt">OK (SMT)</span>` : `<span class="badge badge-gen">OK (一般)</span>`);
 
             tr.innerHTML = `
                 <td><input type="checkbox" onchange="updateRow(${r.id}, this.checked)" ${r.checked ? 'checked' : ''} ${r.excluded ? 'disabled' : ''}></td>
                 <td>${r.item}</td>
-                <td style="color:#666; font-weight:bold;">${displayRef}</td>
-                <td style="color:#444;">${r.desc}</td>
+                <td title="${r.ref}">${displayRef}</td>
+                <td>${r.desc}</td>
                 <td style="font-weight:bold; color:var(--primary);">${r.part}</td>
                 <td>${r.qty}</td>
-                <td style="font-weight:bold; font-size:1.1em;">${r.finalQty}</td>
+                <td style="font-weight:bold;">${r.finalQty}</td>
                 <td>${statusHtml}</td>
             `;
             tbody.appendChild(tr);
@@ -423,105 +334,67 @@
         updatePaginationControls();
     }
 
+    function updateStats() {
+        const count = tableRows.filter(r => r.checked && !r.excluded).length;
+        document.getElementById('selectionStats').innerText = `已選: ${count}`;
+    }
+
     function updatePaginationControls() {
-        const totalPages = Math.ceil(tableRows.length / itemsPerPage);
-        document.getElementById('pageInfo').innerText = `Page ${currentPage} of ${totalPages} (Total ${tableRows.length})`;
+        const totalPages = Math.ceil(tableRows.length / itemsPerPage) || 1;
+        document.getElementById('pageInfo').innerText = `Page ${currentPage} of ${totalPages}`;
         document.getElementById('btnPrev').disabled = (currentPage === 1);
-        document.getElementById('btnNext').disabled = (currentPage === totalPages || totalPages === 0);
+        document.getElementById('btnNext').disabled = (currentPage === totalPages);
     }
-    function changePage(delta) {
-        const totalPages = Math.ceil(tableRows.length / itemsPerPage);
-        const newPage = currentPage + delta;
-        if (newPage >= 1 && newPage <= totalPages) { currentPage = newPage; renderPage(); document.querySelector('.table-container').scrollTop = 0; }
-    }
+
+    function changePage(delta) { currentPage += delta; renderPage(); }
+
     function updateRow(id, checked) {
         const row = tableRows.find(r => r.id === id);
-        if (row) {
-            row.checked = checked;
-            const tr = document.getElementById(`row-${id}`);
-            if (tr) { if (checked) tr.classList.add('selected'); else tr.classList.remove('selected'); }
-            updateStats();
-        }
+        if (row) { row.checked = checked; renderPage(); updateStats(); }
     }
+
     function selectAll(checked) {
-        document.getElementById('masterCheck').checked = checked;
         tableRows.forEach(r => { if (!r.excluded) r.checked = checked; });
         recalcAndRender();
     }
+
     function invertSelection() {
         tableRows.forEach(r => { if (!r.excluded) r.checked = !r.checked; });
         recalcAndRender();
     }
+
     function exportUniversalBOM(platform) {
-            const projectName = document.getElementById('projectName').value;
-            const selectedRows = tableRows.filter(r => r.checked && r.part);
-    
-            if (selectedRows.length === 0) {
-                alert("沒有勾選任何項目！");
-                return;
-            }
-    
-            let outputData = [];
-    
-            // BUG2 修正：根據平台決定匯出格式
-            if (platform === 'Elem14') {
-                // Element14 專用格式 (參考 ESample.xlsx)
-                outputData.push(["Part Number", "Quantity", "Line Note"]);
-                selectedRows.forEach(r => {
-                    outputData.push([r.part, r.finalQty, r.mfr]); 
-                });
-            } else {
-                // Mouser & DigiKey 通用格式
-                outputData.push(["Item Number", "Manufacturer Name", "Manufacturer Part Number", "Quantity 1"]);
-                selectedRows.forEach(r => {
-                    outputData.push([r.item, r.mfr, r.part, r.finalQty]);
-                });
-            }
-    
-            // 建立 Worksheet
-            const ws = XLSX.utils.aoa_to_sheet(outputData);
-    
-            // 自動計算欄寬
-            const colWidths = outputData[0].map((_, i) => {
-                let max = 15;
-                outputData.forEach(r => {
-                    if (r[i] && String(r[i]).length > max) max = String(r[i]).length;
-                });
-                return { wch: max + 2 };
-            });
-            ws['!cols'] = colWidths;
-    
-            // 設定樣式 (14pt 粗體表頭 + 所有格位置中)
-            const range = XLSX.utils.decode_range(ws['!ref']);
-            const headerStyle = {
-                font: { bold: true, sz: 14 },
-                alignment: { horizontal: "center", vertical: "center" }
-            };
-            const cellStyle = {
-                alignment: { horizontal: "center", vertical: "center" }
-            };
-    
-            for (let R = range.s.r; R <= range.e.r; ++R) {
-                for (let C = range.s.c; C <= range.e.c; ++C) {
-                    const cell_address = XLSX.utils.encode_cell({ r: R, c: C });
-                    if (!ws[cell_address]) continue;
-                    if (R === 0) ws[cell_address].s = headerStyle;
-                    else ws[cell_address].s = cellStyle;
-                }
-            }
-    
-            // 產生檔案並下載
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "BOM");
-    
-            let suffix = "";
-            if (platform === 'Mouser') suffix = "_Mouser";
-            else if (platform === 'Digikey') suffix = "_Digikey";
-            else if (platform === 'Elem14') suffix = "_Elem14";
-    
-            const fileName = `${projectName}${suffix}.xlsx`;
-            XLSX.writeFile(wb, fileName);
+        const projectName = document.getElementById('projectName').value;
+        const selectedRows = tableRows.filter(r => r.checked && r.part);
+        if (selectedRows.length === 0) { alert("沒有勾選項目！"); return; }
+
+        let outputData = [];
+        if (platform === 'Elem14') {
+            outputData.push(["Part Number", "Quantity", "Line Note"]);
+            selectedRows.forEach(r => outputData.push([r.part, r.finalQty, r.mfr]));
+        } else {
+            outputData.push(["Item Number", "Manufacturer Name", "Manufacturer Part Number", "Quantity 1"]);
+            selectedRows.forEach(r => outputData.push([r.item, r.mfr, r.part, r.finalQty]));
         }
+
+        const ws = XLSX.utils.aoa_to_sheet(outputData);
+        ws['!cols'] = outputData[0].map(() => ({ wch: 20 }));
+        
+        // 樣式套用
+        const range = XLSX.utils.decode_range(ws['!ref']);
+        for (let R = range.s.r; R <= range.e.r; ++R) {
+            for (let C = range.s.c; C <= range.e.c; ++C) {
+                const cell = ws[XLSX.utils.encode_cell({r:R, c:C})];
+                if(!cell) continue;
+                cell.s = { alignment: { horizontal: "center", vertical: "center" } };
+                if(R === 0) cell.s.font = { bold: true, sz: 14 };
+            }
+        }
+
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "BOM");
+        XLSX.writeFile(wb, `${projectName}_${platform}.xlsx`);
+    }
 </script>
 
 </body>
