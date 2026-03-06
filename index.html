@@ -83,7 +83,10 @@
         #panel-pcb .pcb-wrap { max-width: 1400px; margin: auto; }
         #panel-pcb .header { display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); padding: 15px 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); margin-bottom: 25px; }
         #panel-pcb h2 { margin: 0; font-size: 24px; color: var(--primary-color); letter-spacing: 1px; }
-        #panel-pcb .section { background: var(--card-bg); padding: 25px; border-radius: 16px; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); margin-bottom: 30px; border: 1px solid var(--border-color); }
+        /* 區塊1、區塊2 分開：加大間距與視覺區隔 */
+        #panel-pcb .section { background: var(--card-bg); padding: 25px; border-radius: 16px; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); border: 1px solid var(--border-color); }
+        #panel-pcb .section.pcb-block-1 { margin-bottom: 24px; border-left: 4px solid var(--primary-color); }
+        #panel-pcb .section.pcb-block-2 { margin-top: 32px; margin-bottom: 30px; border-left: 4px solid var(--text-green); }
         #panel-pcb h3 { margin-top: 0; padding-bottom: 15px; border-bottom: 2px solid #f1f5f9; color: #334155; font-size: 18px; display: flex; align-items: center; }
         #panel-pcb .controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
         #panel-pcb input[type="text"], #panel-pcb select { padding: 12px 16px; font-size: 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; transition: all 0.2s; background: #fff; }
@@ -110,6 +113,51 @@
         #panel-pcb .t-parts { background: var(--status-yellow); color: var(--text-yellow); }
         #panel-pcb .t-pcbassy { background: var(--status-blue); color: var(--text-blue); }
         #panel-pcb .loading-spinner { display: none; margin-left: 10px; color: var(--primary-color); font-weight: bold; }
+
+        /* ========== 手機版 (iPhone 等) 響應式 ========== */
+        @media (max-width: 768px) {
+            body { padding: 10px; font-size: 15px; }
+            .main-tabs { min-width: 0; max-width: 100%; padding: 0 6px 0 0; border-radius: 10px 10px 0 0; }
+            .main-tabs .tab { padding: 14px 16px; font-size: 0.95rem; gap: 6px; }
+            .main-tabs .tab i { font-size: 1rem; }
+            #panel-bom .container { min-width: 0; max-width: 100%; border-radius: 0 0 10px 10px; }
+            #panel-bom .stepper { padding: 16px 12px; flex-wrap: wrap; gap: 8px; }
+            #panel-bom .step { font-size: 0.95rem; }
+            #panel-bom .step i { font-size: 22px; }
+            #panel-bom .step-content { padding: 20px 16px; }
+            #panel-bom .upload-zone { padding: 40px 20px; }
+            #panel-bom .upload-zone .fa-robot { font-size: 56px !important; }
+            #panel-bom .settings-panel { flex-direction: column; gap: 12px; padding: 16px; }
+            #panel-bom .toolbar { flex-wrap: wrap; gap: 10px; }
+            #panel-bom .selection-tools button { margin-bottom: 4px; }
+            #panel-bom .table-container { min-height: 280px; margin: 0 -4px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            #panel-bom th, #panel-bom td { padding: 10px 8px; font-size: 0.9rem; }
+            #panel-bom .pagination { flex-wrap: wrap; gap: 10px; padding: 12px; }
+            #panel-bom .page-btn { padding: 8px 12px; font-size: 0.9rem; }
+            #panel-bom .export-panel { padding: 16px; }
+            #panel-bom .btn-group { flex-direction: column; }
+            #panel-pcb .pcb-wrap { max-width: 100%; }
+            #panel-pcb .header { flex-wrap: wrap; gap: 12px; padding: 14px 16px; margin-bottom: 16px; }
+            #panel-pcb h2 { font-size: 1.25rem; }
+            #panel-pcb .section { padding: 18px 16px; border-radius: 12px; }
+            #panel-pcb .section.pcb-block-1 { margin-bottom: 20px; }
+            #panel-pcb .section.pcb-block-2 { margin-top: 24px; margin-bottom: 20px; }
+            #panel-pcb h3 { font-size: 1rem; padding-bottom: 12px; }
+            #panel-pcb .controls { flex-direction: column; align-items: stretch; gap: 10px; }
+            #panel-pcb .search-input { width: 100%; box-sizing: border-box; }
+            #panel-pcb .table-res { margin-top: 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            #panel-pcb .table-res th, #panel-pcb .table-res td { padding: 10px 8px; font-size: 13px; }
+        }
+        @media (max-width: 480px) {
+            body { padding: 8px; }
+            .main-tabs .tab { padding: 12px 12px; font-size: 0.9rem; }
+            #panel-bom .stepper { padding: 12px 8px; }
+            #panel-bom .step { font-size: 0.85rem; }
+            #panel-bom .step-content { padding: 16px 12px; }
+            #panel-bom .upload-zone { padding: 32px 16px; }
+            #panel-pcb .header { padding: 12px; }
+            #panel-pcb .section { padding: 14px 12px; }
+        }
     </style>
 </head>
 <body>
@@ -230,7 +278,7 @@
             <button class="btn-refresh" onclick="refreshPage()">🔄 重新整理</button>
         </div>
 
-        <div class="section">
+        <div class="section pcb-block-1">
             <h3>📦 區塊一：EVB_List 查詢</h3>
             <div class="controls">
                 <input type="text" id="inputEvb" class="search-input" placeholder="輸入 PCB Number (如: 20602)">
@@ -242,7 +290,7 @@
             </div>
         </div>
 
-        <div class="section">
+        <div class="section pcb-block-2">
             <h3>📋 區塊二：DUT+PROBE_B 查詢</h3>
             <div class="controls">
                 <select id="vendorSelect"><option value="">-- 載入廠商中 --</option></select>
