@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOM 旗艦備料 × PCB 成本查詢 整合系統</title>
+    <title>潤鉑BOM+PCB_R1.1</title>
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
     <script src="config.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -18,8 +18,9 @@
 
         /* 頂部分頁（可擴充多個功能，分頁多時會自動換行） */
         .main-tabs {
-            display: flex; flex-wrap: wrap; gap: 0; margin-bottom: 0; background: #fff; border-radius: 12px 12px 0 0; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 0 10px 0 0; max-width: 95%; margin-left: auto; margin-right: auto; min-width: 1000px;
+            display: flex; flex-wrap: wrap; align-items: center; gap: 0; margin-bottom: 0; background: #fff; border-radius: 12px 12px 0 0; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 12px 16px 12px 20px; max-width: 95%; margin-left: auto; margin-right: auto; min-width: 1000px;
         }
+        .app-version { font-size: 1.15rem; font-weight: 700; color: var(--primary); margin-right: 20px; white-space: nowrap; }
         .main-tabs .tab {
             padding: 18px 28px; font-size: 1.1rem; font-weight: 600; cursor: pointer; border: none; background: transparent; color: #666; border-bottom: 3px solid transparent; transition: all 0.2s; display: inline-flex; align-items: center; gap: 10px;
         }
@@ -117,7 +118,8 @@
         /* ========== 手機版 (iPhone 等) 響應式 ========== */
         @media (max-width: 768px) {
             body { padding: 10px; font-size: 15px; }
-            .main-tabs { min-width: 0; max-width: 100%; padding: 0 6px 0 0; border-radius: 10px 10px 0 0; }
+            .main-tabs { min-width: 0; max-width: 100%; padding: 10px 12px; border-radius: 10px 10px 0 0; }
+            .app-version { font-size: 1rem; margin-right: 12px; }
             .main-tabs .tab { padding: 14px 16px; font-size: 0.95rem; gap: 6px; }
             .main-tabs .tab i { font-size: 1rem; }
             #panel-bom .container { min-width: 0; max-width: 100%; border-radius: 0 0 10px 10px; }
@@ -150,6 +152,7 @@
         }
         @media (max-width: 480px) {
             body { padding: 8px; }
+            .app-version { font-size: 0.9rem; margin-right: 8px; }
             .main-tabs .tab { padding: 12px 12px; font-size: 0.9rem; }
             #panel-bom .stepper { padding: 12px 8px; }
             #panel-bom .step { font-size: 0.85rem; }
@@ -171,6 +174,7 @@
   該面板的樣式請用 #panel-新功能id .類名 { } 包起來，避免與其他分頁衝突。切換邏輯已通用，無須改 JS。
 -->
 <nav class="main-tabs">
+    <span class="app-version">潤鉑BOM+PCB_R1.1</span>
     <button type="button" class="tab active" data-tab="bom" aria-selected="true">
         <i class="fas fa-microchip"></i> BOM 旗艦備料
     </button>
