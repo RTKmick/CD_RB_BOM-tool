@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>潤鉑BOM+PCB_R1.3</title>
+    <title>潤鉑BOM+PCB_R1.3.1</title>
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
     <script src="config.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -64,6 +64,7 @@
         #panel-bom .badge-del { color: var(--danger); font-style: italic; }
         #panel-bom .badge-nm { color: #856404; background-color: #fff3cd; border: 1px solid #ffeeba; }
         #panel-bom .badge-consigned { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; }
+        #panel-bom .badge-mainic { color: #0c4a6e; background-color: #e0f2fe; border: 1px solid #7dd3fc; }
         #panel-bom .badge-pcb { color: #343a40; background-color: #e2e3e5; border: 1px solid #d6d8db; }
         #panel-bom .pagination { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 20px; padding: 10px; background: #fafafa; border-radius: 8px; }
         #panel-bom .page-btn { padding: 8px 16px; border: 1px solid #ccc; background: white; cursor: pointer; border-radius: 4px; font-weight: bold; }
@@ -367,6 +368,48 @@ function handleFile(file) {
     reader.readAsArrayBuffer(file);
 }
 
+var MAIN_IC_PART_PREFIXES = ["MPU-", "ICP-", "ICS-", "IIM-", "ICM-", "IAM-"];
+
+function partHasMainIcPrefix(partVal) {
+    var p = String(partVal || "").trim().toUpperCase();
+    for (var i = 0; i < MAIN_IC_PART_PREFIXES.length; i++) {
+        if (p.indexOf(MAIN_IC_PART_PREFIXES[i]) === 0) return true;
+    }
+    return false;
+}
+
+/** 列上非空白儲存格值（依欄位順序） */
+function rowNonEmptyStringParts(row) {
+    var parts = [];
+    if (!row || !row.length) return parts;
+    for (var j = 0; j < row.length; j++) {
+        var s = String(row[j] != null ? row[j] : "").trim();
+        if (s !== "") parts.push(s);
+    }
+    return parts;
+}
+
+/**
+ * U1A-A 選件表：附表標題（列內含 U1A-A List 且非空白欄位很少）、或僅兩欄「序號 + MPU/IC 系列前綴料號」。
+ * 避免誤傷主表「請參考 U1A-A list」之完整料號列（該列通常多欄有值）。
+ * rowStrNorm 已為大寫、空白正規化。
+ */
+function isU1aAlternateListOrMpuPairRow(rowStrNorm, row) {
+    var cells = rowNonEmptyStringParts(row);
+    if (rowStrNorm.indexOf("U1A-A LIST") !== -1 && cells.length <= 2) return true;
+    if (cells.length !== 2) return false;
+    if (!/^\d+$/.test(cells[0])) return false;
+    return partHasMainIcPrefix(cells[1]);
+}
+
+/** BOM 旗艦：InvenSense / TDK-InvenSense 一律；廠商 TDK 時僅 MPU-/ICP-/… 料號前綴 → Main IC (Consigned) */
+function isMainIcConsignedRow(mfrVal, partVal) {
+    var m = String(mfrVal || "").trim().toUpperCase();
+    if (m === "INVENSENSE" || m === "TDK-INVENSENSE") return true;
+    if (m === "TDK") return partHasMainIcPrefix(partVal);
+    return false;
+}
+
 function analyzeData() {
     var bestHeaderRow = -1;
     var maxScore = 0;
@@ -377,7 +420,7 @@ function analyzeData() {
         if (rowStr.indexOf("qty") !== -1 || rowStr.indexOf("quantity") !== -1) score += 3;
         if (rowStr.indexOf("description") !== -1 || rowStr.indexOf("desc") !== -1) score += 2;
         if (rowStr.indexOf("part") !== -1 || rowStr.indexOf("pn") !== -1 || rowStr.indexOf("mpn") !== -1 || rowStr.indexOf("料號") !== -1) score += 3;
-        if (rowStr.indexOf("manufacturer") !== -1 || rowStr.indexOf("mfr") !== -1) score += 2;
+        if (rowStr.indexOf("manufacturer") !== -1 || rowStr.indexOf("mfr") !== -1 || rowStr.indexOf("mfg") !== -1) score += 2;
         if (rowStr.indexOf("reference") !== -1 || rowStr.indexOf("ref") !== -1) score += 2;
         if (rowStr.indexOf("line note") !== -1 || rowStr.indexOf("linenote") !== -1) score += 2;
         if (score > maxScore) { maxScore = score; bestHeaderRow = i; }
@@ -391,14 +434,15 @@ function analyzeData() {
         var definitiveMpnFound = false;
         rawData[bestHeaderRow].forEach(function(cell, idx) {
             var c = String(cell).toLowerCase().trim();
+            var cBase = c.replace(/\.+$/g, "").trim();
             if (c === "item" || c === "item number" || c === "no.") colMap.item = idx;
-            else if (c === "quantity" || c === "qty") colMap.qty = idx;
+            else if (cBase === "quantity" || cBase === "qty") colMap.qty = idx;
             else if (c.indexOf("reference") !== -1 || c.indexOf("ref") !== -1 || c.indexOf("designator") !== -1) colMap.ref = idx;
             else if (c === "line note" || c === "linenote" || c.indexOf("line note") !== -1) colMap.mfr = idx;
-            else if ((c.indexOf("manufacturer") !== -1 || c.indexOf("mfr") !== -1) && c.indexOf("pn") === -1 && c.indexOf("part") === -1 && c.indexOf("number") === -1) colMap.mfr = idx;
+            else if ((c.indexOf("manufacturer") !== -1 || c.indexOf("mfr") !== -1 || cBase === "mfg") && c.indexOf("pn") === -1 && c.indexOf("part") === -1 && c.indexOf("number") === -1) colMap.mfr = idx;
             else if (c.indexOf("description") !== -1 || c === "desc") colMap.desc = idx;
-            else if (c === "mpn" || c.indexOf("mfr p/n") !== -1 || c.indexOf("manufacturer's part") !== -1 || c.indexOf("manufacturer part number") !== -1 || c.indexOf("manufacturer pn") !== -1) { colMap.part = idx; definitiveMpnFound = true; }
-            else if (c === "part" || c === "part number" || c === "part_number" || c === "p/n") possiblePartIdx = idx;
+            else if (c === "mpn" || c.indexOf("mfr p/n") !== -1 || c.indexOf("mfg part") !== -1 || c.indexOf("manufacturer's part") !== -1 || c.indexOf("manufacturer part number") !== -1 || c.indexOf("manufacturer pn") !== -1) { colMap.part = idx; definitiveMpnFound = true; }
+            else if (c === "part" || c === "part number" || c === "part_number" || c === "p/n" || (c.indexOf("part number") !== -1 && c.indexOf("mfg") === -1 && c.indexOf("vendor") === -1)) possiblePartIdx = idx;
         });
         if (definitiveMpnFound) {
             if (colMap.desc === -1 && possiblePartIdx !== -1) colMap.desc = possiblePartIdx;
@@ -430,6 +474,7 @@ function processTableData(headerRowIndex) {
 
         if (rowStrNorm.indexOf("NOT MOUNT:") !== -1) { notMountMode = true; continue; }
         if (rowStrNorm === "DO NOT INSTALL") { doNotInstallMode = true; continue; }
+        if (isU1aAlternateListOrMpuPairRow(rowStrNorm, row)) continue;
 
         var itemVal = colMap.item !== -1 ? (row[colMap.item] || (i - headerRowIndex)) : (i - headerRowIndex);
         var mfrVal = colMap.mfr !== -1 ? (row[colMap.mfr] || "") : "";
@@ -469,7 +514,8 @@ function processTableData(headerRowIndex) {
             }
         }
 
-        tableRows.push({ id: i, item: itemVal, mfr: mfrVal, part: partVal, qty: qtyVal, ref: refVal, desc: descVal, checked: !isExcluded, excluded: isExcluded, excludeReason: excludeReason, isSmtPart: isSmtPart });
+        var mainIcConsigned = !isExcluded && isMainIcConsignedRow(mfrVal, partVal);
+        tableRows.push({ id: i, item: itemVal, mfr: mfrVal, part: partVal, qty: qtyVal, ref: refVal, desc: descVal, checked: !isExcluded, excluded: isExcluded, excludeReason: excludeReason, isSmtPart: isSmtPart, mainIcConsigned: mainIcConsigned });
     }
 
     document.getElementById('step1').classList.remove('active');
@@ -520,7 +566,8 @@ function renderPage() {
             else if (r.excludeReason === "PCB過濾") statusHtml = '<span class="badge badge-pcb"><i class="fas fa-layer-group"></i> ⛔ PCB過濾</span>';
             else statusHtml = '<span class="badge badge-del">' + r.excludeReason + '</span>';
         } else {
-            if (r.statusType === 'smt') statusHtml = '<span class="badge badge-smt"><i class="fas fa-magic"></i> OK (SMT拋料)</span>';
+            if (r.mainIcConsigned) statusHtml = '<span class="badge badge-mainic"><i class="fas fa-microchip"></i> Main IC (Consigned)</span>';
+            else if (r.statusType === 'smt') statusHtml = '<span class="badge badge-smt"><i class="fas fa-magic"></i> OK (SMT拋料)</span>';
             else statusHtml = '<span class="badge badge-gen"><i class="fas fa-box-open"></i> OK (一般備品)</span>';
         }
 
