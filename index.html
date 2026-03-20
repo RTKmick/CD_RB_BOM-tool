@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>潤鉑BOM+PCB_R1.3.1</title>
+    <title>潤鉑BOM+PCB_R1.3.2</title>
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
     <script src="config.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -176,7 +176,7 @@
   該面板的樣式請用 #panel-新功能id .類名 { } 包起來，避免與其他分頁衝突。切換邏輯已通用，無須改 JS。
 -->
 <nav class="main-tabs">
-    <span class="app-version">潤鉑BOM+PCB_R1.3</span>
+    <span class="app-version">潤鉑BOM+PCB_R1.3.2</span>
     <button type="button" class="tab active" data-tab="bom" aria-selected="true">
         <i class="fas fa-microchip"></i> BOM 旗艦備料
     </button>
@@ -455,6 +455,17 @@ function analyzeData() {
     processTableData(bestHeaderRow);
 }
 
+/** 表頭列之後，第一個「Not Mount:」分隔列的 rawData 索引；-1 表示無 */
+function findNotMountDividerIndex(headerRowIndex) {
+    for (var i = headerRowIndex + 1; i < rawData.length; i++) {
+        var row = rawData[i];
+        if (!row || !row.length) continue;
+        var rowStrNorm = row.map(function(c) { return String(c); }).join(" ").toUpperCase().replace(/\s+/g, " ").trim();
+        if (/NOT\s*MOUNT\s*:/i.test(rowStrNorm)) return i;
+    }
+    return -1;
+}
+
 function processTableData(headerRowIndex) {
     tableRows = [];
     var excludeKeywords = ["TDK-INVENSENSE", "NO-LOAD", "DNP", "DNS", "UNUSED", "DO NOT STUFF", "DO NOT INSTALL"];
@@ -463,7 +474,7 @@ function processTableData(headerRowIndex) {
     var capUnits = ["UF", "PF", "NF", "µF"];
     var resUnits = ["OHM", "Ω", " KOHM", " MOHM", " 1%"];
     var consignedMpns = ["QSS-100-01-F-D-A", "QTS-100-01-F-D-A", "QTH-120-01-F-D-A", "QSH-120-01-F-D-A"];
-    var notMountMode = false;
+    var nmDividerIdx = findNotMountDividerIndex(headerRowIndex);
     var doNotInstallMode = false;
 
     for (var i = headerRowIndex + 1; i < rawData.length; i++) {
@@ -472,7 +483,7 @@ function processTableData(headerRowIndex) {
         var rowStrNorm = rowStrAll.replace(/\s+/g, " ").trim();
         var qtyVal = parseFloat(colMap.qty !== -1 ? row[colMap.qty] : 0) || 0;
 
-        if (rowStrNorm.indexOf("NOT MOUNT:") !== -1) { notMountMode = true; continue; }
+        if (nmDividerIdx !== -1 && i === nmDividerIdx) continue;
         if (rowStrNorm === "DO NOT INSTALL") { doNotInstallMode = true; continue; }
         if (isU1aAlternateListOrMpuPairRow(rowStrNorm, row)) continue;
 
@@ -489,14 +500,23 @@ function processTableData(headerRowIndex) {
         var isExcluded = false;
         var excludeReason = "";
 
-        if (notMountMode) { isExcluded = true; excludeReason = "Not Mount (不上件區)"; }
+        var inNotMountSection = nmDividerIdx !== -1 && i > nmDividerIdx;
+        var qualifiesMainIc = isMainIcConsignedRow(mfrVal, partVal);
+        /* Not Mount: 以下預設不上件，但符合 Main IC (Consigned) 者除外（例：TDK+ICM/ICP…；ICT- 等仍維持不上件） */
+        if (inNotMountSection && !qualifiesMainIc) { isExcluded = true; excludeReason = "Not Mount (不上件區)"; }
         else if (doNotInstallMode) { isExcluded = true; excludeReason = "No-Load (不上件)"; }
-        else if (pcbKeywords.some(function(k) { return rowStrNorm.indexOf(k) !== -1; }) || descVal === "PCB" || descVal.indexOf("PCB ") === 0) { isExcluded = true; excludeReason = "PCB過濾"; }
+        else if (pcbKeywords.some(function(k) { return rowStrNorm.indexOf(k) !== -1; }) || descVal === "PCB" || descVal.indexOf("PCB ") === 0 || descVal.indexOf("FAB,") === 0 || descVal.indexOf("FAB，") === 0) { isExcluded = true; excludeReason = "PCB過濾"; }
         else if (String(mfrVal).toUpperCase().indexOf("SAMTEC") !== -1 && consignedMpns.indexOf(String(partVal).toUpperCase().trim()) !== -1) { isExcluded = true; excludeReason = "客戶提供"; }
         else if (excludeKeywords.some(function(k) { return rowStrNorm.indexOf(k) !== -1; }) || /DO\s*NOT\s*INSTALL/.test(rowStrAll)) {
             isExcluded = true;
             if (rowStrNorm.indexOf("NO-LOAD") !== -1 || rowStrNorm.indexOf("DNP") !== -1 || rowStrNorm.indexOf("DNS") !== -1 || rowStrNorm.indexOf("UNUSED") !== -1 || rowStrNorm.indexOf("DO NOT STUFF") !== -1 || /DO\s*NOT\s*INSTALL/.test(rowStrAll)) excludeReason = "No-Load (不上件)";
             else excludeReason = "自動過濾";
+        }
+
+        /* 主表區 Main IC (Consigned)：標示正確但不納入備料（刪除線、預設不勾選）；Not Mount 區內之 Main IC 列維持可選以區隔替代料 */
+        if (!isExcluded && qualifiesMainIc && !inNotMountSection) {
+            isExcluded = true;
+            excludeReason = "Main IC (Consigned)";
         }
 
         var isSmtPart = false;
@@ -514,7 +534,7 @@ function processTableData(headerRowIndex) {
             }
         }
 
-        var mainIcConsigned = !isExcluded && isMainIcConsignedRow(mfrVal, partVal);
+        var mainIcConsigned = !isExcluded && qualifiesMainIc;
         tableRows.push({ id: i, item: itemVal, mfr: mfrVal, part: partVal, qty: qtyVal, ref: refVal, desc: descVal, checked: !isExcluded, excluded: isExcluded, excludeReason: excludeReason, isSmtPart: isSmtPart, mainIcConsigned: mainIcConsigned });
     }
 
@@ -562,6 +582,7 @@ function renderPage() {
         var statusHtml = "";
         if (r.excluded) {
             if (r.excludeReason.indexOf("Not Mount") !== -1 || r.excludeReason.indexOf("No-Load") !== -1) statusHtml = '<span class="badge badge-nm"><i class="fas fa-ban"></i> ⛔ ' + r.excludeReason + '</span>';
+            else if (r.excludeReason === "Main IC (Consigned)") statusHtml = '<span class="badge badge-mainic"><i class="fas fa-microchip"></i> Main IC (Consigned)</span>';
             else if (r.excludeReason === "客戶提供") statusHtml = '<span class="badge badge-consigned"><i class="fas fa-hand-holding"></i> ⛔ 客戶提供</span>';
             else if (r.excludeReason === "PCB過濾") statusHtml = '<span class="badge badge-pcb"><i class="fas fa-layer-group"></i> ⛔ PCB過濾</span>';
             else statusHtml = '<span class="badge badge-del">' + r.excludeReason + '</span>';
