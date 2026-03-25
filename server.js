@@ -109,8 +109,11 @@ async function mouserByDateRange(reqUrl, res) {
   }
 
   const apiKey = process.env.MOUSER_API_KEY;
+  const mouserVersion = String(process.env.MOUSER_API_VERSION || '1.0').trim() || '1.0';
   const url =
-    'https://api.mouser.com/api/v1/orderhistory/ByDateRange' +
+    'https://api.mouser.com/api/v' +
+    encodeURIComponent(mouserVersion) +
+    '/orderhistory/ByDateRange' +
     '?apiKey=' +
     encodeURIComponent(apiKey) +
     '&startDate=' +
