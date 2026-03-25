@@ -129,6 +129,26 @@
         #panel-order .provider-btn.digikey:hover { background: #990000; transform: translateY(-1px); }
         #panel-order .order-status { margin-top: 16px; font-weight: bold; color: var(--primary); }
         #panel-order .order-results { margin-top: 12px; background: #0b1220; color: #e5e7eb; padding: 14px; border-radius: 10px; overflow: auto; max-height: 420px; white-space: pre-wrap; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+        #panel-order .order-card { background: #ffffff; border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 16px; box-shadow: 0 6px 14px -10px rgba(0,0,0,0.18); }
+        #panel-order .order-card + .order-card { margin-top: 12px; }
+        #panel-order .order-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+        #panel-order .order-num { font-weight: 800; color: var(--primary-color); font-size: 1.05rem; }
+        #panel-order .order-meta { color: #475569; font-weight: 600; margin-top: 4px; font-size: 0.95rem; }
+        #panel-order .order-badges { display:flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+        #panel-order .ob { padding: 4px 10px; border-radius: 999px; font-weight: 800; font-size: 12px; border: 1px solid transparent; }
+        #panel-order .ob-processing { background: var(--status-yellow); color: var(--text-yellow); border-color: #fde68a; }
+        #panel-order .ob-shipped { background: var(--status-green); color: var(--text-green); border-color: #bbf7d0; }
+        #panel-order .ob-other { background: var(--status-blue); color: var(--text-blue); border-color: #bfdbfe; }
+        #panel-order .order-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; margin-top: 12px; }
+        #panel-order .kv { background:#f8fafc; border: 1px solid var(--border-color); border-radius: 10px; padding: 10px 12px; }
+        #panel-order .k { color:#64748b; font-weight:800; font-size: 12px; }
+        #panel-order .v { color:#0f172a; font-weight:800; margin-top: 2px; word-break: break-word; }
+        #panel-order details { margin-top: 10px; }
+        #panel-order summary { cursor: pointer; font-weight: 800; color: #334155; }
+        #panel-order .li { margin-top: 8px; border: 1px dashed #cbd5e1; border-radius: 10px; padding: 10px 12px; background:#fff; }
+        #panel-order .li-title { font-weight: 900; color:#111827; }
+        #panel-order .li-sub { margin-top:4px; color:#475569; font-weight:700; font-size: 0.9rem; }
+        #panel-order .li-sub code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-weight: 800; }
 
         /* ========== 手機版 (iPhone 等) 響應式 ========== */
         @media (max-width: 768px) {
@@ -167,6 +187,7 @@
             #panel-order .order-wrap { min-width: 0; max-width: 100%; }
             #panel-order .provider-row { flex-direction: column; }
             #panel-order .provider-btn { font-size: 1.05rem; padding: 20px 12px; }
+            #panel-order .order-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 480px) {
             body { padding: 8px; }
@@ -350,6 +371,8 @@
         </div>
 
         <div id="orderStatus" class="order-status" style="display:none;"></div>
+        <div id="orderList" style="margin-top:12px;"></div>
+        <div style="margin-top:10px; color:#64748b; font-weight:bold;">原始資料（除錯用）</div>
         <pre id="orderResults" class="order-results"></pre>
     </div>
 </div>
@@ -759,6 +782,125 @@ function setOrderResults(data) {
     else el.innerText = JSON.stringify(data, null, 2);
 }
 
+function setOrderListHtml(html) {
+    var el = document.getElementById('orderList');
+    if (!el) return;
+    el.innerHTML = html || '';
+}
+
+function fmtMoney(n) {
+    if (n == null || n === "") return "";
+    var num = Number(n);
+    if (Number.isNaN(num)) return String(n);
+    return num.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+}
+
+function fmtDateTime(s) {
+    if (!s) return "";
+    var d = new Date(s);
+    if (Number.isNaN(d.getTime())) return String(s);
+    return d.toLocaleString();
+}
+
+function digikeyStatusClass(status) {
+    var st = String(status || "").toUpperCase();
+    if (st.indexOf("PROCESS") !== -1) return "ob-processing";
+    if (st.indexOf("SHIP") !== -1) return "ob-shipped";
+    return "ob-other";
+}
+
+function renderDigikeyOrders(data) {
+    if (!data || data.ok === false) {
+        setOrderListHtml('');
+        return;
+    }
+    var orders = Array.isArray(data.Orders) ? data.Orders : [];
+    if (orders.length === 0) {
+        setOrderListHtml('<div class="order-card"><div class="order-num">沒有訂單</div><div class="order-meta">此期間內無資料</div></div>');
+        return;
+    }
+
+    var html = '';
+    html += '<div class="order-card">';
+    html += '  <div class="order-num">共 ' + String(data.TotalOrders != null ? data.TotalOrders : orders.length) + ' 筆訂單</div>';
+    html += '  <div class="order-meta">顯示本次回傳 ' + String(orders.length) + ' 筆</div>';
+    html += '</div>';
+
+    orders.forEach(function(o, idx) {
+        var orderNo = o.OrderNumber != null ? String(o.OrderNumber) : ('(無訂單號 #' + (idx + 1) + ')');
+        var statusObj = o.EntireOrderStatus || {};
+        var status = statusObj.ShortDescription || statusObj.OrderStatus || '';
+        var currency = o.Currency || '';
+        var totalPrice = (o.TotalPrice != null) ? o.TotalPrice : '';
+        var dateEntered = o.DateEntered || '';
+
+        html += '<div class="order-card">';
+        html += '  <div class="order-top">';
+        html += '    <div>';
+        html += '      <div class="order-num">訂單 #' + orderNo + '</div>';
+        html += '      <div class="order-meta">下單時間：' + fmtDateTime(dateEntered) + '</div>';
+        html += '    </div>';
+        html += '    <div class="order-badges">';
+        if (status) html += '      <span class="ob ' + digikeyStatusClass(status) + '">' + String(status) + '</span>';
+        if (currency) html += '      <span class="ob ob-other">' + String(currency) + '</span>';
+        html += '    </div>';
+        html += '  </div>';
+
+        html += '  <div class="order-grid">';
+        html += '    <div class="kv"><div class="k">TotalOrders / 回傳筆數</div><div class="v">' + String(data.TotalOrders != null ? data.TotalOrders : '-') + ' / ' + String(orders.length) + '</div></div>';
+        html += '    <div class="kv"><div class="k">訂單總額</div><div class="v">' + (totalPrice !== '' ? (fmtMoney(totalPrice) + (currency ? (' ' + currency) : '')) : '-') + '</div></div>';
+        html += '  </div>';
+
+        var salesOrders = Array.isArray(o.SalesOrders) ? o.SalesOrders : [];
+        if (salesOrders.length) {
+            html += '  <details open>';
+            html += '    <summary>Sales Orders（' + String(salesOrders.length) + '）</summary>';
+            salesOrders.forEach(function(so) {
+                var soId = so.SalesOrderId != null ? String(so.SalesOrderId) : '';
+                var soStatusObj = so.Status || {};
+                var soStatus = soStatusObj.ShortDescription || soStatusObj.SalesOrderStatus || '';
+                var shipMethod = so.ShipMethod || '';
+                var soTotal = so.TotalPrice != null ? so.TotalPrice : '';
+
+                html += '    <div class="li">';
+                html += '      <div class="li-title">SalesOrderId：' + (soId || '-') + (soStatus ? ('　|　' + String(soStatus)) : '') + '</div>';
+                html += '      <div class="li-sub">出貨方式：' + (shipMethod || '-') + '　|　小計：' + (soTotal !== '' ? (fmtMoney(soTotal) + (currency ? (' ' + currency) : '')) : '-') + '</div>';
+
+                var lineItems = Array.isArray(so.LineItems) ? so.LineItems : [];
+                if (lineItems.length) {
+                    html += '      <details>';
+                    html += '        <summary>品項（' + String(lineItems.length) + '）</summary>';
+                    lineItems.forEach(function(li) {
+                        var dkpn = li.DigiKeyProductNumber || '';
+                        var mpn = li.ManufacturerProductNumber || '';
+                        var desc = li.Description || '';
+                        var qReq = li.QuantityInitialRequested != null ? li.QuantityInitialRequested : '';
+                        var qOrd = li.QuantityOrdered != null ? li.QuantityOrdered : '';
+                        var qShip = li.QuantityShipped != null ? li.QuantityShipped : '';
+                        var track = '';
+                        if (Array.isArray(li.ItemShipments) && li.ItemShipments.length && li.ItemShipments[0].TrackingNumber) {
+                            track = li.ItemShipments[0].TrackingNumber;
+                        }
+                        html += '        <div class="li" style="background:#f8fafc;">';
+                        html += '          <div class="li-title">' + (desc ? String(desc) : '(無描述)') + '</div>';
+                        html += '          <div class="li-sub">DKPN：<code>' + String(dkpn) + '</code>　MPN：<code>' + String(mpn) + '</code></div>';
+                        html += '          <div class="li-sub">數量：需求 ' + String(qReq) + ' / 訂購 ' + String(qOrd) + ' / 已出 ' + String(qShip) + (track ? ('　|　追蹤號：<code>' + String(track) + '</code>') : '') + '</div>';
+                        html += '        </div>';
+                    });
+                    html += '      </details>';
+                }
+
+                html += '    </div>';
+            });
+            html += '  </details>';
+        }
+
+        html += '</div>';
+    });
+
+    setOrderListHtml(html);
+}
+
 function toMMDDYYYY(d) {
     var mm = String(d.getMonth() + 1).padStart(2, '0');
     var dd = String(d.getDate()).padStart(2, '0');
@@ -811,6 +953,7 @@ function fetchDigikeyOrders() {
     try {
         setOrderStatus('正在查詢 DigiKey 訂單...', false);
         setOrderResults('');
+        setOrderListHtml('');
 
         var range = getLast30DaysRange();
         var proxyBase = getOrderProxyBaseUrl();
@@ -825,6 +968,7 @@ function fetchDigikeyOrders() {
             .then(function(res) { return res.json(); })
             .then(function(data) {
                 setOrderStatus('DigiKey 查詢完成', false);
+                renderDigikeyOrders(data);
                 setOrderResults(data);
             })
             .catch(function(err) {
