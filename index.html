@@ -371,6 +371,31 @@
         </div>
 
         <div id="orderStatus" class="order-status" style="display:none;"></div>
+        <div id="orderProjectMap" class="order-card" style="margin-top:12px;">
+            <div class="order-top">
+                <div>
+                    <div class="order-num">專案 ↔ 訂單對照</div>
+                    <div class="order-meta">建議下單時把專案代號填在 PO Number / Customer Reference；舊單可在此手動補對照。</div>
+                </div>
+            </div>
+            <div class="order-grid" style="margin-top:12px;">
+                <div class="kv">
+                    <div class="k">專案代號</div>
+                    <div class="v"><input id="mapProjectCode" type="text" placeholder="例如 A001" style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid var(--border-color); font-weight:800;"></div>
+                </div>
+                <div class="kv">
+                    <div class="k">訂單號 / SalesOrderId</div>
+                    <div class="v"><input id="mapOrderId" type="text" placeholder="例如 9910000... 或 98233586" style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid var(--border-color); font-weight:800;"></div>
+                </div>
+            </div>
+            <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+                <button type="button" class="page-btn" onclick="saveOrderProjectMapping()" style="border-radius:10px; padding:10px 14px;">儲存對照</button>
+                <button type="button" class="page-btn" onclick="clearOrderProjectMappingInputs()" style="border-radius:10px; padding:10px 14px;">清空</button>
+                <button type="button" class="page-btn" onclick="exportOrderProjectMappings()" style="border-radius:10px; padding:10px 14px;">匯出 JSON</button>
+                <button type="button" class="page-btn" onclick="importOrderProjectMappings()" style="border-radius:10px; padding:10px 14px;">匯入 JSON</button>
+            </div>
+            <div id="mapStatus" class="order-meta" style="margin-top:10px;"></div>
+        </div>
         <div id="orderList" style="margin-top:12px;"></div>
         <div style="margin-top:10px; color:#64748b; font-weight:bold;">原始資料（除錯用）</div>
         <pre id="orderResults" class="order-results"></pre>
@@ -788,6 +813,104 @@ function setOrderListHtml(html) {
     el.innerHTML = html || '';
 }
 
+function getOrderProjectMappings() {
+    try {
+        var raw = localStorage.getItem('orderProjectMappings');
+        if (!raw) return {};
+        var obj = JSON.parse(raw);
+        if (!obj || typeof obj !== 'object') return {};
+        return obj;
+    } catch (e) {
+        return {};
+    }
+}
+
+function setOrderProjectMappings(mapObj) {
+    try {
+        localStorage.setItem('orderProjectMappings', JSON.stringify(mapObj || {}));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
+function setMapStatus(msg) {
+    var el = document.getElementById('mapStatus');
+    if (!el) return;
+    el.innerText = msg || '';
+}
+
+function clearOrderProjectMappingInputs() {
+    var p = document.getElementById('mapProjectCode');
+    var o = document.getElementById('mapOrderId');
+    if (p) p.value = '';
+    if (o) o.value = '';
+    setMapStatus('');
+}
+
+function saveOrderProjectMapping() {
+    var p = document.getElementById('mapProjectCode');
+    var o = document.getElementById('mapOrderId');
+    var project = p ? String(p.value || '').trim().toUpperCase() : '';
+    var orderId = o ? String(o.value || '').trim() : '';
+    if (!project || !orderId) {
+        setMapStatus('請輸入「專案代號」與「訂單號/ SalesOrderId」。');
+        return;
+    }
+    var mapObj = getOrderProjectMappings();
+    mapObj[orderId] = project;
+    setOrderProjectMappings(mapObj);
+    setMapStatus('已儲存：' + project + ' ↔ ' + orderId);
+}
+
+function exportOrderProjectMappings() {
+    var mapObj = getOrderProjectMappings();
+    var jsonText = JSON.stringify(mapObj, null, 2);
+    navigator.clipboard && navigator.clipboard.writeText
+        ? navigator.clipboard.writeText(jsonText).then(function() {
+            setMapStatus('已複製到剪貼簿（JSON）');
+        }).catch(function() {
+            setMapStatus('無法自動複製，請手動複製下方 prompt 內容');
+            prompt('專案 ↔ 訂單對照（JSON）', jsonText);
+        })
+        : prompt('專案 ↔ 訂單對照（JSON）', jsonText);
+}
+
+function importOrderProjectMappings() {
+    var raw = prompt('貼上 JSON（格式：{ \"訂單號\": \"A001\", ... }）');
+    if (!raw) return;
+    try {
+        var obj = JSON.parse(raw);
+        if (!obj || typeof obj !== 'object') throw new Error('invalid');
+        setOrderProjectMappings(obj);
+        setMapStatus('已匯入對照（' + Object.keys(obj).length + ' 筆）');
+    } catch (e) {
+        setMapStatus('JSON 格式錯誤，匯入失敗');
+    }
+}
+
+function resolveProjectCodeFromDigikey(orderObj, salesOrderObj) {
+    // 1) 優先用供應商回傳欄位：PONumber / PurchaseOrder / CustomerReference
+    var po = orderObj && orderObj.PONumber ? String(orderObj.PONumber).trim() : '';
+    if (po) return po;
+    var soPo = salesOrderObj && salesOrderObj.PurchaseOrder ? String(salesOrderObj.PurchaseOrder).trim() : '';
+    if (soPo) return soPo;
+    // line item CustomerReference 也可能有
+    if (salesOrderObj && Array.isArray(salesOrderObj.LineItems)) {
+        for (var i = 0; i < salesOrderObj.LineItems.length; i++) {
+            var cr = salesOrderObj.LineItems[i] && salesOrderObj.LineItems[i].CustomerReference ? String(salesOrderObj.LineItems[i].CustomerReference).trim() : '';
+            if (cr) return cr;
+        }
+    }
+    // 2) 再用手動對照表（OrderNumber / SalesOrderId）
+    var mapObj = getOrderProjectMappings();
+    var orderNo = orderObj && orderObj.OrderNumber != null ? String(orderObj.OrderNumber) : '';
+    if (orderNo && mapObj[orderNo]) return mapObj[orderNo];
+    var soId = salesOrderObj && salesOrderObj.SalesOrderId != null ? String(salesOrderObj.SalesOrderId) : '';
+    if (soId && mapObj[soId]) return mapObj[soId];
+    return '';
+}
+
 function fmtMoney(n) {
     if (n == null || n === "") return "";
     var num = Number(n);
@@ -856,6 +979,7 @@ function renderDigikeyOrders(data) {
             html += '  <details open>';
             html += '    <summary>Sales Orders（' + String(salesOrders.length) + '）</summary>';
             salesOrders.forEach(function(so) {
+                var projectCode = resolveProjectCodeFromDigikey(o, so);
                 var soId = so.SalesOrderId != null ? String(so.SalesOrderId) : '';
                 var soStatusObj = so.Status || {};
                 var soStatus = soStatusObj.ShortDescription || soStatusObj.SalesOrderStatus || '';
@@ -863,7 +987,7 @@ function renderDigikeyOrders(data) {
                 var soTotal = so.TotalPrice != null ? so.TotalPrice : '';
 
                 html += '    <div class="li">';
-                html += '      <div class="li-title">SalesOrderId：' + (soId || '-') + (soStatus ? ('　|　' + String(soStatus)) : '') + '</div>';
+                html += '      <div class="li-title">SalesOrderId：' + (soId || '-') + (projectCode ? ('　|　專案：' + String(projectCode)) : '') + (soStatus ? ('　|　' + String(soStatus)) : '') + '</div>';
                 html += '      <div class="li-sub">出貨方式：' + (shipMethod || '-') + '　|　小計：' + (soTotal !== '' ? (fmtMoney(soTotal) + (currency ? (' ' + currency) : '')) : '-') + '</div>';
 
                 var lineItems = Array.isArray(so.LineItems) ? so.LineItems : [];
