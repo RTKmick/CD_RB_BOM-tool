@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>潤鉑BOM+PCB_R1.3.3</title>
+    <title>潤鉑BOM+PCB_R1.3.4</title>
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
     <script src="config.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -117,6 +117,19 @@
         #panel-pcb .t-pcbassy { background: var(--status-blue); color: var(--text-blue); }
         #panel-pcb .loading-spinner { display: none; margin-left: 10px; color: var(--primary-color); font-weight: bold; }
 
+        /* ========== 訂料追蹤（Mouser / Digikey） ========== */
+        #panel-order .order-wrap { max-width: 95%; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); overflow: hidden; min-width: 1000px; padding: 24px; }
+        #panel-order .order-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+        #panel-order h2 { margin: 0; font-size: 22px; color: var(--primary-color); letter-spacing: 1px; }
+        #panel-order .provider-row { display: flex; gap: 18px; margin-top: 16px; }
+        #panel-order .provider-btn { flex: 1; padding: 34px 18px; border-radius: 12px; border: none; cursor: pointer; font-size: 1.25rem; font-weight: bold; color: #fff; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
+        #panel-order .provider-btn.mouser { background: var(--primary); }
+        #panel-order .provider-btn.mouser:hover { background: #003380; transform: translateY(-1px); }
+        #panel-order .provider-btn.digikey { background: var(--digikey); }
+        #panel-order .provider-btn.digikey:hover { background: #990000; transform: translateY(-1px); }
+        #panel-order .order-status { margin-top: 16px; font-weight: bold; color: var(--primary); }
+        #panel-order .order-results { margin-top: 12px; background: #0b1220; color: #e5e7eb; padding: 14px; border-radius: 10px; overflow: auto; max-height: 420px; white-space: pre-wrap; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
         /* ========== 手機版 (iPhone 等) 響應式 ========== */
         @media (max-width: 768px) {
             body { padding: 10px; font-size: 15px; }
@@ -151,6 +164,9 @@
             #panel-pcb .search-input { width: 100%; box-sizing: border-box; }
             #panel-pcb .table-res { margin-top: 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
             #panel-pcb .table-res th, #panel-pcb .table-res td { padding: 10px 8px; font-size: 13px; }
+            #panel-order .order-wrap { min-width: 0; max-width: 100%; }
+            #panel-order .provider-row { flex-direction: column; }
+            #panel-order .provider-btn { font-size: 1.05rem; padding: 20px 12px; }
         }
         @media (max-width: 480px) {
             body { padding: 8px; }
@@ -176,12 +192,15 @@
   該面板的樣式請用 #panel-新功能id .類名 { } 包起來，避免與其他分頁衝突。切換邏輯已通用，無須改 JS。
 -->
 <nav class="main-tabs">
-    <span class="app-version">潤鉑BOM+PCB_R1.3.3</span>
+    <span class="app-version">潤鉑BOM+PCB_R1.3.4</span>
     <button type="button" class="tab active" data-tab="bom" aria-selected="true">
         <i class="fas fa-microchip"></i> BOM 旗艦備料
     </button>
     <button type="button" class="tab" data-tab="pcb" aria-selected="false">
         <i class="fas fa-file-invoice-dollar"></i> PCB 成本查詢
+    </button>
+    <button type="button" class="tab" data-tab="order" aria-selected="false">
+        <i class="fas fa-truck"></i> 訂料追蹤
     </button>
 </nav>
 
@@ -310,6 +329,28 @@
                 <table><thead><tr id="head2"></tr></thead><tbody id="body2"></tbody></table>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- 面板三：訂料追蹤 -->
+<div id="panel-order" class="tab-panel">
+    <div class="order-wrap">
+        <div class="order-header">
+            <h2>訂料追蹤</h2>
+            <div style="color:#64748b; font-weight:bold;">（查詢最近 30 天訂單）</div>
+        </div>
+
+        <div class="provider-row">
+            <button type="button" class="provider-btn mouser" onclick="fetchMouserOrderHistory()">
+                MOUSER
+            </button>
+            <button type="button" class="provider-btn digikey" onclick="fetchDigikeyOrders()">
+                Digikey
+            </button>
+        </div>
+
+        <div id="orderStatus" class="order-status" style="display:none;"></div>
+        <pre id="orderResults" class="order-results"></pre>
     </div>
 </div>
 
@@ -698,6 +739,101 @@ function exportUniversalBOM(platform) {
     XLSX.utils.book_append_sheet(wb, ws, "BOM");
     var suffix = (platform === 'Mouser') ? "_Mouser" : (platform === 'Digikey') ? "_Digikey" : "_Elem14";
     XLSX.writeFile(wb, projectName + suffix + ".xlsx");
+}
+
+// ========== 訂料追蹤（Mouser / DigiKey Order History） ==========
+function setOrderStatus(msg, isError) {
+    var el = document.getElementById('orderStatus');
+    if (!el) return;
+    el.style.display = 'block';
+    el.style.color = isError ? 'var(--danger)' : 'var(--primary)';
+    el.innerText = msg;
+}
+
+function setOrderResults(data) {
+    var el = document.getElementById('orderResults');
+    if (!el) return;
+    if (typeof data === 'string') el.innerText = data;
+    else el.innerText = JSON.stringify(data, null, 2);
+}
+
+function toMMDDYYYY(d) {
+    var mm = String(d.getMonth() + 1).padStart(2, '0');
+    var dd = String(d.getDate()).padStart(2, '0');
+    var yyyy = d.getFullYear();
+    return mm + '/' + dd + '/' + yyyy;
+}
+
+function getLast30DaysRange() {
+    var end = new Date();
+    var start = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+    return { start: start, end: end };
+}
+
+function getOrderProxyBaseUrl() {
+    var base = (typeof CONFIG !== 'undefined' && CONFIG.ORDER_PROXY_BASE_URL) ? String(CONFIG.ORDER_PROXY_BASE_URL) : '';
+    base = base.trim();
+    if (!base) base = 'http://localhost:8787';
+    return base.replace(/\/+$/g, '');
+}
+
+function fetchMouserOrderHistory() {
+    try {
+        setOrderStatus('正在查詢 Mouser 訂單...', false);
+        setOrderResults('');
+
+        var range = getLast30DaysRange();
+        var proxyBase = getOrderProxyBaseUrl();
+        var url = proxyBase + '/api/mouser/orderhistory/byDateRange'
+            + '?startDate=' + encodeURIComponent(toMMDDYYYY(range.start))
+            + '&endDate=' + encodeURIComponent(toMMDDYYYY(range.end));
+
+        fetch(url, { method: 'GET' })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                setOrderStatus('Mouser 查詢完成', false);
+                setOrderResults(data);
+            })
+            .catch(function(err) {
+                console.error(err);
+                setOrderStatus('Mouser 查詢失敗（請確認本機代理伺服器已啟動）：' + (err && err.message ? err.message : err), true);
+                setOrderResults(String(err));
+            });
+    } catch (e) {
+        setOrderStatus('Mouser 查詢失敗：' + (e && e.message ? e.message : e), true);
+        setOrderResults(String(e));
+    }
+}
+
+function fetchDigikeyOrders() {
+    try {
+        setOrderStatus('正在查詢 DigiKey 訂單...', false);
+        setOrderResults('');
+
+        var range = getLast30DaysRange();
+        var proxyBase = getOrderProxyBaseUrl();
+        var url = proxyBase + '/api/digikey/orders'
+            + '?Shared=false'
+            + '&StartDate=' + encodeURIComponent(range.start.toISOString())
+            + '&EndDate=' + encodeURIComponent(range.end.toISOString())
+            + '&PageNumber=1'
+            + '&PageSize=50';
+
+        fetch(url, { method: 'GET' })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                setOrderStatus('DigiKey 查詢完成', false);
+                setOrderResults(data);
+            })
+            .catch(function(err) {
+                console.error(err);
+                setOrderStatus('DigiKey 查詢失敗（請確認本機代理伺服器已啟動）：' + (err && err.message ? err.message : err), true);
+                setOrderResults(String(err));
+            });
+    } catch (e) {
+        setOrderStatus('DigiKey 查詢失敗：' + (e && e.message ? e.message : e), true);
+        setOrderResults(String(e));
+    }
 }
 
 // ========== PCB 成本查詢 (原 PCB_Cost_Query.html 腳本) ==========
