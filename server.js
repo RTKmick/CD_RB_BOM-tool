@@ -118,8 +118,26 @@ async function mouserByDateRange(reqUrl, res) {
     '&endDate=' +
     encodeURIComponent(endDate);
 
-  const r = await fetchJson(url, { method: 'GET' });
-  if (!r.ok) return json(res, r.status, { ok: false, upstream: 'mouser', status: r.status, body: r.body });
+  const r = await fetchJson(url, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'User-Agent': 'CD_RB_BOM-tool/1.0 (order-proxy)',
+    },
+  });
+  if (!r.ok) {
+    const isHtml = typeof r.body === 'string' && /<html/i.test(r.body);
+    return json(res, r.status, {
+      ok: false,
+      upstream: 'mouser',
+      status: r.status,
+      error: isHtml ? 'blocked_by_waf' : 'upstream_error',
+      hint: isHtml
+        ? 'Mouser API 回傳 403 HTML（疑似 Akamai/WAF 擋下）。請確認此 apiKey 是否為 Order History 專用，或改用可被允許的網路/環境（公司固定出口 IP/VPN）。'
+        : undefined,
+      body: r.body,
+    });
+  }
   return json(res, 200, r.body);
 }
 
