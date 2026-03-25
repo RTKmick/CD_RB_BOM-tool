@@ -504,12 +504,29 @@ function processTableData(headerRowIndex) {
         var inNotMountSection = nmDividerIdx !== -1 && i > nmDividerIdx;
         // 若 Reference/Part Ref 以 DUT 開頭，視為 Main IC (Consigned)
         var qualifiesMainIc = isMainIcConsignedRow(mfrVal, partVal) || isDutRef;
-        /* Not Mount: 以下預設不上件，但符合 Main IC (Consigned) 者除外（例：TDK+ICM/ICP…；ICT- 等仍維持不上件） */
-        if (inNotMountSection && !qualifiesMainIc) { isExcluded = true; excludeReason = "Not Mount (不上件區)"; }
-        else if (doNotInstallMode) { isExcluded = true; excludeReason = "No-Load (不上件)"; }
-        else if (pcbKeywords.some(function(k) { return rowStrNorm.indexOf(k) !== -1; }) || descVal === "PCB" || descVal.indexOf("PCB ") === 0 || descVal.indexOf("FAB,") === 0 || descVal.indexOf("FAB，") === 0) { isExcluded = true; excludeReason = "PCB過濾"; }
-        else if (String(mfrVal).toUpperCase().indexOf("SAMTEC") !== -1 && consignedMpns.indexOf(String(partVal).toUpperCase().trim()) !== -1) { isExcluded = true; excludeReason = "客戶提供"; }
-        else if (excludeKeywords.some(function(k) { return rowStrNorm.indexOf(k) !== -1; }) || /DO\s*NOT\s*INSTALL/.test(rowStrAll)) {
+
+        // BUG 修正：manufacturer's part number 欄位空白且出現 "SOCKET" 時，顯示為不上件
+        // （例如 LORANGER SOCKET）
+        var isSocketNoInstall =
+            String(partVal || "").trim() === "" &&
+            rowStrAll.indexOf("SOCKET") !== -1;
+
+        if (isSocketNoInstall) {
+            isExcluded = true;
+            excludeReason = "SOCKET(不上件)";
+        } else if (inNotMountSection && !qualifiesMainIc) { 
+            isExcluded = true; 
+            excludeReason = "Not Mount (不上件區)"; 
+        } else if (doNotInstallMode) { 
+            isExcluded = true; 
+            excludeReason = "No-Load (不上件)"; 
+        } else if (pcbKeywords.some(function(k) { return rowStrNorm.indexOf(k) !== -1; }) || descVal === "PCB" || descVal.indexOf("PCB ") === 0 || descVal.indexOf("FAB,") === 0 || descVal.indexOf("FAB，") === 0) { 
+            isExcluded = true; 
+            excludeReason = "PCB過濾"; 
+        } else if (String(mfrVal).toUpperCase().indexOf("SAMTEC") !== -1 && consignedMpns.indexOf(String(partVal).toUpperCase().trim()) !== -1) { 
+            isExcluded = true; 
+            excludeReason = "客戶提供"; 
+        } else if (excludeKeywords.some(function(k) { return rowStrNorm.indexOf(k) !== -1; }) || /DO\s*NOT\s*INSTALL/.test(rowStrAll)) {
             isExcluded = true;
             if (rowStrNorm.indexOf("NO-LOAD") !== -1 || rowStrNorm.indexOf("DNP") !== -1 || rowStrNorm.indexOf("DNS") !== -1 || rowStrNorm.indexOf("UNUSED") !== -1 || rowStrNorm.indexOf("DO NOT STUFF") !== -1 || /DO\s*NOT\s*INSTALL/.test(rowStrAll)) excludeReason = "No-Load (不上件)";
             else excludeReason = "自動過濾";
