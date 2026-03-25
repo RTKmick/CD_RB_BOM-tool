@@ -911,6 +911,31 @@ function resolveProjectCodeFromDigikey(orderObj, salesOrderObj) {
     return '';
 }
 
+function resolveProjectCodeFromMouser(orderItem) {
+    // 1) 優先用供應商回傳欄位（可能是 PO / Purchase Order）
+    if (orderItem && orderItem.PurchaseOrderNumber) return String(orderItem.PurchaseOrderNumber).trim();
+    if (orderItem && orderItem.PONumber) return String(orderItem.PONumber).trim();
+    if (orderItem && orderItem.PoNumber) return String(orderItem.PoNumber).trim();
+    // 有些回傳可能是中文 key
+    if (orderItem && orderItem["購買訂單號"]) return String(orderItem["購買訂單號"]).trim();
+    if (orderItem && orderItem["採購訂單號"]) return String(orderItem["採購訂單號"]).trim();
+    if (orderItem && orderItem["採購訂單編號"]) return String(orderItem["採購訂單編號"]).trim();
+
+    // 2) 再用手動對照表（WebOrderNumber / SalesOrderNumber）
+    var mapObj = getOrderProjectMappings();
+    var web = orderItem && (orderItem.WebOrderNumber != null ? orderItem.WebOrderNumber : orderItem["Web訂單號"] != null ? orderItem["Web訂單號"] : orderItem["網路訂單號碼"] != null ? orderItem["網路訂單號碼"] : orderItem["網絡訂單號"] != null ? orderItem["網絡訂單號"] : null);
+    if (web != null) {
+        var webStr = String(web).trim();
+        if (mapObj[webStr]) return mapObj[webStr];
+    }
+    var so = orderItem && (orderItem.SalesOrderNumber != null ? orderItem.SalesOrderNumber : orderItem["銷售訂單號碼"] != null ? orderItem["銷售訂單號碼"] : orderItem["銷售訂單號"] != null ? orderItem["銷售訂單號"] : orderItem["銷售訂單編號"] != null ? orderItem["銷售訂單編號"] : null);
+    if (so != null) {
+        var soStr = String(so).trim();
+        if (mapObj[soStr]) return mapObj[soStr];
+    }
+    return '';
+}
+
 function fmtMoney(n) {
     if (n == null || n === "") return "";
     var num = Number(n);
@@ -1025,6 +1050,70 @@ function renderDigikeyOrders(data) {
     setOrderListHtml(html);
 }
 
+function renderMouserOrders(data) {
+    if (!data || data.ok === false) {
+        setOrderListHtml('');
+        return;
+    }
+
+    // 兼容可能的英文/中文 key
+    var items =
+        (data.OrderHistoryItems && Array.isArray(data.OrderHistoryItems)) ? data.OrderHistoryItems :
+        (data.orderHistoryItems && Array.isArray(data.orderHistoryItems)) ? data.orderHistoryItems :
+        (data["訂單歷史記錄項目"] && Array.isArray(data["訂單歷史記錄項目"])) ? data["訂單歷史記錄項目"] :
+        (data["訂單歷史記錄項目 "] && Array.isArray(data["訂單歷史記錄項目 "])) ? data["訂單歷史記錄項目 "] :
+        [];
+
+    var total =
+        (data.NumberOfOrders != null) ? data.NumberOfOrders :
+        (data.numberOfOrders != null) ? data.numberOfOrders :
+        (data["訂單數量"] != null) ? data["訂單數量"] :
+        items.length;
+
+    if (!items.length) {
+        setOrderListHtml('<div class="order-card"><div class="order-num">沒有訂單</div><div class="order-meta">此期間內無資料</div></div>');
+        return;
+    }
+
+    var html = '';
+    html += '<div class="order-card">';
+    html += '  <div class="order-num">Mouser：共 ' + String(total) + ' 筆訂單</div>';
+    html += '  <div class="order-meta">顯示本次回傳 ' + String(items.length) + ' 筆</div>';
+    html += '</div>';
+
+    items.forEach(function(it, idx) {
+        var created =
+            it.CreatedDate || it.CreateDate || it["創建日期"] || it["建立日期"] || '';
+        var sales =
+            it.SalesOrderNumber || it["銷售訂單號碼"] || it["銷售訂單號"] || it["銷售訂單編號"] || '';
+        var web =
+            it.WebOrderNumber || it["Web訂單號"] || it["網路訂單號碼"] || it["網絡訂單號"] || '';
+        var status =
+            it.OrderStatusDisplay || it.StatusDisplay || it["訂單狀態顯示"] || it["狀態顯示"] || '';
+        var project = resolveProjectCodeFromMouser(it);
+
+        html += '<div class="order-card">';
+        html += '  <div class="order-top">';
+        html += '    <div>';
+        html += '      <div class="order-num">Web 訂單號：' + (web ? String(web) : ('(無 #' + (idx + 1) + ')')) + '</div>';
+        html += '      <div class="order-meta">建立日期：' + (created ? fmtDateTime(created) : '-') + '</div>';
+        html += '    </div>';
+        html += '    <div class="order-badges">';
+        if (status) html += '      <span class="ob ' + digikeyStatusClass(status) + '">' + String(status) + '</span>';
+        if (project) html += '      <span class="ob ob-other">專案：' + String(project) + '</span>';
+        html += '    </div>';
+        html += '  </div>';
+
+        html += '  <div class="order-grid">';
+        html += '    <div class="kv"><div class="k">Sales Order</div><div class="v">' + (sales ? String(sales) : '-') + '</div></div>';
+        html += '    <div class="kv"><div class="k">Web Order</div><div class="v">' + (web ? String(web) : '-') + '</div></div>';
+        html += '  </div>';
+        html += '</div>';
+    });
+
+    setOrderListHtml(html);
+}
+
 function toMMDDYYYY(d) {
     var mm = String(d.getMonth() + 1).padStart(2, '0');
     var dd = String(d.getDate()).padStart(2, '0');
@@ -1049,6 +1138,7 @@ function fetchMouserOrderHistory() {
     try {
         setOrderStatus('正在查詢 Mouser 訂單...', false);
         setOrderResults('');
+        setOrderListHtml('');
 
         var range = getLast30DaysRange();
         var proxyBase = getOrderProxyBaseUrl();
@@ -1060,6 +1150,7 @@ function fetchMouserOrderHistory() {
             .then(function(res) { return res.json(); })
             .then(function(data) {
                 setOrderStatus('Mouser 查詢完成', false);
+                renderMouserOrders(data);
                 setOrderResults(data);
             })
             .catch(function(err) {
