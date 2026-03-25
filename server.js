@@ -99,6 +99,51 @@ async function fetchJson(url, options) {
   return { status: res.status, ok: res.ok, body };
 }
 
+async function fetchWithDebug(url, options) {
+  const res = await fetch(url, options);
+  const contentType = res.headers.get('content-type') || '';
+  const isJson = contentType.includes('application/json') || contentType.includes('text/json');
+  const rawBody = isJson ? await res.text().catch(() => '') : await res.text().catch(() => '');
+  let body = rawBody;
+  if (isJson) {
+    try {
+      body = JSON.parse(rawBody);
+    } catch (_) {
+      body = rawBody;
+    }
+  }
+
+  const headers = {};
+  const keep = [
+    'content-type',
+    'server',
+    'date',
+    'via',
+    'x-cache',
+    'x-akamai-request-id',
+    'x-akamai-session-info',
+    'x-akamai-transformed',
+    'x-cdn',
+    'cf-ray',
+    'set-cookie',
+  ];
+  res.headers.forEach((v, k) => {
+    const lk = String(k).toLowerCase();
+    if (keep.includes(lk) || lk.startsWith('x-') || lk.startsWith('cf-')) headers[lk] = v;
+  });
+
+  return {
+    status: res.status,
+    ok: res.ok,
+    body,
+    debug: {
+      contentType,
+      headers,
+      bodyPreview: typeof rawBody === 'string' ? rawBody.slice(0, 800) : '',
+    },
+  };
+}
+
 async function mouserByDateRange(reqUrl, res) {
   if (!requireEnv(res, ['MOUSER_API_KEY'])) return;
 
@@ -121,7 +166,16 @@ async function mouserByDateRange(reqUrl, res) {
     '&endDate=' +
     encodeURIComponent(endDate);
 
-  const r = await fetchJson(url, {
+  const debug = reqUrl.searchParams.get('debug') === '1';
+  const r = debug
+    ? await fetchWithDebug(url, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'User-Agent': 'CD_RB_BOM-tool/1.0 (order-proxy)',
+        },
+      })
+    : await fetchJson(url, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -130,6 +184,7 @@ async function mouserByDateRange(reqUrl, res) {
   });
   if (!r.ok) {
     const isHtml = typeof r.body === 'string' && /<html/i.test(r.body);
+    const safeUrl = url.replace(/apiKey=[^&]+/i, 'apiKey=***');
     return json(res, r.status, {
       ok: false,
       upstream: 'mouser',
@@ -138,6 +193,8 @@ async function mouserByDateRange(reqUrl, res) {
       hint: isHtml
         ? 'Mouser API 回傳 403 HTML（疑似 Akamai/WAF 擋下）。請確認此 apiKey 是否為 Order History 專用，或改用可被允許的網路/環境（公司固定出口 IP/VPN）。'
         : undefined,
+      request: debug ? { url: safeUrl, version: mouserVersion } : undefined,
+      debug: debug ? r.debug : undefined,
       body: r.body,
     });
   }
