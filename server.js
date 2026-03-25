@@ -42,6 +42,7 @@ function loadDotEnv() {
 loadDotEnv();
 
 const PORT = Number(process.env.PORT || 8787);
+const STARTED_AT = new Date().toISOString();
 
 function json(res, status, obj) {
   const body = JSON.stringify(obj);
@@ -299,6 +300,18 @@ const server = http.createServer(async (req, res) => {
     if (req.method !== 'GET') return json(res, 405, { ok: false, error: 'method_not_allowed' });
 
     if (reqUrl.pathname === '/health') return json(res, 200, { ok: true });
+    if (reqUrl.pathname === '/version') {
+      return json(res, 200, {
+        ok: true,
+        startedAt: STARTED_AT,
+        port: PORT,
+        features: {
+          mouserDebugQuery: 'debug=1',
+          mouserVersionEnv: 'MOUSER_API_VERSION',
+          dotenvUtf16: true,
+        },
+      });
+    }
 
     if (reqUrl.pathname === '/api/mouser/orderhistory/byDateRange') {
       return await mouserByDateRange(reqUrl, res);
