@@ -530,7 +530,9 @@ function processTableData(headerRowIndex) {
 
         var itemVal = colMap.item !== -1 ? (row[colMap.item] || (i - headerRowIndex)) : (i - headerRowIndex);
         var mfrVal = colMap.mfr !== -1 ? (row[colMap.mfr] || "") : "";
-        var partVal = colMap.part !== -1 ? (row[colMap.part] || "") : "";
+        // partVal 可能會因為備援欄位而被補值；若需判斷「MPN 欄位是否空白」請看 partCellPrimary
+        var partCellPrimary = colMap.part !== -1 ? (row[colMap.part] || "") : "";
+        var partVal = partCellPrimary;
         if (!partVal && colMap.part_backup !== -1) partVal = row[colMap.part_backup] || "";
         var refVal = colMap.ref !== -1 ? String(row[colMap.ref] || "").trim().toUpperCase() : "";
         var isDutRef = refVal.indexOf("DUT") === 0;
@@ -549,7 +551,7 @@ function processTableData(headerRowIndex) {
         // BUG 修正：manufacturer's part number 欄位空白且出現 "SOCKET" 時，顯示為不上件
         // （例如 LORANGER SOCKET）
         var isSocketNoInstall =
-            String(partVal || "").trim() === "" &&
+            String(partCellPrimary || "").trim() === "" &&
             rowStrAll.indexOf("SOCKET") !== -1;
 
         if (isSocketNoInstall) {
