@@ -17,7 +17,11 @@ function loadDotEnv() {
     const path = require('path');
     const envPath = path.join(process.cwd(), '.env');
     if (!fs.existsSync(envPath)) return;
-    const raw = fs.readFileSync(envPath, 'utf8');
+    // .env 可能被 Notepad 存成 UTF-16LE，這裡自動偵測並支援
+    let raw = fs.readFileSync(envPath, 'utf8');
+    if (raw.includes('\u0000')) {
+      raw = fs.readFileSync(envPath, 'utf16le');
+    }
     raw.split(/\r?\n/).forEach((line) => {
       const l = line.trim();
       if (!l || l.startsWith('#')) return;
