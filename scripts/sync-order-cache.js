@@ -56,6 +56,7 @@ async function main() {
   const mouserParams = new URLSearchParams();
   mouserParams.set('startDate', toMMDDYYYY(range.start));
   mouserParams.set('endDate', toMMDDYYYY(range.end));
+  mouserParams.set('enrichDetails', '1');
 
   const digiParams = new URLSearchParams();
   digiParams.set('Shared', 'false');

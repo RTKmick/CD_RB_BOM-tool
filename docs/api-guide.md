@@ -26,6 +26,11 @@
 - 若 CartKey 空白，插入 items 時會自動產生新的 CartKey。
 - 每次 request 限制與 cart item 數量限制（文件提到單次最多 100 items、cart 總量上限等）。
 
+### Order History API（訂料追蹤）
+- **`/orderhistory/ByDateRange`**：依日期區間列出訂單（多為**摘要**欄位）。
+- **`/orderhistory/webOrderNumber`**：依 **Web Order Number** 取**單筆訂單明細**（較完整，含品項等；實際欄位以官方回傳為準）。
+- 本專案在代理或同步腳本中可帶 **`enrichDetails=1`** 於 ByDateRange 後，對每筆訂單再呼叫 `webOrderNumber` 合併明細。
+
 ### Order API（文件列出 5 個端點）
 常見重點：
 - `/order/options/query`：取得可用 shipping/payment 等資訊（request body 可選）。
