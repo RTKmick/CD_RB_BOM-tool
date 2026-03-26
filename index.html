@@ -1127,8 +1127,9 @@ function mouserScalarFromLine(obj, keys, maxDepth) {
 }
 
 function mouserLineDesc(li) {
+    /* Mouser Order History 明細常見為 ProductInfo.PartDescription（非 Description） */
     return mouserScalarFromLine(li, [
-        'Description', 'ProductDescription', 'ProductName', 'LineDescription', 'ItemDescription',
+        'Description', 'ProductDescription', 'PartDescription', 'ProductName', 'LineDescription', 'ItemDescription',
         'DescriptionText', 'LongDescription', 'ShortDescription'
     ], 3);
 }
