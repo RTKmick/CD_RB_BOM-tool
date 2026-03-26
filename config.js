@@ -3,7 +3,8 @@ const CONFIG = {
     GAS_URL: "https://script.google.com/macros/s/AKfycbyn_JmQayzBYuM6leOHekuauIiSmXfP_fEvS7Auk-IGFxe2yULtzlf7ch3SysU-OuWbUQ/exec",
 
     /**
-     * 程式改版號（單一來源）：請只改這裡；index.html 會自動更新分頁標題與左上角版本文字。
+     * 程式改版號：執行時以此為準（分頁標題、左上角版號）。
+     * 若 config.js 未載入，會 fallback 到 index.html 內 <!-- RELEASE: ... --> 與 .app-version 內文，改版請三處一併更新以免誤會。
      */
     APP_RELEASE_LABEL: "潤鉑BOM+PCB_R1.3.7",
 

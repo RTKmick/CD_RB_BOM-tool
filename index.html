@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<!-- 版號請與 config.js 的 APP_RELEASE_LABEL 同步（下方 .app-version 內文、註解 RELEASE 方便搜尋） -->
+<!-- RELEASE: 潤鉑BOM+PCB_R1.3.7 -->
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -6,14 +8,25 @@
     <title>潤鉑BOM+PCB</title>
     <script src="config.js"></script>
     <script>
+    /** 若 config.js 未載入，訂料按鈕仍顯示完整說明（與 config.js ORDER_PROXY_SETUP_HINT 預設一致） */
+    var CD_RB_ORDER_PROXY_HINT_DEFAULT =
+        '訂料追蹤需連到已部署的代理：請在 config.js 將 ORDER_PROXY_BASE_URL 設為 Vercel 網址（https://… 勿結尾 /）。說明見 README。';
     (function () {
-        var lab = (typeof CONFIG !== 'undefined' && CONFIG.APP_RELEASE_LABEL) ? String(CONFIG.APP_RELEASE_LABEL).trim() : '';
-        if (!lab) lab = '潤鉑BOM+PCB';
-        document.title = lab;
-        document.addEventListener('DOMContentLoaded', function () {
+        function syncReleaseLabel() {
             var el = document.querySelector('.app-version');
+            var fromConfig = (typeof CONFIG !== 'undefined' && CONFIG.APP_RELEASE_LABEL) ? String(CONFIG.APP_RELEASE_LABEL).trim() : '';
+            var fromDom = (el && el.textContent) ? el.textContent.trim() : '';
+            var lab = fromConfig || fromDom || '潤鉑BOM+PCB';
+            document.title = lab;
             if (el) el.textContent = lab;
-        });
+        }
+        var early = (typeof CONFIG !== 'undefined' && CONFIG.APP_RELEASE_LABEL) ? String(CONFIG.APP_RELEASE_LABEL).trim() : '';
+        if (early) document.title = early;
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', syncReleaseLabel);
+        } else {
+            syncReleaseLabel();
+        }
     })();
     </script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
@@ -224,7 +237,7 @@
   該面板的樣式請用 #panel-新功能id .類名 { } 包起來，避免與其他分頁衝突。切換邏輯已通用，無須改 JS。
 -->
 <nav class="main-tabs">
-    <span class="app-version"></span>
+    <span class="app-version">潤鉑BOM+PCB_R1.3.7</span>
     <button type="button" class="tab active" data-tab="bom" aria-selected="true">
         <i class="fas fa-microchip"></i> BOM 旗艦備料
     </button>
@@ -1157,7 +1170,7 @@ function fetchMouserOrderHistory() {
         var range = getLast30DaysRange();
         var proxyBase = getOrderProxyBaseUrl();
         if (!proxyBase) {
-            var hintM = (typeof CONFIG !== 'undefined' && CONFIG.ORDER_PROXY_SETUP_HINT) ? CONFIG.ORDER_PROXY_SETUP_HINT : '請設定 config.js 的 ORDER_PROXY_BASE_URL（見 README）。';
+            var hintM = (typeof CONFIG !== 'undefined' && CONFIG.ORDER_PROXY_SETUP_HINT) ? CONFIG.ORDER_PROXY_SETUP_HINT : CD_RB_ORDER_PROXY_HINT_DEFAULT;
             setOrderStatus(hintM, true);
             return;
         }
@@ -1192,7 +1205,7 @@ function fetchDigikeyOrders() {
         var range = getLast30DaysRange();
         var proxyBase = getOrderProxyBaseUrl();
         if (!proxyBase) {
-            var hintD = (typeof CONFIG !== 'undefined' && CONFIG.ORDER_PROXY_SETUP_HINT) ? CONFIG.ORDER_PROXY_SETUP_HINT : '請設定 config.js 的 ORDER_PROXY_BASE_URL（見 README）。';
+            var hintD = (typeof CONFIG !== 'undefined' && CONFIG.ORDER_PROXY_SETUP_HINT) ? CONFIG.ORDER_PROXY_SETUP_HINT : CD_RB_ORDER_PROXY_HINT_DEFAULT;
             setOrderStatus(hintD, true);
             return;
         }
