@@ -1,4 +1,17 @@
 {
-  "generatedAt": null,
-  "note": "尚未由 GitHub Actions 寫入。請在 repo Settings → Secrets 設定 MOUSER_API_KEY、DIGIKEY_*，並執行 Actions「Sync order cache」。"
+  "generatedAt": "2026-03-26T08:02:35.794Z",
+  "range": {
+    "startDate": "02/24/2026",
+    "endDate": "03/26/2026",
+    "digiStartIso": "2026-02-24T08:02:31.813Z",
+    "digiEndIso": "2026-03-26T08:02:31.813Z"
+  },
+  "mouser": {
+    "httpStatus": 200,
+    "ok": true
+  },
+  "digikey": {
+    "httpStatus": 200,
+    "ok": true
+  }
 }
