@@ -6,7 +6,7 @@ const CONFIG = {
      * 程式改版號：執行時以此為準（分頁標題、左上角版號）。
      * 若 config.js 未載入，會 fallback 到 index.html 內 <!-- RELEASE: ... --> 與 .app-version 內文，改版請三處一併更新以免誤會。
      */
-    APP_RELEASE_LABEL: "潤鉑BOM+PCB_R1.4.4",
+    APP_RELEASE_LABEL: "潤鉑BOM+PCB_R1.4.5",
 
     /**
      * 訂料追蹤（Mouser / DigiKey）：後端代理基底網址（勿結尾斜線）
@@ -14,6 +14,13 @@ const CONFIG = {
      * - GitHub Pages → 自動依網址倉庫名推測 https://倉庫-slug.vercel.app（與 Vercel 匯入 GitHub 的預設專案名一致）；若專案名不同請填此欄覆寫
      */
     ORDER_PROXY_BASE_URL: "",
+
+    /**
+     * 專案 ↔ 訂單 對照表雲端同步（Google Apps Script Web App）
+     * - 填入你部署後的 Web App URL（/exec）
+     * - 留空則只用 localStorage（同一台電腦/同一瀏覽器）
+     */
+    ORDER_PROJECT_MAP_GAS_URL: "https://script.google.com/macros/s/AKfycbzFfyo89NcbOd8KQy3F_hSz6Tsx3CQhWkKCqHGnJA3tuBL0Ix2qWQmCMDj2hZgM7Zcy/exec",
 
     /**
      * 訂單資料來源：true=只讀 data/order-cache/*.json；false=即時打 Vercel/本機代理。

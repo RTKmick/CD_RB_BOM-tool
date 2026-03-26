@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- 版號請與 config.js 的 APP_RELEASE_LABEL 同步（下方 .app-version 內文、註解 RELEASE 方便搜尋） -->
-<!-- RELEASE: 潤鉑BOM+PCB_R1.4.4 -->
+<!-- RELEASE: 潤鉑BOM+PCB_R1.4.5 -->
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -429,9 +429,12 @@
             <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
                 <button type="button" class="page-btn" onclick="saveOrderProjectMapping()" style="border-radius:10px; padding:10px 14px;">儲存對照</button>
                 <button type="button" class="page-btn" onclick="clearOrderProjectMappingInputs()" style="border-radius:10px; padding:10px 14px;">清空</button>
-                <button type="button" class="page-btn" onclick="exportOrderProjectMappings()" style="border-radius:10px; padding:10px 14px;">匯出 JSON</button>
-                <button type="button" class="page-btn" onclick="importOrderProjectMappings()" style="border-radius:10px; padding:10px 14px;">匯入 JSON</button>
+                <button type="button" class="page-btn" onclick="downloadOrderProjectMappings()" style="border-radius:10px; padding:10px 14px;">下載 JSON</button>
+                <button type="button" class="page-btn" onclick="triggerImportOrderProjectMappingsFile()" style="border-radius:10px; padding:10px 14px;">從檔案匯入</button>
+                <button type="button" class="page-btn" onclick="exportOrderProjectMappings()" style="border-radius:10px; padding:10px 14px;">複製 JSON</button>
+                <button type="button" class="page-btn" onclick="importOrderProjectMappings()" style="border-radius:10px; padding:10px 14px;">貼上匯入</button>
             </div>
+            <input id="orderProjectMappingsFile" type="file" accept="application/json,.json" style="display:none;" />
             <div id="mapStatus" class="order-meta" style="margin-top:10px;"></div>
         </div>
         <div id="orderList" style="margin-top:12px;"></div>
@@ -455,6 +458,15 @@
         });
     });
 })();
+
+// 訂料追蹤：初始化時嘗試從 Google Sheet 同步對照表（有填 config.js ORDER_PROJECT_MAP_GAS_URL 才會啟用）
+try {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() { loadOrderProjectMappingsFromGas(); });
+    } else {
+        loadOrderProjectMappingsFromGas();
+    }
+} catch (e) { /* ignore */ }
 
 // ========== BOM 旗艦備料 (原 index.html 腳本) ==========
 var rawData = [];
@@ -853,6 +865,65 @@ function setOrderListHtml(html) {
     el.innerHTML = html || '';
 }
 
+function getOrderProjectMapGasUrl() {
+    var u = (typeof CONFIG !== 'undefined' && CONFIG.ORDER_PROJECT_MAP_GAS_URL) ? String(CONFIG.ORDER_PROJECT_MAP_GAS_URL).trim() : '';
+    return u ? u.replace(/\/+$/g, '') : '';
+}
+
+function fetchJsonWithTimeout(url, options, timeoutMs) {
+    if (timeoutMs == null) timeoutMs = 12000;
+    var controller = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+    var t = null;
+    var opts = options || {};
+    if (controller) opts.signal = controller.signal;
+    t = setTimeout(function() { try { controller && controller.abort(); } catch (e) {} }, timeoutMs);
+    return fetch(url, opts).then(function(res) {
+        return res.text().then(function(text) {
+            var ct = (res.headers.get('content-type') || '').toLowerCase();
+            var looksJson = ct.indexOf('application/json') >= 0 || /^\s*[\{\[]/.test(text || '');
+            var obj = null;
+            if (looksJson) {
+                try { obj = JSON.parse(text || '{}'); } catch (e) { obj = null; }
+            }
+            if (!res.ok) {
+                var msg = (obj && (obj.error || obj.message)) ? (obj.error || obj.message) : ('HTTP ' + res.status);
+                throw new Error(msg);
+            }
+            return (obj != null) ? obj : {};
+        });
+    }).finally(function() {
+        if (t) clearTimeout(t);
+    });
+}
+
+function loadOrderProjectMappingsFromGas() {
+    var gas = getOrderProjectMapGasUrl();
+    if (!gas) return Promise.resolve(null);
+    return fetchJsonWithTimeout(gas + '?action=list', { method: 'GET', cache: 'no-store', mode: 'cors' }, 15000)
+        .then(function(resp) {
+            if (!resp || resp.ok === false) throw new Error(resp && resp.error ? resp.error : 'GAS 讀取失敗');
+            var mapObj = resp.map && typeof resp.map === 'object' ? resp.map : {};
+            setOrderProjectMappings(mapObj);
+            setMapStatus('已從 Google Sheet 同步（' + Object.keys(mapObj).length + ' 筆）');
+            return mapObj;
+        })
+        .catch(function(err) {
+            setMapStatus('Google Sheet 同步失敗（改用本機記憶）：' + (err && err.message ? err.message : err));
+            return null;
+        });
+}
+
+function saveOrderProjectMappingToGas(orderId, project) {
+    var gas = getOrderProjectMapGasUrl();
+    if (!gas) return Promise.resolve(null);
+    var body = JSON.stringify({ action: 'upsert', orderId: String(orderId || '').trim(), projectCode: String(project || '').trim().toUpperCase() });
+    return fetchJsonWithTimeout(gas, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, mode: 'cors' }, 15000)
+        .then(function(resp) {
+            if (!resp || resp.ok === false) throw new Error(resp && resp.error ? resp.error : 'GAS 寫入失敗');
+            return resp;
+        });
+}
+
 function getOrderProjectMappings() {
     try {
         var raw = localStorage.getItem('orderProjectMappings');
@@ -900,7 +971,14 @@ function saveOrderProjectMapping() {
     var mapObj = getOrderProjectMappings();
     mapObj[orderId] = project;
     setOrderProjectMappings(mapObj);
-    setMapStatus('已儲存：' + project + ' ↔ ' + orderId);
+    setMapStatus('已儲存（本機）：' + project + ' ↔ ' + orderId);
+
+    // 若有設定 GAS，同步寫入 Google Sheet（跨電腦）
+    saveOrderProjectMappingToGas(orderId, project).then(function() {
+        setMapStatus('已儲存（Google Sheet）：' + project + ' ↔ ' + orderId);
+    }).catch(function(err) {
+        setMapStatus('已儲存（本機），但 Google Sheet 寫入失敗：' + (err && err.message ? err.message : err));
+    });
 }
 
 function exportOrderProjectMappings() {
@@ -916,6 +994,61 @@ function exportOrderProjectMappings() {
         : prompt('專案 ↔ 訂單對照（JSON）', jsonText);
 }
 
+function downloadOrderProjectMappings() {
+    var mapObj = getOrderProjectMappings();
+    var jsonText = JSON.stringify(mapObj, null, 2);
+    try {
+        var blob = new Blob([jsonText], { type: 'application/json;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        var ts = new Date();
+        var fn = 'order-project-mappings_' +
+            String(ts.getFullYear()) +
+            String(ts.getMonth() + 1).padStart(2, '0') +
+            String(ts.getDate()).padStart(2, '0') + '_' +
+            String(ts.getHours()).padStart(2, '0') +
+            String(ts.getMinutes()).padStart(2, '0') +
+            String(ts.getSeconds()).padStart(2, '0') +
+            '.json';
+        a.href = url;
+        a.download = fn;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(function() { try { URL.revokeObjectURL(url); } catch (e) {} }, 2000);
+        setMapStatus('已下載：' + fn);
+    } catch (e) {
+        setMapStatus('下載失敗，改用「複製 JSON」備份');
+    }
+}
+
+function triggerImportOrderProjectMappingsFile() {
+    var input = document.getElementById('orderProjectMappingsFile');
+    if (!input) return;
+    input.value = '';
+    input.onchange = function() {
+        var file = input.files && input.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function() {
+            try {
+                var text = String(reader.result || '');
+                var obj = JSON.parse(text);
+                if (!obj || typeof obj !== 'object') throw new Error('invalid');
+                setOrderProjectMappings(obj);
+                setMapStatus('已從檔案匯入對照（' + Object.keys(obj).length + ' 筆）');
+            } catch (err) {
+                setMapStatus('匯入失敗：JSON 格式錯誤');
+            }
+        };
+        reader.onerror = function() {
+            setMapStatus('匯入失敗：讀檔錯誤');
+        };
+        reader.readAsText(file);
+    };
+    input.click();
+}
+
 function importOrderProjectMappings() {
     var raw = prompt('貼上 JSON（格式：{ \"訂單號\": \"A001\", ... }）');
     if (!raw) return;
@@ -927,6 +1060,25 @@ function importOrderProjectMappings() {
     } catch (e) {
         setMapStatus('JSON 格式錯誤，匯入失敗');
     }
+}
+
+function translateOrderStatus(provider, status) {
+    var raw = String(status || '').trim();
+    if (!raw) return '';
+    var up = raw.toUpperCase();
+    if (provider === 'mouser' && (up === 'COMPLETE' || up === 'COMPLETED')) return '訂單已出貨';
+    if (provider === 'digikey' && up === 'SHIPPED') return '訂單已出貨';
+    if (up.indexOf('CANCEL') !== -1) return '已取消';
+    if (up.indexOf('BACKORDER') !== -1 || up.indexOf('BACK ORDER') !== -1) return '缺貨待補';
+    if (up.indexOf('PARTIAL') !== -1) return '部分出貨';
+    if (up.indexOf('PROCESS') !== -1) return '處理中';
+    if (up.indexOf('PENDING') !== -1) return '待處理';
+    if (up.indexOf('HOLD') !== -1) return '暫停處理';
+    if (up.indexOf('OPEN') !== -1) return '未出貨';
+    if (up.indexOf('SHIP') !== -1) return '訂單已出貨';
+    if (up.indexOf('COMPLETE') !== -1) return '訂單已出貨';
+    if (up.indexOf('DELIVER') !== -1) return '已送達';
+    return raw;
 }
 
 function resolveProjectCodeFromDigikey(orderObj, salesOrderObj) {
@@ -952,14 +1104,22 @@ function resolveProjectCodeFromDigikey(orderObj, salesOrderObj) {
 }
 
 function resolveProjectCodeFromMouser(orderItem) {
-    // 1) 優先用供應商回傳欄位（可能是 PO / Purchase Order）
-    if (orderItem && orderItem.PurchaseOrderNumber) return String(orderItem.PurchaseOrderNumber).trim();
-    if (orderItem && orderItem.PONumber) return String(orderItem.PONumber).trim();
-    if (orderItem && orderItem.PoNumber) return String(orderItem.PoNumber).trim();
-    // 有些回傳可能是中文 key
-    if (orderItem && orderItem["購買訂單號"]) return String(orderItem["購買訂單號"]).trim();
-    if (orderItem && orderItem["採購訂單號"]) return String(orderItem["採購訂單號"]).trim();
-    if (orderItem && orderItem["採購訂單編號"]) return String(orderItem["採購訂單編號"]).trim();
+    function looksLikeProjectCode(s) {
+        var v = String(s || '').trim();
+        if (!v) return false;
+        if (/[A-Z]/i.test(v)) return true;
+        return false;
+    }
+
+    // 1) 先取供應商回傳欄位（可能是 PO / Purchase Order）
+    var poCandidate = '';
+    if (orderItem && orderItem.PurchaseOrderNumber) poCandidate = String(orderItem.PurchaseOrderNumber).trim();
+    else if (orderItem && orderItem.PONumber) poCandidate = String(orderItem.PONumber).trim();
+    else if (orderItem && orderItem.PoNumber) poCandidate = String(orderItem.PoNumber).trim();
+    else if (orderItem && orderItem["購買訂單號"]) poCandidate = String(orderItem["購買訂單號"]).trim();
+    else if (orderItem && orderItem["採購訂單號"]) poCandidate = String(orderItem["採購訂單號"]).trim();
+    else if (orderItem && orderItem["採購訂單編號"]) poCandidate = String(orderItem["採購訂單編號"]).trim();
+    if (poCandidate && looksLikeProjectCode(poCandidate)) return poCandidate;
 
     // 2) 再用手動對照表（WebOrderNumber / SalesOrderNumber）
     var mapObj = getOrderProjectMappings();
@@ -973,7 +1133,7 @@ function resolveProjectCodeFromMouser(orderItem) {
         var soStr = String(so).trim();
         if (mapObj[soStr]) return mapObj[soStr];
     }
-    return '';
+    return poCandidate || '';
 }
 
 function fmtMoney(n) {
@@ -1028,7 +1188,10 @@ function renderDigikeyOrders(data) {
         html += '      <div class="order-meta">下單時間：' + fmtDateTime(dateEntered) + '</div>';
         html += '    </div>';
         html += '    <div class="order-badges">';
-        if (status) html += '      <span class="ob ' + digikeyStatusClass(status) + '">' + String(status) + '</span>';
+        if (status) {
+            var dkZh = translateOrderStatus('digikey', status);
+            html += '      <span class="ob ' + digikeyStatusClass(status) + '" title="' + escapeOrderHtml(status) + '">' + escapeOrderHtml(dkZh || status) + '</span>';
+        }
         if (currency) html += '      <span class="ob ob-other">' + String(currency) + '</span>';
         html += '    </div>';
         html += '  </div>';
@@ -1046,7 +1209,8 @@ function renderDigikeyOrders(data) {
                 var soTotal = so.TotalPrice != null ? so.TotalPrice : '';
 
                 html += '    <div class="li">';
-                html += '      <div class="li-title">SalesOrderId：' + (soId || '-') + (projectCode ? ('　|　專案：' + String(projectCode)) : '') + (soStatus ? ('　|　' + String(soStatus)) : '') + '</div>';
+                var soZh = soStatus ? translateOrderStatus('digikey', soStatus) : '';
+                html += '      <div class="li-title">SalesOrderId：' + (soId || '-') + (projectCode ? ('　|　專案：' + String(projectCode)) : '') + (soStatus ? ('　|　' + escapeOrderHtml(soZh || soStatus)) : '') + '</div>';
                 html += '      <div class="li-sub">出貨方式：' + (shipMethod || '-') + '　|　小計：' + (soTotal !== '' ? (fmtMoney(soTotal) + (currency ? (' ' + currency) : '')) : '-') + '</div>';
 
                 var lineItems = Array.isArray(so.LineItems) ? so.LineItems : [];
@@ -1153,6 +1317,25 @@ function mouserLineQty(li) {
     return q;
 }
 
+function mouserLineStatus(li) {
+    return mouserScalarFromLine(li, [
+        'OrderLineStatus', 'LineStatus', 'Status', 'StatusDisplay', 'OrderStatus', 'ItemStatus', 'LineItemStatus',
+        'LineStatusDisplay', 'OrderLineStatusDisplay'
+    ], 3);
+}
+
+function mouserLineIsCancelled(li) {
+    if (!li || typeof li !== 'object') return false;
+    var st = String(mouserLineStatus(li) || '').toUpperCase();
+    if (st.indexOf('CANCEL') !== -1) return true;
+    var flag = mouserScalarFromLine(li, ['IsCancelled', 'Cancelled', 'Canceled', 'IsCanceled'], 1);
+    if (String(flag).toLowerCase() === 'true') return true;
+    var q = mouserLineQty(li);
+    var qn = Number(String(q || '').replace(/,/g, ''));
+    if (!Number.isNaN(qn) && qn <= 0) return true;
+    return false;
+}
+
 /** 盡可能從 Mouser 回傳物件找出日期欄（欄位名依 api-guide / 實際 JSON 可能不同） */
 function mouserFirstDate(it) {
     var keys = [
@@ -1227,7 +1410,10 @@ function renderMouserOrders(data) {
         html += '      <div class="order-meta">建立／訂單日期：' + (created ? fmtDateTime(created) : '-') + '</div>';
         html += '    </div>';
         html += '    <div class="order-badges">';
-        if (status) html += '      <span class="ob ' + digikeyStatusClass(status) + '">' + escapeOrderHtml(status) + '</span>';
+        if (status) {
+            var mz = translateOrderStatus('mouser', status);
+            html += '      <span class="ob ' + digikeyStatusClass(status) + '" title="' + escapeOrderHtml(status) + '">' + escapeOrderHtml(mz || status) + '</span>';
+        }
         if (project) html += '      <span class="ob ob-other">專案：' + escapeOrderHtml(project) + '</span>';
         html += '    </div>';
         html += '  </div>';
@@ -1244,8 +1430,11 @@ function renderMouserOrders(data) {
 
         if (lines.length) {
             html += '  <details style="margin-top:10px;">';
-            html += '    <summary>品項（' + String(lines.length) + '）</summary>';
-            lines.forEach(function(li) {
+            var cancelledLines = [];
+            var activeLines = [];
+            lines.forEach(function(li) { (mouserLineIsCancelled(li) ? cancelledLines : activeLines).push(li); });
+            html += '    <summary>品項（' + String(activeLines.length) + '/' + String(lines.length) + '）</summary>';
+            activeLines.forEach(function(li) {
                 var desc = mouserLineDesc(li);
                 var mpn = mouserLineMpn(li);
                 var mouserPn = mouserLineMouserPn(li);
@@ -1258,6 +1447,25 @@ function renderMouserOrders(data) {
                 html += '      <div class="li-sub">數量：' + escapeOrderHtml(qty !== '' ? qty : '-') + '</div>';
                 html += '    </div>';
             });
+            if (cancelledLines.length) {
+                html += '    <details style="margin-top:10px;">';
+                html += '      <summary style="color:var(--muted);">已取消（' + String(cancelledLines.length) + '）</summary>';
+                cancelledLines.forEach(function(li) {
+                    var desc = mouserLineDesc(li);
+                    var mpn = mouserLineMpn(li);
+                    var mouserPn = mouserLineMouserPn(li);
+                    var qty = mouserLineQty(li);
+                    var st = mouserLineStatus(li);
+                    html += '      <div class="li" style="background:#f3f4f6; margin-top:8px; opacity:0.85;">';
+                    if (desc) {
+                        html += '        <div class="li-title">' + escapeOrderHtml(desc) + '</div>';
+                    }
+                    html += '        <div class="li-sub">Mouser：<code>' + escapeOrderHtml(mouserPn) + '</code>　MPN：<code>' + escapeOrderHtml(mpn) + '</code></div>';
+                    html += '        <div class="li-sub">數量：' + escapeOrderHtml(qty !== '' ? qty : '-') + (st ? ('　|　狀態：' + escapeOrderHtml(st)) : '') + '</div>';
+                    html += '      </div>';
+                });
+                html += '    </details>';
+            }
             html += '  </details>';
         }
 
