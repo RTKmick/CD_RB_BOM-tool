@@ -3,9 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>潤鉑BOM+PCB_R1.3.5</title>
-    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
+    <title>潤鉑BOM+PCB</title>
     <script src="config.js"></script>
+    <script>
+    (function () {
+        var lab = (typeof CONFIG !== 'undefined' && CONFIG.APP_RELEASE_LABEL) ? String(CONFIG.APP_RELEASE_LABEL).trim() : '';
+        if (!lab) lab = '潤鉑BOM+PCB';
+        document.title = lab;
+        document.addEventListener('DOMContentLoaded', function () {
+            var el = document.querySelector('.app-version');
+            if (el) el.textContent = lab;
+        });
+    })();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         /* ========== 共用與分頁 ========== */
@@ -213,7 +224,7 @@
   該面板的樣式請用 #panel-新功能id .類名 { } 包起來，避免與其他分頁衝突。切換邏輯已通用，無須改 JS。
 -->
 <nav class="main-tabs">
-    <span class="app-version">潤鉑BOM+PCB_R1.3.5</span>
+    <span class="app-version"></span>
     <button type="button" class="tab active" data-tab="bom" aria-selected="true">
         <i class="fas fa-microchip"></i> BOM 旗艦備料
     </button>
@@ -1146,7 +1157,8 @@ function fetchMouserOrderHistory() {
         var range = getLast30DaysRange();
         var proxyBase = getOrderProxyBaseUrl();
         if (!proxyBase) {
-            setOrderStatus('請在 config.js 設定 ORDER_PROXY_BASE_URL（Vercel 部署代理後的 https 網址，勿結尾斜線）', true);
+            var hintM = (typeof CONFIG !== 'undefined' && CONFIG.ORDER_PROXY_SETUP_HINT) ? CONFIG.ORDER_PROXY_SETUP_HINT : '請設定 config.js 的 ORDER_PROXY_BASE_URL（見 README）。';
+            setOrderStatus(hintM, true);
             return;
         }
         var url = proxyBase + '/api/mouser/orderhistory/byDateRange'
@@ -1162,7 +1174,7 @@ function fetchMouserOrderHistory() {
             })
             .catch(function(err) {
                 console.error(err);
-                setOrderStatus('Mouser 查詢失敗（請確認 ORDER_PROXY_BASE_URL 或雲端代理已就緒）：' + (err && err.message ? err.message : err), true);
+                setOrderStatus('Mouser 查詢失敗：' + (err && err.message ? err.message : err) + '（請確認代理已部署且 ORDER_PROXY_BASE_URL 正確）', true);
                 setOrderResults(String(err));
             });
     } catch (e) {
@@ -1180,7 +1192,8 @@ function fetchDigikeyOrders() {
         var range = getLast30DaysRange();
         var proxyBase = getOrderProxyBaseUrl();
         if (!proxyBase) {
-            setOrderStatus('請在 config.js 設定 ORDER_PROXY_BASE_URL（Vercel 部署代理後的 https 網址，勿結尾斜線）', true);
+            var hintD = (typeof CONFIG !== 'undefined' && CONFIG.ORDER_PROXY_SETUP_HINT) ? CONFIG.ORDER_PROXY_SETUP_HINT : '請設定 config.js 的 ORDER_PROXY_BASE_URL（見 README）。';
+            setOrderStatus(hintD, true);
             return;
         }
         var url = proxyBase + '/api/digikey/orders'
@@ -1199,7 +1212,7 @@ function fetchDigikeyOrders() {
             })
             .catch(function(err) {
                 console.error(err);
-                setOrderStatus('DigiKey 查詢失敗（請確認 ORDER_PROXY_BASE_URL 或雲端代理已就緒）：' + (err && err.message ? err.message : err), true);
+                setOrderStatus('DigiKey 查詢失敗：' + (err && err.message ? err.message : err) + '（請確認代理已部署且 ORDER_PROXY_BASE_URL 正確）', true);
                 setOrderResults(String(err));
             });
     } catch (e) {
