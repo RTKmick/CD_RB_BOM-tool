@@ -41,9 +41,9 @@ function toMMDDYYYY(d) {
   return mm + '/' + dd + '/' + yyyy;
 }
 
-function getLast30DaysRange() {
+function getLast60DaysRange() {
   const end = new Date();
-  const start = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  const start = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000);
   return { start, end };
 }
 
@@ -52,7 +52,7 @@ async function main() {
   const outDir = path.join(__dirname, '..', 'data', 'order-cache');
   fs.mkdirSync(outDir, { recursive: true });
 
-  const range = getLast30DaysRange();
+  const range = getLast60DaysRange();
   const mouserParams = new URLSearchParams();
   mouserParams.set('startDate', toMMDDYYYY(range.start));
   mouserParams.set('endDate', toMMDDYYYY(range.end));
