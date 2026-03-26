@@ -69,6 +69,9 @@ const server = http.createServer(async (req, res) => {
     if (req.method !== 'GET') return sendJson(res, 405, { ok: false, error: 'method_not_allowed' });
 
     if (reqUrl.pathname === '/health') return sendJson(res, 200, { ok: true });
+    if (reqUrl.pathname === '/api/health') {
+      return sendJson(res, 200, { ok: true, service: 'order-proxy' });
+    }
     if (reqUrl.pathname === '/version') {
       return sendJson(res, 200, {
         ok: true,

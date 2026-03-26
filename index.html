@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- 版號請與 config.js 的 APP_RELEASE_LABEL 同步（下方 .app-version 內文、註解 RELEASE 方便搜尋） -->
-<!-- RELEASE: 潤鉑BOM+PCB_R1.3.7 -->
+<!-- RELEASE: 潤鉑BOM+PCB_R1.3.8 -->
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -237,7 +237,7 @@
   該面板的樣式請用 #panel-新功能id .類名 { } 包起來，避免與其他分頁衝突。切換邏輯已通用，無須改 JS。
 -->
 <nav class="main-tabs">
-    <span class="app-version">潤鉑BOM+PCB_R1.3.7</span>
+    <span class="app-version">潤鉑BOM+PCB_R1.3.8</span>
     <button type="button" class="tab active" data-tab="bom" aria-selected="true">
         <i class="fas fa-microchip"></i> BOM 旗艦備料
     </button>
@@ -1175,6 +1175,52 @@ function getOrderProxyBaseUrl() {
     return '';
 }
 
+/** https 網頁無法 fetch http://（含 localhost），瀏覽器會顯示 Failed to fetch */
+function getOrderProxyMixedContentBlock(proxyBase) {
+    if (typeof window === 'undefined' || !window.location) return '';
+    if (String(window.location.protocol) !== 'https:') return '';
+    if (/^http:\/\//i.test(String(proxyBase || '').trim())) {
+        return '目前網頁為 https（例如 GitHub Pages），無法連線至 ' + proxyBase + '：瀏覽器會阻擋「混合內容」。請在 config.js 的 ORDER_PROXY_BASE_URL 使用 Vercel 的 https 網址，或改在本機用 http 開頁面並跑 node server.js。';
+    }
+    return '';
+}
+
+/**
+ * 讀取訂料代理 JSON；處理非 JSON/404/CORS 失敗，避免只顯示 Failed to fetch
+ */
+function fetchOrderProxyJson(url, proxyBase) {
+    var opts = { method: 'GET', cache: 'no-store', mode: 'cors' };
+    return fetch(url, opts).then(function(res) {
+        return res.text().then(function(text) {
+            var ct = (res.headers.get('content-type') || '').toLowerCase();
+            if (!res.ok) {
+                var snippet = (text || '').replace(/\s+/g, ' ').slice(0, 220);
+                if (res.status === 404) {
+                    throw new Error('HTTP 404：找不到此 API。請確認 Vercel 已用「本 repo」部署且網址正確；試開新分頁：' + proxyBase + '/api/health 應顯示 {"ok":true}。若專案名與倉庫不同，請在 config.js 手動填 ORDER_PROXY_BASE_URL。');
+                }
+                throw new Error('HTTP ' + res.status + ' ' + snippet);
+            }
+            var looksJson = ct.indexOf('application/json') >= 0 || /^\s*[\{\[]/.test(text || '');
+            if (!looksJson) {
+                throw new Error('代理回傳非 JSON（可能被導向錯誤頁）。請確認 ORDER_PROXY_BASE_URL=' + proxyBase);
+            }
+            try {
+                return JSON.parse(text);
+            } catch (parseErr) {
+                throw new Error('JSON 解析失敗：' + (text || '').slice(0, 140));
+            }
+        });
+    }).catch(function(err) {
+        var msg = (err && err.message) ? String(err.message) : String(err);
+        if (/Failed to fetch|NetworkError|Load failed|fetch/i.test(msg) || (err && err.name === 'TypeError')) {
+            throw new Error(
+                '無法連線到代理（' + proxyBase + '）。常見原因：① Vercel 未部署或網址錯 ② 專案網址與自動推測不同（請改 config.js）③ 請用新分頁開 ' + proxyBase + '/api/health 應可見 {"ok":true}。'
+            );
+        }
+        throw err;
+    });
+}
+
 function fetchMouserOrderHistory() {
     try {
         setOrderStatus('正在查詢 Mouser 訂單...', false);
@@ -1188,12 +1234,16 @@ function fetchMouserOrderHistory() {
             setOrderStatus(hintM, true);
             return;
         }
+        var block = getOrderProxyMixedContentBlock(proxyBase);
+        if (block) {
+            setOrderStatus(block, true);
+            return;
+        }
         var url = proxyBase + '/api/mouser/orderhistory/byDateRange'
             + '?startDate=' + encodeURIComponent(toMMDDYYYY(range.start))
             + '&endDate=' + encodeURIComponent(toMMDDYYYY(range.end));
 
-        fetch(url, { method: 'GET' })
-            .then(function(res) { return res.json(); })
+        fetchOrderProxyJson(url, proxyBase)
             .then(function(data) {
                 setOrderStatus('Mouser 查詢完成', false);
                 renderMouserOrders(data);
@@ -1201,7 +1251,7 @@ function fetchMouserOrderHistory() {
             })
             .catch(function(err) {
                 console.error(err);
-                setOrderStatus('Mouser 查詢失敗：' + (err && err.message ? err.message : err) + '（請確認代理已部署且 ORDER_PROXY_BASE_URL 正確）', true);
+                setOrderStatus('Mouser 查詢失敗：' + (err && err.message ? err.message : err), true);
                 setOrderResults(String(err));
             });
     } catch (e) {
@@ -1223,6 +1273,11 @@ function fetchDigikeyOrders() {
             setOrderStatus(hintD, true);
             return;
         }
+        var blockD = getOrderProxyMixedContentBlock(proxyBase);
+        if (blockD) {
+            setOrderStatus(blockD, true);
+            return;
+        }
         var url = proxyBase + '/api/digikey/orders'
             + '?Shared=false'
             + '&StartDate=' + encodeURIComponent(range.start.toISOString())
@@ -1230,8 +1285,7 @@ function fetchDigikeyOrders() {
             + '&PageNumber=1'
             + '&PageSize=50';
 
-        fetch(url, { method: 'GET' })
-            .then(function(res) { return res.json(); })
+        fetchOrderProxyJson(url, proxyBase)
             .then(function(data) {
                 setOrderStatus('DigiKey 查詢完成', false);
                 renderDigikeyOrders(data);
@@ -1239,7 +1293,7 @@ function fetchDigikeyOrders() {
             })
             .catch(function(err) {
                 console.error(err);
-                setOrderStatus('DigiKey 查詢失敗：' + (err && err.message ? err.message : err) + '（請確認代理已部署且 ORDER_PROXY_BASE_URL 正確）', true);
+                setOrderStatus('DigiKey 查詢失敗：' + (err && err.message ? err.message : err), true);
                 setOrderResults(String(err));
             });
     } catch (e) {
