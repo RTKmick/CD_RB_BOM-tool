@@ -1250,7 +1250,9 @@ function renderMouserOrders(data) {
                 var mouserPn = mouserLineMouserPn(li);
                 var qty = mouserLineQty(li);
                 html += '    <div class="li" style="background:#f8fafc; margin-top:8px;">';
-                html += '      <div class="li-title">' + (desc ? escapeOrderHtml(desc) : '(無描述)') + '</div>';
+                if (desc) {
+                    html += '      <div class="li-title">' + escapeOrderHtml(desc) + '</div>';
+                }
                 html += '      <div class="li-sub">Mouser：<code>' + escapeOrderHtml(mouserPn) + '</code>　MPN：<code>' + escapeOrderHtml(mpn) + '</code></div>';
                 html += '      <div class="li-sub">數量：' + escapeOrderHtml(qty !== '' ? qty : '-') + '</div>';
                 html += '    </div>';
