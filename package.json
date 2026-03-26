@@ -5,6 +5,7 @@
   "main": "config.js",
   "scripts": {
     "start": "node server.js",
+    "sync-order-cache": "node scripts/sync-order-cache.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

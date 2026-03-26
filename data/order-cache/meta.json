@@ -1,0 +1,4 @@
+{
+  "generatedAt": null,
+  "note": "尚未由 GitHub Actions 寫入。請在 repo Settings → Secrets 設定 MOUSER_API_KEY、DIGIKEY_*，並執行 Actions「Sync order cache」。"
+}

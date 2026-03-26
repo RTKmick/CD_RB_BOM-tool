@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- 版號請與 config.js 的 APP_RELEASE_LABEL 同步（下方 .app-version 內文、註解 RELEASE 方便搜尋） -->
-<!-- RELEASE: 潤鉑BOM+PCB_R1.3.8 -->
+<!-- RELEASE: 潤鉑BOM+PCB_R1.3.9 -->
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -237,7 +237,7 @@
   該面板的樣式請用 #panel-新功能id .類名 { } 包起來，避免與其他分頁衝突。切換邏輯已通用，無須改 JS。
 -->
 <nav class="main-tabs">
-    <span class="app-version">潤鉑BOM+PCB_R1.3.8</span>
+    <span class="app-version">潤鉑BOM+PCB_R1.3.9</span>
     <button type="button" class="tab active" data-tab="bom" aria-selected="true">
         <i class="fas fa-microchip"></i> BOM 旗艦備料
     </button>
@@ -382,7 +382,7 @@
     <div class="order-wrap">
         <div class="order-header">
             <h2>訂料追蹤</h2>
-            <div style="color:#64748b; font-weight:bold;">（查詢最近 30 天訂單）</div>
+            <div style="color:#64748b; font-weight:bold;">（最近 30 天；GitHub Pages 預設讀每日靜態快取，見 README）</div>
         </div>
 
         <div class="provider-row">
@@ -1221,12 +1221,70 @@ function fetchOrderProxyJson(url, proxyBase) {
     });
 }
 
+/** true=讀 data/order-cache（GitHub Actions）；false=即時代理。config 可覆寫；預設 github.io 為 true */
+function orderUseStaticCache() {
+    if (typeof CONFIG !== 'undefined' && CONFIG.ORDER_USE_STATIC_CACHE === false) return false;
+    if (typeof CONFIG !== 'undefined' && CONFIG.ORDER_USE_STATIC_CACHE === true) return true;
+    var h = (typeof window !== 'undefined' && window.location) ? String(window.location.hostname || '').toLowerCase() : '';
+    return h.endsWith('.github.io');
+}
+
+function getOrderStaticBasePath() {
+    var p = window.location.pathname || '';
+    if (p.endsWith('/index.html')) p = p.slice(0, -'/index.html'.length);
+    p = p.replace(/\/+$/, '');
+    if (!p || p === '/') return '';
+    var last = p.lastIndexOf('/');
+    return last > 0 ? p.slice(0, last) : p;
+}
+
+function orderCacheJsonUrl(name) {
+    var base = getOrderStaticBasePath();
+    return (base ? base : '') + '/data/order-cache/' + name + '.json';
+}
+
+function fetchOrderCacheFile(name) {
+    var url = orderCacheJsonUrl(name);
+    return fetch(url, { method: 'GET', cache: 'no-store', mode: 'cors' }).then(function(res) {
+        return res.text().then(function(text) {
+            if (!res.ok) {
+                throw new Error('無法載入 ' + url + '（HTTP ' + res.status + '）。請確認已執行 GitHub Actions「Sync order cache」並推送 data/order-cache。');
+            }
+            try {
+                return JSON.parse(text || '{}');
+            } catch (e) {
+                throw new Error('JSON 解析失敗：' + (text || '').slice(0, 120));
+            }
+        });
+    });
+}
+
 function fetchMouserOrderHistory() {
     try {
-        setOrderStatus('正在查詢 Mouser 訂單...', false);
+        setOrderStatus('正在載入 Mouser 訂單...', false);
         setOrderResults('');
         setOrderListHtml('');
 
+        if (orderUseStaticCache()) {
+            Promise.all([
+                fetchOrderCacheFile('meta').catch(function() { return {}; }),
+                fetchOrderCacheFile('mouser')
+            ]).then(function(arr) {
+                var meta = arr[0] || {};
+                var data = arr[1];
+                var when = meta && meta.generatedAt ? ('（快取更新：' + fmtDateTime(meta.generatedAt) + '）') : '';
+                setOrderStatus('Mouser 快取資料' + when, false);
+                renderMouserOrders(data);
+                setOrderResults(data);
+            }).catch(function(err) {
+                console.error(err);
+                setOrderStatus('Mouser 載入失敗：' + (err && err.message ? err.message : err), true);
+                setOrderResults(String(err));
+            });
+            return;
+        }
+
+        setOrderStatus('正在查詢 Mouser 訂單...', false);
         var range = getLast30DaysRange();
         var proxyBase = getOrderProxyBaseUrl();
         if (!proxyBase) {
@@ -1262,10 +1320,30 @@ function fetchMouserOrderHistory() {
 
 function fetchDigikeyOrders() {
     try {
-        setOrderStatus('正在查詢 DigiKey 訂單...', false);
+        setOrderStatus('正在載入 DigiKey 訂單...', false);
         setOrderResults('');
         setOrderListHtml('');
 
+        if (orderUseStaticCache()) {
+            Promise.all([
+                fetchOrderCacheFile('meta').catch(function() { return {}; }),
+                fetchOrderCacheFile('digikey')
+            ]).then(function(arr) {
+                var meta = arr[0] || {};
+                var data = arr[1];
+                var when = meta && meta.generatedAt ? ('（快取更新：' + fmtDateTime(meta.generatedAt) + '）') : '';
+                setOrderStatus('DigiKey 快取資料' + when, false);
+                renderDigikeyOrders(data);
+                setOrderResults(data);
+            }).catch(function(err) {
+                console.error(err);
+                setOrderStatus('DigiKey 載入失敗：' + (err && err.message ? err.message : err), true);
+                setOrderResults(String(err));
+            });
+            return;
+        }
+
+        setOrderStatus('正在查詢 DigiKey 訂單...', false);
         var range = getLast30DaysRange();
         var proxyBase = getOrderProxyBaseUrl();
         if (!proxyBase) {
