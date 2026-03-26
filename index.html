@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- 版號請與 config.js 的 APP_RELEASE_LABEL 同步（下方 .app-version 內文、註解 RELEASE 方便搜尋） -->
-<!-- RELEASE: 潤鉑BOM+PCB_R1.4.2 -->
+<!-- RELEASE: 潤鉑BOM+PCB_R1.4.3 -->
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -250,7 +250,7 @@
   該面板的樣式請用 #panel-新功能id .類名 { } 包起來，避免與其他分頁衝突。切換邏輯已通用，無須改 JS。
 -->
 <nav class="main-tabs">
-    <span class="app-version">潤鉑BOM+PCB_R1.4.2</span>
+    <span class="app-version">潤鉑BOM+PCB_R1.4.3</span>
     <button type="button" class="tab active" data-tab="bom" aria-selected="true">
         <i class="fas fa-microchip"></i> BOM 旗艦備料
     </button>
@@ -1098,6 +1098,54 @@ function mouserLineItemsFromItem(it) {
     return Array.isArray(a) ? a : [];
 }
 
+/** 盡可能從 Mouser 回傳物件找出日期欄（欄位名依 api-guide / 實際 JSON 可能不同） */
+function mouserFirstDate(it) {
+    var keys = [
+        'CreatedDate', 'CreateDate', 'OrderDate', 'OrderDateTime', 'TransactionDate', 'DateCreated',
+        'OrderPlacedDate', 'OpenDate', 'InvoiceDate', 'ShipDate', 'ShippedDate', 'LastModifiedDate'
+    ];
+    var i;
+    var k;
+    for (i = 0; i < keys.length; i++) {
+        k = keys[i];
+        if (it[k] != null && it[k] !== '') return it[k];
+    }
+    for (k in it) {
+        if (!Object.prototype.hasOwnProperty.call(it, k)) continue;
+        if (/date/i.test(k) && it[k] != null && it[k] !== '' && typeof it[k] !== 'object') return it[k];
+    }
+    return '';
+}
+
+/** 顯示尚未用在主版面的純量欄位，方便對照 api-guide.pdf / Explorer */
+function mouserExtraFieldsHtml(it) {
+    var skip = {
+        OrderLineItems: 1, orderLineItems: 1, LineItems: 1, OrderLines: 1, Lines: 1,
+        WebOrderNumber: 1, SalesOrderNumber: 1, OrderStatusDisplay: 1, StatusDisplay: 1,
+        'Web訂單號': 1, '網路訂單號碼': 1, '網絡訂單號': 1,
+        '銷售訂單號碼': 1, '銷售訂單號': 1, '銷售訂單編號': 1, '訂單狀態顯示': 1, '狀態顯示': 1,
+        ShipDate: 1, ShippedDate: 1, ShipToDate: 1, ShipToTrackingNumber: 1, TrackingNumber: 1, Tracking: 1,
+        OrderTotal: 1, TotalAmount: 1, CurrencyTotal: 1, CurrencyCode: 1, Currency: 1, OrderCurrency: 1,
+        CreatedDate: 1, CreateDate: 1, OrderDate: 1, OrderDateTime: 1, TransactionDate: 1
+    };
+    var html = '';
+    var count = 0;
+    var k;
+    var v;
+    for (k in it) {
+        if (!Object.prototype.hasOwnProperty.call(it, k)) continue;
+        if (skip[k]) continue;
+        v = it[k];
+        if (v == null || v === '') continue;
+        if (typeof v === 'object') continue;
+        if (count >= 20) break;
+        html += '<div class="kv"><div class="k">' + escapeOrderHtml(k) + '</div><div class="v">' + escapeOrderHtml(String(v)) + '</div></div>';
+        count++;
+    }
+    if (!html) return '';
+    return '<details style="margin-top:10px;"><summary>其他回傳欄位（Mouser API）</summary><div class="order-grid" style="margin-top:8px;">' + html + '</div></details>';
+}
+
 function renderMouserOrders(data) {
     if (!data || data.ok === false) {
         setOrderListHtml('');
@@ -1131,7 +1179,7 @@ function renderMouserOrders(data) {
 
     items.forEach(function(it, idx) {
         var created =
-            it.CreatedDate || it.CreateDate || it.OrderDate || it.OrderDateTime || it.TransactionDate ||
+            mouserFirstDate(it) ||
             it["創建日期"] || it["建立日期"] || '';
         var sales =
             it.SalesOrderNumber || it["銷售訂單號碼"] || it["銷售訂單號"] || it["銷售訂單編號"] || '';
@@ -1185,6 +1233,7 @@ function renderMouserOrders(data) {
             html += '  </details>';
         }
 
+        html += mouserExtraFieldsHtml(it);
         html += '</div>';
     });
 

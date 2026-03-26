@@ -26,10 +26,12 @@
 - 若 CartKey 空白，插入 items 時會自動產生新的 CartKey。
 - 每次 request 限制與 cart item 數量限制（文件提到單次最多 100 items、cart 總量上限等）。
 
-### Order History API（訂料追蹤）
-- **`/orderhistory/ByDateRange`**：依日期區間列出訂單（多為**摘要**欄位）。
-- **`/orderhistory/webOrderNumber`**：依 **Web Order Number** 取**單筆訂單明細**（較完整，含品項等；實際欄位以官方回傳為準）。
-- 本專案在代理或同步腳本中可帶 **`enrichDetails=1`** 於 ByDateRange 後，對每筆訂單再呼叫 `webOrderNumber` 合併明細。
+### Order History API（訂料追蹤，詳見 `api-guide.pdf` 與 [API Explorer](https://api.mouser.com/api/docs/ui/index) Tag：OrderHistory）
+- **`GET /orderhistory/ByDateRange`**：依日期區間列出訂單；回傳常為**摘要**（欄位較少屬正常）。
+- **`GET /orderhistory/webOrderNumber`**：Query：`webOrderNumber` + `apiKey` → 依 **Web Order Number** 取**單筆明細**（品項等多在此）。
+- **`GET /orderhistory/salesOrderNumber`**：Query：`salesOrderNumber` + `apiKey` → 依 **Sales Order Number** 取單筆明細（與上列二擇一或互補，依帳號／訂單型態而定）。
+- Mouser 常見慣例：HTTP **200** 時仍可能在 body 內含 **`Errors`** 陣列，需一併檢查（見 PDF「Fault Tolerance」）。
+- 本專案：`enrichDetails=1` 時會先 **webOrderNumber**，若仍無品項再 **salesOrderNumber**，合併進 `OrderHistoryItems` 各筆。
 
 ### Order API（文件列出 5 個端點）
 常見重點：
