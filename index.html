@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- 版號請與 config.js 的 APP_RELEASE_LABEL 同步（下方 .app-version 內文、註解 RELEASE 方便搜尋） -->
-<!-- RELEASE: 潤鉑BOM+PCB_R1.4.1 -->
+<!-- RELEASE: 潤鉑BOM+PCB_R1.4.2 -->
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -146,11 +146,24 @@
         #panel-order .order-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
         #panel-order h2 { margin: 0; font-size: 22px; color: var(--primary-color); letter-spacing: 1px; }
         #panel-order .provider-row { display: flex; gap: 18px; margin-top: 16px; }
-        #panel-order .provider-btn { flex: 1; padding: 34px 18px; border-radius: 12px; border: none; cursor: pointer; font-size: 1.25rem; font-weight: bold; color: #fff; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
-        #panel-order .provider-btn.mouser { background: var(--primary); }
-        #panel-order .provider-btn.mouser:hover { background: #003380; transform: translateY(-1px); }
-        #panel-order .provider-btn.digikey { background: var(--digikey); }
-        #panel-order .provider-btn.digikey:hover { background: #990000; transform: translateY(-1px); }
+        #panel-order .provider-btn {
+            flex: 1;
+            padding: 20px 18px;
+            min-height: 88px;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 14px -4px rgb(0 0 0 / 0.12);
+            background: #fff;
+        }
+        #panel-order .provider-btn img { max-height: 52px; width: auto; max-width: 100%; object-fit: contain; display: block; }
+        #panel-order .provider-btn.mouser { border-color: var(--primary); }
+        #panel-order .provider-btn.mouser:hover { background: #f0f6ff; border-color: #003380; transform: translateY(-1px); }
+        #panel-order .provider-btn.digikey { border-color: var(--digikey); }
+        #panel-order .provider-btn.digikey:hover { background: #fff5f5; border-color: #990000; transform: translateY(-1px); }
         #panel-order .order-status { margin-top: 16px; font-weight: bold; }
         #panel-order .order-card { background: #ffffff; border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 16px; box-shadow: 0 6px 14px -10px rgba(0,0,0,0.18); }
         #panel-order .order-card + .order-card { margin-top: 12px; }
@@ -209,7 +222,8 @@
             #panel-pcb .table-res th, #panel-pcb .table-res td { padding: 10px 8px; font-size: 13px; }
             #panel-order .order-wrap { min-width: 0; max-width: 100%; }
             #panel-order .provider-row { flex-direction: column; }
-            #panel-order .provider-btn { font-size: 1.05rem; padding: 20px 12px; }
+            #panel-order .provider-btn { padding: 16px 12px; min-height: 72px; }
+            #panel-order .provider-btn img { max-height: 44px; }
             #panel-order .order-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 480px) {
@@ -236,7 +250,7 @@
   該面板的樣式請用 #panel-新功能id .類名 { } 包起來，避免與其他分頁衝突。切換邏輯已通用，無須改 JS。
 -->
 <nav class="main-tabs">
-    <span class="app-version">潤鉑BOM+PCB_R1.4.1</span>
+    <span class="app-version">潤鉑BOM+PCB_R1.4.2</span>
     <button type="button" class="tab active" data-tab="bom" aria-selected="true">
         <i class="fas fa-microchip"></i> BOM 旗艦備料
     </button>
@@ -385,11 +399,11 @@
         </div>
 
         <div class="provider-row">
-            <button type="button" class="provider-btn mouser" onclick="fetchMouserOrderHistory()">
-                MOUSER
+            <button type="button" class="provider-btn mouser" onclick="fetchMouserOrderHistory()" aria-label="查詢 Mouser 訂單">
+                <img src="docs/Logo/Mouser_logo.png" alt="Mouser" decoding="async" />
             </button>
-            <button type="button" class="provider-btn digikey" onclick="fetchDigikeyOrders()">
-                DIGIKEY
+            <button type="button" class="provider-btn digikey" onclick="fetchDigikeyOrders()" aria-label="查詢 DigiKey 訂單">
+                <img src="docs/Logo/logo_dk.png" alt="DigiKey" decoding="async" />
             </button>
         </div>
 
