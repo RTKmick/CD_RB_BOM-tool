@@ -1128,10 +1128,13 @@ function getLast30DaysRange() {
 }
 
 function getOrderProxyBaseUrl() {
-    var base = (typeof CONFIG !== 'undefined' && CONFIG.ORDER_PROXY_BASE_URL) ? String(CONFIG.ORDER_PROXY_BASE_URL) : '';
-    base = base.trim();
-    if (!base) base = 'http://localhost:8787';
-    return base.replace(/\/+$/g, '');
+    var base = (typeof CONFIG !== 'undefined' && CONFIG.ORDER_PROXY_BASE_URL) ? String(CONFIG.ORDER_PROXY_BASE_URL).trim() : '';
+    if (base) return base.replace(/\/+$/g, '');
+    if (typeof window === 'undefined' || !window.location) return 'http://localhost:8787';
+    var h = String(window.location.hostname || '').toLowerCase();
+    if (h === 'localhost' || h === '127.0.0.1' || h === '') return 'http://localhost:8787';
+    if (h.endsWith('.vercel.app')) return String(window.location.origin).replace(/\/+$/g, '');
+    return '';
 }
 
 function fetchMouserOrderHistory() {
@@ -1142,6 +1145,10 @@ function fetchMouserOrderHistory() {
 
         var range = getLast30DaysRange();
         var proxyBase = getOrderProxyBaseUrl();
+        if (!proxyBase) {
+            setOrderStatus('請在 config.js 設定 ORDER_PROXY_BASE_URL（Vercel 部署代理後的 https 網址，勿結尾斜線）', true);
+            return;
+        }
         var url = proxyBase + '/api/mouser/orderhistory/byDateRange'
             + '?startDate=' + encodeURIComponent(toMMDDYYYY(range.start))
             + '&endDate=' + encodeURIComponent(toMMDDYYYY(range.end));
@@ -1155,7 +1162,7 @@ function fetchMouserOrderHistory() {
             })
             .catch(function(err) {
                 console.error(err);
-                setOrderStatus('Mouser 查詢失敗（請確認本機代理伺服器已啟動）：' + (err && err.message ? err.message : err), true);
+                setOrderStatus('Mouser 查詢失敗（請確認 ORDER_PROXY_BASE_URL 或雲端代理已就緒）：' + (err && err.message ? err.message : err), true);
                 setOrderResults(String(err));
             });
     } catch (e) {
@@ -1172,6 +1179,10 @@ function fetchDigikeyOrders() {
 
         var range = getLast30DaysRange();
         var proxyBase = getOrderProxyBaseUrl();
+        if (!proxyBase) {
+            setOrderStatus('請在 config.js 設定 ORDER_PROXY_BASE_URL（Vercel 部署代理後的 https 網址，勿結尾斜線）', true);
+            return;
+        }
         var url = proxyBase + '/api/digikey/orders'
             + '?Shared=false'
             + '&StartDate=' + encodeURIComponent(range.start.toISOString())
@@ -1188,7 +1199,7 @@ function fetchDigikeyOrders() {
             })
             .catch(function(err) {
                 console.error(err);
-                setOrderStatus('DigiKey 查詢失敗（請確認本機代理伺服器已啟動）：' + (err && err.message ? err.message : err), true);
+                setOrderStatus('DigiKey 查詢失敗（請確認 ORDER_PROXY_BASE_URL 或雲端代理已就緒）：' + (err && err.message ? err.message : err), true);
                 setOrderResults(String(err));
             });
     } catch (e) {

@@ -1,15 +1,13 @@
 /**
- * 訂料追蹤：本機後端代理
- * - 避免在前端暴露 Mouser API Key / DigiKey Client Secret
- * - 提供簡單 HTTP API 給 index.html 呼叫
+ * 訂料追蹤：本機後端代理（選用）
+ * - 雲端請改部署 Vercel（api/ 目錄），金鑰設在平台環境變數，見 README
  *
- * 用法：
- * 1) 複製 .env.example → .env，填入金鑰
- * 2) node server.js
+ * 用法：複製 .env.example → .env 後執行 node server.js
  */
 
 const http = require('http');
 const { URL } = require('url');
+const { handleMouserByDateRange, handleDigikeyOrders } = require('./lib/orderProxyCore');
 
 function loadDotEnv() {
   try {
@@ -17,7 +15,6 @@ function loadDotEnv() {
     const path = require('path');
     const envPath = path.join(process.cwd(), '.env');
     if (!fs.existsSync(envPath)) return;
-    // .env 可能被 Notepad 存成 UTF-16LE，這裡自動偵測並支援
     let raw = fs.readFileSync(envPath, 'utf8');
     if (raw.includes('\u0000')) {
       raw = fs.readFileSync(envPath, 'utf16le');
@@ -44,7 +41,7 @@ loadDotEnv();
 const PORT = Number(process.env.PORT || 8787);
 const STARTED_AT = new Date().toISOString();
 
-function json(res, status, obj) {
+function sendJson(res, status, obj) {
   const body = JSON.stringify(obj);
   res.writeHead(status, {
     'Content-Type': 'application/json; charset=utf-8',
@@ -53,234 +50,6 @@ function json(res, status, obj) {
     'Access-Control-Allow-Methods': 'GET, OPTIONS',
   });
   res.end(body);
-}
-
-function text(res, status, body) {
-  res.writeHead(status, {
-    'Content-Type': 'text/plain; charset=utf-8',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-DIGIKEY-Client-Id, X-DIGIKEY-Account-Id',
-    'Access-Control-Allow-Methods': 'GET, OPTIONS',
-  });
-  res.end(body);
-}
-
-function requireEnv(res, keys) {
-  const missing = keys.filter((k) => !process.env[k]);
-  if (missing.length) {
-    json(res, 500, {
-      ok: false,
-      error: 'missing_env',
-      missing,
-      hint: '請複製 .env.example → .env 並填入缺少的環境變數',
-    });
-    return false;
-  }
-  return true;
-}
-
-function mmddyyyyToDate(s) {
-  // expect mm/dd/yyyy
-  const m = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(String(s || '').trim());
-  if (!m) return null;
-  const mm = Number(m[1]);
-  const dd = Number(m[2]);
-  const yyyy = Number(m[3]);
-  if (!mm || !dd || !yyyy) return null;
-  const d = new Date(Date.UTC(yyyy, mm - 1, dd));
-  if (Number.isNaN(d.getTime())) return null;
-  return d;
-}
-
-async function fetchJson(url, options) {
-  const res = await fetch(url, options);
-  const contentType = res.headers.get('content-type') || '';
-  const isJson = contentType.includes('application/json') || contentType.includes('text/json');
-  const body = isJson ? await res.json().catch(() => null) : await res.text().catch(() => '');
-  return { status: res.status, ok: res.ok, body };
-}
-
-async function fetchWithDebug(url, options) {
-  const res = await fetch(url, options);
-  const contentType = res.headers.get('content-type') || '';
-  const isJson = contentType.includes('application/json') || contentType.includes('text/json');
-  const rawBody = isJson ? await res.text().catch(() => '') : await res.text().catch(() => '');
-  let body = rawBody;
-  if (isJson) {
-    try {
-      body = JSON.parse(rawBody);
-    } catch (_) {
-      body = rawBody;
-    }
-  }
-
-  const headers = {};
-  const keep = [
-    'content-type',
-    'server',
-    'date',
-    'via',
-    'x-cache',
-    'x-akamai-request-id',
-    'x-akamai-session-info',
-    'x-akamai-transformed',
-    'x-cdn',
-    'cf-ray',
-    'set-cookie',
-  ];
-  res.headers.forEach((v, k) => {
-    const lk = String(k).toLowerCase();
-    if (keep.includes(lk) || lk.startsWith('x-') || lk.startsWith('cf-')) headers[lk] = v;
-  });
-
-  return {
-    status: res.status,
-    ok: res.ok,
-    body,
-    debug: {
-      contentType,
-      headers,
-      bodyPreview: typeof rawBody === 'string' ? rawBody.slice(0, 800) : '',
-    },
-  };
-}
-
-async function mouserByDateRange(reqUrl, res) {
-  if (!requireEnv(res, ['MOUSER_API_KEY'])) return;
-
-  const startDate = reqUrl.searchParams.get('startDate') || '';
-  const endDate = reqUrl.searchParams.get('endDate') || '';
-  if (!mmddyyyyToDate(startDate) || !mmddyyyyToDate(endDate)) {
-    return json(res, 400, { ok: false, error: 'invalid_date', expected: 'mm/dd/yyyy', startDate, endDate });
-  }
-
-  const apiKey = process.env.MOUSER_API_KEY;
-  const mouserVersion = String(process.env.MOUSER_API_VERSION || '1.0').trim() || '1.0';
-  const url =
-    'https://api.mouser.com/api/v' +
-    encodeURIComponent(mouserVersion) +
-    '/orderhistory/ByDateRange' +
-    '?apiKey=' +
-    encodeURIComponent(apiKey) +
-    '&startDate=' +
-    encodeURIComponent(startDate) +
-    '&endDate=' +
-    encodeURIComponent(endDate);
-
-  const debug = reqUrl.searchParams.get('debug') === '1';
-  const r = debug
-    ? await fetchWithDebug(url, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'User-Agent': 'CD_RB_BOM-tool/1.0 (order-proxy)',
-        },
-      })
-    : await fetchJson(url, {
-    method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      'User-Agent': 'CD_RB_BOM-tool/1.0 (order-proxy)',
-    },
-  });
-  if (!r.ok) {
-    const isHtml = typeof r.body === 'string' && /<html/i.test(r.body);
-    const safeUrl = url.replace(/apiKey=[^&]+/i, 'apiKey=***');
-    return json(res, r.status, {
-      ok: false,
-      upstream: 'mouser',
-      status: r.status,
-      error: isHtml ? 'blocked_by_waf' : 'upstream_error',
-      hint: isHtml
-        ? 'Mouser API 回傳 403 HTML（疑似 Akamai/WAF 擋下）。請確認此 apiKey 是否為 Order History 專用，或改用可被允許的網路/環境（公司固定出口 IP/VPN）。'
-        : undefined,
-      request: debug ? { url: safeUrl, version: mouserVersion } : undefined,
-      debug: debug ? r.debug : undefined,
-      body: r.body,
-    });
-  }
-  return json(res, 200, r.body);
-}
-
-async function digikeyGetAccessToken() {
-  const url = 'https://api.digikey.com/v1/oauth2/token';
-  const form = new URLSearchParams();
-  form.set('client_id', process.env.DIGIKEY_CLIENT_ID);
-  form.set('client_secret', process.env.DIGIKEY_CLIENT_SECRET);
-  form.set('grant_type', 'client_credentials');
-
-  const r = await fetchJson(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: form.toString(),
-  });
-
-  if (!r.ok) {
-    const err = new Error('digikey_token_failed');
-    err.status = r.status;
-    err.body = r.body;
-    throw err;
-  }
-  if (!r.body || !r.body.access_token) {
-    const err = new Error('digikey_token_missing');
-    err.status = 502;
-    err.body = r.body;
-    throw err;
-  }
-  return r.body.access_token;
-}
-
-async function digikeyOrders(reqUrl, res) {
-  if (!requireEnv(res, ['DIGIKEY_CLIENT_ID', 'DIGIKEY_CLIENT_SECRET', 'DIGIKEY_ACCOUNT_ID'])) return;
-
-  const shared = reqUrl.searchParams.get('Shared') || 'false';
-  const startDate = reqUrl.searchParams.get('StartDate') || '';
-  const endDate = reqUrl.searchParams.get('EndDate') || '';
-  const pageNumber = reqUrl.searchParams.get('PageNumber') || '1';
-  const pageSize = reqUrl.searchParams.get('PageSize') || '50';
-
-  // DigiKey expects ISO date-time; we just validate it's parseable.
-  if (Number.isNaN(new Date(startDate).getTime()) || Number.isNaN(new Date(endDate).getTime())) {
-    return json(res, 400, {
-      ok: false,
-      error: 'invalid_date',
-      expected: 'ISO date-time',
-      StartDate: startDate,
-      EndDate: endDate,
-    });
-  }
-
-  let token;
-  try {
-    token = await digikeyGetAccessToken();
-  } catch (e) {
-    return json(res, e.status || 502, { ok: false, upstream: 'digikey', step: 'token', status: e.status, body: e.body });
-  }
-
-  const url =
-    'https://api.digikey.com/orderstatus/v4/orders' +
-    '?Shared=' +
-    encodeURIComponent(shared) +
-    '&StartDate=' +
-    encodeURIComponent(startDate) +
-    '&EndDate=' +
-    encodeURIComponent(endDate) +
-    '&PageNumber=' +
-    encodeURIComponent(pageNumber) +
-    '&PageSize=' +
-    encodeURIComponent(pageSize);
-
-  const r = await fetchJson(url, {
-    method: 'GET',
-    headers: {
-      'X-DIGIKEY-Client-Id': process.env.DIGIKEY_CLIENT_ID,
-      'X-DIGIKEY-Account-Id': process.env.DIGIKEY_ACCOUNT_ID,
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (!r.ok) return json(res, r.status, { ok: false, upstream: 'digikey', step: 'orders', status: r.status, body: r.body });
-  return json(res, 200, r.body);
 }
 
 const server = http.createServer(async (req, res) => {
@@ -297,14 +66,15 @@ const server = http.createServer(async (req, res) => {
       return res.end();
     }
 
-    if (req.method !== 'GET') return json(res, 405, { ok: false, error: 'method_not_allowed' });
+    if (req.method !== 'GET') return sendJson(res, 405, { ok: false, error: 'method_not_allowed' });
 
-    if (reqUrl.pathname === '/health') return json(res, 200, { ok: true });
+    if (reqUrl.pathname === '/health') return sendJson(res, 200, { ok: true });
     if (reqUrl.pathname === '/version') {
-      return json(res, 200, {
+      return sendJson(res, 200, {
         ok: true,
         startedAt: STARTED_AT,
         port: PORT,
+        mode: 'local-node',
         features: {
           mouserDebugQuery: 'debug=1',
           mouserVersionEnv: 'MOUSER_API_VERSION',
@@ -314,16 +84,22 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (reqUrl.pathname === '/api/mouser/orderhistory/byDateRange') {
-      return await mouserByDateRange(reqUrl, res);
+      const out = await handleMouserByDateRange(reqUrl.searchParams);
+      return sendJson(res, out.status, out.body);
     }
 
     if (reqUrl.pathname === '/api/digikey/orders') {
-      return await digikeyOrders(reqUrl, res);
+      const out = await handleDigikeyOrders(reqUrl.searchParams);
+      return sendJson(res, out.status, out.body);
     }
 
-    return text(res, 404, 'Not found');
+    res.writeHead(404, {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Access-Control-Allow-Origin': '*',
+    });
+    res.end('Not found');
   } catch (e) {
-    return json(res, 500, { ok: false, error: 'server_error', message: e && e.message ? e.message : String(e) });
+    return sendJson(res, 500, { ok: false, error: 'server_error', message: e && e.message ? e.message : String(e) });
   }
 });
 
@@ -331,4 +107,3 @@ server.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`[order-proxy] listening on http://localhost:${PORT}`);
 });
-

@@ -1,0 +1,25 @@
+{
+  "name": "cd_rb_bom-tool",
+  "version": "1.0.0",
+  "description": "git add -A\r git commit -m \"整合，Rev1.2\"\r git push origin main\r #\r #\r #=======================",
+  "main": "config.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RTKmick/CD_RB_BOM-tool.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/RTKmick/CD_RB_BOM-tool/issues"
+  },
+  "homepage": "https://github.com/RTKmick/CD_RB_BOM-tool#readme",
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  }
+}
