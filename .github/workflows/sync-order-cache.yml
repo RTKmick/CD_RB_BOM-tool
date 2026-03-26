@@ -45,5 +45,7 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "chore: sync order cache [skip ci]"
+            # 遠端若比你先 push（例如同時有人 commit），先 rebase 再送，避免 non-fast-forward
+            git pull --rebase origin "${{ github.ref_name }}"
             git push
           fi

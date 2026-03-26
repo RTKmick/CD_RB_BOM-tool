@@ -47,6 +47,24 @@ function getLast60DaysRange() {
   return { start, end };
 }
 
+async function safeOrderCall(fn, label) {
+  try {
+    return await fn();
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(`[sync-order-cache] ${label} threw:`, e && e.message ? e.message : e);
+    return {
+      status: 500,
+      body: {
+        ok: false,
+        error: 'sync_exception',
+        step: label,
+        message: e && e.message ? String(e.message) : String(e),
+      },
+    };
+  }
+}
+
 async function main() {
   loadDotEnv();
   const outDir = path.join(__dirname, '..', 'data', 'order-cache');
@@ -65,8 +83,8 @@ async function main() {
   digiParams.set('PageNumber', '1');
   digiParams.set('PageSize', '50');
 
-  const mouserOut = await handleMouserByDateRange(mouserParams);
-  const digiOut = await handleDigikeyOrders(digiParams);
+  const mouserOut = await safeOrderCall(() => handleMouserByDateRange(mouserParams), 'mouser');
+  const digiOut = await safeOrderCall(() => handleDigikeyOrders(digiParams), 'digikey');
 
   const meta = {
     generatedAt: new Date().toISOString(),
