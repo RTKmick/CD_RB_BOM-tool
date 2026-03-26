@@ -1,5 +1,5 @@
 {
-  "TotalOrders": 3,
+  "TotalOrders": 6,
   "Orders": [
     {
       "OrderNumber": 9910000369901300,
@@ -1161,6 +1161,1906 @@
                   "ShippedDate": "2026-03-05T02:23:47.877Z",
                   "TrackingNumber": "6345356124",
                   "ExpectedDeliveryDate": "2026-03-09"
+                }
+              ],
+              "Schedules": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "OrderNumber": 9910000368359020,
+      "CustomerId": 16327571,
+      "DateEntered": "2026-02-11T08:25:11.947-06:00",
+      "Currency": "USD",
+      "PONumber": "",
+      "EntireOrderStatus": {
+        "OrderStatus": "Shipped",
+        "ShortDescription": "Shipped",
+        "LongDescription": "All products in this order have been shipped. Invoice and tracking information is available."
+      },
+      "SalesOrders": [
+        {
+          "CustomerId": 16327571,
+          "Contact": {
+            "FirstName": null,
+            "LastName": null,
+            "Email": "sales@cdengs.com"
+          },
+          "SalesOrderId": 97395145,
+          "Status": {
+            "SalesOrderStatus": "Shipped",
+            "ShortDescription": "Shipped",
+            "LongDescription": "All products in this order have been shipped. Invoice and tracking information is available."
+          },
+          "PurchaseOrder": "",
+          "TotalPrice": 13678.3,
+          "DateEntered": "2026-02-11T08:25:11.947-06:00",
+          "OrderNumber": 9910000368359020,
+          "ShipMethod": "DHL Express International",
+          "Currency": "USD",
+          "ShippingAddress": {
+            "FirstName": "KERRIE",
+            "LastName": "LIU",
+            "CompanyName": "CHING DENG TECHNOLOGY INC.",
+            "AddressLine1": "",
+            "AddressLine2": "12F.-25, NO. 29,",
+            "AddressLine3": "GUANXIN RD., EAST DIST.,",
+            "City": "HSINCHU",
+            "State": "",
+            "County": "",
+            "ZipCode": "300052",
+            "IsoCode": "TW",
+            "Phone": "886926225655",
+            "InvoiceId": 120812993
+          },
+          "LineItems": [
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 1,
+              "TotalPrice": 31.92,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "PH",
+              "DigiKeyProductNumber": "490-3261-1-ND",
+              "ManufacturerProductNumber": "GRM155R71C104KA88D",
+              "Description": "CAP CER 0.1UF 16V X7R 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 5570,
+              "QuantityOrdered": 5570,
+              "QuantityShipped": 5570,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.00573,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 5570,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 2,
+              "TotalPrice": 3.75,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "PH",
+              "DigiKeyProductNumber": "1276-3047-1-ND",
+              "ManufacturerProductNumber": "CL31A226KAHNNNE",
+              "Description": "CAP CER 22UF 25V X5R 1206",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 50,
+              "QuantityOrdered": 50,
+              "QuantityShipped": 50,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.075,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 16,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                },
+                {
+                  "QuantityShipped": 34,
+                  "InvoiceId": 121142611,
+                  "ShippedDate": "2026-02-19T19:56:39.182Z",
+                  "TrackingNumber": "3094450376",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 3,
+              "TotalPrice": 35.72,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "JP",
+              "DigiKeyProductNumber": "445-9066-1-ND",
+              "ManufacturerProductNumber": "C1005X5R1E105K050BC",
+              "Description": "CAP CER 1UF 25V X5R 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 1880,
+              "QuantityOrdered": 1880,
+              "QuantityShipped": 1880,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.019,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 1880,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 4,
+              "TotalPrice": 19.66,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "JP",
+              "DigiKeyProductNumber": "490-1444-1-ND",
+              "ManufacturerProductNumber": "GRM1885C1H511JA01D",
+              "Description": "CAP CER 510PF 50V C0G/NP0 0603",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 500,
+              "QuantityOrdered": 500,
+              "QuantityShipped": 500,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.03932,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 500,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 5,
+              "TotalPrice": 17.18,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "MX",
+              "DigiKeyProductNumber": "399-C0402C220K4GACTUCT-ND",
+              "ManufacturerProductNumber": "C0402C220K4GACTU",
+              "Description": "CAP CER 22PF 16V C0G/NP0 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 140,
+              "QuantityOrdered": 140,
+              "QuantityShipped": 140,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.1227,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 140,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 6,
+              "TotalPrice": 9.07,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "311-1350-1-ND",
+              "ManufacturerProductNumber": "CC0402ZRY5V7BB224",
+              "Description": "CAP CER 0.22UF 16V Y5V 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 500,
+              "QuantityOrdered": 500,
+              "QuantityShipped": 500,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.01814,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 500,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 7,
+              "TotalPrice": 4.7,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TH",
+              "DigiKeyProductNumber": "160-LTST-C190GKTCT-ND",
+              "ManufacturerProductNumber": "LTST-C190GKT",
+              "Description": "LED GREEN CLEAR CHIP SMD",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 50,
+              "QuantityOrdered": 50,
+              "QuantityShipped": 50,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.094,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 50,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 8,
+              "TotalPrice": 21.05,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "FR",
+              "DigiKeyProductNumber": "609-3225-ND",
+              "ManufacturerProductNumber": "67997-104HLF",
+              "Description": "CONN HEADER VERT 4POS 2.54MM",
+              "PackType": "Bag",
+              "QuantityInitialRequested": 61,
+              "QuantityOrdered": 61,
+              "QuantityShipped": 61,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.345,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 61,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 9,
+              "TotalPrice": 0.31,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "311-33.0LRCT-ND",
+              "ManufacturerProductNumber": "RC0402FR-0733RL",
+              "Description": "RES 33 OHM 1% 1/16W 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 100,
+              "QuantityOrdered": 100,
+              "QuantityShipped": 100,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0031,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 100,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 10,
+              "TotalPrice": 3.11,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "CN",
+              "DigiKeyProductNumber": "P100KLCT-ND",
+              "ManufacturerProductNumber": "ERJ-2RKF1003X",
+              "Description": "RES 100K OHM 1% 1/10W 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 290,
+              "QuantityOrdered": 290,
+              "QuantityShipped": 290,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.01072,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 290,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 11,
+              "TotalPrice": 1.94,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "CN",
+              "DigiKeyProductNumber": "P1.00MLCT-ND",
+              "ManufacturerProductNumber": "ERJ-2RKF1004X",
+              "Description": "RES SMD 1M OHM 1% 1/10W 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 140,
+              "QuantityOrdered": 140,
+              "QuantityShipped": 140,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0138,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 140,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 12,
+              "TotalPrice": 0.22,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "RMCF0402FT619RCT-ND",
+              "ManufacturerProductNumber": "RMCF0402FT619R",
+              "Description": "RES 619 OHM 1% 1/16W 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 50,
+              "QuantityOrdered": 50,
+              "QuantityShipped": 50,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0044,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 50,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 13,
+              "TotalPrice": 2.16,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "311-100HRCT-ND",
+              "ManufacturerProductNumber": "RC0603FR-07100RL",
+              "Description": "RES 100 OHM 1% 1/10W 0603",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 380,
+              "QuantityOrdered": 380,
+              "QuantityShipped": 380,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.00568,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 380,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 14,
+              "TotalPrice": 23.73,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "JP",
+              "DigiKeyProductNumber": "RG16P200KBCT-ND",
+              "ManufacturerProductNumber": "RG1608P-204-B-T5",
+              "Description": "RES SMD 200K OHM 0.1% 1/10W 0603",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 380,
+              "QuantityOrdered": 380,
+              "QuantityShipped": 380,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.06244,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 380,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 15,
+              "TotalPrice": 22.38,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "CRT0603-BY-1003ELFCT-ND",
+              "ManufacturerProductNumber": "CRT0603-BY-1003ELF",
+              "Description": "RES SMD 100K OHM 0.1% 1/10W 0603",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 380,
+              "QuantityOrdered": 380,
+              "QuantityShipped": 380,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.05888,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 380,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 16,
+              "TotalPrice": 11.51,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "JP",
+              "DigiKeyProductNumber": "P10KDCCT-ND",
+              "ManufacturerProductNumber": "ERA-2AEB103X",
+              "Description": "RES SMD 10K OHM 0.1% 1/16W 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 170,
+              "QuantityOrdered": 170,
+              "QuantityShipped": 170,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0677,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 170,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 17,
+              "TotalPrice": 1.94,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "CN",
+              "DigiKeyProductNumber": "P1.69KLCT-ND",
+              "ManufacturerProductNumber": "ERJ-2RKF1691X",
+              "Description": "RES SMD 1.69K OHM 1% 1/10W 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 140,
+              "QuantityOrdered": 140,
+              "QuantityShipped": 140,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0138,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 140,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 18,
+              "TotalPrice": 0.57,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "311-3.32KLRCT-ND",
+              "ManufacturerProductNumber": "RC0402FR-073K32L",
+              "Description": "RES 3.32K OHM 1% 1/16W 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 110,
+              "QuantityOrdered": 110,
+              "QuantityShipped": 110,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0051,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 110,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 19,
+              "TotalPrice": 1.94,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "CN",
+              "DigiKeyProductNumber": "P49.9LCT-ND",
+              "ManufacturerProductNumber": "ERJ-2RKF49R9X",
+              "Description": "RES SMD 49.9 OHM 1% 1/10W 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 140,
+              "QuantityOrdered": 140,
+              "QuantityShipped": 140,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0138,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 140,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 20,
+              "TotalPrice": 17.83,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "JP",
+              "DigiKeyProductNumber": "P49.9KDBCT-ND",
+              "ManufacturerProductNumber": "ERA-3AEB4992V",
+              "Description": "RES SMD 49.9KOHM 0.1% 1/10W 0603",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 380,
+              "QuantityOrdered": 380,
+              "QuantityShipped": 380,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.04692,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 380,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 21,
+              "TotalPrice": 17.83,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "JP",
+              "DigiKeyProductNumber": "P4.99KDBCT-ND",
+              "ManufacturerProductNumber": "ERA-3AEB4991V",
+              "Description": "RES SMD 4.99KOHM 0.1% 1/10W 0603",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 380,
+              "QuantityOrdered": 380,
+              "QuantityShipped": 380,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.04692,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 380,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 22,
+              "TotalPrice": 23.87,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "JP",
+              "DigiKeyProductNumber": "P499DCCT-ND",
+              "ManufacturerProductNumber": "ERA-2AEB4990X",
+              "Description": "RES SMD 499 OHM 0.1% 1/16W 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 380,
+              "QuantityOrdered": 380,
+              "QuantityShipped": 380,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0628,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 380,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 23,
+              "TotalPrice": 8.5,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "CN",
+              "DigiKeyProductNumber": "P49.9CCT-ND",
+              "ManufacturerProductNumber": "ERJ-6ENF49R9V",
+              "Description": "RES SMD 49.9 OHM 1% 1/8W 0805",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 380,
+              "QuantityOrdered": 380,
+              "QuantityShipped": 380,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.02236,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 380,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 24,
+              "TotalPrice": 17.83,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "JP",
+              "DigiKeyProductNumber": "P249KDBCT-ND",
+              "ManufacturerProductNumber": "ERA-3AEB2493V",
+              "Description": "RES SMD 249K OHM 0.1% 1/10W 0603",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 380,
+              "QuantityOrdered": 380,
+              "QuantityShipped": 380,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.04692,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 380,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 25,
+              "TotalPrice": 10.97,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "JP",
+              "DigiKeyProductNumber": "60-742C163104JPCT-ND",
+              "ManufacturerProductNumber": "742C163104JP",
+              "Description": "RES ARRAY 8 RES 100K OHM 2506",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 50,
+              "QuantityOrdered": 50,
+              "QuantityShipped": 50,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.2194,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 50,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 26,
+              "TotalPrice": 3.93,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "60-742C083104JPCT-ND",
+              "ManufacturerProductNumber": "742C083104JP",
+              "Description": "RES ARRAY 4 RES 100K OHM 1206",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 50,
+              "QuantityOrdered": 50,
+              "QuantityShipped": 50,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0786,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 50,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 27,
+              "TotalPrice": 2.95,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "YC164J-510CT-ND",
+              "ManufacturerProductNumber": "YC164-JR-07510RL",
+              "Description": "RES ARRAY 4 RES 510 OHM 1206",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 110,
+              "QuantityOrdered": 110,
+              "QuantityShipped": 110,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0268,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 110,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 28,
+              "TotalPrice": 9.27,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "CAY16-512J4LFCT-ND",
+              "ManufacturerProductNumber": "CAY16-512J4LF",
+              "Description": "RES ARRAY 4 RES 5.1K OHM 1206",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 290,
+              "QuantityOrdered": 290,
+              "QuantityShipped": 290,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.03196,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 290,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 29,
+              "TotalPrice": 16.98,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "JP",
+              "DigiKeyProductNumber": "Y10330CT-ND",
+              "ManufacturerProductNumber": "EXB-N8V330JX",
+              "Description": "RES ARRAY 4 RES 33 OHM 0804",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 380,
+              "QuantityOrdered": 380,
+              "QuantityShipped": 380,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.04468,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 380,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 30,
+              "TotalPrice": 90.89,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TH",
+              "DigiKeyProductNumber": "MCP23S17T-E/SSCT-ND",
+              "ManufacturerProductNumber": "MCP23S17T-E/SS",
+              "Description": "IC XPNDR 10MHZ SPI 28SSOP",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 61,
+              "QuantityOrdered": 61,
+              "QuantityShipped": 61,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 1.49,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 61,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 31,
+              "TotalPrice": 1308.87,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "MY",
+              "DigiKeyProductNumber": "296-37640-1-ND",
+              "ManufacturerProductNumber": "LM8272MM",
+              "Description": "IC OPAMP GP 2 CIRCUIT 8VSSOP",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 391,
+              "QuantityOrdered": 391,
+              "QuantityShipped": 391,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 3.34748,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 391,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 32,
+              "TotalPrice": 245.09,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "505-ADG712BRUZ-ND",
+              "ManufacturerProductNumber": "ADG712BRUZ",
+              "Description": "IC SWITCH SPST-NOX4 4OHM 16TSSOP",
+              "PackType": "Tube",
+              "QuantityInitialRequested": 96,
+              "QuantityOrdered": 96,
+              "QuantityShipped": 96,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 2.55292,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 96,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 33,
+              "TotalPrice": 453.6,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "ADG1409YRUZ-ND",
+              "ManufacturerProductNumber": "ADG1409YRUZ",
+              "Description": "IC SWITCH SP4TX2 4.7OHM 16TSSOP",
+              "PackType": "Tube",
+              "QuantityInitialRequested": 61,
+              "QuantityOrdered": 61,
+              "QuantityShipped": 61,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 7.436,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 61,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 34,
+              "TotalPrice": 271.64,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "MY",
+              "DigiKeyProductNumber": "505-AD8601WDRTZ-REEL7CT-ND",
+              "ManufacturerProductNumber": "AD8601WDRTZ-REEL7",
+              "Description": "IC OPAMP GP 1 CIRCUIT SOT23-5",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 361,
+              "QuantityOrdered": 361,
+              "QuantityShipped": 361,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.75244,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 361,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 35,
+              "TotalPrice": 1106.11,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "INA326EA/2K5CT-ND",
+              "ManufacturerProductNumber": "INA326EA/2K5",
+              "Description": "IC INST AMP 1 CIRCUIT 8VSSOP",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 361,
+              "QuantityOrdered": 361,
+              "QuantityShipped": 361,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 3.064,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 361,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 36,
+              "TotalPrice": 1105.38,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "505-ADG1436YRUZ-ND",
+              "ManufacturerProductNumber": "ADG1436YRUZ",
+              "Description": "IC SWITCH SPDTX2 1.8OHM 16TSSOP",
+              "PackType": "Tube",
+              "QuantityInitialRequested": 192,
+              "QuantityOrdered": 192,
+              "QuantityShipped": 192,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 5.75714,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 192,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 37,
+              "TotalPrice": 13.09,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "IL",
+              "DigiKeyProductNumber": "MC74AC00DGOS-ND",
+              "ManufacturerProductNumber": "MC74AC00DG",
+              "Description": "IC GATE NAND 4CH 2-INP 14SOIC",
+              "PackType": "Tube",
+              "QuantityInitialRequested": 31,
+              "QuantityOrdered": 31,
+              "QuantityShipped": 31,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.422,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 31,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 38,
+              "TotalPrice": 749.24,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "MY",
+              "DigiKeyProductNumber": "MAX333ACAP+-ND",
+              "ManufacturerProductNumber": "MAX333ACAP+",
+              "Description": "IC SWITCH SPDT X 4 45OHM 20SSOP",
+              "PackType": "Tube",
+              "QuantityInitialRequested": 91,
+              "QuantityOrdered": 91,
+              "QuantityShipped": 91,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 8.23333,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 91,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 39,
+              "TotalPrice": 135.07,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "MY",
+              "DigiKeyProductNumber": "505-ADG619BRMZ-ND",
+              "ManufacturerProductNumber": "ADG619BRMZ",
+              "Description": "IC SWITCH SPDT X 1 6.5OHM 8MSOP",
+              "PackType": "Tube",
+              "QuantityInitialRequested": 61,
+              "QuantityOrdered": 61,
+              "QuantityShipped": 61,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 2.2142,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 61,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 40,
+              "TotalPrice": 769.98,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "AD8672ARMZ-REELCT-ND",
+              "ManufacturerProductNumber": "AD8672ARMZ-REEL",
+              "Description": "IC OPAMP GP 2 CIRCUIT 8MSOP",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 181,
+              "QuantityOrdered": 181,
+              "QuantityShipped": 181,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 4.254,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 181,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 41,
+              "TotalPrice": 2220.26,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "MY",
+              "DigiKeyProductNumber": "LTC1443IS#PBF-ND",
+              "ManufacturerProductNumber": "LTC1443IS#PBF",
+              "Description": "IC COMPARATOR 4 W/VOLT REF 16SO",
+              "PackType": "Tube",
+              "QuantityInitialRequested": 361,
+              "QuantityOrdered": 361,
+              "QuantityShipped": 361,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 6.15028,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 361,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 42,
+              "TotalPrice": 3388.53,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "505-ADG1412YRUZ-ND",
+              "ManufacturerProductNumber": "ADG1412YRUZ",
+              "Description": "IC SW SPST-NOX4 1.8OHM 16TSSOP",
+              "PackType": "Tube",
+              "QuantityInitialRequested": 576,
+              "QuantityOrdered": 576,
+              "QuantityShipped": 576,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 5.88285,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 576,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 43,
+              "TotalPrice": 19.53,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "MY",
+              "DigiKeyProductNumber": "296-31755-1-ND",
+              "ManufacturerProductNumber": "SN74ALS09DR",
+              "Description": "IC GATE AND 4CH 2-INP 14SOIC",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 31,
+              "QuantityOrdered": 31,
+              "QuantityShipped": 31,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.63,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 31,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 44,
+              "TotalPrice": 110.67,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "MY",
+              "DigiKeyProductNumber": "296-9837-1-ND",
+              "ManufacturerProductNumber": "SN74LV166APWR",
+              "Description": "IC SR PUSH-PULL 8BIT 16-TSSOP",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 181,
+              "QuantityOrdered": 181,
+              "QuantityShipped": 181,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.6114,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 181,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97395145,
+              "DetailId": 45,
+              "TotalPrice": 1347.69,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "MY",
+              "DigiKeyProductNumber": "ADG1611BRUZ-REELCT-ND",
+              "ManufacturerProductNumber": "ADG1611BRUZ-REEL",
+              "Description": "IC SW SPST-NCX4 1.1OHM 16TSSOP",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 361,
+              "QuantityOrdered": 361,
+              "QuantityShipped": 361,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 3.7332,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 361,
+                  "InvoiceId": 120812993,
+                  "ShippedDate": "2026-02-17T14:10:24.454Z",
+                  "TrackingNumber": "3332525685",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "OrderNumber": 9910000368358860,
+      "CustomerId": 16327571,
+      "DateEntered": "2026-02-11T08:10:05.205-06:00",
+      "Currency": "USD",
+      "PONumber": "",
+      "EntireOrderStatus": {
+        "OrderStatus": "Shipped",
+        "ShortDescription": "Shipped",
+        "LongDescription": "All products in this order have been shipped. Invoice and tracking information is available."
+      },
+      "SalesOrders": [
+        {
+          "CustomerId": 16327571,
+          "Contact": {
+            "FirstName": null,
+            "LastName": null,
+            "Email": "sales@cdengs.com"
+          },
+          "SalesOrderId": 97394680,
+          "Status": {
+            "SalesOrderStatus": "Shipped",
+            "ShortDescription": "Shipped",
+            "LongDescription": "All products in this order have been shipped. Invoice and tracking information is available."
+          },
+          "PurchaseOrder": "",
+          "TotalPrice": 785.87,
+          "DateEntered": "2026-02-11T08:10:05.205-06:00",
+          "OrderNumber": 9910000368358860,
+          "ShipMethod": "DHL Express International",
+          "Currency": "USD",
+          "ShippingAddress": {
+            "FirstName": "KERRIE",
+            "LastName": "LIU",
+            "CompanyName": "CHING DENG TECHNOLOGY INC.",
+            "AddressLine1": "",
+            "AddressLine2": "12F.-25, NO. 29,",
+            "AddressLine3": "GUANXIN RD., EAST DIST.,",
+            "City": "HSINCHU",
+            "State": "",
+            "County": "",
+            "ZipCode": "300052",
+            "IsoCode": "TW",
+            "Phone": "886926225655",
+            "InvoiceId": 120823954
+          },
+          "LineItems": [
+            {
+              "SalesOrderId": 97394680,
+              "DetailId": 1,
+              "TotalPrice": 8.63,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "JP",
+              "DigiKeyProductNumber": "445-5932-1-ND",
+              "ManufacturerProductNumber": "C1005X7R1H104K050BB",
+              "Description": "CAP CER 0.1UF 50V X7R 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 500,
+              "QuantityOrdered": 500,
+              "QuantityShipped": 500,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.01726,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 500,
+                  "InvoiceId": 120823954,
+                  "ShippedDate": "2026-02-11T20:53:36.869Z",
+                  "TrackingNumber": "9668622250",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97394680,
+              "DetailId": 2,
+              "TotalPrice": 6.49,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TH",
+              "DigiKeyProductNumber": "160-LTST-C190GKTCT-ND",
+              "ManufacturerProductNumber": "LTST-C190GKT",
+              "Description": "LED GREEN CLEAR CHIP SMD",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 100,
+              "QuantityOrdered": 100,
+              "QuantityShipped": 100,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0649,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 100,
+                  "InvoiceId": 120823954,
+                  "ShippedDate": "2026-02-11T20:53:36.869Z",
+                  "TrackingNumber": "9668622250",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97394680,
+              "DetailId": 3,
+              "TotalPrice": 0.35,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "RMCF0603FT330RCT-ND",
+              "ManufacturerProductNumber": "RMCF0603FT330R",
+              "Description": "RES 330 OHM 1% 1/10W 0603",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 60,
+              "QuantityOrdered": 60,
+              "QuantityShipped": 60,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0058,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 60,
+                  "InvoiceId": 120823954,
+                  "ShippedDate": "2026-02-11T20:53:36.869Z",
+                  "TrackingNumber": "9668622250",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97394680,
+              "DetailId": 4,
+              "TotalPrice": 1.05,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "CN",
+              "DigiKeyProductNumber": "P1.00KHCT-ND",
+              "ManufacturerProductNumber": "ERJ-3EKF1001V",
+              "Description": "RES SMD 1K OHM 1% 1/10W 0603",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 50,
+              "QuantityOrdered": 50,
+              "QuantityShipped": 50,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.021,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 50,
+                  "InvoiceId": 120823954,
+                  "ShippedDate": "2026-02-11T20:53:36.869Z",
+                  "TrackingNumber": "9668622250",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97394680,
+              "DetailId": 5,
+              "TotalPrice": 0.2,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "311-100KLRCT-ND",
+              "ManufacturerProductNumber": "RC0402FR-07100KL",
+              "Description": "RES 100K OHM 1% 1/16W 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 60,
+              "QuantityOrdered": 60,
+              "QuantityShipped": 60,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0032,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 60,
+                  "InvoiceId": 120823954,
+                  "ShippedDate": "2026-02-11T20:53:36.869Z",
+                  "TrackingNumber": "9668622250",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97394680,
+              "DetailId": 6,
+              "TotalPrice": 5.23,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "JP",
+              "DigiKeyProductNumber": "Y10122CT-ND",
+              "ManufacturerProductNumber": "EXB-N8V122JX",
+              "Description": "RES ARRAY 4 RES 1.2K OHM 0804",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 100,
+              "QuantityOrdered": 100,
+              "QuantityShipped": 100,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0523,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 100,
+                  "InvoiceId": 120823954,
+                  "ShippedDate": "2026-02-11T20:53:36.869Z",
+                  "TrackingNumber": "9668622250",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97394680,
+              "DetailId": 7,
+              "TotalPrice": 763.93,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "MY",
+              "DigiKeyProductNumber": "505-ADG5434BRUZ-ND",
+              "ManufacturerProductNumber": "ADG5434BRUZ",
+              "Description": "IC SWITCH SPDT X 4 14OHM 20TSSOP",
+              "PackType": "Tube",
+              "QuantityInitialRequested": 121,
+              "QuantityOrdered": 121,
+              "QuantityShipped": 121,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 6.31347,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 121,
+                  "InvoiceId": 120823954,
+                  "ShippedDate": "2026-02-11T20:53:36.869Z",
+                  "TrackingNumber": "9668622250",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "OrderNumber": 9910000367912986,
+      "CustomerId": 16327571,
+      "DateEntered": "2026-01-29T18:13:29.903-06:00",
+      "Currency": "USD",
+      "PONumber": "",
+      "EntireOrderStatus": {
+        "OrderStatus": "Shipped",
+        "ShortDescription": "Shipped",
+        "LongDescription": "All products in this order have been shipped. Invoice and tracking information is available."
+      },
+      "SalesOrders": [
+        {
+          "CustomerId": 16327571,
+          "Contact": {
+            "FirstName": null,
+            "LastName": null,
+            "Email": "sales@cdengs.com"
+          },
+          "SalesOrderId": 97143057,
+          "Status": {
+            "SalesOrderStatus": "Shipped",
+            "ShortDescription": "Shipped",
+            "LongDescription": "All products in this order have been shipped. Invoice and tracking information is available."
+          },
+          "PurchaseOrder": "",
+          "TotalPrice": 3058.84,
+          "DateEntered": "2026-01-29T18:13:29.903-06:00",
+          "OrderNumber": 9910000367912986,
+          "ShipMethod": "DHL Express International",
+          "Currency": "USD",
+          "ShippingAddress": {
+            "FirstName": "KERRIE",
+            "LastName": "LIU",
+            "CompanyName": "CHING DENG TECHNOLOGY INC.",
+            "AddressLine1": "",
+            "AddressLine2": "12F.-25, NO. 29,",
+            "AddressLine3": "GUANXIN RD., EAST DIST.,",
+            "City": "HSINCHU",
+            "State": "",
+            "County": "",
+            "ZipCode": "300052",
+            "IsoCode": "TW",
+            "Phone": "886926225655",
+            "InvoiceId": 120381081
+          },
+          "LineItems": [
+            {
+              "SalesOrderId": 97143057,
+              "DetailId": 1,
+              "TotalPrice": 19.2,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "PH",
+              "DigiKeyProductNumber": "490-3261-1-ND",
+              "ManufacturerProductNumber": "GRM155R71C104KA88D",
+              "Description": "CAP CER 0.1UF 16V X7R 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 2500,
+              "QuantityOrdered": 2500,
+              "QuantityShipped": 2500,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.00768,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 2500,
+                  "InvoiceId": 120381081,
+                  "ShippedDate": "2026-01-31T00:57:56.928Z",
+                  "TrackingNumber": "5004009916",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97143057,
+              "DetailId": 2,
+              "TotalPrice": 21.87,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "MY",
+              "DigiKeyProductNumber": "587-2786-1-ND",
+              "ManufacturerProductNumber": "EMK107ABJ475KA-T",
+              "Description": "CAP CER 4.7UF 16V X5R 0603",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 260,
+              "QuantityOrdered": 260,
+              "QuantityShipped": 260,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0841,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 260,
+                  "InvoiceId": 120381081,
+                  "ShippedDate": "2026-01-31T00:57:56.928Z",
+                  "TrackingNumber": "5004009916",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97143057,
+              "DetailId": 3,
+              "TotalPrice": 0.84,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "CN",
+              "DigiKeyProductNumber": "P100KLCT-ND",
+              "ManufacturerProductNumber": "ERJ-2RKF1003X",
+              "Description": "RES 100K OHM 1% 1/10W 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 50,
+              "QuantityOrdered": 50,
+              "QuantityShipped": 50,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0168,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 50,
+                  "InvoiceId": 120381081,
+                  "ShippedDate": "2026-01-31T00:57:56.928Z",
+                  "TrackingNumber": "5004009916",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97143057,
+              "DetailId": 4,
+              "TotalPrice": 0.2,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "311-39KJRCT-ND",
+              "ManufacturerProductNumber": "RC0402JR-0739KL",
+              "Description": "RES 39K OHM 5% 1/16W 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 50,
+              "QuantityOrdered": 50,
+              "QuantityShipped": 50,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.004,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 50,
+                  "InvoiceId": 120381081,
+                  "ShippedDate": "2026-01-31T00:57:56.928Z",
+                  "TrackingNumber": "5004009916",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97143057,
+              "DetailId": 5,
+              "TotalPrice": 10.75,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "JP",
+              "DigiKeyProductNumber": "296-18235-1-ND",
+              "ManufacturerProductNumber": "SN74LVC1G139DCTR",
+              "Description": "IC DECODER/DEMUX 1 X 2:4 SM8",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 25,
+              "QuantityOrdered": 25,
+              "QuantityShipped": 25,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.43,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 25,
+                  "InvoiceId": 120381081,
+                  "ShippedDate": "2026-01-31T00:57:56.928Z",
+                  "TrackingNumber": "5004009916",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97143057,
+              "DetailId": 6,
+              "TotalPrice": 2942.07,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "PH",
+              "DigiKeyProductNumber": "DG1411EEN-T1-GE4CT-ND",
+              "ManufacturerProductNumber": "DG1411EEN-T1-GE4",
+              "Description": "IC SWITCH SPST-NCX4 1.5OHM 16QFN",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 721,
+              "QuantityOrdered": 721,
+              "QuantityShipped": 721,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 4.08054,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 721,
+                  "InvoiceId": 120381081,
+                  "ShippedDate": "2026-01-31T00:57:56.928Z",
+                  "TrackingNumber": "5004009916",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97143057,
+              "DetailId": 7,
+              "TotalPrice": 4.71,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "PH",
+              "DigiKeyProductNumber": "MC74AC08DGOS-ND",
+              "ManufacturerProductNumber": "MC74AC08DG",
+              "Description": "IC GATE AND 4CH 2-INP 14SOIC",
+              "PackType": "Tube",
+              "QuantityInitialRequested": 11,
+              "QuantityOrdered": 11,
+              "QuantityShipped": 11,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.428,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 11,
+                  "InvoiceId": 120381081,
+                  "ShippedDate": "2026-01-31T00:57:56.928Z",
+                  "TrackingNumber": "5004009916",
+                  "ExpectedDeliveryDate": null
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 97143057,
+              "DetailId": 8,
+              "TotalPrice": 59.2,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "311-1336-2-ND",
+              "ManufacturerProductNumber": "CC0402KRX5R6BB104",
+              "Description": "CAP CER 0.1UF 10V X5R 0402",
+              "PackType": "TapeReel",
+              "QuantityInitialRequested": 10000,
+              "QuantityOrdered": 10000,
+              "QuantityShipped": 10000,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.00592,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 10000,
+                  "InvoiceId": 120381081,
+                  "ShippedDate": "2026-01-31T00:57:56.928Z",
+                  "TrackingNumber": "5004009916",
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []

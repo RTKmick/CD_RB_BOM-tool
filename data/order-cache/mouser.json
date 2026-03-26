@@ -1,6 +1,6 @@
 {
   "Errors": [],
-  "NumberOfOrders": 6,
+  "NumberOfOrders": 7,
   "OrderHistoryItems": [
     {
       "DateCreated": "2026-03-19T00:00:00",
@@ -8,7 +8,505 @@
       "WebOrderNumber": "38621052",
       "PoNumber": "38621052",
       "BuyerName": "CHIN-KUN WEN",
-      "OrderStatusDisplay": "Complete"
+      "OrderStatusDisplay": "Complete",
+      "OrderLineItems": [
+        {
+          "Quantity": 20,
+          "UnitPrice": 2.77,
+          "ExtPrice": 55.4,
+          "FormattedUnitPrice": "$2.77",
+          "FormattedExtendedPrice": "$55.40",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "571-1-826634-0",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "TE Connectivity",
+            "ManufacturerPartNumber": "1-826634-0",
+            "PartDescription": "Headers & Wire Housings Headers & Wire Housings 2X10P DUAL ROW R/A"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89425646,
+              "Date": "2026-03-25T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 20,
+          "UnitPrice": 2.47,
+          "ExtPrice": 49.4,
+          "FormattedUnitPrice": "$2.47",
+          "FormattedExtendedPrice": "$0.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "700-MAX1555EZK+T",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Analog Devices Inc.",
+            "ManufacturerPartNumber": "MAX1555EZK+T",
+            "PartDescription": "Battery Management Battery Management SOT23, Dual-Input, USB/AC Adapter, 1-Cel"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": "2026-03-20T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 40,
+          "UnitPrice": 3.31,
+          "ExtPrice": 132.4,
+          "FormattedUnitPrice": "$3.31",
+          "FormattedExtendedPrice": "$0.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "584-AD8656ARMZ-R",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Analog Devices Inc.",
+            "ManufacturerPartNumber": "AD8656ARMZ-REEL",
+            "PartDescription": "Precision Amplifiers Precision Amplifiers Dual 3nV Precision DigiTrim OpAmp"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": "2026-03-20T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 10000,
+          "UnitPrice": 0.03,
+          "ExtPrice": 300,
+          "FormattedUnitPrice": "$0.03",
+          "FormattedExtendedPrice": "$300.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "810-C1005X6S0J225K0C",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "TDK",
+            "ManufacturerPartNumber": "C1005X6S0J225K050BC",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0402 6.3V 2.2uF X6S 10% T: 0.5mm"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89425646,
+              "Date": "2026-03-25T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 500,
+          "UnitPrice": 1.84,
+          "ExtPrice": 920,
+          "FormattedUnitPrice": "$1.84",
+          "FormattedExtendedPrice": "$920.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "595-INA240A3PWR",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Texas Instruments",
+            "ManufacturerPartNumber": "INA240A3PWR",
+            "PartDescription": "Current Sense Amplifiers Current Sense Amplifiers -4 to 80V bidirecti onal ultra-precise A A 595-INA240A3PW"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89425646,
+              "Date": "2026-03-25T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 500,
+          "UnitPrice": 0.174,
+          "ExtPrice": 87,
+          "FormattedUnitPrice": "$0.174",
+          "FormattedExtendedPrice": "$87.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "279-RP73PF1J20RBTDF",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "TE Connectivity",
+            "ManufacturerPartNumber": "RP73PF1J20RBTDF",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD RP 1J 0.166W 20R 0.1% 25PPM"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89425646,
+              "Date": "2026-03-25T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 1000,
+          "UnitPrice": 0.003,
+          "ExtPrice": 3,
+          "FormattedUnitPrice": "$0.003",
+          "FormattedExtendedPrice": "$3.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RC0402FR-075K1L",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RC0402FR-075K1L",
+            "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0402, 5.1kOhms, 1%, 1/16W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89425646,
+              "Date": "2026-03-25T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 2782,
+          "UnitPrice": 0.003,
+          "ExtPrice": 8.35,
+          "FormattedUnitPrice": "$0.003",
+          "FormattedExtendedPrice": "$8.35",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RC0402JR-0710KL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RC0402JR-0710KL",
+            "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0402, 10kOhms, 5%, 1/16W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89425646,
+              "Date": "2026-03-25T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 10000,
+          "UnitPrice": 0.015,
+          "ExtPrice": 150,
+          "FormattedUnitPrice": "$0.015",
+          "FormattedExtendedPrice": "$150.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "81-GRM153R61A105ME5D",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Murata",
+            "ManufacturerPartNumber": "GRM153R61A105ME95D",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 1 uF 10 VDC 20% 0402 X5R"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89425646,
+              "Date": "2026-03-25T00:00:00"
+            }
+          ]
+        }
+      ],
+      "OrderDate": "2026-03-19T00:00:00",
+      "CurrencyCode": "USD",
+      "OrderLines": [
+        {
+          "Quantity": 20,
+          "UnitPrice": 2.77,
+          "ExtPrice": 55.4,
+          "FormattedUnitPrice": "$2.77",
+          "FormattedExtendedPrice": "$55.40",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "571-1-826634-0",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "TE Connectivity",
+            "ManufacturerPartNumber": "1-826634-0",
+            "PartDescription": "Headers & Wire Housings Headers & Wire Housings 2X10P DUAL ROW R/A"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89425646,
+              "Date": "2026-03-25T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 20,
+          "UnitPrice": 2.47,
+          "ExtPrice": 49.4,
+          "FormattedUnitPrice": "$2.47",
+          "FormattedExtendedPrice": "$0.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "700-MAX1555EZK+T",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Analog Devices Inc.",
+            "ManufacturerPartNumber": "MAX1555EZK+T",
+            "PartDescription": "Battery Management Battery Management SOT23, Dual-Input, USB/AC Adapter, 1-Cel"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": "2026-03-20T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 40,
+          "UnitPrice": 3.31,
+          "ExtPrice": 132.4,
+          "FormattedUnitPrice": "$3.31",
+          "FormattedExtendedPrice": "$0.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "584-AD8656ARMZ-R",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Analog Devices Inc.",
+            "ManufacturerPartNumber": "AD8656ARMZ-REEL",
+            "PartDescription": "Precision Amplifiers Precision Amplifiers Dual 3nV Precision DigiTrim OpAmp"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": "2026-03-20T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 10000,
+          "UnitPrice": 0.03,
+          "ExtPrice": 300,
+          "FormattedUnitPrice": "$0.03",
+          "FormattedExtendedPrice": "$300.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "810-C1005X6S0J225K0C",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "TDK",
+            "ManufacturerPartNumber": "C1005X6S0J225K050BC",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0402 6.3V 2.2uF X6S 10% T: 0.5mm"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89425646,
+              "Date": "2026-03-25T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 500,
+          "UnitPrice": 1.84,
+          "ExtPrice": 920,
+          "FormattedUnitPrice": "$1.84",
+          "FormattedExtendedPrice": "$920.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "595-INA240A3PWR",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Texas Instruments",
+            "ManufacturerPartNumber": "INA240A3PWR",
+            "PartDescription": "Current Sense Amplifiers Current Sense Amplifiers -4 to 80V bidirecti onal ultra-precise A A 595-INA240A3PW"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89425646,
+              "Date": "2026-03-25T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 500,
+          "UnitPrice": 0.174,
+          "ExtPrice": 87,
+          "FormattedUnitPrice": "$0.174",
+          "FormattedExtendedPrice": "$87.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "279-RP73PF1J20RBTDF",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "TE Connectivity",
+            "ManufacturerPartNumber": "RP73PF1J20RBTDF",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD RP 1J 0.166W 20R 0.1% 25PPM"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89425646,
+              "Date": "2026-03-25T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 1000,
+          "UnitPrice": 0.003,
+          "ExtPrice": 3,
+          "FormattedUnitPrice": "$0.003",
+          "FormattedExtendedPrice": "$3.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RC0402FR-075K1L",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RC0402FR-075K1L",
+            "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0402, 5.1kOhms, 1%, 1/16W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89425646,
+              "Date": "2026-03-25T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 2782,
+          "UnitPrice": 0.003,
+          "ExtPrice": 8.35,
+          "FormattedUnitPrice": "$0.003",
+          "FormattedExtendedPrice": "$8.35",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RC0402JR-0710KL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RC0402JR-0710KL",
+            "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0402, 10kOhms, 5%, 1/16W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89425646,
+              "Date": "2026-03-25T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 10000,
+          "UnitPrice": 0.015,
+          "ExtPrice": 150,
+          "FormattedUnitPrice": "$0.015",
+          "FormattedExtendedPrice": "$150.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "81-GRM153R61A105ME5D",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Murata",
+            "ManufacturerPartNumber": "GRM153R61A105ME95D",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 1 uF 10 VDC 20% 0402 X5R"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89425646,
+              "Date": "2026-03-25T00:00:00"
+            }
+          ]
+        }
+      ],
+      "SalesOrderId": "279268524",
+      "WebOrderId": 38621052,
+      "OrderStatus": 30,
+      "OrderStatusName": "Complete",
+      "IsScheduled": false,
+      "IsPendingOrder": false
     },
     {
       "DateCreated": "2026-03-12T00:00:00",
@@ -16,7 +514,181 @@
       "WebOrderNumber": "38552497",
       "PoNumber": "38552497",
       "BuyerName": "CHIN-KUN WEN",
-      "OrderStatusDisplay": "Complete"
+      "OrderStatusDisplay": "Complete",
+      "OrderLineItems": [
+        {
+          "Quantity": 40,
+          "UnitPrice": 0.164,
+          "ExtPrice": 6.56,
+          "FormattedUnitPrice": "$0.164",
+          "FormattedExtendedPrice": "$6.56",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "81-GRM188R61C225KADJ",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Murata",
+            "ManufacturerPartNumber": "GRM188R61C225KAADJ",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 2.2 uF 16 VDC 10% 0603 X5R"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89270849,
+              "Date": "2026-03-13T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 60,
+          "UnitPrice": 0.069,
+          "ExtPrice": 4.14,
+          "FormattedUnitPrice": "$0.069",
+          "FormattedExtendedPrice": "$4.14",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "81-GRM155R61C474KE1D",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Murata",
+            "ManufacturerPartNumber": "GRM155R61C474KE01D",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0.47 uF 16 VDC 10% 0402 X5R"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89270849,
+              "Date": "2026-03-13T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 25,
+          "UnitPrice": 8.09,
+          "ExtPrice": 202.25,
+          "FormattedUnitPrice": "$8.09",
+          "FormattedExtendedPrice": "$202.25",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "595-PCM2906CDBR",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Texas Instruments",
+            "ManufacturerPartNumber": "PCM2906CDBR",
+            "PartDescription": "Interface - CODECs Interface - CODECs Stereo USB CODEC A 5 95-PCM2906CDB A 595 A 595-PCM2906CDB"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89270849,
+              "Date": "2026-03-13T00:00:00"
+            }
+          ]
+        }
+      ],
+      "OrderDate": "2026-03-12T00:00:00",
+      "CurrencyCode": "USD",
+      "OrderLines": [
+        {
+          "Quantity": 40,
+          "UnitPrice": 0.164,
+          "ExtPrice": 6.56,
+          "FormattedUnitPrice": "$0.164",
+          "FormattedExtendedPrice": "$6.56",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "81-GRM188R61C225KADJ",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Murata",
+            "ManufacturerPartNumber": "GRM188R61C225KAADJ",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 2.2 uF 16 VDC 10% 0603 X5R"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89270849,
+              "Date": "2026-03-13T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 60,
+          "UnitPrice": 0.069,
+          "ExtPrice": 4.14,
+          "FormattedUnitPrice": "$0.069",
+          "FormattedExtendedPrice": "$4.14",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "81-GRM155R61C474KE1D",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Murata",
+            "ManufacturerPartNumber": "GRM155R61C474KE01D",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0.47 uF 16 VDC 10% 0402 X5R"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89270849,
+              "Date": "2026-03-13T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 25,
+          "UnitPrice": 8.09,
+          "ExtPrice": 202.25,
+          "FormattedUnitPrice": "$8.09",
+          "FormattedExtendedPrice": "$202.25",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "595-PCM2906CDBR",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Texas Instruments",
+            "ManufacturerPartNumber": "PCM2906CDBR",
+            "PartDescription": "Interface - CODECs Interface - CODECs Stereo USB CODEC A 5 95-PCM2906CDB A 595 A 595-PCM2906CDB"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89270849,
+              "Date": "2026-03-13T00:00:00"
+            }
+          ]
+        }
+      ],
+      "SalesOrderId": "279165821",
+      "WebOrderId": 38552497,
+      "OrderStatus": 30,
+      "OrderStatusName": "Complete",
+      "IsScheduled": false,
+      "IsPendingOrder": false
     },
     {
       "DateCreated": "2026-03-01T00:00:00",
@@ -32,7 +704,243 @@
       "WebOrderNumber": "38420388",
       "PoNumber": "38420388",
       "BuyerName": "CHIN-KUN WEN",
-      "OrderStatusDisplay": "Complete"
+      "OrderStatusDisplay": "Complete",
+      "OrderLineItems": [
+        {
+          "Quantity": 25,
+          "UnitPrice": 0.007,
+          "ExtPrice": 0.18,
+          "FormattedUnitPrice": "$0.007",
+          "FormattedExtendedPrice": "$0.18",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RC0402FR-074K32L",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RC0402FR-074K32L",
+            "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0402, 4.32kOhms, 1%, 1/16W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89042103,
+              "Date": "2026-03-04T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 1000,
+          "UnitPrice": 0.413,
+          "ExtPrice": 47.5,
+          "FormattedUnitPrice": "$0.413",
+          "FormattedExtendedPrice": "$413.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "595-TLV70218DBVT",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Texas Instruments",
+            "ManufacturerPartNumber": "TLV70218DBVT",
+            "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 300mALow IQLDO Reg A 595-TLV70218DBVR A A 595-TLV70218DBVR"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89042103,
+              "Date": "2026-03-04T00:00:00"
+            },
+            {
+              "InvoiceNumber": 89368617,
+              "Date": "2026-03-20T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 25,
+          "UnitPrice": 1.89,
+          "ExtPrice": 47.25,
+          "FormattedUnitPrice": "$1.89",
+          "FormattedExtendedPrice": "$47.25",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "562-3025033-01",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Qualtek",
+            "ManufacturerPartNumber": "3025033-01",
+            "PartDescription": "USB Cables / IEEE 1394 Cables USB Cables / IEEE 1394 Cables USB 2.0 A Male to USB 2.0 Micro B Male, Black color, 28/28AWG, 1FT Length"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89042103,
+              "Date": "2026-03-04T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 500,
+          "UnitPrice": 0.012,
+          "ExtPrice": 6,
+          "FormattedUnitPrice": "$0.012",
+          "FormattedExtendedPrice": "$6.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RC1206JR-070RL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RC1206JR-070RL",
+            "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 1206, 0Ohms, 5%, 1/4W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89042103,
+              "Date": "2026-03-04T00:00:00"
+            }
+          ]
+        }
+      ],
+      "OrderDate": "2026-03-01T00:00:00",
+      "CurrencyCode": "USD",
+      "OrderLines": [
+        {
+          "Quantity": 25,
+          "UnitPrice": 0.007,
+          "ExtPrice": 0.18,
+          "FormattedUnitPrice": "$0.007",
+          "FormattedExtendedPrice": "$0.18",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RC0402FR-074K32L",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RC0402FR-074K32L",
+            "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0402, 4.32kOhms, 1%, 1/16W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89042103,
+              "Date": "2026-03-04T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 1000,
+          "UnitPrice": 0.413,
+          "ExtPrice": 47.5,
+          "FormattedUnitPrice": "$0.413",
+          "FormattedExtendedPrice": "$413.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "595-TLV70218DBVT",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Texas Instruments",
+            "ManufacturerPartNumber": "TLV70218DBVT",
+            "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 300mALow IQLDO Reg A 595-TLV70218DBVR A A 595-TLV70218DBVR"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89042103,
+              "Date": "2026-03-04T00:00:00"
+            },
+            {
+              "InvoiceNumber": 89368617,
+              "Date": "2026-03-20T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 25,
+          "UnitPrice": 1.89,
+          "ExtPrice": 47.25,
+          "FormattedUnitPrice": "$1.89",
+          "FormattedExtendedPrice": "$47.25",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "562-3025033-01",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Qualtek",
+            "ManufacturerPartNumber": "3025033-01",
+            "PartDescription": "USB Cables / IEEE 1394 Cables USB Cables / IEEE 1394 Cables USB 2.0 A Male to USB 2.0 Micro B Male, Black color, 28/28AWG, 1FT Length"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89042103,
+              "Date": "2026-03-04T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 500,
+          "UnitPrice": 0.012,
+          "ExtPrice": 6,
+          "FormattedUnitPrice": "$0.012",
+          "FormattedExtendedPrice": "$6.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RC1206JR-070RL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RC1206JR-070RL",
+            "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 1206, 0Ohms, 5%, 1/4W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89042103,
+              "Date": "2026-03-04T00:00:00"
+            }
+          ]
+        }
+      ],
+      "SalesOrderId": "278965565",
+      "WebOrderId": 38420388,
+      "OrderStatus": 30,
+      "OrderStatusName": "Complete",
+      "IsScheduled": false,
+      "IsPendingOrder": false
     },
     {
       "DateCreated": "2026-02-28T00:00:00",
@@ -49,6 +957,242 @@
       "PoNumber": "38393031",
       "BuyerName": "CHIN-KUN WEN",
       "OrderStatusDisplay": "Complete"
+    },
+    {
+      "DateCreated": "2026-02-11T00:00:00",
+      "SalesOrderNumber": "278710683",
+      "WebOrderNumber": "38251034",
+      "PoNumber": "38251034",
+      "BuyerName": "CHIN-KUN WEN",
+      "OrderStatusDisplay": "Backordered",
+      "OrderLineItems": [
+        {
+          "Quantity": 250,
+          "UnitPrice": 0.022,
+          "ExtPrice": 5.5,
+          "FormattedUnitPrice": "$0.022",
+          "FormattedExtendedPrice": "$5.50",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "652-CAY10A-104J4LF",
+            "CustomerPartNumber": "26",
+            "ManufacturerName": "Bourns",
+            "ManufacturerPartNumber": "CAY10A-104J4LF",
+            "PartDescription": "Resistor Networks & Arrays Resistor Networks & Arrays 100K  5% CONVEX SQUARE  4X0402"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 88796618,
+              "Date": "2026-02-13T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 121,
+          "UnitPrice": 1.65,
+          "ExtPrice": 199.65,
+          "FormattedUnitPrice": "$1.65",
+          "FormattedExtendedPrice": "$199.65",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "595-LVC16T245DGGRE4",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Texas Instruments",
+            "ManufacturerPartNumber": "74LVC16T245DGGRE4",
+            "PartDescription": "Translation - Voltage Levels Translation - Voltage Levels 16B Bus Trans & Reg A 595-SN74LC16T245DG A 595-SN74LC16T245DGGR"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 88796618,
+              "Date": "2026-02-13T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 31,
+          "UnitPrice": 20.22,
+          "ExtPrice": 626.82,
+          "FormattedUnitPrice": "$20.22",
+          "FormattedExtendedPrice": "$0.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "584-AD5664RBRMZ-5",
+            "CustomerPartNumber": "35",
+            "ManufacturerName": "Analog Devices Inc.",
+            "ManufacturerPartNumber": "AD5664RBRMZ-5",
+            "PartDescription": "Digital to Analog Converters - DAC Digital to Analog Converters - DAC Quad 5V 16bit SPI DAC with reference"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": "2026-02-12T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 61,
+          "UnitPrice": 1.13,
+          "ExtPrice": 68.93,
+          "FormattedUnitPrice": "$1.13",
+          "FormattedExtendedPrice": "$68.93",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "771-74AVC16T245DG118",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Nexperia",
+            "ManufacturerPartNumber": "74AVC16T245DGG,118",
+            "PartDescription": "Translation - Voltage Levels Translation - Voltage Levels SOT362-1  DUAL SUPPLY TRANSCVR"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": "2027-03-22T00:00:00"
+            }
+          ]
+        }
+      ],
+      "OrderDate": "2026-02-11T00:00:00",
+      "CurrencyCode": "USD",
+      "OrderLines": [
+        {
+          "Quantity": 250,
+          "UnitPrice": 0.022,
+          "ExtPrice": 5.5,
+          "FormattedUnitPrice": "$0.022",
+          "FormattedExtendedPrice": "$5.50",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "652-CAY10A-104J4LF",
+            "CustomerPartNumber": "26",
+            "ManufacturerName": "Bourns",
+            "ManufacturerPartNumber": "CAY10A-104J4LF",
+            "PartDescription": "Resistor Networks & Arrays Resistor Networks & Arrays 100K  5% CONVEX SQUARE  4X0402"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 88796618,
+              "Date": "2026-02-13T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 121,
+          "UnitPrice": 1.65,
+          "ExtPrice": 199.65,
+          "FormattedUnitPrice": "$1.65",
+          "FormattedExtendedPrice": "$199.65",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "595-LVC16T245DGGRE4",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Texas Instruments",
+            "ManufacturerPartNumber": "74LVC16T245DGGRE4",
+            "PartDescription": "Translation - Voltage Levels Translation - Voltage Levels 16B Bus Trans & Reg A 595-SN74LC16T245DG A 595-SN74LC16T245DGGR"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 88796618,
+              "Date": "2026-02-13T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 31,
+          "UnitPrice": 20.22,
+          "ExtPrice": 626.82,
+          "FormattedUnitPrice": "$20.22",
+          "FormattedExtendedPrice": "$0.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "584-AD5664RBRMZ-5",
+            "CustomerPartNumber": "35",
+            "ManufacturerName": "Analog Devices Inc.",
+            "ManufacturerPartNumber": "AD5664RBRMZ-5",
+            "PartDescription": "Digital to Analog Converters - DAC Digital to Analog Converters - DAC Quad 5V 16bit SPI DAC with reference"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": "2026-02-12T00:00:00"
+            }
+          ]
+        },
+        {
+          "Quantity": 61,
+          "UnitPrice": 1.13,
+          "ExtPrice": 68.93,
+          "FormattedUnitPrice": "$1.13",
+          "FormattedExtendedPrice": "$68.93",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "771-74AVC16T245DG118",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Nexperia",
+            "ManufacturerPartNumber": "74AVC16T245DGG,118",
+            "PartDescription": "Translation - Voltage Levels Translation - Voltage Levels SOT362-1  DUAL SUPPLY TRANSCVR"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": "2027-03-22T00:00:00"
+            }
+          ]
+        }
+      ],
+      "SalesOrderId": "278710683",
+      "WebOrderId": 38251034,
+      "OrderStatus": 25,
+      "OrderStatusName": "Backordered",
+      "IsScheduled": false,
+      "IsPendingOrder": false
     }
   ]
 }
