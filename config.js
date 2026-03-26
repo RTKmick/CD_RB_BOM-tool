@@ -10,12 +10,12 @@ const CONFIG = {
 
     /**
      * 訂料追蹤（Mouser / DigiKey）：後端代理基底網址（勿結尾斜線）
-     * - 留空：本機 localhost / file 預設 http://localhost:8787；*.vercel.app 時用同網域
-     * - GitHub Pages：必填 Vercel 代理，例 "https://你的專案.vercel.app"
+     * - 留空：localhost / 127.0.0.1 → http://localhost:8787；*.vercel.app → 目前網域
+     * - GitHub Pages → 自動依網址倉庫名推測 https://倉庫-slug.vercel.app（與 Vercel 匯入 GitHub 的預設專案名一致）；若專案名不同請填此欄覆寫
      */
     ORDER_PROXY_BASE_URL: "",
 
-    /** 未設定代理基底網址時，訂料追蹤按鈕顯示的說明（可自行改短句） */
+    /** 無法取得代理網址時（極少見）顯示；一般 GitHub Pages 已自動推測，無須改 */
     ORDER_PROXY_SETUP_HINT:
-        "訂料追蹤需連到已部署的代理：請在「本檔」將 ORDER_PROXY_BASE_URL 設為 Vercel 網址（https://… 勿結尾 /）。說明見 README。"
+        "訂料追蹤要連到後端（Vercel）。請確認已用同一個 GitHub repo 部署 Vercel，或到本檔手動填 ORDER_PROXY_BASE_URL（勿結尾 /）。詳見 README。"
 };

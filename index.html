@@ -10,7 +10,7 @@
     <script>
     /** 若 config.js 未載入，訂料按鈕仍顯示完整說明（與 config.js ORDER_PROXY_SETUP_HINT 預設一致） */
     var CD_RB_ORDER_PROXY_HINT_DEFAULT =
-        '訂料追蹤需連到已部署的代理：請在 config.js 將 ORDER_PROXY_BASE_URL 設為 Vercel 網址（https://… 勿結尾 /）。說明見 README。';
+        '訂料追蹤要連到後端（Vercel）。請確認已用同一個 GitHub repo 部署 Vercel，或到 config.js 手動填 ORDER_PROXY_BASE_URL（勿結尾 /）。詳見 README。';
     (function () {
         function syncReleaseLabel() {
             var el = document.querySelector('.app-version');
@@ -1151,6 +1151,13 @@ function getLast30DaysRange() {
     return { start: start, end: end };
 }
 
+/** 將 GitHub 倉庫名轉成 Vercel 預設子網域慣例（例 CD_RB_BOM-tool → cd-rb-bom-tool.vercel.app） */
+function guessVercelUrlFromGithubRepoSegment(repoSeg) {
+    if (!repoSeg) return '';
+    var slug = String(repoSeg).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    return slug ? ('https://' + slug + '.vercel.app') : '';
+}
+
 function getOrderProxyBaseUrl() {
     var base = (typeof CONFIG !== 'undefined' && CONFIG.ORDER_PROXY_BASE_URL) ? String(CONFIG.ORDER_PROXY_BASE_URL).trim() : '';
     if (base) return base.replace(/\/+$/g, '');
@@ -1158,6 +1165,13 @@ function getOrderProxyBaseUrl() {
     var h = String(window.location.hostname || '').toLowerCase();
     if (h === 'localhost' || h === '127.0.0.1' || h === '') return 'http://localhost:8787';
     if (h.endsWith('.vercel.app')) return String(window.location.origin).replace(/\/+$/g, '');
+    /* GitHub Pages：未填 ORDER_PROXY_BASE_URL 時，依網址路徑第一層（倉庫名）推測同 repo 在 Vercel 的預設網址；若 Vercel 專案名不同請在 config 覆寫 */
+    if (h.endsWith('.github.io')) {
+        var path = String(window.location.pathname || '');
+        var seg = path.replace(/^\/+/, '').split('/')[0] || '';
+        var guessed = guessVercelUrlFromGithubRepoSegment(seg);
+        if (guessed) return guessed;
+    }
     return '';
 }
 
