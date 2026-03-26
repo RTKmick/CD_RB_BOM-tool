@@ -917,7 +917,9 @@ function saveOrderProjectMappingToGas(orderId, project) {
     var gas = getOrderProjectMapGasUrl();
     if (!gas) return Promise.resolve(null);
     var body = JSON.stringify({ action: 'upsert', orderId: String(orderId || '').trim(), projectCode: String(project || '').trim().toUpperCase() });
-    return fetchJsonWithTimeout(gas, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, mode: 'cors' }, 15000)
+    // Apps Script Web App 跨網域時，application/json 常觸發 preflight，導致瀏覽器直接 Failed to fetch。
+    // 不主動帶自訂 Content-Type，改送純文字 JSON，避免不必要的 preflight。
+    return fetchJsonWithTimeout(gas, { method: 'POST', body: body, mode: 'cors' }, 15000)
         .then(function(resp) {
             if (!resp || resp.ok === false) throw new Error(resp && resp.error ? resp.error : 'GAS 寫入失敗');
             return resp;
