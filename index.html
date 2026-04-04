@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- 版號請與 config.js 的 APP_RELEASE_LABEL 同步（下方 .app-version 內文、註解 RELEASE 方便搜尋） -->
-<!-- RELEASE: 潤鉑BOM+PCB_R1.4.6 -->
+<!-- RELEASE: 潤鉑BOM+PCB_R1.4.7 -->
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -250,7 +250,7 @@
   該面板的樣式請用 #panel-新功能id .類名 { } 包起來，避免與其他分頁衝突。切換邏輯已通用，無須改 JS。
 -->
 <nav class="main-tabs">
-    <span class="app-version">潤鉑BOM+PCB_R1.4.6</span>
+    <span class="app-version">潤鉑BOM+PCB_R1.4.7</span>
     <button type="button" class="tab active" data-tab="bom" aria-selected="true">
         <i class="fas fa-microchip"></i> BOM 旗艦備料
     </button>
@@ -547,6 +547,19 @@ function isMainIcConsignedRow(mfrVal, partVal) {
     return false;
 }
 
+/** supplier 欄（常為 H 欄）：通路為 TDK 體系 */
+function supplierCellIndicatesTdk(supplierVal) {
+    var s = String(supplierVal || "").trim();
+    if (!s) return false;
+    return /^TDK([\s\-]|$)/i.test(s);
+}
+
+/** Consigned 欄（常為 J 欄）：yes / y / 1 / 是 視為客供不必備料 */
+function consignedCellIsYes(consignedVal) {
+    var s = String(consignedVal != null ? consignedVal : "").trim().toUpperCase();
+    return s === "YES" || s === "Y" || s === "1" || s === "TRUE" || s === "是";
+}
+
 function analyzeData() {
     var bestHeaderRow = -1;
     var maxScore = 0;
@@ -564,9 +577,9 @@ function analyzeData() {
     }
     if (bestHeaderRow === -1 || maxScore < 4) {
         bestHeaderRow = 7;
-        colMap = { item: 0, qty: 2, ref: 3, desc: 4, mfr: 5, part: 6, part_backup: -1 };
+        colMap = { item: 0, qty: 2, ref: 3, desc: 4, mfr: 5, part: 6, part_backup: -1, supplier: -1, consigned: -1 };
     } else {
-        colMap = { item: -1, mfr: -1, part: -1, part_backup: -1, qty: -1, ref: -1, desc: -1 };
+        colMap = { item: -1, mfr: -1, part: -1, part_backup: -1, qty: -1, ref: -1, desc: -1, supplier: -1, consigned: -1 };
         var possiblePartIdx = -1;
         var definitiveMpnFound = false;
         rawData[bestHeaderRow].forEach(function(cell, idx) {
@@ -578,6 +591,8 @@ function analyzeData() {
             else if (c === "line note" || c === "linenote" || c.indexOf("line note") !== -1) colMap.mfr = idx;
             else if ((c.indexOf("manufacturer") !== -1 || c.indexOf("mfr") !== -1 || cBase === "mfg") && c.indexOf("pn") === -1 && c.indexOf("part") === -1 && c.indexOf("number") === -1) colMap.mfr = idx;
             else if (c.indexOf("description") !== -1 || c === "desc") colMap.desc = idx;
+            else if (c === "supplier") colMap.supplier = idx;
+            else if (c === "consigned") colMap.consigned = idx;
             else if (c === "mpn" || c.indexOf("mfr p/n") !== -1 || c.indexOf("mfg part") !== -1 || c.indexOf("manufacturer's part") !== -1 || c.indexOf("manufacturer part number") !== -1 || c.indexOf("manufacturer pn") !== -1) { colMap.part = idx; definitiveMpnFound = true; }
             else if (c === "part" || c === "part number" || c === "part_number" || c === "p/n" || (c.indexOf("part number") !== -1 && c.indexOf("mfg") === -1 && c.indexOf("vendor") === -1)) possiblePartIdx = idx;
         });
@@ -653,9 +668,9 @@ function processTableData(headerRowIndex) {
         if (isSocketNoInstall) {
             isExcluded = true;
             excludeReason = "SOCKET(不上件)";
-        } else if (inNotMountSection && !qualifiesMainIc) { 
-            isExcluded = true; 
-            excludeReason = "Not Mount (不上件區)"; 
+        } else if (inNotMountSection) {
+            isExcluded = true;
+            excludeReason = "Not Mount (不上件區)";
         } else if (doNotInstallMode) { 
             isExcluded = true; 
             excludeReason = "No-Load (不上件)"; 
@@ -665,13 +680,16 @@ function processTableData(headerRowIndex) {
         } else if (String(mfrVal).toUpperCase().indexOf("SAMTEC") !== -1 && consignedMpns.indexOf(String(partVal).toUpperCase().trim()) !== -1) { 
             isExcluded = true; 
             excludeReason = "客戶提供"; 
+        } else if (colMap.supplier !== -1 && colMap.consigned !== -1 && supplierCellIndicatesTdk(row[colMap.supplier]) && consignedCellIsYes(row[colMap.consigned])) {
+            isExcluded = true;
+            excludeReason = "客戶提供";
         } else if (excludeKeywords.some(function(k) { return rowStrNorm.indexOf(k) !== -1; }) || /DO\s*NOT\s*INSTALL/.test(rowStrAll)) {
             isExcluded = true;
             if (rowStrNorm.indexOf("NO-LOAD") !== -1 || rowStrNorm.indexOf("DNP") !== -1 || rowStrNorm.indexOf("DNS") !== -1 || rowStrNorm.indexOf("UNUSED") !== -1 || rowStrNorm.indexOf("DO NOT STUFF") !== -1 || /DO\s*NOT\s*INSTALL/.test(rowStrAll)) excludeReason = "No-Load (不上件)";
             else excludeReason = "自動過濾";
         }
 
-        /* Main IC (Consigned)：一律標示並不納入備料（刪除線、預設不勾選）；含落在 Not Mount: 之後仍為 InvenSense/TDK 主晶片之列（與主表區一致） */
+        /* 主表區：Main IC (Consigned) 不納入備料。Not Mount: 以下之列一律以上方「Not Mount」規則為準（含同為主晶片之列）。 */
         if (!isExcluded && qualifiesMainIc) {
             isExcluded = true;
             excludeReason = "Main IC (Consigned)";
