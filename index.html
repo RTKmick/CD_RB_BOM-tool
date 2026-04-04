@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- 版號請與 config.js 的 APP_RELEASE_LABEL 同步（下方 .app-version 內文、註解 RELEASE 方便搜尋） -->
-<!-- RELEASE: 潤鉑BOM+PCB_R1.4.5 -->
+<!-- RELEASE: 潤鉑BOM+PCB_R1.4.6 -->
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -250,7 +250,7 @@
   該面板的樣式請用 #panel-新功能id .類名 { } 包起來，避免與其他分頁衝突。切換邏輯已通用，無須改 JS。
 -->
 <nav class="main-tabs">
-    <span class="app-version">潤鉑BOM+PCB_R1.4.4</span>
+    <span class="app-version">潤鉑BOM+PCB_R1.4.6</span>
     <button type="button" class="tab active" data-tab="bom" aria-selected="true">
         <i class="fas fa-microchip"></i> BOM 旗艦備料
     </button>
@@ -505,7 +505,7 @@ function handleFile(file) {
     reader.readAsArrayBuffer(file);
 }
 
-var MAIN_IC_PART_PREFIXES = ["MPU-", "ICP-", "ICS-", "IIM-", "ICM-", "IAM-"];
+var MAIN_IC_PART_PREFIXES = ["MPU-", "ICP-", "ICS-", "IIM-", "ICM-", "IAM-", "ICT-"];
 
 function partHasMainIcPrefix(partVal) {
     var p = String(partVal || "").trim().toUpperCase();
@@ -539,11 +539,11 @@ function isU1aAlternateListOrMpuPairRow(rowStrNorm, row) {
     return partHasMainIcPrefix(cells[1]);
 }
 
-/** BOM 旗艦：InvenSense / TDK-InvenSense 一律；廠商 TDK 時僅 MPU-/ICP-/… 料號前綴 → Main IC (Consigned) */
+/** BOM 旗艦：InvenSense / TDK-InvenSense 一律；廠商為 TDK（含 TDK 開頭之變體，不含已單獨處理之 TDK-INVENSENSE）時依料號前綴 → Main IC (Consigned) */
 function isMainIcConsignedRow(mfrVal, partVal) {
     var m = String(mfrVal || "").trim().toUpperCase();
     if (m === "INVENSENSE" || m === "TDK-INVENSENSE") return true;
-    if (m === "TDK") return partHasMainIcPrefix(partVal);
+    if (m === "TDK" || (m.length > 3 && m.indexOf("TDK") === 0 && (m.charAt(3) === " " || m.charAt(3) === "-"))) return partHasMainIcPrefix(partVal);
     return false;
 }
 
@@ -671,8 +671,8 @@ function processTableData(headerRowIndex) {
             else excludeReason = "自動過濾";
         }
 
-        /* 主表區 Main IC (Consigned)：標示正確但不納入備料（刪除線、預設不勾選）；Not Mount 區內之 Main IC 列維持可選以區隔替代料 */
-        if (!isExcluded && qualifiesMainIc && !inNotMountSection) {
+        /* Main IC (Consigned)：一律標示並不納入備料（刪除線、預設不勾選）；含落在 Not Mount: 之後仍為 InvenSense/TDK 主晶片之列（與主表區一致） */
+        if (!isExcluded && qualifiesMainIc) {
             isExcluded = true;
             excludeReason = "Main IC (Consigned)";
         }
