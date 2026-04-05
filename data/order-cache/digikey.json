@@ -8,9 +8,9 @@
       "Currency": "USD",
       "PONumber": "",
       "EntireOrderStatus": {
-        "OrderStatus": "Received",
-        "ShortDescription": "Received",
-        "LongDescription": "Your order is currently being reviewed by a DigiKey representative."
+        "OrderStatus": "Processing",
+        "ShortDescription": "Processing",
+        "LongDescription": "Your order is being processed. Invoice and shipping information will be available soon."
       },
       "SalesOrders": [
         {
@@ -22,9 +22,9 @@
           },
           "SalesOrderId": 98447135,
           "Status": {
-            "SalesOrderStatus": "Received",
-            "ShortDescription": "Received",
-            "LongDescription": "Your order is currently being reviewed by a DigiKey representative."
+            "SalesOrderStatus": "Processing",
+            "ShortDescription": "Processing",
+            "LongDescription": "Your order is being processed. Invoice and shipping information will be available soon."
           },
           "PurchaseOrder": "",
           "TotalPrice": 0,
