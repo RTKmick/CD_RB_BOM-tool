@@ -1,10 +1,10 @@
-# 每日將 Mouser / DigiKey 訂單寫入 data/order-cache/*.json，供 GitHub Pages 靜態讀取（無需 Vercel）
+# 定期將 Mouser / DigiKey 訂單寫入 data/order-cache/*.json，供 GitHub Pages 靜態讀取（無需 Vercel）
 name: Sync order cache
 
 on:
   schedule:
-    # 台灣時間約每日 00:30（UTC 前一日 16:30）
-    - cron: "30 16 * * *"
+    # 每 6 小時一次（UTC 整點：0、6、12、18；台灣時間約 08:00、14:00、20:00、次日 02:00）
+    - cron: "0 */6 * * *"
   workflow_dispatch:
 
 permissions:
