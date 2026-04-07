@@ -1,5 +1,6 @@
 /**
  * 訂單靜態快取：寫入 data/order-cache/*.json（供 GitHub Pages 讀取）
+ * 含：mouser、digikey、meta、digikey-mylists（MyList 清單名稱，與訂單同一排程）
  * 本機：複製 .env.example → .env 後執行 node scripts/sync-order-cache.js
  * CI：由 .github/workflows/sync-order-cache.yml 以 Secrets 注入環境變數
  */
@@ -7,7 +8,11 @@
 
 const fs = require('fs');
 const path = require('path');
-const { handleMouserByDateRange, handleDigikeyOrders } = require('../lib/orderProxyCore');
+const {
+  handleMouserByDateRange,
+  handleDigikeyOrders,
+  handleDigikeyMyLists,
+} = require('../lib/orderProxyCore');
 
 function loadDotEnv() {
   try {
@@ -86,6 +91,11 @@ async function main() {
   const mouserOut = await safeOrderCall(() => handleMouserByDateRange(mouserParams), 'mouser');
   const digiOut = await safeOrderCall(() => handleDigikeyOrders(digiParams), 'digikey');
 
+  const mylistParams = new URLSearchParams();
+  mylistParams.set('limit', '50');
+  mylistParams.set('maxPages', '20');
+  const mylistsOut = await safeOrderCall(() => handleDigikeyMyLists(mylistParams), 'digikey-mylists');
+
   const meta = {
     generatedAt: new Date().toISOString(),
     range: {
@@ -96,10 +106,12 @@ async function main() {
     },
     mouser: { httpStatus: mouserOut.status, ok: mouserOut.status === 200 },
     digikey: { httpStatus: digiOut.status, ok: digiOut.status === 200 },
+    digikeyMylists: { httpStatus: mylistsOut.status, ok: mylistsOut.status === 200 },
   };
 
   fs.writeFileSync(path.join(outDir, 'mouser.json'), JSON.stringify(mouserOut.body, null, 2), 'utf8');
   fs.writeFileSync(path.join(outDir, 'digikey.json'), JSON.stringify(digiOut.body, null, 2), 'utf8');
+  fs.writeFileSync(path.join(outDir, 'digikey-mylists.json'), JSON.stringify(mylistsOut.body, null, 2), 'utf8');
   fs.writeFileSync(path.join(outDir, 'meta.json'), JSON.stringify(meta, null, 2), 'utf8');
 
   // eslint-disable-next-line no-console

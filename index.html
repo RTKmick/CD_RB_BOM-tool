@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- 版號請與 config.js 的 APP_RELEASE_LABEL 同步（下方 .app-version 內文、註解 RELEASE 方便搜尋） -->
-<!-- RELEASE: 潤鉑BOM+PCB_R1.5.2 -->
+<!-- RELEASE: 潤鉑BOM+PCB_R1.5.3 -->
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -290,7 +290,7 @@
   該面板的樣式請用 #panel-新功能id .類名 { } 包起來，避免與其他分頁衝突。切換邏輯已通用，無須改 JS。
 -->
 <nav class="main-tabs">
-    <span class="app-version">潤鉑BOM+PCB_R1.5.2</span>
+    <span class="app-version">潤鉑BOM+PCB_R1.5.3</span>
     <button type="button" class="tab active" data-tab="bom" aria-selected="true">
         <i class="fas fa-microchip"></i> BOM 旗艦備料
     </button>
@@ -477,7 +477,7 @@
             <input id="orderProjectMappingsFile" type="file" accept="application/json,.json" style="display:none;" />
             <div id="mapStatus" class="order-meta" style="margin-top:10px;"></div>
             <div class="digikey-mylists-wrap" style="margin-top:14px; padding-top:12px; border-top:1px dashed #cbd5e1;">
-                <div class="order-meta" style="margin-bottom:8px;">DigiKey <strong>MyList</strong>：從 API 讀取清單名稱（須後端代理；DigiKey Developer Portal 須為應用程式開通 <a href="https://developer.digikey.com/products/mylists/mylists" target="_blank" rel="noopener">MyLists API</a>）。<span style="color:#64748b;">僅用 GitHub Pages 靜態訂單快取時，若未在 config.js 填 ORDER_PROXY_BASE_URL，可不使用本按鈕。</span></div>
+                <div class="order-meta" style="margin-bottom:8px;">DigiKey <strong>MyList</strong>：預設讀 <code>data/order-cache/digikey-mylists.json</code>（與訂單同一排程同步）。DigiKey Developer Portal 須為應用程式開通 <a href="https://developer.digikey.com/products/mylists/mylists" target="_blank" rel="noopener">MyLists API</a>。<span style="color:#64748b;">若 <code>ORDER_USE_STATIC_CACHE: false</code> 改即時模式，則改走後端 <code>/api/digikey/mylists</code>。</span></div>
                 <button type="button" class="page-btn" onclick="fetchDigikeyMyLists()" style="border-radius:10px; padding:10px 14px;">讀取 MyList 名稱</button>
                 <div id="digikeyMylistsResult" style="margin-top:10px;"></div>
             </div>
@@ -1855,12 +1855,32 @@ function renderDigikeyMylistsResult(data) {
 function fetchDigikeyMyLists() {
     var box = document.getElementById('digikeyMylistsResult');
     if (box) box.innerHTML = '<div class="order-meta">讀取中…</div>';
+
+    if (orderUseStaticCache()) {
+        Promise.all([
+            fetchOrderCacheFile('meta').catch(function() { return {}; }),
+            fetchOrderCacheFile('digikey-mylists')
+        ]).then(function(arr) {
+            var meta = arr[0] || {};
+            var data = arr[1];
+            var when = meta && meta.generatedAt ? ('（快取更新：' + fmtDateTime(meta.generatedAt) + '）') : '';
+            var total = data && data.TotalFetched != null ? data.TotalFetched : (data && data.Lists ? data.Lists.length : 0);
+            setMapStatus('MyList 快取（共 ' + total + ' 筆）' + when);
+            renderDigikeyMylistsResult(data);
+        }).catch(function(err) {
+            console.error(err);
+            setMapStatus('MyList 快取讀取失敗：' + (err && err.message ? err.message : err) + '　請確認已執行 Actions「Sync order cache」且 repo 含 data/order-cache/digikey-mylists.json。');
+            if (box) box.innerHTML = '<div class="order-meta" style="color:#b91c1c;">無法載入快取</div>';
+        });
+        return;
+    }
+
     var proxyBase = getDigikeyMyListProxyBaseUrl();
     if (!proxyBase) {
         var h = (typeof window !== 'undefined' && window.location) ? String(window.location.hostname || '').toLowerCase() : '';
         if (h.endsWith('.github.io')) {
-            setMapStatus('MyList 須連線您自行部署的後端（GitHub Pages 無法直呼 DigiKey）。請在 config.js 設定 ORDER_PROXY_BASE_URL 為可開啟 /api/digikey/mylists 的 https 網址；若只使用上方靜態訂單快取、不需要帶入清單名稱，可略過此按鈕（訂單資料不受影響）。');
-            if (box) box.innerHTML = '<div class="order-meta" style="color:#64748b;">未設定代理時不會連線（可略過）</div>';
+            setMapStatus('即時 MyList 須在 config.js 設定 ORDER_PROXY_BASE_URL（靜態模式請勿關閉 ORDER_USE_STATIC_CACHE，或改讀快取檔）。');
+            if (box) box.innerHTML = '<div class="order-meta" style="color:#64748b;">未設定代理</div>';
         } else {
             var hint = (typeof CONFIG !== 'undefined' && CONFIG.ORDER_PROXY_SETUP_HINT) ? CONFIG.ORDER_PROXY_SETUP_HINT : CD_RB_ORDER_PROXY_HINT_DEFAULT;
             setMapStatus(hint);
@@ -1878,7 +1898,7 @@ function fetchDigikeyMyLists() {
     fetchOrderProxyJson(url, proxyBase)
         .then(function(data) {
             var total = data && data.TotalFetched != null ? data.TotalFetched : (data && data.Lists ? data.Lists.length : 0);
-            setMapStatus('MyList 已載入（共 ' + total + ' 筆）。');
+            setMapStatus('MyList 已載入（共 ' + total + ' 筆，即時）。');
             renderDigikeyMylistsResult(data);
         })
         .catch(function(err) {
