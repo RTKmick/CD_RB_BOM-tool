@@ -1,6 +1,14 @@
 {
-  "ok": true,
-  "Lists": [],
-  "TotalFetched": 0,
-  "_note": "由 GitHub Actions「Sync order cache」或 npm run sync-order-cache 覆寫；須開通 DigiKey MyLists API"
+  "ok": false,
+  "upstream": "digikey",
+  "step": "mylists",
+  "status": 401,
+  "body": {
+    "ErrorResponseVersion": "3.0.0.0",
+    "StatusCode": 401,
+    "ErrorMessage": "Invalid Client-Id",
+    "ErrorDetails": "You are not subscribed to this API. Please subscribe and try again.",
+    "RequestId": "78ad9a02-12a3-433e-a056-39c2ce3a102c",
+    "ValidationErrors": []
+  }
 }
