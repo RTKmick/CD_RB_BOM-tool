@@ -6,7 +6,7 @@ const CONFIG = {
      * 程式改版號：執行時以此為準（分頁標題、左上角版號）。
      * 若 config.js 未載入，會 fallback 到 index.html 內 <!-- RELEASE: ... --> 與 .app-version 內文，改版請三處一併更新以免誤會。
      */
-    APP_RELEASE_LABEL: "潤鉑BOM+PCB_R1.5.1",
+    APP_RELEASE_LABEL: "潤鉑BOM+PCB_R1.5.2",
 
     /**
      * 訂料追蹤（Mouser / DigiKey）與「讀取 MyList 名稱」：皆須可連線的後端代理（勿結尾斜線）

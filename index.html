@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- 版號請與 config.js 的 APP_RELEASE_LABEL 同步（下方 .app-version 內文、註解 RELEASE 方便搜尋） -->
-<!-- RELEASE: 潤鉑BOM+PCB_R1.5.1 -->
+<!-- RELEASE: 潤鉑BOM+PCB_R1.5.2 -->
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -290,7 +290,7 @@
   該面板的樣式請用 #panel-新功能id .類名 { } 包起來，避免與其他分頁衝突。切換邏輯已通用，無須改 JS。
 -->
 <nav class="main-tabs">
-    <span class="app-version">潤鉑BOM+PCB_R1.5.1</span>
+    <span class="app-version">潤鉑BOM+PCB_R1.5.2</span>
     <button type="button" class="tab active" data-tab="bom" aria-selected="true">
         <i class="fas fa-microchip"></i> BOM 旗艦備料
     </button>
@@ -477,7 +477,7 @@
             <input id="orderProjectMappingsFile" type="file" accept="application/json,.json" style="display:none;" />
             <div id="mapStatus" class="order-meta" style="margin-top:10px;"></div>
             <div class="digikey-mylists-wrap" style="margin-top:14px; padding-top:12px; border-top:1px dashed #cbd5e1;">
-                <div class="order-meta" style="margin-bottom:8px;">DigiKey <strong>MyList</strong>：從 API 讀取清單名稱（須後端代理；DigiKey Developer Portal 須為應用程式開通 <a href="https://developer.digikey.com/products/mylists/mylists" target="_blank" rel="noopener">MyLists API</a>）</div>
+                <div class="order-meta" style="margin-bottom:8px;">DigiKey <strong>MyList</strong>：從 API 讀取清單名稱（須後端代理；DigiKey Developer Portal 須為應用程式開通 <a href="https://developer.digikey.com/products/mylists/mylists" target="_blank" rel="noopener">MyLists API</a>）。<span style="color:#64748b;">僅用 GitHub Pages 靜態訂單快取時，若未在 config.js 填 ORDER_PROXY_BASE_URL，可不使用本按鈕。</span></div>
                 <button type="button" class="page-btn" onclick="fetchDigikeyMyLists()" style="border-radius:10px; padding:10px 14px;">讀取 MyList 名稱</button>
                 <div id="digikeyMylistsResult" style="margin-top:10px;"></div>
             </div>
@@ -1592,6 +1592,18 @@ function getOrderProxyBaseUrl() {
     return '';
 }
 
+/**
+ * MyList 專用：在 *.github.io 且未手動填 ORDER_PROXY_BASE_URL 時不猜測 Vercel，避免連到未部署網址。
+ * 本機／整站架在 *.vercel.app 時仍沿用 getOrderProxyBaseUrl()。
+ */
+function getDigikeyMyListProxyBaseUrl() {
+    var explicit = (typeof CONFIG !== 'undefined' && CONFIG.ORDER_PROXY_BASE_URL) ? String(CONFIG.ORDER_PROXY_BASE_URL).trim() : '';
+    if (explicit) return explicit.replace(/\/+$/g, '');
+    var h = (typeof window !== 'undefined' && window.location) ? String(window.location.hostname || '').toLowerCase() : '';
+    if (h.endsWith('.github.io')) return '';
+    return getOrderProxyBaseUrl();
+}
+
 /** GitHub Pages 且未手動填 ORDER_PROXY_BASE_URL 時，代理網址為依倉庫名推測；若從未在 Vercel 部署，該網址不存在。 */
 function orderProxyUsesGithubIoGuess() {
     var explicit = (typeof CONFIG !== 'undefined' && CONFIG.ORDER_PROXY_BASE_URL) ? String(CONFIG.ORDER_PROXY_BASE_URL).trim() : '';
@@ -1843,11 +1855,17 @@ function renderDigikeyMylistsResult(data) {
 function fetchDigikeyMyLists() {
     var box = document.getElementById('digikeyMylistsResult');
     if (box) box.innerHTML = '<div class="order-meta">讀取中…</div>';
-    var proxyBase = getOrderProxyBaseUrl();
+    var proxyBase = getDigikeyMyListProxyBaseUrl();
     if (!proxyBase) {
-        var hint = (typeof CONFIG !== 'undefined' && CONFIG.ORDER_PROXY_SETUP_HINT) ? CONFIG.ORDER_PROXY_SETUP_HINT : CD_RB_ORDER_PROXY_HINT_DEFAULT;
-        setMapStatus(hint);
-        if (box) box.innerHTML = '';
+        var h = (typeof window !== 'undefined' && window.location) ? String(window.location.hostname || '').toLowerCase() : '';
+        if (h.endsWith('.github.io')) {
+            setMapStatus('MyList 須連線您自行部署的後端（GitHub Pages 無法直呼 DigiKey）。請在 config.js 設定 ORDER_PROXY_BASE_URL 為可開啟 /api/digikey/mylists 的 https 網址；若只使用上方靜態訂單快取、不需要帶入清單名稱，可略過此按鈕（訂單資料不受影響）。');
+            if (box) box.innerHTML = '<div class="order-meta" style="color:#64748b;">未設定代理時不會連線（可略過）</div>';
+        } else {
+            var hint = (typeof CONFIG !== 'undefined' && CONFIG.ORDER_PROXY_SETUP_HINT) ? CONFIG.ORDER_PROXY_SETUP_HINT : CD_RB_ORDER_PROXY_HINT_DEFAULT;
+            setMapStatus(hint);
+            if (box) box.innerHTML = '';
+        }
         return;
     }
     var block = getOrderProxyMixedContentBlock(proxyBase);
