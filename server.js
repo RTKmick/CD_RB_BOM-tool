@@ -7,7 +7,7 @@
 
 const http = require('http');
 const { URL } = require('url');
-const { handleMouserByDateRange, handleDigikeyOrders, handleDigikeyMyLists } = require('./lib/orderProxyCore');
+const { handleMouserByDateRange, handleDigikeyOrders } = require('./lib/orderProxyCore');
 
 function loadDotEnv() {
   try {
@@ -93,11 +93,6 @@ const server = http.createServer(async (req, res) => {
 
     if (reqUrl.pathname === '/api/digikey/orders') {
       const out = await handleDigikeyOrders(reqUrl.searchParams);
-      return sendJson(res, out.status, out.body);
-    }
-
-    if (reqUrl.pathname === '/api/digikey/mylists') {
-      const out = await handleDigikeyMyLists(reqUrl.searchParams);
       return sendJson(res, out.status, out.body);
     }
 

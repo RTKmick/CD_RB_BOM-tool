@@ -13,9 +13,5 @@
   "digikey": {
     "httpStatus": 200,
     "ok": true
-  },
-  "digikeyMylists": {
-    "httpStatus": 401,
-    "ok": false
   }
 }
