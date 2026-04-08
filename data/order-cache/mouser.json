@@ -1,7 +1,87 @@
 {
   "Errors": [],
-  "NumberOfOrders": 7,
+  "NumberOfOrders": 8,
   "OrderHistoryItems": [
+    {
+      "DateCreated": "2026-04-08T00:00:00",
+      "SalesOrderNumber": "279559605",
+      "WebOrderNumber": "38820007",
+      "PoNumber": "38820007",
+      "BuyerName": "CHIN-KUN WEN",
+      "OrderStatusDisplay": "Warehouse Processing",
+      "OrderLineItems": [
+        {
+          "Quantity": 250,
+          "UnitPrice": 3.15,
+          "ExtPrice": 787.5,
+          "FormattedUnitPrice": "$3.15",
+          "FormattedExtendedPrice": "$787.50",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "895-FT232RNL-REEL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "FTDI",
+            "ManufacturerPartNumber": "FT232RNL-REEL",
+            "PartDescription": "USB Interface IC USB Interface IC USB Full Speed to Serial UART IC, Includes Oscillator and EEPROM, SSOP-28"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "USB Interface IC USB Interface IC USB Full Speed to Serial UART IC, Includes Oscillator and EEPROM, SSOP-28",
+          "ManufacturerPartNumber": "FT232RNL-REEL",
+          "MouserPartNumber": "895-FT232RNL-REEL"
+        }
+      ],
+      "OrderDate": "2026-04-08T00:00:00",
+      "CurrencyCode": "USD",
+      "OrderLines": [
+        {
+          "Quantity": 250,
+          "UnitPrice": 3.15,
+          "ExtPrice": 787.5,
+          "FormattedUnitPrice": "$3.15",
+          "FormattedExtendedPrice": "$787.50",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "895-FT232RNL-REEL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "FTDI",
+            "ManufacturerPartNumber": "FT232RNL-REEL",
+            "PartDescription": "USB Interface IC USB Interface IC USB Full Speed to Serial UART IC, Includes Oscillator and EEPROM, SSOP-28"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "USB Interface IC USB Interface IC USB Full Speed to Serial UART IC, Includes Oscillator and EEPROM, SSOP-28",
+          "ManufacturerPartNumber": "FT232RNL-REEL",
+          "MouserPartNumber": "895-FT232RNL-REEL"
+        }
+      ],
+      "SalesOrderId": "279559605",
+      "WebOrderId": 38820007,
+      "OrderStatus": 22,
+      "OrderStatusName": "Warehouse Processing",
+      "IsScheduled": false,
+      "IsPendingOrder": false
+    },
     {
       "DateCreated": "2026-03-19T00:00:00",
       "SalesOrderNumber": "279268524",
