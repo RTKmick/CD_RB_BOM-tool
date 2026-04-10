@@ -8,7 +8,7 @@
       "WebOrderNumber": "38820007",
       "PoNumber": "38820007",
       "BuyerName": "CHIN-KUN WEN",
-      "OrderStatusDisplay": "Preparing Shipment",
+      "OrderStatusDisplay": "Complete",
       "OrderLineItems": [
         {
           "Quantity": 250,
@@ -32,8 +32,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 89719732,
+              "Date": "2026-04-09T00:00:00"
             }
           ],
           "PartDescription": "USB Interface IC USB Interface IC USB Full Speed to Serial UART IC, Includes Oscillator and EEPROM, SSOP-28",
@@ -66,8 +66,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 89719732,
+              "Date": "2026-04-09T00:00:00"
             }
           ],
           "PartDescription": "USB Interface IC USB Interface IC USB Full Speed to Serial UART IC, Includes Oscillator and EEPROM, SSOP-28",
@@ -77,8 +77,8 @@
       ],
       "SalesOrderId": "279559605",
       "WebOrderId": 38820007,
-      "OrderStatus": 32,
-      "OrderStatusName": "Preparing Shipment",
+      "OrderStatus": 30,
+      "OrderStatusName": "Complete",
       "IsScheduled": false,
       "IsPendingOrder": false
     },
