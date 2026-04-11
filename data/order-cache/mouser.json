@@ -856,7 +856,267 @@
       "WebOrderNumber": "38420388",
       "PoNumber": "38420388",
       "BuyerName": "CHIN-KUN WEN",
-      "OrderStatusDisplay": "Complete"
+      "OrderStatusDisplay": "Complete",
+      "OrderLineItems": [
+        {
+          "Quantity": 25,
+          "UnitPrice": 0.007,
+          "ExtPrice": 0.18,
+          "FormattedUnitPrice": "$0.007",
+          "FormattedExtendedPrice": "$0.18",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RC0402FR-074K32L",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RC0402FR-074K32L",
+            "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0402, 4.32kOhms, 1%, 1/16W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89042103,
+              "Date": "2026-03-04T00:00:00"
+            }
+          ],
+          "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0402, 4.32kOhms, 1%, 1/16W",
+          "ManufacturerPartNumber": "RC0402FR-074K32L",
+          "MouserPartNumber": "603-RC0402FR-074K32L"
+        },
+        {
+          "Quantity": 1000,
+          "UnitPrice": 0.413,
+          "ExtPrice": 47.5,
+          "FormattedUnitPrice": "$0.413",
+          "FormattedExtendedPrice": "$413.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "595-TLV70218DBVT",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Texas Instruments",
+            "ManufacturerPartNumber": "TLV70218DBVT",
+            "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 300mALow IQLDO Reg A 595-TLV70218DBVR A A 595-TLV70218DBVR"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89042103,
+              "Date": "2026-03-04T00:00:00"
+            },
+            {
+              "InvoiceNumber": 89368617,
+              "Date": "2026-03-20T00:00:00"
+            }
+          ],
+          "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 300mALow IQLDO Reg A 595-TLV70218DBVR A A 595-TLV70218DBVR",
+          "ManufacturerPartNumber": "TLV70218DBVT",
+          "MouserPartNumber": "595-TLV70218DBVT"
+        },
+        {
+          "Quantity": 25,
+          "UnitPrice": 1.89,
+          "ExtPrice": 47.25,
+          "FormattedUnitPrice": "$1.89",
+          "FormattedExtendedPrice": "$47.25",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "562-3025033-01",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Qualtek",
+            "ManufacturerPartNumber": "3025033-01",
+            "PartDescription": "USB Cables / IEEE 1394 Cables USB Cables / IEEE 1394 Cables USB 2.0 A Male to USB 2.0 Micro B Male, Black color, 28/28AWG, 1FT Length"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89042103,
+              "Date": "2026-03-04T00:00:00"
+            }
+          ],
+          "PartDescription": "USB Cables / IEEE 1394 Cables USB Cables / IEEE 1394 Cables USB 2.0 A Male to USB 2.0 Micro B Male, Black color, 28/28AWG, 1FT Length",
+          "ManufacturerPartNumber": "3025033-01",
+          "MouserPartNumber": "562-3025033-01"
+        },
+        {
+          "Quantity": 500,
+          "UnitPrice": 0.012,
+          "ExtPrice": 6,
+          "FormattedUnitPrice": "$0.012",
+          "FormattedExtendedPrice": "$6.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RC1206JR-070RL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RC1206JR-070RL",
+            "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 1206, 0Ohms, 5%, 1/4W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89042103,
+              "Date": "2026-03-04T00:00:00"
+            }
+          ],
+          "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 1206, 0Ohms, 5%, 1/4W",
+          "ManufacturerPartNumber": "RC1206JR-070RL",
+          "MouserPartNumber": "603-RC1206JR-070RL"
+        }
+      ],
+      "OrderDate": "2026-03-01T00:00:00",
+      "CurrencyCode": "USD",
+      "OrderLines": [
+        {
+          "Quantity": 25,
+          "UnitPrice": 0.007,
+          "ExtPrice": 0.18,
+          "FormattedUnitPrice": "$0.007",
+          "FormattedExtendedPrice": "$0.18",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RC0402FR-074K32L",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RC0402FR-074K32L",
+            "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0402, 4.32kOhms, 1%, 1/16W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89042103,
+              "Date": "2026-03-04T00:00:00"
+            }
+          ],
+          "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0402, 4.32kOhms, 1%, 1/16W",
+          "ManufacturerPartNumber": "RC0402FR-074K32L",
+          "MouserPartNumber": "603-RC0402FR-074K32L"
+        },
+        {
+          "Quantity": 1000,
+          "UnitPrice": 0.413,
+          "ExtPrice": 47.5,
+          "FormattedUnitPrice": "$0.413",
+          "FormattedExtendedPrice": "$413.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "595-TLV70218DBVT",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Texas Instruments",
+            "ManufacturerPartNumber": "TLV70218DBVT",
+            "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 300mALow IQLDO Reg A 595-TLV70218DBVR A A 595-TLV70218DBVR"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89042103,
+              "Date": "2026-03-04T00:00:00"
+            },
+            {
+              "InvoiceNumber": 89368617,
+              "Date": "2026-03-20T00:00:00"
+            }
+          ],
+          "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 300mALow IQLDO Reg A 595-TLV70218DBVR A A 595-TLV70218DBVR",
+          "ManufacturerPartNumber": "TLV70218DBVT",
+          "MouserPartNumber": "595-TLV70218DBVT"
+        },
+        {
+          "Quantity": 25,
+          "UnitPrice": 1.89,
+          "ExtPrice": 47.25,
+          "FormattedUnitPrice": "$1.89",
+          "FormattedExtendedPrice": "$47.25",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "562-3025033-01",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Qualtek",
+            "ManufacturerPartNumber": "3025033-01",
+            "PartDescription": "USB Cables / IEEE 1394 Cables USB Cables / IEEE 1394 Cables USB 2.0 A Male to USB 2.0 Micro B Male, Black color, 28/28AWG, 1FT Length"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89042103,
+              "Date": "2026-03-04T00:00:00"
+            }
+          ],
+          "PartDescription": "USB Cables / IEEE 1394 Cables USB Cables / IEEE 1394 Cables USB 2.0 A Male to USB 2.0 Micro B Male, Black color, 28/28AWG, 1FT Length",
+          "ManufacturerPartNumber": "3025033-01",
+          "MouserPartNumber": "562-3025033-01"
+        },
+        {
+          "Quantity": 500,
+          "UnitPrice": 0.012,
+          "ExtPrice": 6,
+          "FormattedUnitPrice": "$0.012",
+          "FormattedExtendedPrice": "$6.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RC1206JR-070RL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RC1206JR-070RL",
+            "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 1206, 0Ohms, 5%, 1/4W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 89042103,
+              "Date": "2026-03-04T00:00:00"
+            }
+          ],
+          "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 1206, 0Ohms, 5%, 1/4W",
+          "ManufacturerPartNumber": "RC1206JR-070RL",
+          "MouserPartNumber": "603-RC1206JR-070RL"
+        }
+      ],
+      "SalesOrderId": "278965565",
+      "WebOrderId": 38420388,
+      "OrderStatus": 30,
+      "OrderStatusName": "Complete",
+      "IsScheduled": false,
+      "IsPendingOrder": false
     },
     {
       "DateCreated": "2026-02-28T00:00:00",
@@ -880,7 +1140,259 @@
       "WebOrderNumber": "38251034",
       "PoNumber": "38251034",
       "BuyerName": "CHIN-KUN WEN",
-      "OrderStatusDisplay": "Backordered"
+      "OrderStatusDisplay": "Backordered",
+      "OrderLineItems": [
+        {
+          "Quantity": 250,
+          "UnitPrice": 0.022,
+          "ExtPrice": 5.5,
+          "FormattedUnitPrice": "$0.022",
+          "FormattedExtendedPrice": "$5.50",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "652-CAY10A-104J4LF",
+            "CustomerPartNumber": "26",
+            "ManufacturerName": "Bourns",
+            "ManufacturerPartNumber": "CAY10A-104J4LF",
+            "PartDescription": "Resistor Networks & Arrays Resistor Networks & Arrays 100K  5% CONVEX  SQUARE 4X0402"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 88796618,
+              "Date": "2026-02-13T00:00:00"
+            }
+          ],
+          "PartDescription": "Resistor Networks & Arrays Resistor Networks & Arrays 100K  5% CONVEX  SQUARE 4X0402",
+          "ManufacturerPartNumber": "CAY10A-104J4LF",
+          "MouserPartNumber": "652-CAY10A-104J4LF"
+        },
+        {
+          "Quantity": 121,
+          "UnitPrice": 1.65,
+          "ExtPrice": 199.65,
+          "FormattedUnitPrice": "$1.65",
+          "FormattedExtendedPrice": "$199.65",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "595-LVC16T245DGGRE4",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Texas Instruments",
+            "ManufacturerPartNumber": "74LVC16T245DGGRE4",
+            "PartDescription": "Translation - Voltage Levels Translation - Voltage Levels 16B Bus Trans & Reg A 595-SN74LC16T245DG A 595-SN74LC16T245DGGR"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 88796618,
+              "Date": "2026-02-13T00:00:00"
+            }
+          ],
+          "PartDescription": "Translation - Voltage Levels Translation - Voltage Levels 16B Bus Trans & Reg A 595-SN74LC16T245DG A 595-SN74LC16T245DGGR",
+          "ManufacturerPartNumber": "74LVC16T245DGGRE4",
+          "MouserPartNumber": "595-LVC16T245DGGRE4"
+        },
+        {
+          "Quantity": 31,
+          "UnitPrice": 20.22,
+          "ExtPrice": 626.82,
+          "FormattedUnitPrice": "$20.22",
+          "FormattedExtendedPrice": "$0.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "584-AD5664RBRMZ-5",
+            "CustomerPartNumber": "35",
+            "ManufacturerName": "Analog Devices Inc.",
+            "ManufacturerPartNumber": "AD5664RBRMZ-5",
+            "PartDescription": "Digital to Analog Converters - DAC Digital to Analog Converters - DAC Quad 5V 16bit SPI DAC with reference"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": "2026-02-12T00:00:00"
+            }
+          ],
+          "PartDescription": "Digital to Analog Converters - DAC Digital to Analog Converters - DAC Quad 5V 16bit SPI DAC with reference",
+          "ManufacturerPartNumber": "AD5664RBRMZ-5",
+          "MouserPartNumber": "584-AD5664RBRMZ-5"
+        },
+        {
+          "Quantity": 61,
+          "UnitPrice": 1.13,
+          "ExtPrice": 68.93,
+          "FormattedUnitPrice": "$1.13",
+          "FormattedExtendedPrice": "$68.93",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "771-74AVC16T245DG118",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Nexperia",
+            "ManufacturerPartNumber": "74AVC16T245DGG,118",
+            "PartDescription": "Translation - Voltage Levels Translation - Voltage Levels SOT362-1  DUAL SUPPLY TRANSCVR"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": "2026-05-11T00:00:00"
+            }
+          ],
+          "PartDescription": "Translation - Voltage Levels Translation - Voltage Levels SOT362-1  DUAL SUPPLY TRANSCVR",
+          "ManufacturerPartNumber": "74AVC16T245DGG,118",
+          "MouserPartNumber": "771-74AVC16T245DG118"
+        }
+      ],
+      "OrderDate": "2026-02-11T00:00:00",
+      "CurrencyCode": "USD",
+      "OrderLines": [
+        {
+          "Quantity": 250,
+          "UnitPrice": 0.022,
+          "ExtPrice": 5.5,
+          "FormattedUnitPrice": "$0.022",
+          "FormattedExtendedPrice": "$5.50",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "652-CAY10A-104J4LF",
+            "CustomerPartNumber": "26",
+            "ManufacturerName": "Bourns",
+            "ManufacturerPartNumber": "CAY10A-104J4LF",
+            "PartDescription": "Resistor Networks & Arrays Resistor Networks & Arrays 100K  5% CONVEX  SQUARE 4X0402"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 88796618,
+              "Date": "2026-02-13T00:00:00"
+            }
+          ],
+          "PartDescription": "Resistor Networks & Arrays Resistor Networks & Arrays 100K  5% CONVEX  SQUARE 4X0402",
+          "ManufacturerPartNumber": "CAY10A-104J4LF",
+          "MouserPartNumber": "652-CAY10A-104J4LF"
+        },
+        {
+          "Quantity": 121,
+          "UnitPrice": 1.65,
+          "ExtPrice": 199.65,
+          "FormattedUnitPrice": "$1.65",
+          "FormattedExtendedPrice": "$199.65",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "595-LVC16T245DGGRE4",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Texas Instruments",
+            "ManufacturerPartNumber": "74LVC16T245DGGRE4",
+            "PartDescription": "Translation - Voltage Levels Translation - Voltage Levels 16B Bus Trans & Reg A 595-SN74LC16T245DG A 595-SN74LC16T245DGGR"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 88796618,
+              "Date": "2026-02-13T00:00:00"
+            }
+          ],
+          "PartDescription": "Translation - Voltage Levels Translation - Voltage Levels 16B Bus Trans & Reg A 595-SN74LC16T245DG A 595-SN74LC16T245DGGR",
+          "ManufacturerPartNumber": "74LVC16T245DGGRE4",
+          "MouserPartNumber": "595-LVC16T245DGGRE4"
+        },
+        {
+          "Quantity": 31,
+          "UnitPrice": 20.22,
+          "ExtPrice": 626.82,
+          "FormattedUnitPrice": "$20.22",
+          "FormattedExtendedPrice": "$0.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "584-AD5664RBRMZ-5",
+            "CustomerPartNumber": "35",
+            "ManufacturerName": "Analog Devices Inc.",
+            "ManufacturerPartNumber": "AD5664RBRMZ-5",
+            "PartDescription": "Digital to Analog Converters - DAC Digital to Analog Converters - DAC Quad 5V 16bit SPI DAC with reference"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": "2026-02-12T00:00:00"
+            }
+          ],
+          "PartDescription": "Digital to Analog Converters - DAC Digital to Analog Converters - DAC Quad 5V 16bit SPI DAC with reference",
+          "ManufacturerPartNumber": "AD5664RBRMZ-5",
+          "MouserPartNumber": "584-AD5664RBRMZ-5"
+        },
+        {
+          "Quantity": 61,
+          "UnitPrice": 1.13,
+          "ExtPrice": 68.93,
+          "FormattedUnitPrice": "$1.13",
+          "FormattedExtendedPrice": "$68.93",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "771-74AVC16T245DG118",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Nexperia",
+            "ManufacturerPartNumber": "74AVC16T245DGG,118",
+            "PartDescription": "Translation - Voltage Levels Translation - Voltage Levels SOT362-1  DUAL SUPPLY TRANSCVR"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": "2026-05-11T00:00:00"
+            }
+          ],
+          "PartDescription": "Translation - Voltage Levels Translation - Voltage Levels SOT362-1  DUAL SUPPLY TRANSCVR",
+          "ManufacturerPartNumber": "74AVC16T245DGG,118",
+          "MouserPartNumber": "771-74AVC16T245DG118"
+        }
+      ],
+      "SalesOrderId": "278710683",
+      "WebOrderId": 38251034,
+      "OrderStatus": 25,
+      "OrderStatusName": "Backordered",
+      "IsScheduled": false,
+      "IsPendingOrder": false
     }
   ]
 }
