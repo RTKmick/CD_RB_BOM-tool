@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- 版號請與 config.js 的 APP_RELEASE_LABEL 同步（下方 .app-version 內文、註解 RELEASE 方便搜尋） -->
-<!-- RELEASE: 潤鉑BOM+PCB_R1.5.5 -->
+<!-- RELEASE: 潤鉑BOM+PCB_R1.5.6 -->
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -289,7 +289,7 @@
   該面板的樣式請用 #panel-新功能id .類名 { } 包起來，避免與其他分頁衝突。切換邏輯已通用，無須改 JS。
 -->
 <nav class="main-tabs">
-    <span class="app-version">潤鉑BOM+PCB_R1.5.5</span>
+    <span class="app-version">潤鉑BOM+PCB_R1.5.6</span>
     <button type="button" class="tab active" data-tab="bom" aria-selected="true">
         <i class="fas fa-microchip"></i> BOM 旗艦備料
     </button>
@@ -1146,8 +1146,9 @@ function translateOrderStatus(provider, status) {
     if (!raw) return '';
     var up = raw.toUpperCase();
     if (provider === 'mouser' && (up === 'COMPLETE' || up === 'COMPLETED')) return '訂單已出貨';
-    /* DigiKey：Received 與 Shipped 皆顯示「訂單已出貨」並用綠色樣式（與網站常用檢視一致） */
-    if (provider === 'digikey' && (up === 'SHIPPED' || up === 'RECEIVED')) return '訂單已出貨';
+    /* DigiKey：Received＝已收單審核中（與真正出貨 Shipped 區分，避免誤顯「已出貨」） */
+    if (provider === 'digikey' && up === 'RECEIVED') return '已收單（審核中）';
+    if (provider === 'digikey' && up === 'SHIPPED') return '訂單已出貨';
     if (up.indexOf('CANCEL') !== -1) return '已取消';
     if (up.indexOf('BACKORDER') !== -1 || up.indexOf('BACK ORDER') !== -1) return '缺貨待補';
     if (up.indexOf('PARTIAL') !== -1) return '部分出貨';
@@ -1230,61 +1231,110 @@ function fmtDateTime(s) {
     return d.toLocaleString();
 }
 
-/** DigiKey：彙整 SalesOrder 內品項之追蹤號（DHL／FedEx 等） */
+/** DigiKey：彙整 tracking number（ItemShipments、SO 層級欄位、常見別名） */
 function digikeyCollectSalesOrderTracking(so) {
     var tracks = [];
     var seen = {};
-    var lineItems = so && Array.isArray(so.LineItems) ? so.LineItems : [];
+    function add(t) {
+        var s = t != null ? String(t).trim() : '';
+        if (!s || seen[s]) return;
+        seen[s] = 1;
+        tracks.push(s);
+    }
+    if (!so || typeof so !== 'object') return '';
+    add(so.TrackingNumber);
+    add(so.ShipmentTrackingNumber);
+    add(so.PrimaryTrackingNumber);
+    if (Array.isArray(so.TrackingNumbers)) {
+        var k;
+        for (k = 0; k < so.TrackingNumbers.length; k++) add(so.TrackingNumbers[k]);
+    }
+    if (Array.isArray(so.Shipments)) {
+        var s;
+        for (s = 0; s < so.Shipments.length; s++) {
+            var sh0 = so.Shipments[s];
+            if (!sh0) continue;
+            add(sh0.TrackingNumber);
+            add(sh0.TrackingId);
+        }
+    }
+    var lineItems = Array.isArray(so.LineItems) ? so.LineItems : [];
     var i;
     var j;
     for (i = 0; i < lineItems.length; i++) {
         var li = lineItems[i];
-        if (!li || !Array.isArray(li.ItemShipments)) continue;
+        if (!li) continue;
+        add(li.TrackingNumber);
+        add(li.CarrierTrackingNumber);
+        if (!Array.isArray(li.ItemShipments)) continue;
         for (j = 0; j < li.ItemShipments.length; j++) {
             var sh = li.ItemShipments[j];
-            var t = sh && sh.TrackingNumber != null ? String(sh.TrackingNumber).trim() : '';
-            if (t && !seen[t]) {
-                seen[t] = 1;
-                tracks.push(t);
-            }
+            add(sh && sh.TrackingNumber);
+            add(sh && sh.TrackingId);
         }
     }
     return tracks.length ? tracks.join('、') : '';
 }
 
-/** API 回傳 TotalPrice 為 0 時，以品項 UnitPrice×數量加總估算小計 */
-function digikeySalesOrderSubtotal(so) {
-    if (!so || typeof so !== 'object') return null;
-    var tp = so.TotalPrice;
-    if (tp != null && tp !== '' && !Number.isNaN(Number(tp)) && Number(tp) !== 0) return Number(tp);
-    var lineItems = Array.isArray(so.LineItems) ? so.LineItems : [];
+function digikeyMerchandiseEstimateSo(so) {
     var sum = 0;
+    var lineItems = so && Array.isArray(so.LineItems) ? so.LineItems : [];
     var i;
     for (i = 0; i < lineItems.length; i++) {
         var li = lineItems[i];
         if (!li) continue;
-        var lineTotal = li.TotalPrice;
-        if (lineTotal != null && lineTotal !== '' && !Number.isNaN(Number(lineTotal)) && Number(lineTotal) !== 0) {
-            sum += Number(lineTotal);
-            continue;
-        }
-        var unit = li.UnitPrice != null ? Number(li.UnitPrice) : 0;
-        if (Number.isNaN(unit) || unit === 0) continue;
-        var qOrd = li.QuantityOrdered != null ? Number(li.QuantityOrdered) : 0;
-        var qInit = li.QuantityInitialRequested != null ? Number(li.QuantityInitialRequested) : 0;
-        var q = !Number.isNaN(qOrd) && qOrd > 0 ? qOrd : qInit;
+        var unit = li.UnitPrice != null ? Number(li.UnitPrice) : NaN;
+        if (Number.isNaN(unit)) continue;
+        var q = li.QuantityInitialRequested != null ? Number(li.QuantityInitialRequested) : NaN;
+        if (Number.isNaN(q) || q <= 0) q = li.QuantityOrdered != null ? Number(li.QuantityOrdered) : 0;
         if (!Number.isNaN(q) && q > 0) sum += unit * q;
     }
-    if (sum > 0) return sum;
-    if (tp != null && tp !== '' && !Number.isNaN(Number(tp))) return Number(tp);
-    return 0;
+    return Math.round(sum * 100) / 100;
+}
+
+function digikeySalesOrderCommittedTotal(so) {
+    if (!so || typeof so !== 'object') return 0;
+    var tp = so.TotalPrice != null ? Number(so.TotalPrice) : NaN;
+    if (!Number.isNaN(tp) && tp > 0) return tp;
+    var sum = 0;
+    var lineItems = Array.isArray(so.LineItems) ? so.LineItems : [];
+    var i;
+    for (i = 0; i < lineItems.length; i++) {
+        var li = lineItems[i];
+        if (!li) continue;
+        var lt = li.TotalPrice != null ? Number(li.TotalPrice) : NaN;
+        if (!Number.isNaN(lt) && lt !== 0) sum += lt;
+    }
+    return sum > 0 ? sum : 0;
+}
+
+/**
+ * 小計：已出貨以 API TotalPrice／行小計為準；
+ * Received/處理中若「需求數×單價」明顯大於已確認金額，改顯示估計（與官網報價較接近）。
+ */
+function digikeySalesOrderAmountDisplay(so, orderStatusShort) {
+    var committed = digikeySalesOrderCommittedTotal(so);
+    var est = digikeyMerchandiseEstimateSo(so);
+    var st = String(orderStatusShort || '').toUpperCase();
+    var preShip =
+        st.indexOf('RECEIVED') !== -1 ||
+        st.indexOf('PROCESS') !== -1 ||
+        st.indexOf('PENDING') !== -1 ||
+        st.indexOf('OPEN') !== -1 ||
+        st.indexOf('BACK') !== -1;
+    if (preShip && est > committed + 0.02) {
+        return { amount: est, hint: '（需求數×單價估計；審核／出貨後以官網為準）' };
+    }
+    if (committed > 0) return { amount: committed, hint: '' };
+    if (est > 0) return { amount: est, hint: '（估計）' };
+    return { amount: 0, hint: '' };
 }
 
 function digikeyStatusClass(status) {
     var st = String(status || "").toUpperCase();
     if (st.indexOf("PROCESS") !== -1) return "ob-processing";
+    if (st === "RECEIVED") return "ob-processing";
     if (st.indexOf("SHIP") !== -1) return "ob-shipped";
-    if (st === "RECEIVED") return "ob-shipped";
     return "ob-other";
 }
 
@@ -1350,12 +1400,14 @@ function renderDigikeyOrders(data) {
             var dkZh = translateOrderStatus('digikey', status);
             html += '      <span class="ob ' + digikeyStatusClass(status) + '" title="' + escapeOrderHtml(status) + '">' + escapeOrderHtml(dkZh || status) + '</span>';
         }
-        if (currency) html += '      <span class="ob ob-other">' + String(currency) + '</span>';
+        var badgeDkProject = String(mapInitDk || projectHeaderText || '').trim();
+        if (badgeDkProject) {
+            html += '      <span class="ob ob-other" title="專案對照">專案：' + escapeOrderHtml(badgeDkProject) + '</span>';
+        } else if (currency) {
+            html += '      <span class="ob ob-other">' + String(currency) + '</span>';
+        }
         html += '    </div>';
         html += '  </div>';
-        if (projectHeaderText) {
-            html += '  <div class="order-dk-project-strip" aria-label="專案代號"><span class="order-dk-project-label">專案</span><span class="order-dk-project-text">' + escapeOrderHtml(projectHeaderText) + '</span></div>';
-        }
 
         if (salesOrders.length) {
             html += '  <details open>';
@@ -1366,9 +1418,11 @@ function renderDigikeyOrders(data) {
                 var soStatusObj = so.Status || {};
                 var soStatus = soStatusObj.ShortDescription || soStatusObj.SalesOrderStatus || '';
                 var shipMethod = so.ShipMethod || '';
-                var soSubNum = digikeySalesOrderSubtotal(so);
-                var soSubStr = soSubNum != null && !Number.isNaN(soSubNum) ? fmtMoney(soSubNum) : '-';
+                var amtDisp = digikeySalesOrderAmountDisplay(so, soStatus);
+                var soSubStr = amtDisp.amount > 0 ? fmtMoney(amtDisp.amount) : '-';
+                var amtHint = amtDisp.hint ? ('<span style="color:#64748b;font-size:12px;">' + escapeOrderHtml(amtDisp.hint) + '</span>') : '';
                 var trackSo = digikeyCollectSalesOrderTracking(so);
+                var trackMissingTitle = ' title="出貨並建立運單後才有 tracking；API 若無 ItemShipments／SO 追蹤欄位則無法顯示"';
 
                 html += '    <div class="li">';
                 var soZh = soStatus ? translateOrderStatus('digikey', soStatus) : '';
@@ -1376,7 +1430,7 @@ function renderDigikeyOrders(data) {
                 html += '      <div class="li-title">SalesOrderId：' + (soId || '-') +
                     (showProjectInLine ? ('　<span class="li-project-dk-mark">專案：' + escapeOrderHtml(projectCode) + '</span>') : '') +
                     (soStatus ? ('　|　' + escapeOrderHtml(soZh || soStatus)) : '') + '</div>';
-                html += '      <div class="li-sub">出貨方式：' + (shipMethod || '-') + '　|　小計：' + soSubStr + (currency ? (' ' + currency) : '') + '　|　追蹤號：' + (trackSo ? ('<code>' + escapeOrderHtml(trackSo) + '</code>') : '—') + '</div>';
+                html += '      <div class="li-sub">出貨方式：' + (shipMethod || '-') + '　|　小計：' + soSubStr + (currency ? (' ' + currency) : '') + (amtHint ? (' ' + amtHint) : '') + '　|　tracking number：' + (trackSo ? ('<code>' + escapeOrderHtml(trackSo) + '</code>') : ('<span' + trackMissingTitle + '>—</span>')) + '</div>';
 
                 var lineItems = Array.isArray(so.LineItems) ? so.LineItems : [];
                 if (lineItems.length) {
@@ -1396,7 +1450,7 @@ function renderDigikeyOrders(data) {
                         html += '        <div class="li" style="background:#f8fafc;">';
                         html += '          <div class="li-title">' + (desc ? String(desc) : '(無描述)') + '</div>';
                         html += '          <div class="li-sub">DKPN：<code>' + String(dkpn) + '</code>　MPN：<code>' + String(mpn) + '</code></div>';
-                        html += '          <div class="li-sub">數量：需求 ' + String(qReq) + ' / 訂購 ' + String(qOrd) + ' / 已出 ' + String(qShip) + (track ? ('　|　追蹤號：<code>' + String(track) + '</code>') : '') + '</div>';
+                        html += '          <div class="li-sub">數量：需求 ' + String(qReq) + ' / 訂購 ' + String(qOrd) + ' / 已出 ' + String(qShip) + (track ? ('　|　tracking number：<code>' + String(track) + '</code>') : '') + '</div>';
                         html += '        </div>';
                     });
                     html += '      </details>';
@@ -1488,6 +1542,33 @@ function mouserLineTrack(li) {
     ], 3);
 }
 
+/** 訂單層級：Order History 摘要常不含追蹤，盡量掃 Shipments／巢狀常見欄位 */
+function mouserOrderHeaderTracking(it) {
+    if (!it || typeof it !== 'object') return '';
+    var keys = [
+        'ShipToTrackingNumber', 'TrackingNumber', 'Tracking', 'PackageTrackingNumber', 'CarrierTrackingNumber',
+        'ShipmentTrackingNumber', 'TrackingId', 'ProNumber', 'WaybillNumber', 'ShipmentTracking', 'TrackingNo'
+    ];
+    var k;
+    var t;
+    for (k = 0; k < keys.length; k++) {
+        t = it[keys[k]];
+        if (t != null && String(t).trim()) return String(t).trim();
+    }
+    var arrNames = ['Shipments', 'OrderShipments', 'ShipmentDetails', 'Packages'];
+    var a;
+    var i;
+    for (a = 0; a < arrNames.length; a++) {
+        var arr = it[arrNames[a]];
+        if (!Array.isArray(arr)) continue;
+        for (i = 0; i < arr.length; i++) {
+            var sub = mouserOrderHeaderTracking(arr[i]);
+            if (sub) return sub;
+        }
+    }
+    return '';
+}
+
 function mouserLineStatus(li) {
     return mouserScalarFromLine(li, [
         'OrderLineStatus', 'LineStatus', 'Status', 'StatusDisplay', 'OrderStatus', 'ItemStatus', 'LineItemStatus',
@@ -1570,7 +1651,7 @@ function renderMouserOrders(data) {
             it.OrderStatusDisplay || it.StatusDisplay || it["訂單狀態顯示"] || it["狀態顯示"] || '';
         var project = resolveProjectCodeFromMouser(it);
         var shipDate = it.ShipDate || it.ShippedDate || it.ShipToDate || '';
-        var track = it.ShipToTrackingNumber || it.TrackingNumber || it.Tracking || '';
+        var track = mouserOrderHeaderTracking(it) || it.ShipToTrackingNumber || it.TrackingNumber || it.Tracking || '';
         var orderTotal = it.OrderTotal != null ? it.OrderTotal : (it.TotalAmount != null ? it.TotalAmount : it.CurrencyTotal);
         var currency = it.CurrencyCode || it.Currency || it.OrderCurrency || '';
         var lines = mouserLineItemsFromItem(it);
@@ -1597,13 +1678,14 @@ function renderMouserOrders(data) {
             var mz = translateOrderStatus('mouser', status);
             html += '      <span class="ob ' + digikeyStatusClass(status) + '" title="' + escapeOrderHtml(status) + '">' + escapeOrderHtml(mz || status) + '</span>';
         }
-        if (project) html += '      <span class="ob ob-other">專案：' + escapeOrderHtml(project) + '</span>';
+        var badgeMzProject = String(mapInitMz || project || '').trim();
+        if (badgeMzProject) html += '      <span class="ob ob-other">專案：' + escapeOrderHtml(badgeMzProject) + '</span>';
         html += '    </div>';
         html += '  </div>';
 
         html += '  <div class="order-grid">';
         html += '    <div class="kv"><div class="k">Sales Order</div><div class="v">' + (sales ? escapeOrderHtml(sales) : '-') + '</div></div>';
-        html += '    <div class="kv"><div class="k">追蹤號</div><div class="v">' + (track ? ('<code>' + escapeOrderHtml(track) + '</code>') : '—') + '</div></div>';
+        html += '    <div class="kv"><div class="k">tracking number</div><div class="v">' + (track ? ('<code>' + escapeOrderHtml(track) + '</code>') : ('<span title="出貨後官網才有；Order History 摘要常不含物流欄位">—</span>')) + '</div></div>';
         if (shipDate) html += '    <div class="kv"><div class="k">出貨／相關日期</div><div class="v">' + fmtDateTime(shipDate) + '</div></div>';
         if (orderTotal != null && orderTotal !== '') {
             html += '    <div class="kv"><div class="k">訂單金額</div><div class="v">' + fmtMoney(orderTotal) + (currency ? (' ' + escapeOrderHtml(currency)) : '') + '</div></div>';
@@ -1627,7 +1709,7 @@ function renderMouserOrders(data) {
                     html += '      <div class="li-title">' + escapeOrderHtml(desc) + '</div>';
                 }
                 html += '      <div class="li-sub">Mouser：<code>' + escapeOrderHtml(mouserPn) + '</code>　MPN：<code>' + escapeOrderHtml(mpn) + '</code></div>';
-                html += '      <div class="li-sub">數量：' + escapeOrderHtml(qty !== '' ? qty : '-') + (lineTr ? ('　|　追蹤號：<code>' + escapeOrderHtml(lineTr) + '</code>') : '') + '</div>';
+                html += '      <div class="li-sub">數量：' + escapeOrderHtml(qty !== '' ? qty : '-') + (lineTr ? ('　|　tracking number：<code>' + escapeOrderHtml(lineTr) + '</code>') : '') + '</div>';
                 html += '    </div>';
             });
             if (cancelledLines.length) {
@@ -1645,7 +1727,7 @@ function renderMouserOrders(data) {
                         html += '        <div class="li-title">' + escapeOrderHtml(desc) + '</div>';
                     }
                     html += '        <div class="li-sub">Mouser：<code>' + escapeOrderHtml(mouserPn) + '</code>　MPN：<code>' + escapeOrderHtml(mpn) + '</code></div>';
-                    html += '        <div class="li-sub">數量：' + escapeOrderHtml(qty !== '' ? qty : '-') + (lineTr2 ? ('　|　追蹤號：<code>' + escapeOrderHtml(lineTr2) + '</code>') : '') + (st ? ('　|　狀態：' + escapeOrderHtml(st)) : '') + '</div>';
+                    html += '        <div class="li-sub">數量：' + escapeOrderHtml(qty !== '' ? qty : '-') + (lineTr2 ? ('　|　tracking number：<code>' + escapeOrderHtml(lineTr2) + '</code>') : '') + (st ? ('　|　狀態：' + escapeOrderHtml(st)) : '') + '</div>';
                     html += '      </div>';
                 });
                 html += '    </details>';
