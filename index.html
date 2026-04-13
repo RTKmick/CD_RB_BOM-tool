@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- 版號請與 config.js 的 APP_RELEASE_LABEL 同步（下方 .app-version 內文、註解 RELEASE 方便搜尋） -->
-<!-- RELEASE: 潤鉑BOM+PCB_R1.5.4 -->
+<!-- RELEASE: 潤鉑BOM+PCB_R1.5.5 -->
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -289,7 +289,7 @@
   該面板的樣式請用 #panel-新功能id .類名 { } 包起來，避免與其他分頁衝突。切換邏輯已通用，無須改 JS。
 -->
 <nav class="main-tabs">
-    <span class="app-version">潤鉑BOM+PCB_R1.5.4</span>
+    <span class="app-version">潤鉑BOM+PCB_R1.5.5</span>
     <button type="button" class="tab active" data-tab="bom" aria-selected="true">
         <i class="fas fa-microchip"></i> BOM 旗艦備料
     </button>
@@ -450,24 +450,11 @@
         <div id="orderProjectMap" class="order-card" style="margin-top:12px;">
             <div class="order-top">
                 <div>
-                    <div class="order-num">專案 ↔ 訂單對照</div>
-                    <div class="order-meta">建議下單時把專案代號填在 PO Number / Customer Reference；舊單可在此手動補對照。</div>
-                    <div class="order-meta" style="margin-top:8px;">匯出／匯入 JSON：備份「專案代號 ↔ 訂單號」對照（存在此瀏覽器）；換電腦或清除資料前可匯出，之後再匯入還原。</div>
-                </div>
-            </div>
-            <div class="order-grid" style="margin-top:12px;">
-                <div class="kv">
-                    <div class="k">專案代號</div>
-                    <div class="v"><input id="mapProjectCode" type="text" placeholder="例如 A001" style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid var(--border-color); font-weight:800;"></div>
-                </div>
-                <div class="kv">
-                    <div class="k">訂單號 / SalesOrderId</div>
-                    <div class="v"><input id="mapOrderId" type="text" placeholder="例如 9910000... 或 98233586" style="width:100%; padding:10px 12px; border-radius:10px; border:1px solid var(--border-color); font-weight:800;"></div>
+                    <div class="order-num">專案 ↔ 訂單對照（批次）</div>
+                    <div class="order-meta">建議下單時把專案代號填在 PO／Customer Reference；各筆訂單卡片內「下單時間」下方可填專案並按儲存對照。此區僅備份／還原本機對照 JSON。</div>
                 </div>
             </div>
             <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
-                <button type="button" class="page-btn" onclick="saveOrderProjectMapping()" style="border-radius:10px; padding:10px 14px;">儲存對照</button>
-                <button type="button" class="page-btn" onclick="clearOrderProjectMappingInputs()" style="border-radius:10px; padding:10px 14px;">清空</button>
                 <button type="button" class="page-btn" onclick="downloadOrderProjectMappings()" style="border-radius:10px; padding:10px 14px;">下載 JSON</button>
                 <button type="button" class="page-btn" onclick="triggerImportOrderProjectMappingsFile()" style="border-radius:10px; padding:10px 14px;">從檔案匯入</button>
                 <button type="button" class="page-btn" onclick="exportOrderProjectMappings()" style="border-radius:10px; padding:10px 14px;">複製 JSON</button>
@@ -1011,33 +998,66 @@ function setMapStatus(msg) {
 }
 
 function clearOrderProjectMappingInputs() {
-    var p = document.getElementById('mapProjectCode');
-    var o = document.getElementById('mapOrderId');
-    if (p) p.value = '';
-    if (o) o.value = '';
     setMapStatus('');
 }
 
-function saveOrderProjectMapping() {
-    var p = document.getElementById('mapProjectCode');
-    var o = document.getElementById('mapOrderId');
-    var project = p ? String(p.value || '').trim().toUpperCase() : '';
-    var orderId = o ? String(o.value || '').trim() : '';
-    if (!project || !orderId) {
-        setMapStatus('請輸入「專案代號」與「訂單號/ SalesOrderId」。');
+/** 將專案代號寫入對照表（多個 key 同值，便於 DigiKey OrderNumber / SalesOrderId 查詢） */
+function applyOrderProjectMapKeys(orderKeys, project) {
+    var p = String(project || '').trim().toUpperCase();
+    if (!p) return false;
+    var mapObj = getOrderProjectMappings();
+    var i;
+    for (i = 0; i < orderKeys.length; i++) {
+        var k = orderKeys[i];
+        if (k != null && String(k) !== '') mapObj[String(k)] = p;
+    }
+    setOrderProjectMappings(mapObj);
+    return true;
+}
+
+window.__orderMapDigikeyMeta = [];
+window.__orderMapMouserMeta = [];
+
+function saveOrderProjectMapDigikey(idx) {
+    var meta = window.__orderMapDigikeyMeta && window.__orderMapDigikeyMeta[idx];
+    if (!meta) return;
+    var inp = document.getElementById('opc-dk-' + idx);
+    var raw = inp ? inp.value : '';
+    if (!applyOrderProjectMapKeys([meta.orderNo].concat(meta.salesIds || []), raw)) {
+        setMapStatus('請輸入專案代號');
         return;
     }
-    var mapObj = getOrderProjectMappings();
-    mapObj[orderId] = project;
-    setOrderProjectMappings(mapObj);
-    setMapStatus('已儲存（本機）：' + project + ' ↔ ' + orderId);
-
-    // 若有設定 GAS，同步寫入 Google Sheet（跨電腦）
-    saveOrderProjectMappingToGas(orderId, project).then(function() {
-        setMapStatus('已儲存（Google Sheet）：' + project + ' ↔ ' + orderId);
+    var project = String(raw || '').trim().toUpperCase();
+    setMapStatus('已儲存對照：' + project + ' ↔ 訂單 ' + meta.orderNo);
+    saveOrderProjectMappingToGas(String(meta.orderNo), project).then(function() {
+        setMapStatus('已儲存（Google Sheet）：' + project + ' ↔ ' + meta.orderNo);
     }).catch(function(err) {
         setMapStatus('已儲存（本機），但 Google Sheet 寫入失敗：' + (err && err.message ? err.message : err));
     });
+}
+
+function saveOrderProjectMapMouser(idx) {
+    var meta = window.__orderMapMouserMeta && window.__orderMapMouserMeta[idx];
+    if (!meta) return;
+    var inp = document.getElementById('opc-mz-' + idx);
+    var raw = inp ? inp.value : '';
+    var keys = [];
+    if (meta.web) keys.push(meta.web);
+    if (meta.sales) keys.push(meta.sales);
+    if (!applyOrderProjectMapKeys(keys, raw)) {
+        setMapStatus('請輸入專案代號');
+        return;
+    }
+    var project = String(raw || '').trim().toUpperCase();
+    setMapStatus('已儲存對照：' + project + ' ↔ Web ' + (meta.web || meta.sales || ''));
+    var gasKey = meta.web || meta.sales || '';
+    if (gasKey) {
+        saveOrderProjectMappingToGas(String(gasKey), project).then(function() {
+            setMapStatus('已儲存（Google Sheet）：' + project + ' ↔ ' + gasKey);
+        }).catch(function(err) {
+            setMapStatus('已儲存（本機），但 Google Sheet 寫入失敗：' + (err && err.message ? err.message : err));
+        });
+    }
 }
 
 function exportOrderProjectMappings() {
@@ -1126,7 +1146,8 @@ function translateOrderStatus(provider, status) {
     if (!raw) return '';
     var up = raw.toUpperCase();
     if (provider === 'mouser' && (up === 'COMPLETE' || up === 'COMPLETED')) return '訂單已出貨';
-    if (provider === 'digikey' && up === 'SHIPPED') return '訂單已出貨';
+    /* DigiKey：Received 與 Shipped 皆顯示「訂單已出貨」並用綠色樣式（與網站常用檢視一致） */
+    if (provider === 'digikey' && (up === 'SHIPPED' || up === 'RECEIVED')) return '訂單已出貨';
     if (up.indexOf('CANCEL') !== -1) return '已取消';
     if (up.indexOf('BACKORDER') !== -1 || up.indexOf('BACK ORDER') !== -1) return '缺貨待補';
     if (up.indexOf('PARTIAL') !== -1) return '部分出貨';
@@ -1209,10 +1230,61 @@ function fmtDateTime(s) {
     return d.toLocaleString();
 }
 
+/** DigiKey：彙整 SalesOrder 內品項之追蹤號（DHL／FedEx 等） */
+function digikeyCollectSalesOrderTracking(so) {
+    var tracks = [];
+    var seen = {};
+    var lineItems = so && Array.isArray(so.LineItems) ? so.LineItems : [];
+    var i;
+    var j;
+    for (i = 0; i < lineItems.length; i++) {
+        var li = lineItems[i];
+        if (!li || !Array.isArray(li.ItemShipments)) continue;
+        for (j = 0; j < li.ItemShipments.length; j++) {
+            var sh = li.ItemShipments[j];
+            var t = sh && sh.TrackingNumber != null ? String(sh.TrackingNumber).trim() : '';
+            if (t && !seen[t]) {
+                seen[t] = 1;
+                tracks.push(t);
+            }
+        }
+    }
+    return tracks.length ? tracks.join('、') : '';
+}
+
+/** API 回傳 TotalPrice 為 0 時，以品項 UnitPrice×數量加總估算小計 */
+function digikeySalesOrderSubtotal(so) {
+    if (!so || typeof so !== 'object') return null;
+    var tp = so.TotalPrice;
+    if (tp != null && tp !== '' && !Number.isNaN(Number(tp)) && Number(tp) !== 0) return Number(tp);
+    var lineItems = Array.isArray(so.LineItems) ? so.LineItems : [];
+    var sum = 0;
+    var i;
+    for (i = 0; i < lineItems.length; i++) {
+        var li = lineItems[i];
+        if (!li) continue;
+        var lineTotal = li.TotalPrice;
+        if (lineTotal != null && lineTotal !== '' && !Number.isNaN(Number(lineTotal)) && Number(lineTotal) !== 0) {
+            sum += Number(lineTotal);
+            continue;
+        }
+        var unit = li.UnitPrice != null ? Number(li.UnitPrice) : 0;
+        if (Number.isNaN(unit) || unit === 0) continue;
+        var qOrd = li.QuantityOrdered != null ? Number(li.QuantityOrdered) : 0;
+        var qInit = li.QuantityInitialRequested != null ? Number(li.QuantityInitialRequested) : 0;
+        var q = !Number.isNaN(qOrd) && qOrd > 0 ? qOrd : qInit;
+        if (!Number.isNaN(q) && q > 0) sum += unit * q;
+    }
+    if (sum > 0) return sum;
+    if (tp != null && tp !== '' && !Number.isNaN(Number(tp))) return Number(tp);
+    return 0;
+}
+
 function digikeyStatusClass(status) {
     var st = String(status || "").toUpperCase();
     if (st.indexOf("PROCESS") !== -1) return "ob-processing";
     if (st.indexOf("SHIP") !== -1) return "ob-shipped";
+    if (st === "RECEIVED") return "ob-shipped";
     return "ob-other";
 }
 
@@ -1228,6 +1300,7 @@ function renderDigikeyOrders(data) {
     }
 
     var html = '';
+    window.__orderMapDigikeyMeta = [];
     html += '<div class="order-card">';
     html += '  <div class="order-num">共 ' + String(data.TotalOrders != null ? data.TotalOrders : orders.length) + ' 筆訂單</div>';
     html += '  <div class="order-meta">顯示本次回傳 ' + String(orders.length) + ' 筆</div>';
@@ -1250,11 +1323,27 @@ function renderDigikeyOrders(data) {
                 ? dkProjectList.join('；')
                 : String(resolveProjectCodeFromDigikey(o, null) || '').trim();
 
+        var mapObjEarly = getOrderProjectMappings();
+        var mapInitDk = (mapObjEarly[String(orderNo)] != null && mapObjEarly[String(orderNo)] !== '')
+            ? String(mapObjEarly[String(orderNo)])
+            : projectHeaderText;
+
+        var salesIdsForMeta = [];
+        salesOrders.forEach(function(so) {
+            if (so && so.SalesOrderId != null) salesIdsForMeta.push(String(so.SalesOrderId));
+        });
+        window.__orderMapDigikeyMeta[idx] = { orderNo: String(orderNo), salesIds: salesIdsForMeta };
+
         html += '<div class="order-card">';
         html += '  <div class="order-top">';
         html += '    <div>';
         html += '      <div class="order-num">訂單 #' + orderNo + '</div>';
         html += '      <div class="order-meta">下單時間：' + fmtDateTime(dateEntered) + '</div>';
+        html += '      <div class="order-map-inline" style="margin-top:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;max-width:100%;">';
+        html += '        <span class="order-meta" style="font-weight:800;color:#334155;">專案</span>';
+        html += '        <input id="opc-dk-' + idx + '" type="text" placeholder="例 A001" value="' + escapeOrderHtml(mapInitDk) + '" style="flex:1;min-width:180px;max-width:420px;padding:8px 12px;border-radius:10px;border:1px solid var(--border-color);font-weight:700;" />';
+        html += '        <button type="button" class="page-btn" onclick="saveOrderProjectMapDigikey(' + idx + ')" style="border-radius:10px;padding:8px 14px;">儲存對照</button>';
+        html += '      </div>';
         html += '    </div>';
         html += '    <div class="order-badges">';
         if (status) {
@@ -1277,7 +1366,9 @@ function renderDigikeyOrders(data) {
                 var soStatusObj = so.Status || {};
                 var soStatus = soStatusObj.ShortDescription || soStatusObj.SalesOrderStatus || '';
                 var shipMethod = so.ShipMethod || '';
-                var soTotal = so.TotalPrice != null ? so.TotalPrice : '';
+                var soSubNum = digikeySalesOrderSubtotal(so);
+                var soSubStr = soSubNum != null && !Number.isNaN(soSubNum) ? fmtMoney(soSubNum) : '-';
+                var trackSo = digikeyCollectSalesOrderTracking(so);
 
                 html += '    <div class="li">';
                 var soZh = soStatus ? translateOrderStatus('digikey', soStatus) : '';
@@ -1285,7 +1376,7 @@ function renderDigikeyOrders(data) {
                 html += '      <div class="li-title">SalesOrderId：' + (soId || '-') +
                     (showProjectInLine ? ('　<span class="li-project-dk-mark">專案：' + escapeOrderHtml(projectCode) + '</span>') : '') +
                     (soStatus ? ('　|　' + escapeOrderHtml(soZh || soStatus)) : '') + '</div>';
-                html += '      <div class="li-sub">出貨方式：' + (shipMethod || '-') + '　|　小計：' + (soTotal !== '' ? (fmtMoney(soTotal) + (currency ? (' ' + currency) : '')) : '-') + '</div>';
+                html += '      <div class="li-sub">出貨方式：' + (shipMethod || '-') + '　|　小計：' + soSubStr + (currency ? (' ' + currency) : '') + '　|　追蹤號：' + (trackSo ? ('<code>' + escapeOrderHtml(trackSo) + '</code>') : '—') + '</div>';
 
                 var lineItems = Array.isArray(so.LineItems) ? so.LineItems : [];
                 if (lineItems.length) {
@@ -1391,6 +1482,12 @@ function mouserLineQty(li) {
     return q;
 }
 
+function mouserLineTrack(li) {
+    return mouserScalarFromLine(li, [
+        'TrackingNumber', 'ShipToTrackingNumber', 'Tracking', 'CarrierTrackingNumber', 'ShipmentTrackingNumber', 'PackageTrackingNumber'
+    ], 3);
+}
+
 function mouserLineStatus(li) {
     return mouserScalarFromLine(li, [
         'OrderLineStatus', 'LineStatus', 'Status', 'StatusDisplay', 'OrderStatus', 'ItemStatus', 'LineItemStatus',
@@ -1455,6 +1552,7 @@ function renderMouserOrders(data) {
     }
 
     var html = '';
+    window.__orderMapMouserMeta = [];
     html += '<div class="order-card">';
     html += '  <div class="order-num">Mouser：共 ' + String(total) + ' 筆訂單</div>';
     html += '  <div class="order-meta">顯示本次回傳 ' + String(items.length) + ' 筆</div>';
@@ -1477,11 +1575,22 @@ function renderMouserOrders(data) {
         var currency = it.CurrencyCode || it.Currency || it.OrderCurrency || '';
         var lines = mouserLineItemsFromItem(it);
 
+        var webStr = web != null ? String(web).trim() : '';
+        var salesStr = sales != null ? String(sales).trim() : '';
+        window.__orderMapMouserMeta[idx] = { web: webStr, sales: salesStr };
+        var mapMz = getOrderProjectMappings();
+        var mapInitMz = (webStr && mapMz[webStr]) ? mapMz[webStr] : ((salesStr && mapMz[salesStr]) ? mapMz[salesStr] : (project || ''));
+
         html += '<div class="order-card">';
         html += '  <div class="order-top">';
         html += '    <div>';
         html += '      <div class="order-num">Web 訂單號：' + (web ? escapeOrderHtml(web) : ('(無 #' + (idx + 1) + ')')) + '</div>';
         html += '      <div class="order-meta">建立／訂單日期：' + (created ? fmtDateTime(created) : '-') + '</div>';
+        html += '      <div class="order-map-inline" style="margin-top:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;max-width:100%;">';
+        html += '        <span class="order-meta" style="font-weight:800;color:#334155;">專案</span>';
+        html += '        <input id="opc-mz-' + idx + '" type="text" placeholder="例 A001" value="' + escapeOrderHtml(mapInitMz) + '" style="flex:1;min-width:180px;max-width:420px;padding:8px 12px;border-radius:10px;border:1px solid var(--border-color);font-weight:700;" />';
+        html += '        <button type="button" class="page-btn" onclick="saveOrderProjectMapMouser(' + idx + ')" style="border-radius:10px;padding:8px 14px;">儲存對照</button>';
+        html += '      </div>';
         html += '    </div>';
         html += '    <div class="order-badges">';
         if (status) {
@@ -1494,9 +1603,8 @@ function renderMouserOrders(data) {
 
         html += '  <div class="order-grid">';
         html += '    <div class="kv"><div class="k">Sales Order</div><div class="v">' + (sales ? escapeOrderHtml(sales) : '-') + '</div></div>';
-        html += '    <div class="kv"><div class="k">Web Order</div><div class="v">' + (web ? escapeOrderHtml(web) : '-') + '</div></div>';
+        html += '    <div class="kv"><div class="k">追蹤號</div><div class="v">' + (track ? ('<code>' + escapeOrderHtml(track) + '</code>') : '—') + '</div></div>';
         if (shipDate) html += '    <div class="kv"><div class="k">出貨／相關日期</div><div class="v">' + fmtDateTime(shipDate) + '</div></div>';
-        if (track) html += '    <div class="kv"><div class="k">追蹤號</div><div class="v"><code>' + escapeOrderHtml(track) + '</code></div></div>';
         if (orderTotal != null && orderTotal !== '') {
             html += '    <div class="kv"><div class="k">訂單金額</div><div class="v">' + fmtMoney(orderTotal) + (currency ? (' ' + escapeOrderHtml(currency)) : '') + '</div></div>';
         }
@@ -1513,12 +1621,13 @@ function renderMouserOrders(data) {
                 var mpn = mouserLineMpn(li);
                 var mouserPn = mouserLineMouserPn(li);
                 var qty = mouserLineQty(li);
+                var lineTr = mouserLineTrack(li);
                 html += '    <div class="li" style="background:#f8fafc; margin-top:8px;">';
                 if (desc) {
                     html += '      <div class="li-title">' + escapeOrderHtml(desc) + '</div>';
                 }
                 html += '      <div class="li-sub">Mouser：<code>' + escapeOrderHtml(mouserPn) + '</code>　MPN：<code>' + escapeOrderHtml(mpn) + '</code></div>';
-                html += '      <div class="li-sub">數量：' + escapeOrderHtml(qty !== '' ? qty : '-') + '</div>';
+                html += '      <div class="li-sub">數量：' + escapeOrderHtml(qty !== '' ? qty : '-') + (lineTr ? ('　|　追蹤號：<code>' + escapeOrderHtml(lineTr) + '</code>') : '') + '</div>';
                 html += '    </div>';
             });
             if (cancelledLines.length) {
@@ -1530,12 +1639,13 @@ function renderMouserOrders(data) {
                     var mouserPn = mouserLineMouserPn(li);
                     var qty = mouserLineQty(li);
                     var st = mouserLineStatus(li);
+                    var lineTr2 = mouserLineTrack(li);
                     html += '      <div class="li" style="background:#f3f4f6; margin-top:8px; opacity:0.85;">';
                     if (desc) {
                         html += '        <div class="li-title">' + escapeOrderHtml(desc) + '</div>';
                     }
                     html += '        <div class="li-sub">Mouser：<code>' + escapeOrderHtml(mouserPn) + '</code>　MPN：<code>' + escapeOrderHtml(mpn) + '</code></div>';
-                    html += '        <div class="li-sub">數量：' + escapeOrderHtml(qty !== '' ? qty : '-') + (st ? ('　|　狀態：' + escapeOrderHtml(st)) : '') + '</div>';
+                    html += '        <div class="li-sub">數量：' + escapeOrderHtml(qty !== '' ? qty : '-') + (lineTr2 ? ('　|　追蹤號：<code>' + escapeOrderHtml(lineTr2) + '</code>') : '') + (st ? ('　|　狀態：' + escapeOrderHtml(st)) : '') + '</div>';
                     html += '      </div>';
                 });
                 html += '    </details>';
