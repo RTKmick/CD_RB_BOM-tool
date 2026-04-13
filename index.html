@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- 版號請與 config.js 的 APP_RELEASE_LABEL 同步（下方 .app-version 內文、註解 RELEASE 方便搜尋） -->
-<!-- RELEASE: 潤鉑BOM+PCB_R1.5.6 -->
+<!-- RELEASE: 潤鉑BOM+PCB_R1.5.7 -->
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -168,9 +168,31 @@
         #panel-order .order-card { background: #ffffff; border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 16px; box-shadow: 0 6px 14px -10px rgba(0,0,0,0.18); }
         #panel-order .order-card + .order-card { margin-top: 12px; }
         #panel-order .order-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+        /* 專案列佔滿左欄可分配寬度，避免與右側徽章並排時輸入框被壓到過窄 */
+        #panel-order .order-top > div:first-child { flex: 1 1 auto; min-width: 0; max-width: 100%; }
+        #panel-order .order-map-inline {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            width: 100%;
+            max-width: 100%;
+        }
+        /* 專案名常為 20–30 字以上：以 ch 為單位給足最小寬，並可隨容器拉滿 */
+        #panel-order .order-project-input {
+            flex: 1 1 36ch;
+            min-width: min(100%, 36ch);
+            max-width: 100%;
+            box-sizing: border-box;
+            padding: 8px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            font-weight: 700;
+        }
         #panel-order .order-num { font-weight: 800; color: var(--primary-color); font-size: 1.05rem; }
         #panel-order .order-meta { color: #475569; font-weight: 600; margin-top: 4px; font-size: 0.95rem; }
-        #panel-order .order-badges { display:flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+        #panel-order .order-badges { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; flex-shrink: 0; }
         #panel-order .ob { padding: 4px 10px; border-radius: 999px; font-weight: 800; font-size: 12px; border: 1px solid transparent; }
         #panel-order .ob-processing { background: var(--status-yellow); color: var(--text-yellow); border-color: #fde68a; }
         #panel-order .ob-shipped { background: var(--status-green); color: var(--text-green); border-color: #bbf7d0; }
@@ -260,6 +282,8 @@
             #panel-pcb .table-res { margin-top: 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
             #panel-pcb .table-res th, #panel-pcb .table-res td { padding: 10px 8px; font-size: 13px; }
             #panel-order .order-wrap { min-width: 0; max-width: 100%; }
+            #panel-order .order-top { flex-direction: column; align-items: stretch; }
+            #panel-order .order-badges { justify-content: flex-start; }
             #panel-order .provider-row { flex-direction: column; }
             #panel-order .provider-btn { padding: 16px 12px; min-height: 72px; }
             #panel-order .provider-btn img { max-height: 44px; }
@@ -289,7 +313,7 @@
   該面板的樣式請用 #panel-新功能id .類名 { } 包起來，避免與其他分頁衝突。切換邏輯已通用，無須改 JS。
 -->
 <nav class="main-tabs">
-    <span class="app-version">潤鉑BOM+PCB_R1.5.6</span>
+    <span class="app-version">潤鉑BOM+PCB_R1.5.7</span>
     <button type="button" class="tab active" data-tab="bom" aria-selected="true">
         <i class="fas fa-microchip"></i> BOM 旗艦備料
     </button>
@@ -1231,7 +1255,7 @@ function fmtDateTime(s) {
     return d.toLocaleString();
 }
 
-/** DigiKey：彙整 tracking number（ItemShipments、SO 層級欄位、常見別名） */
+/** DigiKey：彙整 Tracking Number（ItemShipments、SO 層級欄位、常見別名） */
 function digikeyCollectSalesOrderTracking(so) {
     var tracks = [];
     var seen = {};
@@ -1389,9 +1413,9 @@ function renderDigikeyOrders(data) {
         html += '    <div>';
         html += '      <div class="order-num">訂單 #' + orderNo + '</div>';
         html += '      <div class="order-meta">下單時間：' + fmtDateTime(dateEntered) + '</div>';
-        html += '      <div class="order-map-inline" style="margin-top:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;max-width:100%;">';
+        html += '      <div class="order-map-inline">';
         html += '        <span class="order-meta" style="font-weight:800;color:#334155;">專案</span>';
-        html += '        <input id="opc-dk-' + idx + '" type="text" placeholder="例 A001" value="' + escapeOrderHtml(mapInitDk) + '" style="flex:1;min-width:180px;max-width:420px;padding:8px 12px;border-radius:10px;border:1px solid var(--border-color);font-weight:700;" />';
+        html += '        <input id="opc-dk-' + idx + '" class="order-project-input" type="text" placeholder="例 A001" value="' + escapeOrderHtml(mapInitDk) + '" />';
         html += '        <button type="button" class="page-btn" onclick="saveOrderProjectMapDigikey(' + idx + ')" style="border-radius:10px;padding:8px 14px;">儲存對照</button>';
         html += '      </div>';
         html += '    </div>';
@@ -1430,7 +1454,7 @@ function renderDigikeyOrders(data) {
                 html += '      <div class="li-title">SalesOrderId：' + (soId || '-') +
                     (showProjectInLine ? ('　<span class="li-project-dk-mark">專案：' + escapeOrderHtml(projectCode) + '</span>') : '') +
                     (soStatus ? ('　|　' + escapeOrderHtml(soZh || soStatus)) : '') + '</div>';
-                html += '      <div class="li-sub">出貨方式：' + (shipMethod || '-') + '　|　小計：' + soSubStr + (currency ? (' ' + currency) : '') + (amtHint ? (' ' + amtHint) : '') + '　|　tracking number：' + (trackSo ? ('<code>' + escapeOrderHtml(trackSo) + '</code>') : ('<span' + trackMissingTitle + '>—</span>')) + '</div>';
+                html += '      <div class="li-sub">出貨方式：' + (shipMethod || '-') + '　|　小計：' + soSubStr + (currency ? (' ' + currency) : '') + (amtHint ? (' ' + amtHint) : '') + '　|　Tracking Number：' + (trackSo ? ('<code>' + escapeOrderHtml(trackSo) + '</code>') : ('<span' + trackMissingTitle + '>—</span>')) + '</div>';
 
                 var lineItems = Array.isArray(so.LineItems) ? so.LineItems : [];
                 if (lineItems.length) {
@@ -1450,7 +1474,7 @@ function renderDigikeyOrders(data) {
                         html += '        <div class="li" style="background:#f8fafc;">';
                         html += '          <div class="li-title">' + (desc ? String(desc) : '(無描述)') + '</div>';
                         html += '          <div class="li-sub">DKPN：<code>' + String(dkpn) + '</code>　MPN：<code>' + String(mpn) + '</code></div>';
-                        html += '          <div class="li-sub">數量：需求 ' + String(qReq) + ' / 訂購 ' + String(qOrd) + ' / 已出 ' + String(qShip) + (track ? ('　|　tracking number：<code>' + String(track) + '</code>') : '') + '</div>';
+                        html += '          <div class="li-sub">數量：需求 ' + String(qReq) + ' / 訂購 ' + String(qOrd) + ' / 已出 ' + String(qShip) + (track ? ('　|　Tracking Number：<code>' + String(track) + '</code>') : '') + '</div>';
                         html += '        </div>';
                     });
                     html += '      </details>';
@@ -1667,9 +1691,9 @@ function renderMouserOrders(data) {
         html += '    <div>';
         html += '      <div class="order-num">Web 訂單號：' + (web ? escapeOrderHtml(web) : ('(無 #' + (idx + 1) + ')')) + '</div>';
         html += '      <div class="order-meta">建立／訂單日期：' + (created ? fmtDateTime(created) : '-') + '</div>';
-        html += '      <div class="order-map-inline" style="margin-top:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;max-width:100%;">';
+        html += '      <div class="order-map-inline">';
         html += '        <span class="order-meta" style="font-weight:800;color:#334155;">專案</span>';
-        html += '        <input id="opc-mz-' + idx + '" type="text" placeholder="例 A001" value="' + escapeOrderHtml(mapInitMz) + '" style="flex:1;min-width:180px;max-width:420px;padding:8px 12px;border-radius:10px;border:1px solid var(--border-color);font-weight:700;" />';
+        html += '        <input id="opc-mz-' + idx + '" class="order-project-input" type="text" placeholder="例 A001" value="' + escapeOrderHtml(mapInitMz) + '" />';
         html += '        <button type="button" class="page-btn" onclick="saveOrderProjectMapMouser(' + idx + ')" style="border-radius:10px;padding:8px 14px;">儲存對照</button>';
         html += '      </div>';
         html += '    </div>';
@@ -1685,7 +1709,7 @@ function renderMouserOrders(data) {
 
         html += '  <div class="order-grid">';
         html += '    <div class="kv"><div class="k">Sales Order</div><div class="v">' + (sales ? escapeOrderHtml(sales) : '-') + '</div></div>';
-        html += '    <div class="kv"><div class="k">tracking number</div><div class="v">' + (track ? ('<code>' + escapeOrderHtml(track) + '</code>') : ('<span title="出貨後官網才有；Order History 摘要常不含物流欄位">—</span>')) + '</div></div>';
+        html += '    <div class="kv"><div class="k">Tracking Number</div><div class="v">' + (track ? ('<code>' + escapeOrderHtml(track) + '</code>') : ('<span title="出貨後官網才有；Order History 摘要常不含物流欄位">—</span>')) + '</div></div>';
         if (shipDate) html += '    <div class="kv"><div class="k">出貨／相關日期</div><div class="v">' + fmtDateTime(shipDate) + '</div></div>';
         if (orderTotal != null && orderTotal !== '') {
             html += '    <div class="kv"><div class="k">訂單金額</div><div class="v">' + fmtMoney(orderTotal) + (currency ? (' ' + escapeOrderHtml(currency)) : '') + '</div></div>';
@@ -1709,7 +1733,7 @@ function renderMouserOrders(data) {
                     html += '      <div class="li-title">' + escapeOrderHtml(desc) + '</div>';
                 }
                 html += '      <div class="li-sub">Mouser：<code>' + escapeOrderHtml(mouserPn) + '</code>　MPN：<code>' + escapeOrderHtml(mpn) + '</code></div>';
-                html += '      <div class="li-sub">數量：' + escapeOrderHtml(qty !== '' ? qty : '-') + (lineTr ? ('　|　tracking number：<code>' + escapeOrderHtml(lineTr) + '</code>') : '') + '</div>';
+                html += '      <div class="li-sub">數量：' + escapeOrderHtml(qty !== '' ? qty : '-') + (lineTr ? ('　|　Tracking Number：<code>' + escapeOrderHtml(lineTr) + '</code>') : '') + '</div>';
                 html += '    </div>';
             });
             if (cancelledLines.length) {
@@ -1727,7 +1751,7 @@ function renderMouserOrders(data) {
                         html += '        <div class="li-title">' + escapeOrderHtml(desc) + '</div>';
                     }
                     html += '        <div class="li-sub">Mouser：<code>' + escapeOrderHtml(mouserPn) + '</code>　MPN：<code>' + escapeOrderHtml(mpn) + '</code></div>';
-                    html += '        <div class="li-sub">數量：' + escapeOrderHtml(qty !== '' ? qty : '-') + (lineTr2 ? ('　|　tracking number：<code>' + escapeOrderHtml(lineTr2) + '</code>') : '') + (st ? ('　|　狀態：' + escapeOrderHtml(st)) : '') + '</div>';
+                    html += '        <div class="li-sub">數量：' + escapeOrderHtml(qty !== '' ? qty : '-') + (lineTr2 ? ('　|　Tracking Number：<code>' + escapeOrderHtml(lineTr2) + '</code>') : '') + (st ? ('　|　狀態：' + escapeOrderHtml(st)) : '') + '</div>';
                     html += '      </div>';
                 });
                 html += '    </details>';
