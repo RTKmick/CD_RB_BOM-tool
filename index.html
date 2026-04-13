@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- 版號請與 config.js 的 APP_RELEASE_LABEL 同步（下方 .app-version 內文、註解 RELEASE 方便搜尋） -->
-<!-- RELEASE: 潤鉑BOM+PCB_R1.5.7 -->
+<!-- RELEASE: 潤鉑BOM+PCB_R1.5.8 -->
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -191,6 +191,10 @@
             font-weight: 700;
         }
         #panel-order .order-num { font-weight: 800; color: var(--primary-color); font-size: 1.05rem; }
+        /* DigiKey：訂單號改深色；SalesOrderId 數值為追蹤重點，用主題藍 */
+        #panel-order .order-num-dk { color: #0f172a; }
+        #panel-order .li-title-dk-so { color: #111827; }
+        #panel-order .li-title-dk-so .dk-so-id { color: var(--primary-color); font-weight: 900; }
         #panel-order .order-meta { color: #475569; font-weight: 600; margin-top: 4px; font-size: 0.95rem; }
         #panel-order .order-badges { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; flex-shrink: 0; }
         #panel-order .ob { padding: 4px 10px; border-radius: 999px; font-weight: 800; font-size: 12px; border: 1px solid transparent; }
@@ -313,7 +317,7 @@
   該面板的樣式請用 #panel-新功能id .類名 { } 包起來，避免與其他分頁衝突。切換邏輯已通用，無須改 JS。
 -->
 <nav class="main-tabs">
-    <span class="app-version">潤鉑BOM+PCB_R1.5.7</span>
+    <span class="app-version">潤鉑BOM+PCB_R1.5.8</span>
     <button type="button" class="tab active" data-tab="bom" aria-selected="true">
         <i class="fas fa-microchip"></i> BOM 旗艦備料
     </button>
@@ -1411,7 +1415,7 @@ function renderDigikeyOrders(data) {
         html += '<div class="order-card">';
         html += '  <div class="order-top">';
         html += '    <div>';
-        html += '      <div class="order-num">訂單 #' + orderNo + '</div>';
+        html += '      <div class="order-num order-num-dk">訂單 #' + orderNo + '</div>';
         html += '      <div class="order-meta">下單時間：' + fmtDateTime(dateEntered) + '</div>';
         html += '      <div class="order-map-inline">';
         html += '        <span class="order-meta" style="font-weight:800;color:#334155;">專案</span>';
@@ -1451,7 +1455,7 @@ function renderDigikeyOrders(data) {
                 html += '    <div class="li">';
                 var soZh = soStatus ? translateOrderStatus('digikey', soStatus) : '';
                 var showProjectInLine = salesOrders.length > 1 && projectCode;
-                html += '      <div class="li-title">SalesOrderId：' + (soId || '-') +
+                html += '      <div class="li-title li-title-dk-so">SalesOrderId：<span class="dk-so-id">' + (soId ? escapeOrderHtml(soId) : '—') + '</span>' +
                     (showProjectInLine ? ('　<span class="li-project-dk-mark">專案：' + escapeOrderHtml(projectCode) + '</span>') : '') +
                     (soStatus ? ('　|　' + escapeOrderHtml(soZh || soStatus)) : '') + '</div>';
                 html += '      <div class="li-sub">出貨方式：' + (shipMethod || '-') + '　|　小計：' + soSubStr + (currency ? (' ' + currency) : '') + (amtHint ? (' ' + amtHint) : '') + '　|　Tracking Number：' + (trackSo ? ('<code>' + escapeOrderHtml(trackSo) + '</code>') : ('<span' + trackMissingTitle + '>—</span>')) + '</div>';
