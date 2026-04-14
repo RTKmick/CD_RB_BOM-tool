@@ -1,6 +1,98 @@
 {
-  "TotalOrders": 6,
+  "TotalOrders": 7,
   "Orders": [
+    {
+      "OrderNumber": 9910000370633674,
+      "CustomerId": 16327571,
+      "DateEntered": "2026-04-14T00:36:31.543-05:00",
+      "Currency": "USD",
+      "PONumber": "",
+      "EntireOrderStatus": {
+        "OrderStatus": "Processing",
+        "ShortDescription": "Processing",
+        "LongDescription": "Your order is being processed. Invoice and shipping information will be available soon."
+      },
+      "SalesOrders": [
+        {
+          "CustomerId": 16327571,
+          "Contact": {
+            "FirstName": null,
+            "LastName": null,
+            "Email": "sales@cdengs.com"
+          },
+          "SalesOrderId": 98613704,
+          "Status": {
+            "SalesOrderStatus": "Processing",
+            "ShortDescription": "Processing",
+            "LongDescription": "Your order is being processed. Invoice and shipping information will be available soon."
+          },
+          "PurchaseOrder": "",
+          "TotalPrice": 0,
+          "DateEntered": "2026-04-14T00:36:31.543-05:00",
+          "OrderNumber": 9910000370633674,
+          "ShipMethod": "DHL Express International",
+          "Currency": "USD",
+          "ShippingAddress": {
+            "FirstName": "KERRIE",
+            "LastName": "LIU",
+            "CompanyName": "CHING DENG TECHNOLOGY INC.",
+            "AddressLine1": "",
+            "AddressLine2": "12F.-25, NO. 29,",
+            "AddressLine3": "GUANXIN RD., EAST DIST.,",
+            "City": "HSINCHU",
+            "State": "",
+            "County": "",
+            "ZipCode": "300052",
+            "IsoCode": "TW",
+            "Phone": "886926225655"
+          },
+          "LineItems": [
+            {
+              "SalesOrderId": 98613704,
+              "DetailId": 1,
+              "TotalPrice": 0,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": null,
+              "DigiKeyProductNumber": "399-C0402C103K4REC7411CT-ND",
+              "ManufacturerProductNumber": "C0402C103K4REC7411",
+              "Description": "CAP CER 0402 10NF 16V X7R 10%",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 600,
+              "QuantityOrdered": 0,
+              "QuantityShipped": 0,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0267,
+              "PoLineItemNumber": null,
+              "ItemShipments": [],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 98613704,
+              "DetailId": 2,
+              "TotalPrice": 0,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": null,
+              "DigiKeyProductNumber": "296-17014-1-ND",
+              "ManufacturerProductNumber": "SN74LVC2T45DCUR",
+              "Description": "IC XLTR VL BIDIR 8-VSSOP",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 250,
+              "QuantityOrdered": 0,
+              "QuantityShipped": 0,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.34092,
+              "PoLineItemNumber": null,
+              "ItemShipments": [],
+              "Schedules": []
+            }
+          ]
+        }
+      ]
+    },
     {
       "OrderNumber": 9910000370570030,
       "CustomerId": 16327571,
