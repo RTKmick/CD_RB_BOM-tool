@@ -15,7 +15,7 @@
           "UnitPrice": 18.84,
           "ExtPrice": 584.04,
           "FormattedUnitPrice": "$18.84",
-          "FormattedExtendedPrice": "$584.04",
+          "FormattedExtendedPrice": "$0.00",
           "AdditionalFees": [
             {
               "amount": null,
@@ -31,6 +31,10 @@
             "PartDescription": "Digital to Analog Converters - DAC Digital to Analog Converters - DAC Quad 5V 16bit SPI DAC with reference"
           },
           "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": "2026-04-16T00:00:00"
+            },
             {
               "InvoiceNumber": 0,
               "Date": null
@@ -79,7 +83,7 @@
           "UnitPrice": 18.84,
           "ExtPrice": 584.04,
           "FormattedUnitPrice": "$18.84",
-          "FormattedExtendedPrice": "$584.04",
+          "FormattedExtendedPrice": "$0.00",
           "AdditionalFees": [
             {
               "amount": null,
@@ -95,6 +99,10 @@
             "PartDescription": "Digital to Analog Converters - DAC Digital to Analog Converters - DAC Quad 5V 16bit SPI DAC with reference"
           },
           "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": "2026-04-16T00:00:00"
+            },
             {
               "InvoiceNumber": 0,
               "Date": null
