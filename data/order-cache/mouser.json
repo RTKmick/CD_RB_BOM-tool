@@ -34,10 +34,6 @@
             {
               "InvoiceNumber": 0,
               "Date": "2026-04-16T00:00:00"
-            },
-            {
-              "InvoiceNumber": 0,
-              "Date": null
             }
           ],
           "PartDescription": "Digital to Analog Converters - DAC Digital to Analog Converters - DAC Quad 5V 16bit SPI DAC with reference",
@@ -102,10 +98,6 @@
             {
               "InvoiceNumber": 0,
               "Date": "2026-04-16T00:00:00"
-            },
-            {
-              "InvoiceNumber": 0,
-              "Date": null
             }
           ],
           "PartDescription": "Digital to Analog Converters - DAC Digital to Analog Converters - DAC Quad 5V 16bit SPI DAC with reference",
