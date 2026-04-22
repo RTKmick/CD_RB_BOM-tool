@@ -8,7 +8,7 @@
       "WebOrderNumber": "38964278",
       "PoNumber": "38964278",
       "BuyerName": "CHIN-KUN WEN",
-      "OrderStatusDisplay": "Pick Started",
+      "OrderStatusDisplay": "Complete",
       "OrderLineItems": [
         {
           "Quantity": 4000,
@@ -32,8 +32,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 89961324,
+              "Date": "2026-04-22T00:00:00"
             }
           ],
           "PartDescription": "Schottky Diodes & Rectifiers Schottky Diodes & Rectifiers 30V Vr 0.5A Io SBD SOD-323HE 0.5A",
@@ -62,8 +62,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 89961324,
+              "Date": "2026-04-22T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 10 V 0.1uF X5R 0402 10%",
@@ -96,8 +96,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 89961324,
+              "Date": "2026-04-22T00:00:00"
             }
           ],
           "PartDescription": "Schottky Diodes & Rectifiers Schottky Diodes & Rectifiers 30V Vr 0.5A Io SBD SOD-323HE 0.5A",
@@ -126,8 +126,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 89961324,
+              "Date": "2026-04-22T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 10 V 0.1uF X5R 0402 10%",
@@ -137,8 +137,8 @@
       ],
       "SalesOrderId": "279775645",
       "WebOrderId": 38964278,
-      "OrderStatus": 27,
-      "OrderStatusName": "Pick Started",
+      "OrderStatus": 30,
+      "OrderStatusName": "Complete",
       "IsScheduled": false,
       "IsPendingOrder": false
     },
