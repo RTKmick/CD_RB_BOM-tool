@@ -148,7 +148,7 @@
       "WebOrderNumber": "38903373",
       "PoNumber": "38903373",
       "BuyerName": "CHIN-KUN WEN",
-      "OrderStatusDisplay": "Preparing Shipment",
+      "OrderStatusDisplay": "Complete",
       "OrderLineItems": [
         {
           "Quantity": 31,
@@ -202,8 +202,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": "2026-04-30T00:00:00"
+              "InvoiceNumber": 89985573,
+              "Date": "2026-04-24T00:00:00"
             }
           ],
           "PartDescription": "Translation - Voltage Levels Translation - Voltage Levels SOT362-1  DUAL SUPPLY TRANSCVR",
@@ -266,8 +266,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": "2026-04-30T00:00:00"
+              "InvoiceNumber": 89985573,
+              "Date": "2026-04-24T00:00:00"
             }
           ],
           "PartDescription": "Translation - Voltage Levels Translation - Voltage Levels SOT362-1  DUAL SUPPLY TRANSCVR",
@@ -277,8 +277,8 @@
       ],
       "SalesOrderId": "279685010",
       "WebOrderId": 38903373,
-      "OrderStatus": 32,
-      "OrderStatusName": "Preparing Shipment",
+      "OrderStatus": 30,
+      "OrderStatusName": "Complete",
       "IsScheduled": false,
       "IsPendingOrder": false
     },
