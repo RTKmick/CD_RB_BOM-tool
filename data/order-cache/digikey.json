@@ -1181,7 +1181,7 @@
                   "InvoiceId": 123011012,
                   "ShippedDate": "2026-03-25T18:07:23.142Z",
                   "TrackingNumber": "9606032586",
-                  "ExpectedDeliveryDate": "2026-04-04"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
