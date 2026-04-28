@@ -216,13 +216,318 @@
             "LongDescription": "This order has been completely canceled. Please see the cancellation invoice below for more information."
           },
           "PurchaseOrder": "",
-          "TotalPrice": null,
-          "DateEntered": null,
+          "TotalPrice": 2432.11,
+          "DateEntered": "2026-04-11T22:49:36.795-05:00",
           "OrderNumber": 9910000370570030,
-          "ShipMethod": null,
-          "Currency": null,
-          "ShippingAddress": null,
-          "LineItems": []
+          "ShipMethod": "DHL Express International",
+          "Currency": "USD",
+          "ShippingAddress": {
+            "FirstName": "KERRIE",
+            "LastName": "LIU",
+            "CompanyName": "CHING DENG TECHNOLOGY INC.",
+            "AddressLine1": "",
+            "AddressLine2": "12F.-25, NO. 29,",
+            "AddressLine3": "GUANXIN RD., EAST DIST.,",
+            "City": "HSINCHU",
+            "State": "",
+            "County": "",
+            "ZipCode": "300052",
+            "IsoCode": "TW",
+            "Phone": "886926225655",
+            "InvoiceId": 124883484
+          },
+          "LineItems": [
+            {
+              "SalesOrderId": 98580879,
+              "DetailId": 1,
+              "TotalPrice": 12.18,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "PH",
+              "DigiKeyProductNumber": "490-3261-1-ND",
+              "ManufacturerProductNumber": "GRM155R71C104KA88D",
+              "Description": "CAP CER 0.1UF 16V X7R 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 1588,
+              "QuantityOrdered": 1588,
+              "QuantityShipped": 1588,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.00767,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 1588,
+                  "InvoiceId": 124883484,
+                  "ShippedDate": "2026-04-28T06:49:12.567Z",
+                  "TrackingNumber": "",
+                  "ExpectedDeliveryDate": "2026-05-04"
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 98580879,
+              "DetailId": 2,
+              "TotalPrice": 17.83,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "MY",
+              "DigiKeyProductNumber": "587-2786-1-ND",
+              "ManufacturerProductNumber": "EMK107ABJ475KA-T",
+              "Description": "CAP CER 4.7UF 16V X5R 0603",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 212,
+              "QuantityOrdered": 212,
+              "QuantityShipped": 212,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0841,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 212,
+                  "InvoiceId": 124883484,
+                  "ShippedDate": "2026-04-28T06:49:12.567Z",
+                  "TrackingNumber": "",
+                  "ExpectedDeliveryDate": "2026-05-04"
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 98580879,
+              "DetailId": 3,
+              "TotalPrice": 10.56,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "VN",
+              "DigiKeyProductNumber": "SAM8979-ND",
+              "ManufacturerProductNumber": "TSM-102-01-L-SV",
+              "Description": "CONN HEADER SMD 2POS 2.54MM",
+              "PackType": "Bulk",
+              "QuantityInitialRequested": 33,
+              "QuantityOrdered": 33,
+              "QuantityShipped": 33,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.32,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 33,
+                  "InvoiceId": 124883484,
+                  "ShippedDate": "2026-04-28T06:49:12.567Z",
+                  "TrackingNumber": "",
+                  "ExpectedDeliveryDate": "2026-05-04"
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 98580879,
+              "DetailId": 4,
+              "TotalPrice": 2.27,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "US",
+              "DigiKeyProductNumber": "612-HTSW-103-26-G-S-ND",
+              "ManufacturerProductNumber": "HTSW-103-26-G-S",
+              "Description": "CONN HEADER VERT 3POS 2.54MM",
+              "PackType": "Bulk",
+              "QuantityInitialRequested": 17,
+              "QuantityOrdered": 5,
+              "QuantityShipped": 5,
+              "QuantityReserved": -12,
+              "QuantityBackOrder": 12,
+              "UnitPrice": 0.453,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 5,
+                  "InvoiceId": 124883484,
+                  "ShippedDate": "2026-04-28T06:49:12.567Z",
+                  "TrackingNumber": "",
+                  "ExpectedDeliveryDate": "2026-05-04"
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 98580879,
+              "DetailId": 5,
+              "TotalPrice": 0.75,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "CN",
+              "DigiKeyProductNumber": "P100KLCT-ND",
+              "ManufacturerProductNumber": "ERJ-2RKF1003X",
+              "Description": "RES 100K OHM 1% 1/10W 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 36,
+              "QuantityOrdered": 36,
+              "QuantityShipped": 36,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0208,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 36,
+                  "InvoiceId": 124883484,
+                  "ShippedDate": "2026-04-28T06:49:12.567Z",
+                  "TrackingNumber": "",
+                  "ExpectedDeliveryDate": "2026-05-04"
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 98580879,
+              "DetailId": 6,
+              "TotalPrice": 0.2,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "311-39KJRCT-ND",
+              "ManufacturerProductNumber": "RC0402JR-0739KL",
+              "Description": "RES 39K OHM 5% 1/16W 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 50,
+              "QuantityOrdered": 50,
+              "QuantityShipped": 50,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.004,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 50,
+                  "InvoiceId": 124883484,
+                  "ShippedDate": "2026-04-28T06:49:12.567Z",
+                  "TrackingNumber": "",
+                  "ExpectedDeliveryDate": "2026-05-04"
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 98580879,
+              "DetailId": 7,
+              "TotalPrice": 18.43,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "CN",
+              "DigiKeyProductNumber": "36-5001-ND",
+              "ManufacturerProductNumber": "5001",
+              "Description": "PC TEST POINT MINIATURE BLACK",
+              "PackType": "Bulk",
+              "QuantityInitialRequested": 97,
+              "QuantityOrdered": 97,
+              "QuantityShipped": 97,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.19,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 97,
+                  "InvoiceId": 124883484,
+                  "ShippedDate": "2026-04-28T06:49:12.567Z",
+                  "TrackingNumber": "",
+                  "ExpectedDeliveryDate": "2026-05-04"
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 98580879,
+              "DetailId": 8,
+              "TotalPrice": 8.15,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "JP",
+              "DigiKeyProductNumber": "296-18235-1-ND",
+              "ManufacturerProductNumber": "SN74LVC1G139DCTR",
+              "Description": "IC DECODER/DEMUX 1 X 2:4 SM8",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 17,
+              "QuantityOrdered": 17,
+              "QuantityShipped": 17,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.479,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 17,
+                  "InvoiceId": 124883484,
+                  "ShippedDate": "2026-04-28T06:49:12.567Z",
+                  "TrackingNumber": "",
+                  "ExpectedDeliveryDate": "2026-05-04"
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 98580879,
+              "DetailId": 9,
+              "TotalPrice": 2354.48,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "PH",
+              "DigiKeyProductNumber": "DG1411EEN-T1-GE4CT-ND",
+              "ManufacturerProductNumber": "DG1411EEN-T1-GE4",
+              "Description": "IC SWITCH SPST-NCX4 1.5OHM 16QFN",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 577,
+              "QuantityOrdered": 577,
+              "QuantityShipped": 577,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 4.08054,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 577,
+                  "InvoiceId": 124883484,
+                  "ShippedDate": "2026-04-28T06:49:12.567Z",
+                  "TrackingNumber": "",
+                  "ExpectedDeliveryDate": "2026-05-04"
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 98580879,
+              "DetailId": 10,
+              "TotalPrice": 7.28,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "PH",
+              "DigiKeyProductNumber": "MC74AC08DGOS-ND",
+              "ManufacturerProductNumber": "MC74AC08DG",
+              "Description": "IC GATE AND 4CH 2-INP 14SOIC",
+              "PackType": "Tube",
+              "QuantityInitialRequested": 17,
+              "QuantityOrdered": 17,
+              "QuantityShipped": 17,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.428,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 17,
+                  "InvoiceId": 124883484,
+                  "ShippedDate": "2026-04-28T06:49:12.567Z",
+                  "TrackingNumber": "",
+                  "ExpectedDeliveryDate": "2026-05-04"
+                }
+              ],
+              "Schedules": []
+            }
+          ]
         }
       ]
     },
