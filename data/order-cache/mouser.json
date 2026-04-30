@@ -1,6 +1,6 @@
 {
   "Errors": [],
-  "NumberOfOrders": 8,
+  "NumberOfOrders": 7,
   "OrderHistoryItems": [
     {
       "DateCreated": "2026-04-22T00:00:00",
@@ -1397,14 +1397,6 @@
       "OrderStatusName": "Complete",
       "IsScheduled": false,
       "IsPendingOrder": false
-    },
-    {
-      "DateCreated": "2026-02-28T00:00:00",
-      "SalesOrderNumber": "278961928",
-      "WebOrderNumber": "38417029",
-      "PoNumber": "38417029",
-      "BuyerName": "CHIN-KUN WEN",
-      "OrderStatusDisplay": "Cancelled"
     }
   ]
 }
