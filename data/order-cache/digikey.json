@@ -8,9 +8,9 @@
       "Currency": "USD",
       "PONumber": null,
       "EntireOrderStatus": {
-        "OrderStatus": "Received",
-        "ShortDescription": "Received",
-        "LongDescription": "Your order is currently being reviewed by a DigiKey representative."
+        "OrderStatus": "Processing",
+        "ShortDescription": "Processing",
+        "LongDescription": "Your order is being processed. Invoice and shipping information will be available soon."
       },
       "SalesOrders": []
     },
