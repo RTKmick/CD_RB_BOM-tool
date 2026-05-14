@@ -75,7 +75,7 @@
           "UnitPrice": 2.54,
           "ExtPrice": 635,
           "FormattedUnitPrice": "$2.54",
-          "FormattedExtendedPrice": "$635.00",
+          "FormattedExtendedPrice": "$0.00",
           "AdditionalFees": [
             {
               "amount": null,
@@ -93,7 +93,7 @@
           "Activities": [
             {
               "InvoiceNumber": 0,
-              "Date": null
+              "Date": "2026-05-14T00:00:00"
             }
           ],
           "PartDescription": "Analog Switch ICs Analog Switch ICs 5V, 5 Ohm, SPDT (BBM) I.C.",
@@ -169,7 +169,7 @@
           "UnitPrice": 2.54,
           "ExtPrice": 635,
           "FormattedUnitPrice": "$2.54",
-          "FormattedExtendedPrice": "$635.00",
+          "FormattedExtendedPrice": "$0.00",
           "AdditionalFees": [
             {
               "amount": null,
@@ -187,7 +187,7 @@
           "Activities": [
             {
               "InvoiceNumber": 0,
-              "Date": null
+              "Date": "2026-05-14T00:00:00"
             }
           ],
           "PartDescription": "Analog Switch ICs Analog Switch ICs 5V, 5 Ohm, SPDT (BBM) I.C.",
