@@ -8,12 +8,12 @@
       "WebOrderNumber": "39180014",
       "PoNumber": "39180014",
       "BuyerName": "CHIN-KUN WEN",
-      "OrderStatusDisplay": "Pick Complete",
+      "OrderStatusDisplay": "Backordered",
       "OrderLineItems": [
         {
           "Quantity": 2500,
           "UnitPrice": 0.468,
-          "ExtPrice": 1170,
+          "ExtPrice": 117,
           "FormattedUnitPrice": "$0.468",
           "FormattedExtendedPrice": "$1,170.00",
           "AdditionalFees": [
@@ -34,6 +34,10 @@
             {
               "InvoiceNumber": 0,
               "Date": null
+            },
+            {
+              "InvoiceNumber": 90376049,
+              "Date": "2026-05-15T00:00:00"
             }
           ],
           "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 300mALow IQLDO Reg A 595-TLV70218DBVR A A 595-TLV70218DBVR",
@@ -43,7 +47,7 @@
         {
           "Quantity": 943,
           "UnitPrice": 0.435,
-          "ExtPrice": 410.21,
+          "ExtPrice": 43.07,
           "FormattedUnitPrice": "$0.435",
           "FormattedExtendedPrice": "$410.21",
           "AdditionalFees": [
@@ -64,6 +68,10 @@
             {
               "InvoiceNumber": 0,
               "Date": null
+            },
+            {
+              "InvoiceNumber": 90376049,
+              "Date": "2026-05-15T00:00:00"
             }
           ],
           "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 150-mA 6.5-V 1uA IQ Voltage Regulators A A 595-TPS70612DBVT",
@@ -107,7 +115,7 @@
         {
           "Quantity": 2500,
           "UnitPrice": 0.468,
-          "ExtPrice": 1170,
+          "ExtPrice": 117,
           "FormattedUnitPrice": "$0.468",
           "FormattedExtendedPrice": "$1,170.00",
           "AdditionalFees": [
@@ -128,6 +136,10 @@
             {
               "InvoiceNumber": 0,
               "Date": null
+            },
+            {
+              "InvoiceNumber": 90376049,
+              "Date": "2026-05-15T00:00:00"
             }
           ],
           "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 300mALow IQLDO Reg A 595-TLV70218DBVR A A 595-TLV70218DBVR",
@@ -137,7 +149,7 @@
         {
           "Quantity": 943,
           "UnitPrice": 0.435,
-          "ExtPrice": 410.21,
+          "ExtPrice": 43.07,
           "FormattedUnitPrice": "$0.435",
           "FormattedExtendedPrice": "$410.21",
           "AdditionalFees": [
@@ -158,6 +170,10 @@
             {
               "InvoiceNumber": 0,
               "Date": null
+            },
+            {
+              "InvoiceNumber": 90376049,
+              "Date": "2026-05-15T00:00:00"
             }
           ],
           "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 150-mA 6.5-V 1uA IQ Voltage Regulators A A 595-TPS70612DBVT",
@@ -197,8 +213,8 @@
       ],
       "SalesOrderId": "280101974",
       "WebOrderId": 39180014,
-      "OrderStatus": 26,
-      "OrderStatusName": "Pick Complete",
+      "OrderStatus": 25,
+      "OrderStatusName": "Backordered",
       "IsScheduled": false,
       "IsPendingOrder": false
     },
