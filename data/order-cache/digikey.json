@@ -8,9 +8,9 @@
       "Currency": "USD",
       "PONumber": null,
       "EntireOrderStatus": {
-        "OrderStatus": "ProcessingAwaitingBackorders",
+        "OrderStatus": "Processing",
         "ShortDescription": "Processing",
-        "LongDescription": "All products in this order are currently delayed. Please see lead time information."
+        "LongDescription": "Your order is being processed. Invoice and shipping information will be available soon."
       },
       "SalesOrders": []
     },

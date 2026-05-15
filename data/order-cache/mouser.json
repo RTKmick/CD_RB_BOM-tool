@@ -8,7 +8,7 @@
       "WebOrderNumber": "39180014",
       "PoNumber": "39180014",
       "BuyerName": "CHIN-KUN WEN",
-      "OrderStatusDisplay": "Order Processing",
+      "OrderStatusDisplay": "Pick Started",
       "OrderLineItems": [
         {
           "Quantity": 2500,
@@ -197,10 +197,10 @@
       ],
       "SalesOrderId": "280101974",
       "WebOrderId": 39180014,
-      "OrderStatus": 21,
-      "OrderStatusName": "Order Processing",
+      "OrderStatus": 27,
+      "OrderStatusName": "Pick Started",
       "IsScheduled": false,
-      "IsPendingOrder": true
+      "IsPendingOrder": false
     },
     {
       "DateCreated": "2026-04-22T00:00:00",
