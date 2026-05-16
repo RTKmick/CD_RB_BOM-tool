@@ -32,12 +32,12 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
-            },
-            {
               "InvoiceNumber": 90376049,
               "Date": "2026-05-15T00:00:00"
+            },
+            {
+              "InvoiceNumber": 0,
+              "Date": null
             }
           ],
           "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 300mALow IQLDO Reg A 595-TLV70218DBVR A A 595-TLV70218DBVR",
@@ -66,12 +66,12 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
-            },
-            {
               "InvoiceNumber": 90376049,
               "Date": "2026-05-15T00:00:00"
+            },
+            {
+              "InvoiceNumber": 0,
+              "Date": null
             }
           ],
           "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 150-mA 6.5-V 1uA IQ Voltage Regulators A A 595-TPS70612DBVT",
@@ -134,12 +134,12 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
-            },
-            {
               "InvoiceNumber": 90376049,
               "Date": "2026-05-15T00:00:00"
+            },
+            {
+              "InvoiceNumber": 0,
+              "Date": null
             }
           ],
           "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 300mALow IQLDO Reg A 595-TLV70218DBVR A A 595-TLV70218DBVR",
@@ -168,12 +168,12 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
-            },
-            {
               "InvoiceNumber": 90376049,
               "Date": "2026-05-15T00:00:00"
+            },
+            {
+              "InvoiceNumber": 0,
+              "Date": null
             }
           ],
           "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 150-mA 6.5-V 1uA IQ Voltage Regulators A A 595-TPS70612DBVT",
