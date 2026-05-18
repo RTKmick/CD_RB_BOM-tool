@@ -1,5 +1,5 @@
 {
-  "TotalOrders": 10,
+  "TotalOrders": 9,
   "Orders": [
     {
       "OrderNumber": 9910000371780276,
@@ -2539,115 +2539,6 @@
                   "InvoiceId": 123011012,
                   "ShippedDate": "2026-03-25T18:07:23.142Z",
                   "TrackingNumber": "9606032586",
-                  "ExpectedDeliveryDate": null
-                }
-              ],
-              "Schedules": []
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "OrderNumber": 9910000369676814,
-      "CustomerId": 16327571,
-      "DateEntered": "2026-03-19T08:43:02.163-05:00",
-      "Currency": "USD",
-      "PONumber": "",
-      "EntireOrderStatus": {
-        "OrderStatus": "Shipped",
-        "ShortDescription": "Shipped",
-        "LongDescription": "All products in this order have been shipped. Invoice and tracking information is available."
-      },
-      "SalesOrders": [
-        {
-          "CustomerId": 16327571,
-          "Contact": {
-            "FirstName": null,
-            "LastName": null,
-            "Email": "sales@cdengs.com"
-          },
-          "SalesOrderId": 98131042,
-          "Status": {
-            "SalesOrderStatus": "Shipped",
-            "ShortDescription": "Shipped",
-            "LongDescription": "All products in this order have been shipped. Invoice and tracking information is available."
-          },
-          "PurchaseOrder": "",
-          "TotalPrice": 270.75,
-          "DateEntered": "2026-03-19T08:43:02.163-05:00",
-          "OrderNumber": 9910000369676814,
-          "ShipMethod": "DHL Express International",
-          "Currency": "USD",
-          "ShippingAddress": {
-            "FirstName": "KERRIE",
-            "LastName": "LIU",
-            "CompanyName": "CHING DENG TECHNOLOGY INC.",
-            "AddressLine1": "",
-            "AddressLine2": "12F.-25, NO. 29,",
-            "AddressLine3": "GUANXIN RD., EAST DIST.,",
-            "City": "HSINCHU",
-            "State": "",
-            "County": "",
-            "ZipCode": "300052",
-            "IsoCode": "TW",
-            "Phone": "886926225655",
-            "InvoiceId": 122733983
-          },
-          "LineItems": [
-            {
-              "SalesOrderId": 98131042,
-              "DetailId": 1,
-              "TotalPrice": 3.88,
-              "PurchaseOrder": "",
-              "CustomerReference": "",
-              "CountryOfOrigin": "TH",
-              "DigiKeyProductNumber": "4713-RM04F2601CT-ND",
-              "ManufacturerProductNumber": "RM04F2601CT",
-              "Description": "RES0402 1% 2.60K OHM",
-              "PackType": "CutTape",
-              "QuantityInitialRequested": 1000,
-              "QuantityOrdered": 1000,
-              "QuantityShipped": 1000,
-              "QuantityReserved": 0,
-              "QuantityBackOrder": 0,
-              "UnitPrice": 0.00388,
-              "PoLineItemNumber": null,
-              "ItemShipments": [
-                {
-                  "QuantityShipped": 1000,
-                  "InvoiceId": 122733983,
-                  "ShippedDate": "2026-03-19T18:54:57.953Z",
-                  "TrackingNumber": "7198780960",
-                  "ExpectedDeliveryDate": null
-                }
-              ],
-              "Schedules": []
-            },
-            {
-              "SalesOrderId": 98131042,
-              "DetailId": 2,
-              "TotalPrice": 266.87,
-              "PurchaseOrder": "",
-              "CustomerReference": "",
-              "CountryOfOrigin": "CN",
-              "DigiKeyProductNumber": "900-2171790001CT-ND",
-              "ManufacturerProductNumber": "2171790001",
-              "Description": "CONN RCP USB2.0 TYP C 24P SMD RA",
-              "PackType": "CutTape",
-              "QuantityInitialRequested": 500,
-              "QuantityOrdered": 500,
-              "QuantityShipped": 500,
-              "QuantityReserved": 0,
-              "QuantityBackOrder": 0,
-              "UnitPrice": 0.53374,
-              "PoLineItemNumber": null,
-              "ItemShipments": [
-                {
-                  "QuantityShipped": 500,
-                  "InvoiceId": 122733983,
-                  "ShippedDate": "2026-03-19T18:54:57.953Z",
-                  "TrackingNumber": "7198780960",
                   "ExpectedDeliveryDate": null
                 }
               ],
