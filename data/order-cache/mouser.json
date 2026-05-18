@@ -75,7 +75,7 @@
           "UnitPrice": 4.53,
           "ExtPrice": 906,
           "FormattedUnitPrice": "$4.53",
-          "FormattedExtendedPrice": "$906.00",
+          "FormattedExtendedPrice": "$0.00",
           "AdditionalFees": [
             {
               "amount": null,
@@ -93,7 +93,7 @@
           "Activities": [
             {
               "InvoiceNumber": 0,
-              "Date": null
+              "Date": "2026-05-18T00:00:00"
             }
           ],
           "PartDescription": "Translation - Voltage Levels Translation - Voltage Levels 15kV ESD-Protected, 1 A, 16Mbps, Dual/Quad Low-Voltage Level Translators in UCSP",
@@ -289,7 +289,7 @@
           "UnitPrice": 4.53,
           "ExtPrice": 906,
           "FormattedUnitPrice": "$4.53",
-          "FormattedExtendedPrice": "$906.00",
+          "FormattedExtendedPrice": "$0.00",
           "AdditionalFees": [
             {
               "amount": null,
@@ -307,7 +307,7 @@
           "Activities": [
             {
               "InvoiceNumber": 0,
-              "Date": null
+              "Date": "2026-05-18T00:00:00"
             }
           ],
           "PartDescription": "Translation - Voltage Levels Translation - Voltage Levels 15kV ESD-Protected, 1 A, 16Mbps, Dual/Quad Low-Voltage Level Translators in UCSP",
