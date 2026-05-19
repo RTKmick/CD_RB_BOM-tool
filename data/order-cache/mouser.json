@@ -8,7 +8,7 @@
       "WebOrderNumber": "39213501",
       "PoNumber": "39213501",
       "BuyerName": "CHIN-KUN WEN",
-      "OrderStatusDisplay": "Pick Started",
+      "OrderStatusDisplay": "Complete",
       "OrderLineItems": [
         {
           "Quantity": 1000,
@@ -32,8 +32,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90414061,
+              "Date": "2026-05-19T00:00:00"
             }
           ],
           "PartDescription": "Schottky Diodes & Rectifiers Schottky Diodes & Rectifiers 30V Vr 0.5A Io SBD SOD-323HE 0.5A",
@@ -62,8 +62,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90414061,
+              "Date": "2026-05-19T00:00:00"
             }
           ],
           "PartDescription": "Translation - Voltage Levels Translation - Voltage Levels ULS TSSOP-14 TUBE 96PCS",
@@ -122,8 +122,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90414061,
+              "Date": "2026-05-19T00:00:00"
             }
           ],
           "PartDescription": "Bipolar Transistors - BJT Bipolar Transistors - BJT 100mA 120V NPN",
@@ -152,8 +152,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90414061,
+              "Date": "2026-05-19T00:00:00"
             }
           ],
           "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 1A LDO Reg w/Enable 3.3V 6.5Vin 1190mW",
@@ -182,8 +182,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90414061,
+              "Date": "2026-05-19T00:00:00"
             }
           ],
           "PartDescription": "Operational Amplifiers - Op Amps Operational Amplifiers - Op Amps Quad CMOS Input RRI O Wide Supply Range A 926-LMV844MT/NOPB",
@@ -212,8 +212,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90414061,
+              "Date": "2026-05-19T00:00:00"
             }
           ],
           "PartDescription": "Inverters Inverters UHS Inverter",
@@ -246,8 +246,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90414061,
+              "Date": "2026-05-19T00:00:00"
             }
           ],
           "PartDescription": "Schottky Diodes & Rectifiers Schottky Diodes & Rectifiers 30V Vr 0.5A Io SBD SOD-323HE 0.5A",
@@ -276,8 +276,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90414061,
+              "Date": "2026-05-19T00:00:00"
             }
           ],
           "PartDescription": "Translation - Voltage Levels Translation - Voltage Levels ULS TSSOP-14 TUBE 96PCS",
@@ -336,8 +336,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90414061,
+              "Date": "2026-05-19T00:00:00"
             }
           ],
           "PartDescription": "Bipolar Transistors - BJT Bipolar Transistors - BJT 100mA 120V NPN",
@@ -366,8 +366,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90414061,
+              "Date": "2026-05-19T00:00:00"
             }
           ],
           "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 1A LDO Reg w/Enable 3.3V 6.5Vin 1190mW",
@@ -396,8 +396,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90414061,
+              "Date": "2026-05-19T00:00:00"
             }
           ],
           "PartDescription": "Operational Amplifiers - Op Amps Operational Amplifiers - Op Amps Quad CMOS Input RRI O Wide Supply Range A 926-LMV844MT/NOPB",
@@ -426,8 +426,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90414061,
+              "Date": "2026-05-19T00:00:00"
             }
           ],
           "PartDescription": "Inverters Inverters UHS Inverter",
@@ -437,8 +437,8 @@
       ],
       "SalesOrderId": "280152948",
       "WebOrderId": 39213501,
-      "OrderStatus": 27,
-      "OrderStatusName": "Pick Started",
+      "OrderStatus": 30,
+      "OrderStatusName": "Complete",
       "IsScheduled": false,
       "IsPendingOrder": false
     },
