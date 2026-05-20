@@ -477,7 +477,7 @@
             },
             {
               "InvoiceNumber": 0,
-              "Date": null
+              "Date": "2026-08-12T00:00:00"
             }
           ],
           "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 300mALow IQLDO Reg A 595-TLV70218DBVR A A 595-TLV70218DBVR",
@@ -511,7 +511,7 @@
             },
             {
               "InvoiceNumber": 0,
-              "Date": null
+              "Date": "2027-02-12T00:00:00"
             }
           ],
           "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 150-mA 6.5-V 1uA IQ Voltage Regulators A A 595-TPS70612DBVT",
@@ -579,7 +579,7 @@
             },
             {
               "InvoiceNumber": 0,
-              "Date": null
+              "Date": "2026-08-12T00:00:00"
             }
           ],
           "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 300mALow IQLDO Reg A 595-TLV70218DBVR A A 595-TLV70218DBVR",
@@ -613,7 +613,7 @@
             },
             {
               "InvoiceNumber": 0,
-              "Date": null
+              "Date": "2027-02-12T00:00:00"
             }
           ],
           "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators 150-mA 6.5-V 1uA IQ Voltage Regulators A A 595-TPS70612DBVT",
