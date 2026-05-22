@@ -1,6 +1,173 @@
 {
-  "TotalOrders": 9,
+  "TotalOrders": 10,
   "Orders": [
+    {
+      "OrderNumber": 9910000372111500,
+      "CustomerId": 16327571,
+      "DateEntered": "2026-05-22T08:07:10.289-05:00",
+      "Currency": "USD",
+      "PONumber": "",
+      "EntireOrderStatus": {
+        "OrderStatus": "Shipped",
+        "ShortDescription": "Shipped",
+        "LongDescription": "All products in this order have been shipped. Invoice and tracking information is available."
+      },
+      "SalesOrders": [
+        {
+          "CustomerId": 16327571,
+          "Contact": {
+            "FirstName": null,
+            "LastName": null,
+            "Email": "sales@cdengs.com"
+          },
+          "SalesOrderId": 99390081,
+          "Status": {
+            "SalesOrderStatus": "Shipped",
+            "ShortDescription": "Shipped",
+            "LongDescription": "All products in this order have been shipped. Invoice and tracking information is available."
+          },
+          "PurchaseOrder": "",
+          "TotalPrice": 130.84,
+          "DateEntered": "2026-05-22T08:07:10.289-05:00",
+          "OrderNumber": 9910000372111500,
+          "ShipMethod": "FedEx International Priority",
+          "Currency": "USD",
+          "ShippingAddress": {
+            "FirstName": "KEIIRE",
+            "LastName": "LIU",
+            "CompanyName": "CHING DENG TECHNOLOGY INC.",
+            "AddressLine1": "",
+            "AddressLine2": "11 F.-1, NO. 295, SEC. 2, GUANGFU RD.",
+            "AddressLine3": "EAST DIST.",
+            "City": "HSINCHU CITY",
+            "State": "",
+            "County": "",
+            "ZipCode": "300197",
+            "IsoCode": "TW",
+            "Phone": "886926225655",
+            "InvoiceId": 126288836
+          },
+          "LineItems": [
+            {
+              "SalesOrderId": 99390081,
+              "DetailId": 1,
+              "TotalPrice": 10.28,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "MY",
+              "DigiKeyProductNumber": "505-AD8601WDRTZ-REEL7CT-ND",
+              "ManufacturerProductNumber": "AD8601WDRTZ-REEL7",
+              "Description": "IC OPAMP GP 1 CIRCUIT SOT23-5",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 10,
+              "QuantityOrdered": 10,
+              "QuantityShipped": 10,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 1.028,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 10,
+                  "InvoiceId": 126288836,
+                  "ShippedDate": "2026-05-22T14:09:01.917Z",
+                  "TrackingNumber": "527301780181",
+                  "ExpectedDeliveryDate": "2026-06-01"
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 99390081,
+              "DetailId": 2,
+              "TotalPrice": 39.68,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "INA326EA/2K5CT-ND",
+              "ManufacturerProductNumber": "INA326EA/2K5",
+              "Description": "IC INST AMP 1 CIRCUIT 8VSSOP",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 10,
+              "QuantityOrdered": 10,
+              "QuantityShipped": 10,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 3.968,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 10,
+                  "InvoiceId": 126288836,
+                  "ShippedDate": "2026-05-22T14:09:01.917Z",
+                  "TrackingNumber": "527301780181",
+                  "ExpectedDeliveryDate": "2026-06-01"
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 99390081,
+              "DetailId": 3,
+              "TotalPrice": 77.79,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "MY",
+              "DigiKeyProductNumber": "LTC1443IS#PBF-ND",
+              "ManufacturerProductNumber": "LTC1443IS#PBF",
+              "Description": "IC COMPARATOR 4 W/VOLT REF 16SO",
+              "PackType": "Tube",
+              "QuantityInitialRequested": 10,
+              "QuantityOrdered": 10,
+              "QuantityShipped": 10,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 7.779,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 10,
+                  "InvoiceId": 126288836,
+                  "ShippedDate": "2026-05-22T14:09:01.917Z",
+                  "TrackingNumber": "527301780181",
+                  "ExpectedDeliveryDate": "2026-06-01"
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 99390081,
+              "DetailId": 4,
+              "TotalPrice": 3.09,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "JP",
+              "DigiKeyProductNumber": "445-9066-1-ND",
+              "ManufacturerProductNumber": "C1005X5R1E105K050BC",
+              "Description": "CAP CER 1UF 25V X5R 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 100,
+              "QuantityOrdered": 100,
+              "QuantityShipped": 100,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.0309,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 100,
+                  "InvoiceId": 126288836,
+                  "ShippedDate": "2026-05-22T14:09:01.917Z",
+                  "TrackingNumber": "527301780181",
+                  "ExpectedDeliveryDate": "2026-06-01"
+                }
+              ],
+              "Schedules": []
+            }
+          ]
+        }
+      ]
+    },
     {
       "OrderNumber": 9910000371780276,
       "CustomerId": 16327571,
