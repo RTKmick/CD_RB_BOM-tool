@@ -1,5 +1,5 @@
 {
-  "TotalOrders": 10,
+  "TotalOrders": 9,
   "Orders": [
     {
       "OrderNumber": 9910000372111500,
@@ -2626,86 +2626,6 @@
                   "InvoiceId": 123626882,
                   "ShippedDate": "2026-04-06T19:42:05.811Z",
                   "TrackingNumber": "9940576041",
-                  "ExpectedDeliveryDate": null
-                }
-              ],
-              "Schedules": []
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "OrderNumber": 9910000369901300,
-      "CustomerId": 16327571,
-      "DateEntered": "2026-03-24T23:31:08.435-05:00",
-      "Currency": "USD",
-      "PONumber": "",
-      "EntireOrderStatus": {
-        "OrderStatus": "Shipped",
-        "ShortDescription": "Shipped",
-        "LongDescription": "All products in this order have been shipped. Invoice and tracking information is available."
-      },
-      "SalesOrders": [
-        {
-          "CustomerId": 16327571,
-          "Contact": {
-            "FirstName": null,
-            "LastName": null,
-            "Email": "sales@cdengs.com"
-          },
-          "SalesOrderId": 98233586,
-          "Status": {
-            "SalesOrderStatus": "Shipped",
-            "ShortDescription": "Shipped",
-            "LongDescription": "All products in this order have been shipped. Invoice and tracking information is available."
-          },
-          "PurchaseOrder": "",
-          "TotalPrice": 119.75,
-          "DateEntered": "2026-03-24T23:31:08.435-05:00",
-          "OrderNumber": 9910000369901300,
-          "ShipMethod": "DHL Express International",
-          "Currency": "USD",
-          "ShippingAddress": {
-            "FirstName": "KERRIE",
-            "LastName": "LIU",
-            "CompanyName": "CHING DENG TECHNOLOGY INC.",
-            "AddressLine1": "",
-            "AddressLine2": "12F.-25, NO. 29,",
-            "AddressLine3": "GUANXIN RD., EAST DIST.,",
-            "City": "HSINCHU",
-            "State": "",
-            "County": "",
-            "ZipCode": "300052",
-            "IsoCode": "TW",
-            "Phone": "886926225655",
-            "InvoiceId": 123011012
-          },
-          "LineItems": [
-            {
-              "SalesOrderId": 98233586,
-              "DetailId": 1,
-              "TotalPrice": 119.75,
-              "PurchaseOrder": "",
-              "CustomerReference": "",
-              "CountryOfOrigin": "PH",
-              "DigiKeyProductNumber": "505-EVAL-ADUSB2EBZ-ND",
-              "ManufacturerProductNumber": "EVAL-ADUSB2EBZ",
-              "Description": "USBI BRD USB TO SPI/I2C",
-              "PackType": "Box",
-              "QuantityInitialRequested": 1,
-              "QuantityOrdered": 1,
-              "QuantityShipped": 1,
-              "QuantityReserved": 0,
-              "QuantityBackOrder": 0,
-              "UnitPrice": 119.75,
-              "PoLineItemNumber": null,
-              "ItemShipments": [
-                {
-                  "QuantityShipped": 1,
-                  "InvoiceId": 123011012,
-                  "ShippedDate": "2026-03-25T18:07:23.142Z",
-                  "TrackingNumber": "9606032586",
                   "ExpectedDeliveryDate": null
                 }
               ],
