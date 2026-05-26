@@ -1,7 +1,15 @@
 {
   "Errors": [],
-  "NumberOfOrders": 6,
+  "NumberOfOrders": 7,
   "OrderHistoryItems": [
+    {
+      "DateCreated": "2026-05-26T00:00:00",
+      "SalesOrderNumber": "280283719",
+      "WebOrderNumber": "39301351",
+      "PoNumber": "39301351",
+      "BuyerName": "CHIN-KUN WEN",
+      "OrderStatusDisplay": "Pick Complete"
+    },
     {
       "DateCreated": "2026-05-22T00:00:00",
       "SalesOrderNumber": "280251767",
@@ -195,7 +203,7 @@
           "UnitPrice": 3.41,
           "ExtPrice": 272.8,
           "FormattedUnitPrice": "$3.41",
-          "FormattedExtendedPrice": "$272.80",
+          "FormattedExtendedPrice": "$0.00",
           "AdditionalFees": [
             {
               "amount": null,
@@ -213,7 +221,7 @@
           "Activities": [
             {
               "InvoiceNumber": 0,
-              "Date": null
+              "Date": "2026-05-26T00:00:00"
             }
           ],
           "PartDescription": "Precision Amplifiers Precision Amplifiers Dual 3nV Precision DigiTrim OpAmp",
@@ -375,7 +383,7 @@
           "UnitPrice": 4.35,
           "ExtPrice": 43.5,
           "FormattedUnitPrice": "$4.35",
-          "FormattedExtendedPrice": "$43.50",
+          "FormattedExtendedPrice": "$0.00",
           "AdditionalFees": [
             {
               "amount": null,
@@ -393,7 +401,7 @@
           "Activities": [
             {
               "InvoiceNumber": 0,
-              "Date": null
+              "Date": "2026-05-26T00:00:00"
             }
           ],
           "PartDescription": "Analog Switch ICs Analog Switch ICs 1 ? Typical On Resistance,  5 V, +12 V, +5 V, and +3.3 V Quad SPST Switches",
@@ -589,7 +597,7 @@
           "UnitPrice": 3.41,
           "ExtPrice": 272.8,
           "FormattedUnitPrice": "$3.41",
-          "FormattedExtendedPrice": "$272.80",
+          "FormattedExtendedPrice": "$0.00",
           "AdditionalFees": [
             {
               "amount": null,
@@ -607,7 +615,7 @@
           "Activities": [
             {
               "InvoiceNumber": 0,
-              "Date": null
+              "Date": "2026-05-26T00:00:00"
             }
           ],
           "PartDescription": "Precision Amplifiers Precision Amplifiers Dual 3nV Precision DigiTrim OpAmp",
@@ -769,7 +777,7 @@
           "UnitPrice": 4.35,
           "ExtPrice": 43.5,
           "FormattedUnitPrice": "$4.35",
-          "FormattedExtendedPrice": "$43.50",
+          "FormattedExtendedPrice": "$0.00",
           "AdditionalFees": [
             {
               "amount": null,
@@ -787,7 +795,7 @@
           "Activities": [
             {
               "InvoiceNumber": 0,
-              "Date": null
+              "Date": "2026-05-26T00:00:00"
             }
           ],
           "PartDescription": "Analog Switch ICs Analog Switch ICs 1 ? Typical On Resistance,  5 V, +12 V, +5 V, and +3.3 V Quad SPST Switches",
