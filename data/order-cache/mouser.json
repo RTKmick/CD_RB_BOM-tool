@@ -8,7 +8,7 @@
       "WebOrderNumber": "39313442",
       "PoNumber": "39313442",
       "BuyerName": "CHIN-KUN WEN",
-      "OrderStatusDisplay": "Pick Started",
+      "OrderStatusDisplay": "Complete",
       "OrderLineItems": [
         {
           "Quantity": 120,
@@ -32,8 +32,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90561304,
+              "Date": "2026-05-27T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0.47 uF 16 VDC 10% 0402 X5R",
@@ -62,8 +62,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90561304,
+              "Date": "2026-05-27T00:00:00"
             }
           ],
           "PartDescription": "RF Connectors / Coaxial Connectors RF Connectors / Coaxial Connectors BNC ST PCB JACK 50 OHM TF-4 POST",
@@ -92,8 +92,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90561304,
+              "Date": "2026-05-27T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 2.2 uF 16 VDC 10% 0603 X5R",
@@ -126,8 +126,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90561304,
+              "Date": "2026-05-27T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0.47 uF 16 VDC 10% 0402 X5R",
@@ -156,8 +156,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90561304,
+              "Date": "2026-05-27T00:00:00"
             }
           ],
           "PartDescription": "RF Connectors / Coaxial Connectors RF Connectors / Coaxial Connectors BNC ST PCB JACK 50 OHM TF-4 POST",
@@ -186,8 +186,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90561304,
+              "Date": "2026-05-27T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 2.2 uF 16 VDC 10% 0603 X5R",
@@ -197,8 +197,8 @@
       ],
       "SalesOrderId": "280301533",
       "WebOrderId": 39313442,
-      "OrderStatus": 27,
-      "OrderStatusName": "Pick Started",
+      "OrderStatus": 30,
+      "OrderStatusName": "Complete",
       "IsScheduled": false,
       "IsPendingOrder": false
     },
