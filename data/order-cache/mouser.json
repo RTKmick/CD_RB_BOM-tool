@@ -216,7 +216,7 @@
       "WebOrderNumber": "39279106",
       "PoNumber": "39279106",
       "BuyerName": "CHIN-KUN WEN",
-      "OrderStatusDisplay": "Preparing Shipment",
+      "OrderStatusDisplay": "Complete",
       "OrderLineItems": [
         {
           "Quantity": 2000,
@@ -240,8 +240,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0402, 39Ohms, 1%, 1/16W",
@@ -270,8 +270,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0402, 5.1kOhms, 1%, 1/16W",
@@ -300,8 +300,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0402 10V 2.2uF X7S 10% T: 0.5mm",
@@ -330,8 +330,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT CGA 0402 50V 15pF C0G 5% AEC-Q200",
@@ -360,8 +360,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0402 50VDC 22pF C0G 0.5mm",
@@ -390,8 +390,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Crystals Crystals 32.768K 12.5pF 20ppm AEC-Q200-40C +85C",
@@ -450,8 +450,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "USB Interface IC USB Interface IC USB Full Speed to Serial UART IC, Includes Oscillator and EEPROM, SSOP-28",
@@ -480,8 +480,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0.1 uF 16 VDC 10% 0402 X7R",
@@ -510,8 +510,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Fixed Terminal Blocks Fixed Terminal Blocks ST04503DDNC",
@@ -540,8 +540,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD 49.9Ohms 0402 0.0625W 1% Std Power AEC-Q200",
@@ -570,8 +570,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD 0402 1.69Kohms 1% AEC-Q200",
@@ -634,8 +634,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0402, 39Ohms, 1%, 1/16W",
@@ -664,8 +664,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0402, 5.1kOhms, 1%, 1/16W",
@@ -694,8 +694,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0402 10V 2.2uF X7S 10% T: 0.5mm",
@@ -724,8 +724,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT CGA 0402 50V 15pF C0G 5% AEC-Q200",
@@ -754,8 +754,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0402 50VDC 22pF C0G 0.5mm",
@@ -784,8 +784,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Crystals Crystals 32.768K 12.5pF 20ppm AEC-Q200-40C +85C",
@@ -844,8 +844,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "USB Interface IC USB Interface IC USB Full Speed to Serial UART IC, Includes Oscillator and EEPROM, SSOP-28",
@@ -874,8 +874,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0.1 uF 16 VDC 10% 0402 X7R",
@@ -904,8 +904,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Fixed Terminal Blocks Fixed Terminal Blocks ST04503DDNC",
@@ -934,8 +934,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD 49.9Ohms 0402 0.0625W 1% Std Power AEC-Q200",
@@ -964,8 +964,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90582761,
+              "Date": "2026-05-28T00:00:00"
             }
           ],
           "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD 0402 1.69Kohms 1% AEC-Q200",
@@ -1005,8 +1005,8 @@
       ],
       "SalesOrderId": "280251767",
       "WebOrderId": 39279106,
-      "OrderStatus": 32,
-      "OrderStatusName": "Preparing Shipment",
+      "OrderStatus": 30,
+      "OrderStatusName": "Complete",
       "IsScheduled": false,
       "IsPendingOrder": false
     },
