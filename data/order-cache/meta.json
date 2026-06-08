@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-06-08T15:59:35.750Z",
+  "generatedAt": "2026-06-08T20:23:01.448Z",
   "range": {
     "startDate": "04/09/2026",
     "endDate": "06/08/2026",
-    "digiStartIso": "2026-04-09T15:59:24.292Z",
-    "digiEndIso": "2026-06-08T15:59:24.292Z"
+    "digiStartIso": "2026-04-09T20:22:48.345Z",
+    "digiEndIso": "2026-06-08T20:22:48.345Z"
   },
   "mouser": {
     "httpStatus": 200,
     "ok": true
   },
   "digikey": {
-    "httpStatus": 200,
-    "ok": true
+    "httpStatus": 502,
+    "ok": false
   }
 }

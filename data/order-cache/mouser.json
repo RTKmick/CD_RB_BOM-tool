@@ -8,7 +8,7 @@
       "WebOrderNumber": "39421689",
       "PoNumber": "39421689",
       "BuyerName": "CHIN-KUN WEN",
-      "OrderStatusDisplay": "Pick Started",
+      "OrderStatusDisplay": "Preparing Shipment",
       "OrderLineItems": [
         {
           "Quantity": 36,
@@ -437,8 +437,8 @@
       ],
       "SalesOrderId": "280463147",
       "WebOrderId": 39421689,
-      "OrderStatus": 27,
-      "OrderStatusName": "Pick Started",
+      "OrderStatus": 32,
+      "OrderStatusName": "Preparing Shipment",
       "IsScheduled": false,
       "IsPendingOrder": false
     },
