@@ -8,7 +8,7 @@
       "WebOrderNumber": "39421689",
       "PoNumber": "39421689",
       "BuyerName": "CHIN-KUN WEN",
-      "OrderStatusDisplay": "Preparing Shipment",
+      "OrderStatusDisplay": "Warehouse Processing",
       "OrderLineItems": [
         {
           "Quantity": 36,
@@ -32,8 +32,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90758043,
+              "Date": "2026-06-09T00:00:00"
             }
           ],
           "PartDescription": "Logic Gates Logic Gates 2-6V Quad 2-Input AND",
@@ -62,8 +62,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90758043,
+              "Date": "2026-06-09T00:00:00"
             }
           ],
           "PartDescription": "Analog Switch ICs Analog Switch ICs Quad SPST QFN 4x4mm",
@@ -92,8 +92,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90758043,
+              "Date": "2026-06-09T00:00:00"
             }
           ],
           "PartDescription": "Encoders, Decoders, Multiplexers & Demultiplexers Encoders, Decoders, Multiplexers & Demultiplexers 2-Line-to-4-Line Dec oder A 595-SN74LVC1 A 595-SN74LVC1G139DCTT",
@@ -122,8 +122,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90758043,
+              "Date": "2026-06-09T00:00:00"
             }
           ],
           "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0402, 39kOhms, 5%, 1/16W",
@@ -133,7 +133,7 @@
         {
           "Quantity": 600,
           "UnitPrice": 0.011,
-          "ExtPrice": 6.6,
+          "ExtPrice": 6.55,
           "FormattedUnitPrice": "$0.011",
           "FormattedExtendedPrice": "$6.60",
           "AdditionalFees": [
@@ -154,6 +154,10 @@
             {
               "InvoiceNumber": 0,
               "Date": null
+            },
+            {
+              "InvoiceNumber": 90758043,
+              "Date": "2026-06-09T00:00:00"
             }
           ],
           "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD 0402 100Kohms 1% AEC-Q200",
@@ -182,8 +186,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90758043,
+              "Date": "2026-06-09T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 963-MSASE168AB5475KT RPLCMT PN 16V 4.7uF X5R 0603 10%",
@@ -212,8 +216,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90758043,
+              "Date": "2026-06-09T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0.1 uF 16 VDC 10% 0402 X7R",
@@ -246,8 +250,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90758043,
+              "Date": "2026-06-09T00:00:00"
             }
           ],
           "PartDescription": "Logic Gates Logic Gates 2-6V Quad 2-Input AND",
@@ -276,8 +280,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90758043,
+              "Date": "2026-06-09T00:00:00"
             }
           ],
           "PartDescription": "Analog Switch ICs Analog Switch ICs Quad SPST QFN 4x4mm",
@@ -306,8 +310,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90758043,
+              "Date": "2026-06-09T00:00:00"
             }
           ],
           "PartDescription": "Encoders, Decoders, Multiplexers & Demultiplexers Encoders, Decoders, Multiplexers & Demultiplexers 2-Line-to-4-Line Dec oder A 595-SN74LVC1 A 595-SN74LVC1G139DCTT",
@@ -336,8 +340,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90758043,
+              "Date": "2026-06-09T00:00:00"
             }
           ],
           "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0402, 39kOhms, 5%, 1/16W",
@@ -347,7 +351,7 @@
         {
           "Quantity": 600,
           "UnitPrice": 0.011,
-          "ExtPrice": 6.6,
+          "ExtPrice": 6.55,
           "FormattedUnitPrice": "$0.011",
           "FormattedExtendedPrice": "$6.60",
           "AdditionalFees": [
@@ -368,6 +372,10 @@
             {
               "InvoiceNumber": 0,
               "Date": null
+            },
+            {
+              "InvoiceNumber": 90758043,
+              "Date": "2026-06-09T00:00:00"
             }
           ],
           "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD 0402 100Kohms 1% AEC-Q200",
@@ -396,8 +404,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90758043,
+              "Date": "2026-06-09T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 963-MSASE168AB5475KT RPLCMT PN 16V 4.7uF X5R 0603 10%",
@@ -426,8 +434,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 90758043,
+              "Date": "2026-06-09T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0.1 uF 16 VDC 10% 0402 X7R",
@@ -437,8 +445,8 @@
       ],
       "SalesOrderId": "280463147",
       "WebOrderId": 39421689,
-      "OrderStatus": 32,
-      "OrderStatusName": "Preparing Shipment",
+      "OrderStatus": 22,
+      "OrderStatusName": "Warehouse Processing",
       "IsScheduled": false,
       "IsPendingOrder": false
     },
