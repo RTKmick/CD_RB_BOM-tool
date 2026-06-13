@@ -1,5 +1,5 @@
 {
-  "TotalOrders": 10,
+  "TotalOrders": 9,
   "Orders": [
     {
       "OrderNumber": 9910000372553588,
@@ -4125,115 +4125,6 @@
                   "InvoiceId": 124878425,
                   "ShippedDate": "2026-04-28T07:50:13.278Z",
                   "TrackingNumber": "524357500182",
-                  "ExpectedDeliveryDate": null
-                }
-              ],
-              "Schedules": []
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "OrderNumber": 9910000370633674,
-      "CustomerId": 16327571,
-      "DateEntered": "2026-04-14T00:36:31.543-05:00",
-      "Currency": "USD",
-      "PONumber": "",
-      "EntireOrderStatus": {
-        "OrderStatus": "Shipped",
-        "ShortDescription": "Shipped",
-        "LongDescription": "All products in this order have been shipped. Invoice and tracking information is available."
-      },
-      "SalesOrders": [
-        {
-          "CustomerId": 16327571,
-          "Contact": {
-            "FirstName": null,
-            "LastName": null,
-            "Email": "sales@cdengs.com"
-          },
-          "SalesOrderId": 98613704,
-          "Status": {
-            "SalesOrderStatus": "Shipped",
-            "ShortDescription": "Shipped",
-            "LongDescription": "All products in this order have been shipped. Invoice and tracking information is available."
-          },
-          "PurchaseOrder": "",
-          "TotalPrice": 101.25,
-          "DateEntered": "2026-04-14T00:36:31.543-05:00",
-          "OrderNumber": 9910000370633674,
-          "ShipMethod": "DHL Express International",
-          "Currency": "USD",
-          "ShippingAddress": {
-            "FirstName": "KERRIE",
-            "LastName": "LIU",
-            "CompanyName": "CHING DENG TECHNOLOGY INC.",
-            "AddressLine1": "",
-            "AddressLine2": "12F.-25, NO. 29,",
-            "AddressLine3": "GUANXIN RD., EAST DIST.,",
-            "City": "HSINCHU",
-            "State": "",
-            "County": "",
-            "ZipCode": "300052",
-            "IsoCode": "TW",
-            "Phone": "886926225655",
-            "InvoiceId": 124085264
-          },
-          "LineItems": [
-            {
-              "SalesOrderId": 98613704,
-              "DetailId": 1,
-              "TotalPrice": 16.02,
-              "PurchaseOrder": "",
-              "CustomerReference": "",
-              "CountryOfOrigin": "MX",
-              "DigiKeyProductNumber": "399-C0402C103K4REC7411CT-ND",
-              "ManufacturerProductNumber": "C0402C103K4REC7411",
-              "Description": "CAP CER 0402 10NF 16V X7R 10%",
-              "PackType": "CutTape",
-              "QuantityInitialRequested": 600,
-              "QuantityOrdered": 600,
-              "QuantityShipped": 600,
-              "QuantityReserved": 0,
-              "QuantityBackOrder": 0,
-              "UnitPrice": 0.0267,
-              "PoLineItemNumber": null,
-              "ItemShipments": [
-                {
-                  "QuantityShipped": 600,
-                  "InvoiceId": 124085264,
-                  "ShippedDate": "2026-04-14T19:59:18.351Z",
-                  "TrackingNumber": "6695946821",
-                  "ExpectedDeliveryDate": null
-                }
-              ],
-              "Schedules": []
-            },
-            {
-              "SalesOrderId": 98613704,
-              "DetailId": 2,
-              "TotalPrice": 85.23,
-              "PurchaseOrder": "",
-              "CustomerReference": "",
-              "CountryOfOrigin": "US",
-              "DigiKeyProductNumber": "296-17014-1-ND",
-              "ManufacturerProductNumber": "SN74LVC2T45DCUR",
-              "Description": "IC XLTR VL BIDIR 8-VSSOP",
-              "PackType": "CutTape",
-              "QuantityInitialRequested": 250,
-              "QuantityOrdered": 250,
-              "QuantityShipped": 250,
-              "QuantityReserved": 0,
-              "QuantityBackOrder": 0,
-              "UnitPrice": 0.34092,
-              "PoLineItemNumber": null,
-              "ItemShipments": [
-                {
-                  "QuantityShipped": 250,
-                  "InvoiceId": 124085264,
-                  "ShippedDate": "2026-04-14T19:59:18.351Z",
-                  "TrackingNumber": "6695946821",
                   "ExpectedDeliveryDate": null
                 }
               ],
