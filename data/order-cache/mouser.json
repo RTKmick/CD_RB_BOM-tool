@@ -1,7 +1,2247 @@
 {
   "Errors": [],
-  "NumberOfOrders": 6,
+  "NumberOfOrders": 7,
   "OrderHistoryItems": [
+    {
+      "DateCreated": "2026-06-22T00:00:00",
+      "SalesOrderNumber": "280697873",
+      "WebOrderNumber": "39579345",
+      "PoNumber": "39579345",
+      "BuyerName": "CHIN-KUN WEN",
+      "OrderStatusDisplay": "Order Processing",
+      "OrderLineItems": [
+        {
+          "Quantity": 56,
+          "UnitPrice": 1.03,
+          "ExtPrice": 57.68,
+          "FormattedUnitPrice": "$1.03",
+          "FormattedExtendedPrice": "$57.68",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "926-LMR62014XMF/NOPB",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Texas Instruments",
+            "ManufacturerPartNumber": "LMR62014XMF/NOPB",
+            "PartDescription": "Switching Voltage Regulators Switching Voltage Regulators SIMPLE SWITCHER 20V out 1.4A SU Vltg Reg A 595-TPS61376RYHR"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Switching Voltage Regulators Switching Voltage Regulators SIMPLE SWITCHER 20V out 1.4A SU Vltg Reg A 595-TPS61376RYHR",
+          "ManufacturerPartNumber": "LMR62014XMF/NOPB",
+          "MouserPartNumber": "926-LMR62014XMF/NOPB"
+        },
+        {
+          "Quantity": 56,
+          "UnitPrice": 2.43,
+          "ExtPrice": 136.08,
+          "FormattedUnitPrice": "$2.43",
+          "FormattedExtendedPrice": "$136.08",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "595-TPS79333DBVREP",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Texas Instruments",
+            "ManufacturerPartNumber": "TPS79333DBVREP",
+            "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators Mil Enh Ultra Lo Noi se Hi PSRR 200mA A A 595-TPS79333DBVRG4Q1"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators Mil Enh Ultra Lo Noi se Hi PSRR 200mA A A 595-TPS79333DBVRG4Q1",
+          "ManufacturerPartNumber": "TPS79333DBVREP",
+          "MouserPartNumber": "595-TPS79333DBVREP"
+        },
+        {
+          "Quantity": 130,
+          "UnitPrice": 0.031,
+          "ExtPrice": 4.03,
+          "FormattedUnitPrice": "$0.031",
+          "FormattedExtendedPrice": "$4.03",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RT0603DRD0722RL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RT0603DRD0722RL",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD "
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD ",
+          "ManufacturerPartNumber": "RT0603DRD0722RL",
+          "MouserPartNumber": "603-RT0603DRD0722RL"
+        },
+        {
+          "Quantity": 70,
+          "UnitPrice": 0.033,
+          "ExtPrice": 2.31,
+          "FormattedUnitPrice": "$0.033",
+          "FormattedExtendedPrice": "$2.31",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RT0603DRD0713KL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RT0603DRD0713KL",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 13K ohm .5% 25 ppm"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 13K ohm .5% 25 ppm",
+          "ManufacturerPartNumber": "RT0603DRD0713KL",
+          "MouserPartNumber": "603-RT0603DRD0713KL"
+        },
+        {
+          "Quantity": 70,
+          "UnitPrice": 0.033,
+          "ExtPrice": 2.31,
+          "FormattedUnitPrice": "$0.033",
+          "FormattedExtendedPrice": "$2.31",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RT0603DRD07180KL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RT0603DRD07180KL",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 180K ohm .5% 25ppm"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 180K ohm .5% 25ppm",
+          "ManufacturerPartNumber": "RT0603DRD07180KL",
+          "MouserPartNumber": "603-RT0603DRD07180KL"
+        },
+        {
+          "Quantity": 180,
+          "UnitPrice": 0.031,
+          "ExtPrice": 5.58,
+          "FormattedUnitPrice": "$0.031",
+          "FormattedExtendedPrice": "$5.58",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RT0603DRD0751KL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RT0603DRD0751KL",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 51K   OHM  .5%  25PPM  1/10W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 51K   OHM  .5%  25PPM  1/10W",
+          "ManufacturerPartNumber": "RT0603DRD0751KL",
+          "MouserPartNumber": "603-RT0603DRD0751KL"
+        },
+        {
+          "Quantity": 120,
+          "UnitPrice": 0.031,
+          "ExtPrice": 3.72,
+          "FormattedUnitPrice": "$0.031",
+          "FormattedExtendedPrice": "$3.72",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RT0603DRD07100KL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RT0603DRD07100KL",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 100K ohm .5% 25ppm"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 100K ohm .5% 25ppm",
+          "ManufacturerPartNumber": "RT0603DRD07100KL",
+          "MouserPartNumber": "603-RT0603DRD07100KL"
+        },
+        {
+          "Quantity": 450,
+          "UnitPrice": 0.016,
+          "ExtPrice": 7.2,
+          "FormattedUnitPrice": "$0.016",
+          "FormattedExtendedPrice": "$7.20",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RT0603DRE071KL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RT0603DRE071KL",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1K OHM .5% 50PPM"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1K OHM .5% 50PPM",
+          "ManufacturerPartNumber": "RT0603DRE071KL",
+          "MouserPartNumber": "603-RT0603DRE071KL"
+        },
+        {
+          "Quantity": 180,
+          "UnitPrice": 0.031,
+          "ExtPrice": 5.58,
+          "FormattedUnitPrice": "$0.031",
+          "FormattedExtendedPrice": "$5.58",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RT0603DRD071K2L",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RT0603DRD071K2L",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 1.2K ohm .5% 25ppm"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 1.2K ohm .5% 25ppm",
+          "ManufacturerPartNumber": "RT0603DRD071K2L",
+          "MouserPartNumber": "603-RT0603DRD071K2L"
+        },
+        {
+          "Quantity": 300,
+          "UnitPrice": 0.052,
+          "ExtPrice": 15.6,
+          "FormattedUnitPrice": "$0.052",
+          "FormattedExtendedPrice": "$15.60",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RP0603DRD0710KL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RP0603DRD0710KL",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10 Wa 10K Ohm 1.1% 0603 AEC-Q200"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10 Wa 10K Ohm 1.1% 0603 AEC-Q200",
+          "ManufacturerPartNumber": "RP0603DRD0710KL",
+          "MouserPartNumber": "603-RP0603DRD0710KL"
+        },
+        {
+          "Quantity": 180,
+          "UnitPrice": 0.031,
+          "ExtPrice": 5.58,
+          "FormattedUnitPrice": "$0.031",
+          "FormattedExtendedPrice": "$5.58",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RT0603DRD07150RL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RT0603DRD07150RL",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 150   OHM  .5%  25PPM  1/10W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 150   OHM  .5%  25PPM  1/10W",
+          "ManufacturerPartNumber": "RT0603DRD07150RL",
+          "MouserPartNumber": "603-RT0603DRD07150RL"
+        },
+        {
+          "Quantity": 65,
+          "UnitPrice": 0.033,
+          "ExtPrice": 2.15,
+          "FormattedUnitPrice": "$0.033",
+          "FormattedExtendedPrice": "$2.15",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RT0603DRD07330RL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RT0603DRD07330RL",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 330   OHM  .5%  25PPM  1/10W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 330   OHM  .5%  25PPM  1/10W",
+          "ManufacturerPartNumber": "RT0603DRD07330RL",
+          "MouserPartNumber": "603-RT0603DRD07330RL"
+        },
+        {
+          "Quantity": 330,
+          "UnitPrice": 0.053,
+          "ExtPrice": 17.49,
+          "FormattedUnitPrice": "$0.053",
+          "FormattedExtendedPrice": "$17.49",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "863-MMBT3904LT1G",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "onsemi",
+            "ManufacturerPartNumber": "MMBT3904LT1G",
+            "PartDescription": "Bipolar Transistors - BJT Bipolar Transistors - BJT NPN GENERAL PURPOSE"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Bipolar Transistors - BJT Bipolar Transistors - BJT NPN GENERAL PURPOSE",
+          "ManufacturerPartNumber": "MMBT3904LT1G",
+          "MouserPartNumber": "863-MMBT3904LT1G"
+        },
+        {
+          "Quantity": 230,
+          "UnitPrice": 0.277,
+          "ExtPrice": 63.71,
+          "FormattedUnitPrice": "$0.277",
+          "FormattedExtendedPrice": "$63.71",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "833-SI2303-TP",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Micro Commercial Components (MCC)",
+            "ManufacturerPartNumber": "SI2303-TP",
+            "PartDescription": "MOSFETs MOSFETs P-Channel Enhancement Mode Field Effect Transistor"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "MOSFETs MOSFETs P-Channel Enhancement Mode Field Effect Transistor",
+          "ManufacturerPartNumber": "SI2303-TP",
+          "MouserPartNumber": "833-SI2303-TP"
+        },
+        {
+          "Quantity": 62,
+          "UnitPrice": 0.379,
+          "ExtPrice": 23.5,
+          "FormattedUnitPrice": "$0.379",
+          "FormattedExtendedPrice": "$23.50",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "652-SDE0604A-100M",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Bourns",
+            "ManufacturerPartNumber": "SDE0604A-100M",
+            "PartDescription": "Power Inductors - SMD Power Inductors - SMD 10uH 20% SMD 0604 AEC-Q200"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Power Inductors - SMD Power Inductors - SMD 10uH 20% SMD 0604 AEC-Q200",
+          "ManufacturerPartNumber": "SDE0604A-100M",
+          "MouserPartNumber": "652-SDE0604A-100M"
+        },
+        {
+          "Quantity": 62,
+          "UnitPrice": 0.025,
+          "ExtPrice": 1.55,
+          "FormattedUnitPrice": "$0.025",
+          "FormattedExtendedPrice": "$1.55",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "737-PH1-02-UA",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Adam Tech",
+            "ManufacturerPartNumber": "PH1-02-UA",
+            "PartDescription": "Headers & Wire Housings Headers & Wire Housings CONN HEADER VERT 2POS 2.54MM"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Headers & Wire Housings Headers & Wire Housings CONN HEADER VERT 2POS 2.54MM",
+          "ManufacturerPartNumber": "PH1-02-UA",
+          "MouserPartNumber": "737-PH1-02-UA"
+        },
+        {
+          "Quantity": 56,
+          "UnitPrice": 0.759,
+          "ExtPrice": 42.5,
+          "FormattedUnitPrice": "$0.759",
+          "FormattedExtendedPrice": "$42.50",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "530-SS-52300-001",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Cinch Connectivity Solutions",
+            "ManufacturerPartNumber": "SS-52300-001",
+            "PartDescription": "USB Connectors USB Connectors USB 2.0 - B Connector  1 Port  Right Angle Receptacle  Shielded"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "USB Connectors USB Connectors USB 2.0 - B Connector  1 Port  Right Angle Receptacle  Shielded",
+          "ManufacturerPartNumber": "SS-52300-001",
+          "MouserPartNumber": "530-SS-52300-001"
+        },
+        {
+          "Quantity": 56,
+          "UnitPrice": 0.072,
+          "ExtPrice": 4.03,
+          "FormattedUnitPrice": "$0.072",
+          "FormattedExtendedPrice": "$4.03",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "737-PH1-05-UA",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Adam Tech",
+            "ManufacturerPartNumber": "PH1-05-UA",
+            "PartDescription": "Headers & Wire Housings Headers & Wire Housings CONN HEADER VERT 5POS 2.54MM"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Headers & Wire Housings Headers & Wire Housings CONN HEADER VERT 5POS 2.54MM",
+          "ManufacturerPartNumber": "PH1-05-UA",
+          "MouserPartNumber": "737-PH1-05-UA"
+        },
+        {
+          "Quantity": 120,
+          "UnitPrice": 0.63,
+          "ExtPrice": 75.6,
+          "FormattedUnitPrice": "$0.63",
+          "FormattedExtendedPrice": "$75.60",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "576-0466.750NR",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Littelfuse",
+            "ManufacturerPartNumber": "0466.750NR",
+            "PartDescription": "Surface Mount Fuses Surface Mount Fuses 63V .75A VFA Slimline"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Surface Mount Fuses Surface Mount Fuses 63V .75A VFA Slimline",
+          "ManufacturerPartNumber": "0466.750NR",
+          "MouserPartNumber": "576-0466.750NR"
+        },
+        {
+          "Quantity": 60,
+          "UnitPrice": 0.18,
+          "ExtPrice": 10.8,
+          "FormattedUnitPrice": "$0.18",
+          "FormattedExtendedPrice": "$10.80",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "604-WP7113LSURDK",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Kingbright",
+            "ManufacturerPartNumber": "WP7113LSURDK",
+            "PartDescription": "Single Color LEDs Single Color LEDs 5MM LOW CURRENT RED LED LAMP"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Single Color LEDs Single Color LEDs 5MM LOW CURRENT RED LED LAMP",
+          "ManufacturerPartNumber": "WP7113LSURDK",
+          "MouserPartNumber": "604-WP7113LSURDK"
+        },
+        {
+          "Quantity": 65,
+          "UnitPrice": 0.707,
+          "ExtPrice": 45.96,
+          "FormattedUnitPrice": "$0.707",
+          "FormattedExtendedPrice": "$45.96",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "80-T521B226M25ATE100",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "KEMET",
+            "ManufacturerPartNumber": "T521B226M025ATE100",
+            "PartDescription": "Tantalum Capacitors - Polymer Tantalum Capacitors - Polymer 25V 22uF 1311 20% ESR=100mOhms"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Tantalum Capacitors - Polymer Tantalum Capacitors - Polymer 25V 22uF 1311 20% ESR=100mOhms",
+          "ManufacturerPartNumber": "T521B226M025ATE100",
+          "MouserPartNumber": "80-T521B226M25ATE100"
+        },
+        {
+          "Quantity": 70,
+          "UnitPrice": 0.027,
+          "ExtPrice": 1.89,
+          "FormattedUnitPrice": "$0.027",
+          "FormattedExtendedPrice": "$1.89",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-CC603KRX7R7BB221",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "CC0603KRX7R7BB221",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16 V 220pF X7R 0603 10%"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16 V 220pF X7R 0603 10%",
+          "ManufacturerPartNumber": "CC0603KRX7R7BB221",
+          "MouserPartNumber": "603-CC603KRX7R7BB221"
+        },
+        {
+          "Quantity": 70,
+          "UnitPrice": 0.068,
+          "ExtPrice": 4.76,
+          "FormattedUnitPrice": "$0.068",
+          "FormattedExtendedPrice": "$4.76",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "81-GRM188Z71C225KE3D",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Murata",
+            "ManufacturerPartNumber": "GRM188Z71C225KE43D",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 2.2 uF 16 VDC 10% 0603 X7R"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 2.2 uF 16 VDC 10% 0603 X7R",
+          "ManufacturerPartNumber": "GRM188Z71C225KE43D",
+          "MouserPartNumber": "81-GRM188Z71C225KE3D"
+        },
+        {
+          "Quantity": 70,
+          "UnitPrice": 0.123,
+          "ExtPrice": 8.61,
+          "FormattedUnitPrice": "$0.123",
+          "FormattedExtendedPrice": "$8.61",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "810-C2012X7R1C475K",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "TDK",
+            "ManufacturerPartNumber": "C2012X7R1C475K125AB",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0805 16V 4.7uF X7R 10% T: 1.25mm"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0805 16V 4.7uF X7R 10% T: 1.25mm",
+          "ManufacturerPartNumber": "C2012X7R1C475K125AB",
+          "MouserPartNumber": "810-C2012X7R1C475K"
+        },
+        {
+          "Quantity": 70,
+          "UnitPrice": 0.104,
+          "ExtPrice": 7.28,
+          "FormattedUnitPrice": "$0.104",
+          "FormattedExtendedPrice": "$7.28",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "81-GCJ188R71C103KA1D",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Murata",
+            "ManufacturerPartNumber": "GCJ188R71C103KA01D",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0.01 uF 16 VDC 10% 0603 X7R AEC-Q200"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0.01 uF 16 VDC 10% 0603 X7R AEC-Q200",
+          "ManufacturerPartNumber": "GCJ188R71C103KA01D",
+          "MouserPartNumber": "81-GCJ188R71C103KA1D"
+        },
+        {
+          "Quantity": 130,
+          "UnitPrice": 0.057,
+          "ExtPrice": 7.41,
+          "FormattedUnitPrice": "$0.057",
+          "FormattedExtendedPrice": "$7.41",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "791-RF18N7R0C250CT",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Walsin",
+            "ManufacturerPartNumber": "RF18N7R0C250CT",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 7.0pF +-0.25pF 25V"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 7.0pF +-0.25pF 25V",
+          "ManufacturerPartNumber": "RF18N7R0C250CT",
+          "MouserPartNumber": "791-RF18N7R0C250CT"
+        },
+        {
+          "Quantity": 180,
+          "UnitPrice": 0.108,
+          "ExtPrice": 19.44,
+          "FormattedUnitPrice": "$0.108",
+          "FormattedExtendedPrice": "$19.44",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "81-GRT188R61C106KE3D",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Murata",
+            "ManufacturerPartNumber": "GRT188R61C106KE13D",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 10 uF 16 VDC 10% 0603 X5R AEC-Q200"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 10 uF 16 VDC 10% 0603 X5R AEC-Q200",
+          "ManufacturerPartNumber": "GRT188R61C106KE13D",
+          "MouserPartNumber": "81-GRT188R61C106KE3D"
+        },
+        {
+          "Quantity": 300,
+          "UnitPrice": 0.037,
+          "ExtPrice": 11.1,
+          "FormattedUnitPrice": "$0.037",
+          "FormattedExtendedPrice": "$11.10",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "80-C0603C105K4P",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "KEMET",
+            "ManufacturerPartNumber": "C0603C105K4PACTU",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16V 1uF X5R 0603 10%"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16V 1uF X5R 0603 10%",
+          "ManufacturerPartNumber": "C0603C105K4PACTU",
+          "MouserPartNumber": "80-C0603C105K4P"
+        },
+        {
+          "Quantity": 560,
+          "UnitPrice": 0.019,
+          "ExtPrice": 10.64,
+          "FormattedUnitPrice": "$0.019",
+          "FormattedExtendedPrice": "$10.64",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "963-MCASE168SB5104KT",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "TAIYO YUDEN",
+            "ManufacturerPartNumber": "MCASE168SB5104KTNA01",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16V 0.1uF X5R 0603 10 %"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16V 0.1uF X5R 0603 10 %",
+          "ManufacturerPartNumber": "MCASE168SB5104KTNA01",
+          "MouserPartNumber": "963-MCASE168SB5104KT"
+        },
+        {
+          "Quantity": 70,
+          "UnitPrice": 0.216,
+          "ExtPrice": 15.12,
+          "FormattedUnitPrice": "$0.216",
+          "FormattedExtendedPrice": "$15.12",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-CC121KKX5R7BB475",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "CC1210KKX5R7BB475",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16V 4.7uF X5R 1210 10% HI CV"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16V 4.7uF X5R 1210 10% HI CV",
+          "ManufacturerPartNumber": "CC1210KKX5R7BB475",
+          "MouserPartNumber": "603-CC121KKX5R7BB475"
+        },
+        {
+          "Quantity": 180,
+          "UnitPrice": 0.1,
+          "ExtPrice": 18,
+          "FormattedUnitPrice": "$0.10",
+          "FormattedExtendedPrice": "$18.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "810-C3216X7R1C106K",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "TDK",
+            "ManufacturerPartNumber": "C3216X7R1C106K160AC",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 1206 16V 10uF X7R 10% T: 1.6mm"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 1206 16V 10uF X7R 10% T: 1.6mm",
+          "ManufacturerPartNumber": "C3216X7R1C106K160AC",
+          "MouserPartNumber": "810-C3216X7R1C106K"
+        },
+        {
+          "Quantity": 170,
+          "UnitPrice": 1.28,
+          "ExtPrice": 217.6,
+          "FormattedUnitPrice": "$1.28",
+          "FormattedExtendedPrice": "$217.60",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "80-T521B106M25ATE100",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "KEMET",
+            "ManufacturerPartNumber": "T521B106M025ATE100",
+            "PartDescription": "Tantalum Capacitors - Polymer Tantalum Capacitors - Polymer 25V 10uF 1311 20% ESR=100mOhms"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Tantalum Capacitors - Polymer Tantalum Capacitors - Polymer 25V 10uF 1311 20% ESR=100mOhms",
+          "ManufacturerPartNumber": "T521B106M025ATE100",
+          "MouserPartNumber": "80-T521B106M25ATE100"
+        },
+        {
+          "Quantity": 350,
+          "UnitPrice": 0.005,
+          "ExtPrice": 1.75,
+          "FormattedUnitPrice": "$0.005",
+          "FormattedExtendedPrice": "$1.75",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RC0603JR-130RL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RC0603JR-130RL",
+            "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0603, 0Ohms, 5%, 1/10W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0603, 0Ohms, 5%, 1/10W",
+          "ManufacturerPartNumber": "RC0603JR-130RL",
+          "MouserPartNumber": "603-RC0603JR-130RL"
+        },
+        {
+          "Quantity": 70,
+          "UnitPrice": 0.049,
+          "ExtPrice": 3.43,
+          "FormattedUnitPrice": "$0.049",
+          "FormattedExtendedPrice": "$3.43",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RC1210FR-07200RL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RC1210FR-07200RL",
+            "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 1210, 200Ohms, 1%, 1/2W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 1210, 200Ohms, 1%, 1/2W",
+          "ManufacturerPartNumber": "RC1210FR-07200RL",
+          "MouserPartNumber": "603-RC1210FR-07200RL"
+        },
+        {
+          "Quantity": 60,
+          "UnitPrice": 0.224,
+          "ExtPrice": 13.44,
+          "FormattedUnitPrice": "$0.224",
+          "FormattedExtendedPrice": "$13.44",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-SMAJ5.0CA/TR13",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "SMAJ5.0CA/TR13",
+            "PartDescription": "ESD Protection Diodes / TVS Diodes ESD Protection Diodes / TVS Diodes SMAJ - CA         5V"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "ESD Protection Diodes / TVS Diodes ESD Protection Diodes / TVS Diodes SMAJ - CA         5V",
+          "ManufacturerPartNumber": "SMAJ5.0CA/TR13",
+          "MouserPartNumber": "603-SMAJ5.0CA/TR13"
+        },
+        {
+          "Quantity": 500,
+          "UnitPrice": 0.272,
+          "ExtPrice": 136,
+          "FormattedUnitPrice": "$0.272",
+          "FormattedExtendedPrice": "$136.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "710-8231606A",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Wurth Elektronik",
+            "ManufacturerPartNumber": "8231606A",
+            "PartDescription": "ESD Protection Diodes / TVS Diodes ESD Protection Diodes / TVS Diodes WE-VE femtoF 0603 6V 0.05pF 0.05uA"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "ESD Protection Diodes / TVS Diodes ESD Protection Diodes / TVS Diodes WE-VE femtoF 0603 6V 0.05pF 0.05uA",
+          "ManufacturerPartNumber": "8231606A",
+          "MouserPartNumber": "710-8231606A"
+        },
+        {
+          "Quantity": 300,
+          "UnitPrice": 0.181,
+          "ExtPrice": 54.3,
+          "FormattedUnitPrice": "$0.181",
+          "FormattedExtendedPrice": "$54.30",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "625-SS14-E3",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Vishay",
+            "ManufacturerPartNumber": "SS14-E3/61T",
+            "PartDescription": "Schottky Diodes & Rectifiers Schottky Diodes & Rectifiers 1.0 Amp 40 Volt"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Schottky Diodes & Rectifiers Schottky Diodes & Rectifiers 1.0 Amp 40 Volt",
+          "ManufacturerPartNumber": "SS14-E3/61T",
+          "MouserPartNumber": "625-SS14-E3"
+        }
+      ],
+      "OrderDate": "2026-06-22T00:00:00",
+      "CurrencyCode": "USD",
+      "OrderLines": [
+        {
+          "Quantity": 56,
+          "UnitPrice": 1.03,
+          "ExtPrice": 57.68,
+          "FormattedUnitPrice": "$1.03",
+          "FormattedExtendedPrice": "$57.68",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "926-LMR62014XMF/NOPB",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Texas Instruments",
+            "ManufacturerPartNumber": "LMR62014XMF/NOPB",
+            "PartDescription": "Switching Voltage Regulators Switching Voltage Regulators SIMPLE SWITCHER 20V out 1.4A SU Vltg Reg A 595-TPS61376RYHR"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Switching Voltage Regulators Switching Voltage Regulators SIMPLE SWITCHER 20V out 1.4A SU Vltg Reg A 595-TPS61376RYHR",
+          "ManufacturerPartNumber": "LMR62014XMF/NOPB",
+          "MouserPartNumber": "926-LMR62014XMF/NOPB"
+        },
+        {
+          "Quantity": 56,
+          "UnitPrice": 2.43,
+          "ExtPrice": 136.08,
+          "FormattedUnitPrice": "$2.43",
+          "FormattedExtendedPrice": "$136.08",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "595-TPS79333DBVREP",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Texas Instruments",
+            "ManufacturerPartNumber": "TPS79333DBVREP",
+            "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators Mil Enh Ultra Lo Noi se Hi PSRR 200mA A A 595-TPS79333DBVRG4Q1"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators Mil Enh Ultra Lo Noi se Hi PSRR 200mA A A 595-TPS79333DBVRG4Q1",
+          "ManufacturerPartNumber": "TPS79333DBVREP",
+          "MouserPartNumber": "595-TPS79333DBVREP"
+        },
+        {
+          "Quantity": 130,
+          "UnitPrice": 0.031,
+          "ExtPrice": 4.03,
+          "FormattedUnitPrice": "$0.031",
+          "FormattedExtendedPrice": "$4.03",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RT0603DRD0722RL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RT0603DRD0722RL",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD "
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD ",
+          "ManufacturerPartNumber": "RT0603DRD0722RL",
+          "MouserPartNumber": "603-RT0603DRD0722RL"
+        },
+        {
+          "Quantity": 70,
+          "UnitPrice": 0.033,
+          "ExtPrice": 2.31,
+          "FormattedUnitPrice": "$0.033",
+          "FormattedExtendedPrice": "$2.31",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RT0603DRD0713KL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RT0603DRD0713KL",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 13K ohm .5% 25 ppm"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 13K ohm .5% 25 ppm",
+          "ManufacturerPartNumber": "RT0603DRD0713KL",
+          "MouserPartNumber": "603-RT0603DRD0713KL"
+        },
+        {
+          "Quantity": 70,
+          "UnitPrice": 0.033,
+          "ExtPrice": 2.31,
+          "FormattedUnitPrice": "$0.033",
+          "FormattedExtendedPrice": "$2.31",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RT0603DRD07180KL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RT0603DRD07180KL",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 180K ohm .5% 25ppm"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 180K ohm .5% 25ppm",
+          "ManufacturerPartNumber": "RT0603DRD07180KL",
+          "MouserPartNumber": "603-RT0603DRD07180KL"
+        },
+        {
+          "Quantity": 180,
+          "UnitPrice": 0.031,
+          "ExtPrice": 5.58,
+          "FormattedUnitPrice": "$0.031",
+          "FormattedExtendedPrice": "$5.58",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RT0603DRD0751KL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RT0603DRD0751KL",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 51K   OHM  .5%  25PPM  1/10W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 51K   OHM  .5%  25PPM  1/10W",
+          "ManufacturerPartNumber": "RT0603DRD0751KL",
+          "MouserPartNumber": "603-RT0603DRD0751KL"
+        },
+        {
+          "Quantity": 120,
+          "UnitPrice": 0.031,
+          "ExtPrice": 3.72,
+          "FormattedUnitPrice": "$0.031",
+          "FormattedExtendedPrice": "$3.72",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RT0603DRD07100KL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RT0603DRD07100KL",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 100K ohm .5% 25ppm"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 100K ohm .5% 25ppm",
+          "ManufacturerPartNumber": "RT0603DRD07100KL",
+          "MouserPartNumber": "603-RT0603DRD07100KL"
+        },
+        {
+          "Quantity": 450,
+          "UnitPrice": 0.016,
+          "ExtPrice": 7.2,
+          "FormattedUnitPrice": "$0.016",
+          "FormattedExtendedPrice": "$7.20",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RT0603DRE071KL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RT0603DRE071KL",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1K OHM .5% 50PPM"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1K OHM .5% 50PPM",
+          "ManufacturerPartNumber": "RT0603DRE071KL",
+          "MouserPartNumber": "603-RT0603DRE071KL"
+        },
+        {
+          "Quantity": 180,
+          "UnitPrice": 0.031,
+          "ExtPrice": 5.58,
+          "FormattedUnitPrice": "$0.031",
+          "FormattedExtendedPrice": "$5.58",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RT0603DRD071K2L",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RT0603DRD071K2L",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 1.2K ohm .5% 25ppm"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 1.2K ohm .5% 25ppm",
+          "ManufacturerPartNumber": "RT0603DRD071K2L",
+          "MouserPartNumber": "603-RT0603DRD071K2L"
+        },
+        {
+          "Quantity": 300,
+          "UnitPrice": 0.052,
+          "ExtPrice": 15.6,
+          "FormattedUnitPrice": "$0.052",
+          "FormattedExtendedPrice": "$15.60",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RP0603DRD0710KL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RP0603DRD0710KL",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10 Wa 10K Ohm 1.1% 0603 AEC-Q200"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10 Wa 10K Ohm 1.1% 0603 AEC-Q200",
+          "ManufacturerPartNumber": "RP0603DRD0710KL",
+          "MouserPartNumber": "603-RP0603DRD0710KL"
+        },
+        {
+          "Quantity": 180,
+          "UnitPrice": 0.031,
+          "ExtPrice": 5.58,
+          "FormattedUnitPrice": "$0.031",
+          "FormattedExtendedPrice": "$5.58",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RT0603DRD07150RL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RT0603DRD07150RL",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 150   OHM  .5%  25PPM  1/10W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 150   OHM  .5%  25PPM  1/10W",
+          "ManufacturerPartNumber": "RT0603DRD07150RL",
+          "MouserPartNumber": "603-RT0603DRD07150RL"
+        },
+        {
+          "Quantity": 65,
+          "UnitPrice": 0.033,
+          "ExtPrice": 2.15,
+          "FormattedUnitPrice": "$0.033",
+          "FormattedExtendedPrice": "$2.15",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RT0603DRD07330RL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RT0603DRD07330RL",
+            "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 330   OHM  .5%  25PPM  1/10W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 330   OHM  .5%  25PPM  1/10W",
+          "ManufacturerPartNumber": "RT0603DRD07330RL",
+          "MouserPartNumber": "603-RT0603DRD07330RL"
+        },
+        {
+          "Quantity": 330,
+          "UnitPrice": 0.053,
+          "ExtPrice": 17.49,
+          "FormattedUnitPrice": "$0.053",
+          "FormattedExtendedPrice": "$17.49",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "863-MMBT3904LT1G",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "onsemi",
+            "ManufacturerPartNumber": "MMBT3904LT1G",
+            "PartDescription": "Bipolar Transistors - BJT Bipolar Transistors - BJT NPN GENERAL PURPOSE"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Bipolar Transistors - BJT Bipolar Transistors - BJT NPN GENERAL PURPOSE",
+          "ManufacturerPartNumber": "MMBT3904LT1G",
+          "MouserPartNumber": "863-MMBT3904LT1G"
+        },
+        {
+          "Quantity": 230,
+          "UnitPrice": 0.277,
+          "ExtPrice": 63.71,
+          "FormattedUnitPrice": "$0.277",
+          "FormattedExtendedPrice": "$63.71",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "833-SI2303-TP",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Micro Commercial Components (MCC)",
+            "ManufacturerPartNumber": "SI2303-TP",
+            "PartDescription": "MOSFETs MOSFETs P-Channel Enhancement Mode Field Effect Transistor"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "MOSFETs MOSFETs P-Channel Enhancement Mode Field Effect Transistor",
+          "ManufacturerPartNumber": "SI2303-TP",
+          "MouserPartNumber": "833-SI2303-TP"
+        },
+        {
+          "Quantity": 62,
+          "UnitPrice": 0.379,
+          "ExtPrice": 23.5,
+          "FormattedUnitPrice": "$0.379",
+          "FormattedExtendedPrice": "$23.50",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "652-SDE0604A-100M",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Bourns",
+            "ManufacturerPartNumber": "SDE0604A-100M",
+            "PartDescription": "Power Inductors - SMD Power Inductors - SMD 10uH 20% SMD 0604 AEC-Q200"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Power Inductors - SMD Power Inductors - SMD 10uH 20% SMD 0604 AEC-Q200",
+          "ManufacturerPartNumber": "SDE0604A-100M",
+          "MouserPartNumber": "652-SDE0604A-100M"
+        },
+        {
+          "Quantity": 62,
+          "UnitPrice": 0.025,
+          "ExtPrice": 1.55,
+          "FormattedUnitPrice": "$0.025",
+          "FormattedExtendedPrice": "$1.55",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "737-PH1-02-UA",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Adam Tech",
+            "ManufacturerPartNumber": "PH1-02-UA",
+            "PartDescription": "Headers & Wire Housings Headers & Wire Housings CONN HEADER VERT 2POS 2.54MM"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Headers & Wire Housings Headers & Wire Housings CONN HEADER VERT 2POS 2.54MM",
+          "ManufacturerPartNumber": "PH1-02-UA",
+          "MouserPartNumber": "737-PH1-02-UA"
+        },
+        {
+          "Quantity": 56,
+          "UnitPrice": 0.759,
+          "ExtPrice": 42.5,
+          "FormattedUnitPrice": "$0.759",
+          "FormattedExtendedPrice": "$42.50",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "530-SS-52300-001",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Cinch Connectivity Solutions",
+            "ManufacturerPartNumber": "SS-52300-001",
+            "PartDescription": "USB Connectors USB Connectors USB 2.0 - B Connector  1 Port  Right Angle Receptacle  Shielded"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "USB Connectors USB Connectors USB 2.0 - B Connector  1 Port  Right Angle Receptacle  Shielded",
+          "ManufacturerPartNumber": "SS-52300-001",
+          "MouserPartNumber": "530-SS-52300-001"
+        },
+        {
+          "Quantity": 56,
+          "UnitPrice": 0.072,
+          "ExtPrice": 4.03,
+          "FormattedUnitPrice": "$0.072",
+          "FormattedExtendedPrice": "$4.03",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "737-PH1-05-UA",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Adam Tech",
+            "ManufacturerPartNumber": "PH1-05-UA",
+            "PartDescription": "Headers & Wire Housings Headers & Wire Housings CONN HEADER VERT 5POS 2.54MM"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Headers & Wire Housings Headers & Wire Housings CONN HEADER VERT 5POS 2.54MM",
+          "ManufacturerPartNumber": "PH1-05-UA",
+          "MouserPartNumber": "737-PH1-05-UA"
+        },
+        {
+          "Quantity": 120,
+          "UnitPrice": 0.63,
+          "ExtPrice": 75.6,
+          "FormattedUnitPrice": "$0.63",
+          "FormattedExtendedPrice": "$75.60",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "576-0466.750NR",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Littelfuse",
+            "ManufacturerPartNumber": "0466.750NR",
+            "PartDescription": "Surface Mount Fuses Surface Mount Fuses 63V .75A VFA Slimline"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Surface Mount Fuses Surface Mount Fuses 63V .75A VFA Slimline",
+          "ManufacturerPartNumber": "0466.750NR",
+          "MouserPartNumber": "576-0466.750NR"
+        },
+        {
+          "Quantity": 60,
+          "UnitPrice": 0.18,
+          "ExtPrice": 10.8,
+          "FormattedUnitPrice": "$0.18",
+          "FormattedExtendedPrice": "$10.80",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "604-WP7113LSURDK",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Kingbright",
+            "ManufacturerPartNumber": "WP7113LSURDK",
+            "PartDescription": "Single Color LEDs Single Color LEDs 5MM LOW CURRENT RED LED LAMP"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Single Color LEDs Single Color LEDs 5MM LOW CURRENT RED LED LAMP",
+          "ManufacturerPartNumber": "WP7113LSURDK",
+          "MouserPartNumber": "604-WP7113LSURDK"
+        },
+        {
+          "Quantity": 65,
+          "UnitPrice": 0.707,
+          "ExtPrice": 45.96,
+          "FormattedUnitPrice": "$0.707",
+          "FormattedExtendedPrice": "$45.96",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "80-T521B226M25ATE100",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "KEMET",
+            "ManufacturerPartNumber": "T521B226M025ATE100",
+            "PartDescription": "Tantalum Capacitors - Polymer Tantalum Capacitors - Polymer 25V 22uF 1311 20% ESR=100mOhms"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Tantalum Capacitors - Polymer Tantalum Capacitors - Polymer 25V 22uF 1311 20% ESR=100mOhms",
+          "ManufacturerPartNumber": "T521B226M025ATE100",
+          "MouserPartNumber": "80-T521B226M25ATE100"
+        },
+        {
+          "Quantity": 70,
+          "UnitPrice": 0.027,
+          "ExtPrice": 1.89,
+          "FormattedUnitPrice": "$0.027",
+          "FormattedExtendedPrice": "$1.89",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-CC603KRX7R7BB221",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "CC0603KRX7R7BB221",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16 V 220pF X7R 0603 10%"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16 V 220pF X7R 0603 10%",
+          "ManufacturerPartNumber": "CC0603KRX7R7BB221",
+          "MouserPartNumber": "603-CC603KRX7R7BB221"
+        },
+        {
+          "Quantity": 70,
+          "UnitPrice": 0.068,
+          "ExtPrice": 4.76,
+          "FormattedUnitPrice": "$0.068",
+          "FormattedExtendedPrice": "$4.76",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "81-GRM188Z71C225KE3D",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Murata",
+            "ManufacturerPartNumber": "GRM188Z71C225KE43D",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 2.2 uF 16 VDC 10% 0603 X7R"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 2.2 uF 16 VDC 10% 0603 X7R",
+          "ManufacturerPartNumber": "GRM188Z71C225KE43D",
+          "MouserPartNumber": "81-GRM188Z71C225KE3D"
+        },
+        {
+          "Quantity": 70,
+          "UnitPrice": 0.123,
+          "ExtPrice": 8.61,
+          "FormattedUnitPrice": "$0.123",
+          "FormattedExtendedPrice": "$8.61",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "810-C2012X7R1C475K",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "TDK",
+            "ManufacturerPartNumber": "C2012X7R1C475K125AB",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0805 16V 4.7uF X7R 10% T: 1.25mm"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0805 16V 4.7uF X7R 10% T: 1.25mm",
+          "ManufacturerPartNumber": "C2012X7R1C475K125AB",
+          "MouserPartNumber": "810-C2012X7R1C475K"
+        },
+        {
+          "Quantity": 70,
+          "UnitPrice": 0.104,
+          "ExtPrice": 7.28,
+          "FormattedUnitPrice": "$0.104",
+          "FormattedExtendedPrice": "$7.28",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "81-GCJ188R71C103KA1D",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Murata",
+            "ManufacturerPartNumber": "GCJ188R71C103KA01D",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0.01 uF 16 VDC 10% 0603 X7R AEC-Q200"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0.01 uF 16 VDC 10% 0603 X7R AEC-Q200",
+          "ManufacturerPartNumber": "GCJ188R71C103KA01D",
+          "MouserPartNumber": "81-GCJ188R71C103KA1D"
+        },
+        {
+          "Quantity": 130,
+          "UnitPrice": 0.057,
+          "ExtPrice": 7.41,
+          "FormattedUnitPrice": "$0.057",
+          "FormattedExtendedPrice": "$7.41",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "791-RF18N7R0C250CT",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Walsin",
+            "ManufacturerPartNumber": "RF18N7R0C250CT",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 7.0pF +-0.25pF 25V"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 7.0pF +-0.25pF 25V",
+          "ManufacturerPartNumber": "RF18N7R0C250CT",
+          "MouserPartNumber": "791-RF18N7R0C250CT"
+        },
+        {
+          "Quantity": 180,
+          "UnitPrice": 0.108,
+          "ExtPrice": 19.44,
+          "FormattedUnitPrice": "$0.108",
+          "FormattedExtendedPrice": "$19.44",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "81-GRT188R61C106KE3D",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Murata",
+            "ManufacturerPartNumber": "GRT188R61C106KE13D",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 10 uF 16 VDC 10% 0603 X5R AEC-Q200"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 10 uF 16 VDC 10% 0603 X5R AEC-Q200",
+          "ManufacturerPartNumber": "GRT188R61C106KE13D",
+          "MouserPartNumber": "81-GRT188R61C106KE3D"
+        },
+        {
+          "Quantity": 300,
+          "UnitPrice": 0.037,
+          "ExtPrice": 11.1,
+          "FormattedUnitPrice": "$0.037",
+          "FormattedExtendedPrice": "$11.10",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "80-C0603C105K4P",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "KEMET",
+            "ManufacturerPartNumber": "C0603C105K4PACTU",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16V 1uF X5R 0603 10%"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16V 1uF X5R 0603 10%",
+          "ManufacturerPartNumber": "C0603C105K4PACTU",
+          "MouserPartNumber": "80-C0603C105K4P"
+        },
+        {
+          "Quantity": 560,
+          "UnitPrice": 0.019,
+          "ExtPrice": 10.64,
+          "FormattedUnitPrice": "$0.019",
+          "FormattedExtendedPrice": "$10.64",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "963-MCASE168SB5104KT",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "TAIYO YUDEN",
+            "ManufacturerPartNumber": "MCASE168SB5104KTNA01",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16V 0.1uF X5R 0603 10 %"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16V 0.1uF X5R 0603 10 %",
+          "ManufacturerPartNumber": "MCASE168SB5104KTNA01",
+          "MouserPartNumber": "963-MCASE168SB5104KT"
+        },
+        {
+          "Quantity": 70,
+          "UnitPrice": 0.216,
+          "ExtPrice": 15.12,
+          "FormattedUnitPrice": "$0.216",
+          "FormattedExtendedPrice": "$15.12",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-CC121KKX5R7BB475",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "CC1210KKX5R7BB475",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16V 4.7uF X5R 1210 10% HI CV"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16V 4.7uF X5R 1210 10% HI CV",
+          "ManufacturerPartNumber": "CC1210KKX5R7BB475",
+          "MouserPartNumber": "603-CC121KKX5R7BB475"
+        },
+        {
+          "Quantity": 180,
+          "UnitPrice": 0.1,
+          "ExtPrice": 18,
+          "FormattedUnitPrice": "$0.10",
+          "FormattedExtendedPrice": "$18.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "810-C3216X7R1C106K",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "TDK",
+            "ManufacturerPartNumber": "C3216X7R1C106K160AC",
+            "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 1206 16V 10uF X7R 10% T: 1.6mm"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 1206 16V 10uF X7R 10% T: 1.6mm",
+          "ManufacturerPartNumber": "C3216X7R1C106K160AC",
+          "MouserPartNumber": "810-C3216X7R1C106K"
+        },
+        {
+          "Quantity": 170,
+          "UnitPrice": 1.28,
+          "ExtPrice": 217.6,
+          "FormattedUnitPrice": "$1.28",
+          "FormattedExtendedPrice": "$217.60",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "80-T521B106M25ATE100",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "KEMET",
+            "ManufacturerPartNumber": "T521B106M025ATE100",
+            "PartDescription": "Tantalum Capacitors - Polymer Tantalum Capacitors - Polymer 25V 10uF 1311 20% ESR=100mOhms"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Tantalum Capacitors - Polymer Tantalum Capacitors - Polymer 25V 10uF 1311 20% ESR=100mOhms",
+          "ManufacturerPartNumber": "T521B106M025ATE100",
+          "MouserPartNumber": "80-T521B106M25ATE100"
+        },
+        {
+          "Quantity": 350,
+          "UnitPrice": 0.005,
+          "ExtPrice": 1.75,
+          "FormattedUnitPrice": "$0.005",
+          "FormattedExtendedPrice": "$1.75",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RC0603JR-130RL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RC0603JR-130RL",
+            "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0603, 0Ohms, 5%, 1/10W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0603, 0Ohms, 5%, 1/10W",
+          "ManufacturerPartNumber": "RC0603JR-130RL",
+          "MouserPartNumber": "603-RC0603JR-130RL"
+        },
+        {
+          "Quantity": 70,
+          "UnitPrice": 0.049,
+          "ExtPrice": 3.43,
+          "FormattedUnitPrice": "$0.049",
+          "FormattedExtendedPrice": "$3.43",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-RC1210FR-07200RL",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "RC1210FR-07200RL",
+            "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 1210, 200Ohms, 1%, 1/2W"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 1210, 200Ohms, 1%, 1/2W",
+          "ManufacturerPartNumber": "RC1210FR-07200RL",
+          "MouserPartNumber": "603-RC1210FR-07200RL"
+        },
+        {
+          "Quantity": 60,
+          "UnitPrice": 0.224,
+          "ExtPrice": 13.44,
+          "FormattedUnitPrice": "$0.224",
+          "FormattedExtendedPrice": "$13.44",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "603-SMAJ5.0CA/TR13",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "YAGEO",
+            "ManufacturerPartNumber": "SMAJ5.0CA/TR13",
+            "PartDescription": "ESD Protection Diodes / TVS Diodes ESD Protection Diodes / TVS Diodes SMAJ - CA         5V"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "ESD Protection Diodes / TVS Diodes ESD Protection Diodes / TVS Diodes SMAJ - CA         5V",
+          "ManufacturerPartNumber": "SMAJ5.0CA/TR13",
+          "MouserPartNumber": "603-SMAJ5.0CA/TR13"
+        },
+        {
+          "Quantity": 500,
+          "UnitPrice": 0.272,
+          "ExtPrice": 136,
+          "FormattedUnitPrice": "$0.272",
+          "FormattedExtendedPrice": "$136.00",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "710-8231606A",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Wurth Elektronik",
+            "ManufacturerPartNumber": "8231606A",
+            "PartDescription": "ESD Protection Diodes / TVS Diodes ESD Protection Diodes / TVS Diodes WE-VE femtoF 0603 6V 0.05pF 0.05uA"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "ESD Protection Diodes / TVS Diodes ESD Protection Diodes / TVS Diodes WE-VE femtoF 0603 6V 0.05pF 0.05uA",
+          "ManufacturerPartNumber": "8231606A",
+          "MouserPartNumber": "710-8231606A"
+        },
+        {
+          "Quantity": 300,
+          "UnitPrice": 0.181,
+          "ExtPrice": 54.3,
+          "FormattedUnitPrice": "$0.181",
+          "FormattedExtendedPrice": "$54.30",
+          "AdditionalFees": [
+            {
+              "amount": null,
+              "extendedAmount": null,
+              "code": null
+            }
+          ],
+          "ProductInfo": {
+            "MouserPartNumber": "625-SS14-E3",
+            "CustomerPartNumber": "",
+            "ManufacturerName": "Vishay",
+            "ManufacturerPartNumber": "SS14-E3/61T",
+            "PartDescription": "Schottky Diodes & Rectifiers Schottky Diodes & Rectifiers 1.0 Amp 40 Volt"
+          },
+          "Activities": [
+            {
+              "InvoiceNumber": 0,
+              "Date": null
+            }
+          ],
+          "PartDescription": "Schottky Diodes & Rectifiers Schottky Diodes & Rectifiers 1.0 Amp 40 Volt",
+          "ManufacturerPartNumber": "SS14-E3/61T",
+          "MouserPartNumber": "625-SS14-E3"
+        }
+      ],
+      "SalesOrderId": "280697873",
+      "WebOrderId": 39579345,
+      "OrderStatus": 21,
+      "OrderStatusName": "Order Processing",
+      "IsScheduled": false,
+      "IsPendingOrder": true
+    },
     {
       "DateCreated": "2026-06-06T00:00:00",
       "SalesOrderNumber": "280463147",
