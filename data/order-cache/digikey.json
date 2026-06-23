@@ -1,6 +1,231 @@
 {
-  "TotalOrders": 10,
+  "TotalOrders": 11,
   "Orders": [
+    {
+      "OrderNumber": 9910000373186264,
+      "CustomerId": 16327571,
+      "DateEntered": "2026-06-22T09:31:21.892-05:00",
+      "Currency": "USD",
+      "PONumber": "",
+      "EntireOrderStatus": {
+        "OrderStatus": "Shipped",
+        "ShortDescription": "Shipped",
+        "LongDescription": "All products in this order have been shipped. Invoice and tracking information is available."
+      },
+      "SalesOrders": [
+        {
+          "CustomerId": 16327571,
+          "Contact": {
+            "FirstName": null,
+            "LastName": null,
+            "Email": "sales@cdengs.com"
+          },
+          "SalesOrderId": 99950754,
+          "Status": {
+            "SalesOrderStatus": "Shipped",
+            "ShortDescription": "Shipped",
+            "LongDescription": "All products in this order have been shipped. Invoice and tracking information is available."
+          },
+          "PurchaseOrder": "",
+          "TotalPrice": 915.82,
+          "DateEntered": "2026-06-22T09:31:21.892-05:00",
+          "OrderNumber": 9910000373186264,
+          "ShipMethod": "FedEx International Priority",
+          "Currency": "USD",
+          "ShippingAddress": {
+            "FirstName": "KEIIRE",
+            "LastName": "LIU",
+            "CompanyName": "CHING DENG TECHNOLOGY INC.",
+            "AddressLine1": "",
+            "AddressLine2": "11 F.-1, NO. 295, SEC. 2, GUANGFU RD.",
+            "AddressLine3": "EAST DIST.",
+            "City": "HSINCHU CITY",
+            "State": "",
+            "County": "",
+            "ZipCode": "300197",
+            "IsoCode": "TW",
+            "Phone": "886926225655",
+            "InvoiceId": 127917566
+          },
+          "LineItems": [
+            {
+              "SalesOrderId": 99950754,
+              "DetailId": 1,
+              "TotalPrice": 4.63,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "PH",
+              "DigiKeyProductNumber": "490-3261-1-ND",
+              "ManufacturerProductNumber": "GRM155R71C104KA88D",
+              "Description": "CAP CER 0.1UF 16V X7R 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 500,
+              "QuantityOrdered": 500,
+              "QuantityShipped": 500,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.00926,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 500,
+                  "InvoiceId": 127917566,
+                  "ShippedDate": "2026-06-22T15:27:43.223Z",
+                  "TrackingNumber": "531318301203",
+                  "ExpectedDeliveryDate": "2026-07-02"
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 99950754,
+              "DetailId": 2,
+              "TotalPrice": 3.64,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "311-1042-1-ND",
+              "ManufacturerProductNumber": "CC0402KRX7R7BB103",
+              "Description": "CAP CER 10000PF 16V X7R 0402",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 500,
+              "QuantityOrdered": 500,
+              "QuantityShipped": 500,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.00728,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 500,
+                  "InvoiceId": 127917566,
+                  "ShippedDate": "2026-06-22T15:27:43.223Z",
+                  "TrackingNumber": "531318301203",
+                  "ExpectedDeliveryDate": "2026-07-02"
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 99950754,
+              "DetailId": 3,
+              "TotalPrice": 35.37,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "MY",
+              "DigiKeyProductNumber": "587-2786-1-ND",
+              "ManufacturerProductNumber": "EMK107ABJ475KA-T",
+              "Description": "CAP CER 4.7UF 16V X5R 0603",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 500,
+              "QuantityOrdered": 500,
+              "QuantityShipped": 500,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.07074,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 500,
+                  "InvoiceId": 127917566,
+                  "ShippedDate": "2026-06-22T15:27:43.223Z",
+                  "TrackingNumber": "531318301203",
+                  "ExpectedDeliveryDate": "2026-07-02"
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 99950754,
+              "DetailId": 4,
+              "TotalPrice": 511.32,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "JP",
+              "DigiKeyProductNumber": "974-1148-1-ND",
+              "ManufacturerProductNumber": "AK09912C",
+              "Description": "SEN HALL EFFECT I2C/SPI 14-WLCSP",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 200,
+              "QuantityOrdered": 200,
+              "QuantityShipped": 200,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 2.5566,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 200,
+                  "InvoiceId": 127917566,
+                  "ShippedDate": "2026-06-22T15:27:43.223Z",
+                  "TrackingNumber": "531318301203",
+                  "ExpectedDeliveryDate": "2026-07-02"
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 99950754,
+              "DetailId": 5,
+              "TotalPrice": 339.66,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "MY",
+              "DigiKeyProductNumber": "150-MIC5259-3.3YD5-CT-ND",
+              "ManufacturerProductNumber": "MIC5259-3.3YD5-TR",
+              "Description": "IC REG LIN 3.3V 300MA TSOT-23-5",
+              "PackType": "CutTape",
+              "QuantityInitialRequested": 600,
+              "QuantityOrdered": 600,
+              "QuantityShipped": 600,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.5661,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 600,
+                  "InvoiceId": 127917566,
+                  "ShippedDate": "2026-06-22T15:27:43.223Z",
+                  "TrackingNumber": "531318301203",
+                  "ExpectedDeliveryDate": "2026-07-02"
+                }
+              ],
+              "Schedules": []
+            },
+            {
+              "SalesOrderId": 99950754,
+              "DetailId": 6,
+              "TotalPrice": 21.2,
+              "PurchaseOrder": "",
+              "CustomerReference": "",
+              "CountryOfOrigin": "TW",
+              "DigiKeyProductNumber": "311-0.0JRTR-ND",
+              "ManufacturerProductNumber": "RC0402JR-070RL",
+              "Description": "RES 0 OHM JUMPER 1/16W 0402",
+              "PackType": "TapeReel",
+              "QuantityInitialRequested": 10000,
+              "QuantityOrdered": 10000,
+              "QuantityShipped": 10000,
+              "QuantityReserved": 0,
+              "QuantityBackOrder": 0,
+              "UnitPrice": 0.00212,
+              "PoLineItemNumber": null,
+              "ItemShipments": [
+                {
+                  "QuantityShipped": 10000,
+                  "InvoiceId": 127917566,
+                  "ShippedDate": "2026-06-22T15:27:43.223Z",
+                  "TrackingNumber": "531318301203",
+                  "ExpectedDeliveryDate": "2026-07-02"
+                }
+              ],
+              "Schedules": []
+            }
+          ]
+        }
+      ]
+    },
     {
       "OrderNumber": 9910000373012938,
       "CustomerId": 16327571,
