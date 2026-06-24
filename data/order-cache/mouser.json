@@ -8,7 +8,7 @@
       "WebOrderNumber": "39579345",
       "PoNumber": "39579345",
       "BuyerName": "CHIN-KUN WEN",
-      "OrderStatusDisplay": "Pick Complete",
+      "OrderStatusDisplay": "Complete",
       "OrderLineItems": [
         {
           "Quantity": 56,
@@ -32,8 +32,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Switching Voltage Regulators Switching Voltage Regulators SIMPLE SWITCHER 20V out 1.4A SU Vltg Reg A 595-TPS61376RYHR",
@@ -62,8 +62,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators Mil Enh Ultra Lo Noi se Hi PSRR 200mA A A 595-TPS79333DBVRG4Q1",
@@ -92,8 +92,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD ",
@@ -122,8 +122,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 13K ohm .5% 25 ppm",
@@ -152,8 +152,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 180K ohm .5% 25ppm",
@@ -182,8 +182,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 51K   OHM  .5%  25PPM  1/10W",
@@ -212,8 +212,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 100K ohm .5% 25ppm",
@@ -242,8 +242,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1K OHM .5% 50PPM",
@@ -272,8 +272,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 1.2K ohm .5% 25ppm",
@@ -302,8 +302,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10 Wa 10K Ohm 1.1% 0603 AEC-Q200",
@@ -332,8 +332,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 150   OHM  .5%  25PPM  1/10W",
@@ -362,8 +362,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 330   OHM  .5%  25PPM  1/10W",
@@ -392,8 +392,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Bipolar Transistors - BJT Bipolar Transistors - BJT NPN GENERAL PURPOSE",
@@ -422,8 +422,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "MOSFETs MOSFETs P-Channel Enhancement Mode Field Effect Transistor",
@@ -452,8 +452,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Power Inductors - SMD Power Inductors - SMD 10uH 20% SMD 0604 AEC-Q200",
@@ -482,8 +482,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Headers & Wire Housings Headers & Wire Housings CONN HEADER VERT 2POS 2.54MM",
@@ -512,8 +512,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "USB Connectors USB Connectors USB 2.0 - B Connector  1 Port  Right Angle Receptacle  Shielded",
@@ -542,8 +542,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Headers & Wire Housings Headers & Wire Housings CONN HEADER VERT 5POS 2.54MM",
@@ -572,8 +572,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Surface Mount Fuses Surface Mount Fuses 63V .75A VFA Slimline",
@@ -602,8 +602,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Single Color LEDs Single Color LEDs 5MM LOW CURRENT RED LED LAMP",
@@ -632,8 +632,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Tantalum Capacitors - Polymer Tantalum Capacitors - Polymer 25V 22uF 1311 20% ESR=100mOhms",
@@ -662,8 +662,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16 V 220pF X7R 0603 10%",
@@ -692,8 +692,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 2.2 uF 16 VDC 10% 0603 X7R",
@@ -722,8 +722,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0805 16V 4.7uF X7R 10% T: 1.25mm",
@@ -752,8 +752,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0.01 uF 16 VDC 10% 0603 X7R AEC-Q200",
@@ -782,8 +782,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 7.0pF +-0.25pF 25V",
@@ -812,8 +812,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 10 uF 16 VDC 10% 0603 X5R AEC-Q200",
@@ -842,8 +842,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16V 1uF X5R 0603 10%",
@@ -872,8 +872,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16V 0.1uF X5R 0603 10 %",
@@ -902,8 +902,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16V 4.7uF X5R 1210 10% HI CV",
@@ -932,8 +932,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 1206 16V 10uF X7R 10% T: 1.6mm",
@@ -962,8 +962,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Tantalum Capacitors - Polymer Tantalum Capacitors - Polymer 25V 10uF 1311 20% ESR=100mOhms",
@@ -992,8 +992,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0603, 0Ohms, 5%, 1/10W",
@@ -1022,8 +1022,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 1210, 200Ohms, 1%, 1/2W",
@@ -1052,8 +1052,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "ESD Protection Diodes / TVS Diodes ESD Protection Diodes / TVS Diodes SMAJ - CA         5V",
@@ -1082,8 +1082,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "ESD Protection Diodes / TVS Diodes ESD Protection Diodes / TVS Diodes WE-VE femtoF 0603 6V 0.05pF 0.05uA",
@@ -1112,8 +1112,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Schottky Diodes & Rectifiers Schottky Diodes & Rectifiers 1.0 Amp 40 Volt",
@@ -1146,8 +1146,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Switching Voltage Regulators Switching Voltage Regulators SIMPLE SWITCHER 20V out 1.4A SU Vltg Reg A 595-TPS61376RYHR",
@@ -1176,8 +1176,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "LDO Voltage Regulators LDO Voltage Regulators Mil Enh Ultra Lo Noi se Hi PSRR 200mA A A 595-TPS79333DBVRG4Q1",
@@ -1206,8 +1206,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD ",
@@ -1236,8 +1236,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 13K ohm .5% 25 ppm",
@@ -1266,8 +1266,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 180K ohm .5% 25ppm",
@@ -1296,8 +1296,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 51K   OHM  .5%  25PPM  1/10W",
@@ -1326,8 +1326,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 100K ohm .5% 25ppm",
@@ -1356,8 +1356,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1K OHM .5% 50PPM",
@@ -1386,8 +1386,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10W 1.2K ohm .5% 25ppm",
@@ -1416,8 +1416,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 1/10 Wa 10K Ohm 1.1% 0603 AEC-Q200",
@@ -1446,8 +1446,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 150   OHM  .5%  25PPM  1/10W",
@@ -1476,8 +1476,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thin Film Resistors - SMD Thin Film Resistors - SMD 330   OHM  .5%  25PPM  1/10W",
@@ -1506,8 +1506,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Bipolar Transistors - BJT Bipolar Transistors - BJT NPN GENERAL PURPOSE",
@@ -1536,8 +1536,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "MOSFETs MOSFETs P-Channel Enhancement Mode Field Effect Transistor",
@@ -1566,8 +1566,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Power Inductors - SMD Power Inductors - SMD 10uH 20% SMD 0604 AEC-Q200",
@@ -1596,8 +1596,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Headers & Wire Housings Headers & Wire Housings CONN HEADER VERT 2POS 2.54MM",
@@ -1626,8 +1626,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "USB Connectors USB Connectors USB 2.0 - B Connector  1 Port  Right Angle Receptacle  Shielded",
@@ -1656,8 +1656,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Headers & Wire Housings Headers & Wire Housings CONN HEADER VERT 5POS 2.54MM",
@@ -1686,8 +1686,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Surface Mount Fuses Surface Mount Fuses 63V .75A VFA Slimline",
@@ -1716,8 +1716,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Single Color LEDs Single Color LEDs 5MM LOW CURRENT RED LED LAMP",
@@ -1746,8 +1746,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Tantalum Capacitors - Polymer Tantalum Capacitors - Polymer 25V 22uF 1311 20% ESR=100mOhms",
@@ -1776,8 +1776,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16 V 220pF X7R 0603 10%",
@@ -1806,8 +1806,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 2.2 uF 16 VDC 10% 0603 X7R",
@@ -1836,8 +1836,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0805 16V 4.7uF X7R 10% T: 1.25mm",
@@ -1866,8 +1866,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 0.01 uF 16 VDC 10% 0603 X7R AEC-Q200",
@@ -1896,8 +1896,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 7.0pF +-0.25pF 25V",
@@ -1926,8 +1926,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 10 uF 16 VDC 10% 0603 X5R AEC-Q200",
@@ -1956,8 +1956,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16V 1uF X5R 0603 10%",
@@ -1986,8 +1986,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16V 0.1uF X5R 0603 10 %",
@@ -2016,8 +2016,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 16V 4.7uF X5R 1210 10% HI CV",
@@ -2046,8 +2046,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Multilayer Ceramic Capacitors MLCC - SMD/SMT Multilayer Ceramic Capacitors MLCC - SMD/SMT 1206 16V 10uF X7R 10% T: 1.6mm",
@@ -2076,8 +2076,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Tantalum Capacitors - Polymer Tantalum Capacitors - Polymer 25V 10uF 1311 20% ESR=100mOhms",
@@ -2106,8 +2106,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 0603, 0Ohms, 5%, 1/10W",
@@ -2136,8 +2136,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Thick Film Resistors - SMD Thick Film Resistors - SMD General Purpose Chip Resistor 1210, 200Ohms, 1%, 1/2W",
@@ -2166,8 +2166,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "ESD Protection Diodes / TVS Diodes ESD Protection Diodes / TVS Diodes SMAJ - CA         5V",
@@ -2196,8 +2196,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "ESD Protection Diodes / TVS Diodes ESD Protection Diodes / TVS Diodes WE-VE femtoF 0603 6V 0.05pF 0.05uA",
@@ -2226,8 +2226,8 @@
           },
           "Activities": [
             {
-              "InvoiceNumber": 0,
-              "Date": null
+              "InvoiceNumber": 91027934,
+              "Date": "2026-06-24T00:00:00"
             }
           ],
           "PartDescription": "Schottky Diodes & Rectifiers Schottky Diodes & Rectifiers 1.0 Amp 40 Volt",
@@ -2237,8 +2237,8 @@
       ],
       "SalesOrderId": "280697873",
       "WebOrderId": 39579345,
-      "OrderStatus": 26,
-      "OrderStatusName": "Pick Complete",
+      "OrderStatus": 30,
+      "OrderStatusName": "Complete",
       "IsScheduled": false,
       "IsPendingOrder": false
     },
