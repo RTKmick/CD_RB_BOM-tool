@@ -1,5 +1,5 @@
 {
-  "TotalOrders": 12,
+  "TotalOrders": 11,
   "Orders": [
     {
       "OrderNumber": 9910000373348564,
@@ -4894,86 +4894,6 @@
                   "InvoiceId": 125530833,
                   "ShippedDate": "2026-05-12T11:55:55.859Z",
                   "TrackingNumber": "525934342303",
-                  "ExpectedDeliveryDate": null
-                }
-              ],
-              "Schedules": []
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "OrderNumber": 9910000371143392,
-      "CustomerId": 16327571,
-      "DateEntered": "2026-04-27T21:52:45.181-05:00",
-      "Currency": "USD",
-      "PONumber": "",
-      "EntireOrderStatus": {
-        "OrderStatus": "Shipped",
-        "ShortDescription": "Shipped",
-        "LongDescription": "All products in this order have been shipped. Invoice and tracking information is available."
-      },
-      "SalesOrders": [
-        {
-          "CustomerId": 16327571,
-          "Contact": {
-            "FirstName": null,
-            "LastName": null,
-            "Email": "sales@cdengs.com"
-          },
-          "SalesOrderId": 98895625,
-          "Status": {
-            "SalesOrderStatus": "Shipped",
-            "ShortDescription": "Shipped",
-            "LongDescription": "All products in this order have been shipped. Invoice and tracking information is available."
-          },
-          "PurchaseOrder": "",
-          "TotalPrice": 582.09,
-          "DateEntered": "2026-04-27T21:52:45.181-05:00",
-          "OrderNumber": 9910000371143392,
-          "ShipMethod": "FedEx International Priority",
-          "Currency": "USD",
-          "ShippingAddress": {
-            "FirstName": "KEIIRE",
-            "LastName": "LIU",
-            "CompanyName": "CHING DENG TECHNOLOGY INC.",
-            "AddressLine1": "",
-            "AddressLine2": "11 F.-1, NO. 295, SEC. 2, GUANGFU RD.",
-            "AddressLine3": "EAST DIST.",
-            "City": "HSINCHU CITY",
-            "State": "",
-            "County": "",
-            "ZipCode": "300197",
-            "IsoCode": "TW",
-            "Phone": "886926225655",
-            "InvoiceId": 124878425
-          },
-          "LineItems": [
-            {
-              "SalesOrderId": 98895625,
-              "DetailId": 1,
-              "TotalPrice": 582.09,
-              "PurchaseOrder": "",
-              "CustomerReference": "",
-              "CountryOfOrigin": "MY",
-              "DigiKeyProductNumber": "505-AD5664RBRMZ-5-ND",
-              "ManufacturerProductNumber": "AD5664RBRMZ-5",
-              "Description": "IC DAC 16BIT 10-MSOP",
-              "PackType": "Tube",
-              "QuantityInitialRequested": 30,
-              "QuantityOrdered": 30,
-              "QuantityShipped": 30,
-              "QuantityReserved": 0,
-              "QuantityBackOrder": 0,
-              "UnitPrice": 19.403,
-              "PoLineItemNumber": null,
-              "ItemShipments": [
-                {
-                  "QuantityShipped": 30,
-                  "InvoiceId": 124878425,
-                  "ShippedDate": "2026-04-28T07:50:13.278Z",
-                  "TrackingNumber": "524357500182",
                   "ExpectedDeliveryDate": null
                 }
               ],
