@@ -4720,7 +4720,7 @@
                   "InvoiceId": 126598645,
                   "ShippedDate": "2026-05-28T21:54:16.419Z",
                   "TrackingNumber": "527888835750",
-                  "ExpectedDeliveryDate": "2026-06-07"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
