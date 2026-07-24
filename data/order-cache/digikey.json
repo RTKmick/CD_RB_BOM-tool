@@ -1878,7 +1878,7 @@
                   "InvoiceId": 127917566,
                   "ShippedDate": "2026-06-22T15:27:43.223Z",
                   "TrackingNumber": "531318301203",
-                  "ExpectedDeliveryDate": "2026-07-02"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1907,7 +1907,7 @@
                   "InvoiceId": 127917566,
                   "ShippedDate": "2026-06-22T15:27:43.223Z",
                   "TrackingNumber": "531318301203",
-                  "ExpectedDeliveryDate": "2026-07-02"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1936,7 +1936,7 @@
                   "InvoiceId": 127917566,
                   "ShippedDate": "2026-06-22T15:27:43.223Z",
                   "TrackingNumber": "531318301203",
-                  "ExpectedDeliveryDate": "2026-07-02"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1965,7 +1965,7 @@
                   "InvoiceId": 127917566,
                   "ShippedDate": "2026-06-22T15:27:43.223Z",
                   "TrackingNumber": "531318301203",
-                  "ExpectedDeliveryDate": "2026-07-02"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1994,7 +1994,7 @@
                   "InvoiceId": 127917566,
                   "ShippedDate": "2026-06-22T15:27:43.223Z",
                   "TrackingNumber": "531318301203",
-                  "ExpectedDeliveryDate": "2026-07-02"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -2023,7 +2023,7 @@
                   "InvoiceId": 127917566,
                   "ShippedDate": "2026-06-22T15:27:43.223Z",
                   "TrackingNumber": "531318301203",
-                  "ExpectedDeliveryDate": "2026-07-02"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
