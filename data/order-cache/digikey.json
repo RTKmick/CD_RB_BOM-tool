@@ -1595,7 +1595,7 @@
                   "InvoiceId": 128135358,
                   "ShippedDate": "2026-06-25T14:51:36.819Z",
                   "TrackingNumber": "531734071378",
-                  "ExpectedDeliveryDate": "2026-07-05"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1624,7 +1624,7 @@
                   "InvoiceId": 128135358,
                   "ShippedDate": "2026-06-25T14:51:36.819Z",
                   "TrackingNumber": "531734071378",
-                  "ExpectedDeliveryDate": "2026-07-05"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1653,7 +1653,7 @@
                   "InvoiceId": 128135358,
                   "ShippedDate": "2026-06-25T14:51:36.819Z",
                   "TrackingNumber": "531734071378",
-                  "ExpectedDeliveryDate": "2026-07-05"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1682,7 +1682,7 @@
                   "InvoiceId": 128135358,
                   "ShippedDate": "2026-06-25T14:51:36.819Z",
                   "TrackingNumber": "531734071378",
-                  "ExpectedDeliveryDate": "2026-07-05"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1711,7 +1711,7 @@
                   "InvoiceId": 128135358,
                   "ShippedDate": "2026-06-25T14:51:36.819Z",
                   "TrackingNumber": "531734071378",
-                  "ExpectedDeliveryDate": "2026-07-05"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1740,7 +1740,7 @@
                   "InvoiceId": 128135358,
                   "ShippedDate": "2026-06-25T14:51:36.819Z",
                   "TrackingNumber": "531734071378",
-                  "ExpectedDeliveryDate": "2026-07-05"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1769,7 +1769,7 @@
                   "InvoiceId": 128135358,
                   "ShippedDate": "2026-06-25T14:51:36.819Z",
                   "TrackingNumber": "531734071378",
-                  "ExpectedDeliveryDate": "2026-07-05"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1798,7 +1798,7 @@
                   "InvoiceId": 128135358,
                   "ShippedDate": "2026-06-25T14:51:36.819Z",
                   "TrackingNumber": "531734071378",
-                  "ExpectedDeliveryDate": "2026-07-05"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
