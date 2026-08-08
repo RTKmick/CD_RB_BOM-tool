@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-08-08T01:50:51.873Z",
+  "generatedAt": "2026-08-08T06:58:07.034Z",
   "range": {
     "startDate": "06/09/2026",
     "endDate": "08/08/2026",
-    "digiStartIso": "2026-06-09T01:50:48.261Z",
-    "digiEndIso": "2026-08-08T01:50:48.261Z"
+    "digiStartIso": "2026-06-09T06:58:02.893Z",
+    "digiEndIso": "2026-08-08T06:58:02.893Z"
   },
   "mouser": {
     "httpStatus": 200,
