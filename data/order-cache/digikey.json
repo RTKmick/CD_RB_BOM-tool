@@ -558,7 +558,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -587,7 +587,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -616,7 +616,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -645,7 +645,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -674,7 +674,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -703,7 +703,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -732,7 +732,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -761,7 +761,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -790,7 +790,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -819,7 +819,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -848,7 +848,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -877,7 +877,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -906,7 +906,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -935,7 +935,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -964,7 +964,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -993,7 +993,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1022,7 +1022,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1051,7 +1051,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1080,7 +1080,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1109,7 +1109,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1138,7 +1138,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1167,7 +1167,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1196,7 +1196,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1225,7 +1225,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1254,7 +1254,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1283,7 +1283,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1312,7 +1312,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1341,7 +1341,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1370,7 +1370,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1399,7 +1399,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1428,7 +1428,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1457,7 +1457,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1486,7 +1486,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
@@ -1515,7 +1515,7 @@
                   "InvoiceId": 128810023,
                   "ShippedDate": "2026-07-08T11:48:19.398Z",
                   "TrackingNumber": "533174902052",
-                  "ExpectedDeliveryDate": "2026-07-18"
+                  "ExpectedDeliveryDate": null
                 }
               ],
               "Schedules": []
